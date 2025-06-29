@@ -1,0 +1,313 @@
+name: Deploy to Production
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  PHP_VERSION: '8.3'
+  
+jobs:
+  prepare:
+    name: Prepare Deployment
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      environment: ${{ steps.environment.outputs.environment }}
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Determine version
+      id: version
+      run: |
+        if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        else
+          echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Determine environment
+      id: environment
+      run: |
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          echo "environment=production" >> $GITHUB_OUTPUT
+        else
+          echo "environment=staging" >> $GITHUB_OUTPUT
+        fi
+        
+  test:
+    name: Pre-deployment Tests
+    runs-on: ubuntu-latest
+    needs: prepare
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run smoke tests
+      run: |
+        echo "Running smoke tests for ${{ needs.prepare.outputs.environment }}..."
+        # Add smoke test commands here
+        
+  backup:
+    name: Backup Current State
+    runs-on: ubuntu-latest
+    needs: [prepare, test]
+    environment: ${{ needs.prepare.outputs.environment }}
+    
+    steps:
+    - name: Backup database
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASS: ${{ secrets.DB_PASS }}
+      run: |
+        echo "Creating database backup..."
+        # This would normally use pg_dump or similar
+        # pg_dump -h $DB_HOST -U $DB_USER -d $DB_NAME > backup-$(date +%Y%m%d-%H%M%S).sql
+        
+    - name: Backup files
+      run: |
+        echo "Creating file backup..."
+        # This would backup uploaded files, etc.
+        
+    - name: Store backup info
+      run: |
+        echo "backup_id=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+        
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [prepare, backup]
+    if: needs.prepare.outputs.environment == 'staging'
+    environment: staging
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.STAGING_SSH_KEY }}
+        
+    - name: Deploy to staging server
+      env:
+        STAGING_HOST: ${{ secrets.STAGING_HOST }}
+        STAGING_USER: ${{ secrets.STAGING_USER }}
+        STAGING_PATH: ${{ secrets.STAGING_PATH }}
+      run: |
+        # Create deployment script
+        cat > deploy.sh << 'EOF'
+        #!/bin/bash
+        set -e
+        
+        cd $STAGING_PATH
+        
+        # Enable maintenance mode
+        php cli/maintenance.php enable
+        
+        # Pull latest code
+        git fetch --tags
+        git checkout ${{ needs.prepare.outputs.version }}
+        
+        # Install dependencies
+        composer install --no-dev --optimize-autoloader
+        
+        # Run database migrations
+        php cli/migrate.php up --env=staging
+        
+        # Clear caches
+        php cli/cache.php clear
+        
+        # Build assets
+        cd themes/default
+        npm ci --production
+        npm run build
+        cd ../..
+        
+        # Warm caches
+        php cli/cache.php warm
+        
+        # Disable maintenance mode
+        php cli/maintenance.php disable
+        
+        echo "Deployment completed!"
+        EOF
+        
+        # Execute deployment
+        ssh $STAGING_USER@$STAGING_HOST 'bash -s' < deploy.sh
+        
+    - name: Run post-deployment tests
+      run: |
+        # Health check
+        response=$(curl -s -o /dev/null -w "%{http_code}" https://staging.shopologic.com/health)
+        if [ "$response" != "200" ]; then
+          echo "Health check failed!"
+          exit 1
+        fi
+        
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [prepare, backup]
+    if: needs.prepare.outputs.environment == 'production'
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Build deployment package
+      run: |
+        # Create optimized deployment package
+        tar -czf deploy-package.tar.gz \
+          --exclude='.git' \
+          --exclude='tests' \
+          --exclude='*.log' \
+          --exclude='node_modules' \
+          --exclude='.env.local' \
+          .
+          
+    - name: Deploy to production servers
+      env:
+        PROD_SERVERS: ${{ secrets.PROD_SERVERS }}
+      run: |
+        # Deploy to multiple production servers
+        IFS=',' read -ra SERVERS <<< "$PROD_SERVERS"
+        
+        for server in "${SERVERS[@]}"; do
+          echo "Deploying to $server..."
+          
+          # This would normally use ansible, capistrano, or similar
+          # ansible-playbook deploy.yml -i $server
+        done
+        
+    - name: Update load balancer
+      run: |
+        echo "Updating load balancer configuration..."
+        # This would update load balancer to include new servers
+        
+    - name: Invalidate CDN cache
+      env:
+        CDN_API_KEY: ${{ secrets.CDN_API_KEY }}
+      run: |
+        echo "Invalidating CDN cache..."
+        # curl -X POST "https://api.cdn.com/purge" \
+        #   -H "Authorization: Bearer $CDN_API_KEY" \
+        #   -d '{"paths": ["/*"]}'
+        
+  monitor:
+    name: Post-deployment Monitoring
+    runs-on: ubuntu-latest
+    needs: [prepare, deploy-staging, deploy-production]
+    if: always()
+    
+    steps:
+    - name: Check application health
+      run: |
+        environment="${{ needs.prepare.outputs.environment }}"
+        
+        if [ "$environment" == "production" ]; then
+          url="https://shopologic.com/health"
+        else
+          url="https://staging.shopologic.com/health"
+        fi
+        
+        for i in {1..5}; do
+          response=$(curl -s "$url")
+          status=$(echo "$response" | jq -r '.status')
+          
+          if [ "$status" == "healthy" ]; then
+            echo "✅ Application is healthy"
+            break
+          else
+            echo "⚠️  Health check attempt $i failed"
+            sleep 30
+          fi
+        done
+        
+    - name: Check error rates
+      run: |
+        echo "Monitoring error rates..."
+        # This would check monitoring system for increased error rates
+        
+    - name: Check performance metrics
+      run: |
+        echo "Checking performance metrics..."
+        # This would verify response times haven't degraded
+        
+  rollback:
+    name: Rollback if Failed
+    runs-on: ubuntu-latest
+    needs: [prepare, monitor]
+    if: failure()
+    environment: ${{ needs.prepare.outputs.environment }}
+    
+    steps:
+    - name: Trigger rollback
+      run: |
+        echo "🔄 Initiating rollback..."
+        # This would restore from backup or deploy previous version
+        
+    - name: Notify team
+      run: |
+        echo "📧 Sending rollback notification..."
+        # This would send notifications via Slack, email, etc.
+        
+  notify:
+    name: Deployment Notification
+    runs-on: ubuntu-latest
+    needs: [prepare, deploy-staging, deploy-production, monitor]
+    if: always()
+    
+    steps:
+    - name: Send deployment notification
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      run: |
+        status="success"
+        emoji="✅"
+        
+        if [ "${{ job.status }}" != "success" ]; then
+          status="failed"
+          emoji="❌"
+        fi
+        
+        message="$emoji Deployment to ${{ needs.prepare.outputs.environment }} $status! Version: ${{ needs.prepare.outputs.version }}"
+        
+        # Send to Slack
+        # curl -X POST "$SLACK_WEBHOOK" \
+        #   -H 'Content-Type: application/json' \
+        #   -d "{\"text\": \"$message\"}"
+        
+        echo "$message"
+        
+  cleanup:
+    name: Cleanup Old Deployments
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: success()
+    
+    steps:
+    - name: Clean old releases
+      run: |
+        echo "Cleaning up old releases..."
+        # This would remove old deployment artifacts
+        # Keep last 5 releases for rollback capability

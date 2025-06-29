@@ -1,0 +1,75 @@
+{
+    "name": "Gift Card Plus",
+    "version": "1.0.0",
+    "description": "Advanced gift card system with scheduling, personalization, digital delivery, and social gifting",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "GiftCardPlus\\GiftCardPlusPlugin",
+    "file": "GiftCardPlusPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "orders.read",
+        "orders.write",
+        "customers.read",
+        "email.send",
+        "hooks.*"
+    ],
+    "hooks": [
+        "checkout.payment_methods",
+        "order.completed",
+        "gift_card.redeemed",
+        "frontend.gift_card_form"
+    ],
+    "api_endpoints": [
+        "POST /api/v1/gift-cards/purchase",
+        "GET /api/v1/gift-cards/balance/{code}",
+        "POST /api/v1/gift-cards/redeem",
+        "POST /api/v1/gift-cards/schedule",
+        "GET /api/v1/gift-cards/templates"
+    ],
+    "database_tables": [
+        "gift_cards",
+        "gift_card_transactions",
+        "gift_card_templates",
+        "scheduled_deliveries"
+    ],
+    "config_schema": {
+        "enable_scheduled_delivery": {
+            "type": "boolean",
+            "default": true,
+            "description": "Allow scheduling gift card delivery"
+        },
+        "enable_custom_designs": {
+            "type": "boolean",
+            "default": true,
+            "description": "Allow custom gift card designs"
+        },
+        "max_gift_card_amount": {
+            "type": "number",
+            "default": 500,
+            "min": 10,
+            "max": 5000,
+            "description": "Maximum gift card amount"
+        },
+        "expiry_days": {
+            "type": "number",
+            "default": 365,
+            "min": 30,
+            "max": 1825,
+            "description": "Gift card expiry in days"
+        },
+        "enable_social_sharing": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable social media sharing"
+        }
+    },
+    "assets": {
+        "js": ["assets/gift-card-designer.js", "assets/scheduler.js"],
+        "css": ["assets/gift-cards.css"]
+    }
+}

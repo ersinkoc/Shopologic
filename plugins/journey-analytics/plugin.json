@@ -1,0 +1,63 @@
+{
+    "name": "Customer Journey Analytics",
+    "version": "1.0.0",
+    "description": "Advanced customer behavior tracking, journey mapping, and conversion funnel analysis",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "JourneyAnalytics\\JourneyAnalyticsPlugin", 
+    "file": "JourneyAnalyticsPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "customers.read",
+        "orders.read", 
+        "analytics.write",
+        "hooks.*"
+    ],
+    "hooks": [
+        "page.viewed",
+        "product.viewed", 
+        "cart.item_added",
+        "order.completed",
+        "customer.searched"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/analytics/journey/{customer_id}",
+        "GET /api/v1/analytics/funnel",
+        "GET /api/v1/analytics/heatmap",
+        "GET /api/v1/analytics/segments"
+    ],
+    "database_tables": [
+        "customer_journeys",
+        "journey_touchpoints",
+        "conversion_funnels",
+        "behavior_segments",
+        "journey_analytics"
+    ],
+    "config_schema": {
+        "track_anonymous_users": {
+            "type": "boolean",
+            "default": true,
+            "description": "Track anonymous visitor behavior"
+        },
+        "session_timeout": {
+            "type": "number",
+            "default": 30,
+            "min": 15,
+            "max": 120,
+            "description": "Session timeout in minutes"
+        },
+        "enable_heatmaps": {
+            "type": "boolean",
+            "default": true,
+            "description": "Generate behavior heatmaps"
+        }
+    },
+    "assets": {
+        "js": ["assets/journey-tracking.js", "assets/heatmap.js"],
+        "css": ["assets/analytics.css"]
+    }
+}

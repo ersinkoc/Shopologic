@@ -1,0 +1,271 @@
+/**
+ * Stripe Payment Styles for Shopologic
+ */
+
+/* Payment Form Container */
+#stripe-payment-form {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.stripe-payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.stripe-payment-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #32325d;
+}
+
+.stripe-badge img {
+    height: 24px;
+}
+
+/* Card Element Styles */
+.stripe-card-element {
+    background: #f7f8f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 12px;
+    transition: all 0.15s ease;
+}
+
+.stripe-card-element:hover {
+    border-color: #c0c0c0;
+}
+
+.stripe-card-element.StripeElement--focus {
+    border-color: #6772e5;
+    box-shadow: 0 0 0 1px #6772e5;
+}
+
+.stripe-card-element.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+/* Error Messages */
+.stripe-error {
+    color: #fa755a;
+    font-size: 14px;
+    margin-top: 8px;
+    display: none;
+}
+
+.stripe-error:not(:empty) {
+    display: block;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #32325d;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    transition: border-color 0.15s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #6772e5;
+    box-shadow: 0 0 0 1px #6772e5;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    padding: 0 8px;
+}
+
+/* Checkbox Styles */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #525f7f;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Payment Summary */
+.payment-summary {
+    background: #f7f8f9;
+    border-radius: 4px;
+    padding: 16px;
+    margin: 24px 0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+
+.summary-row .amount {
+    font-weight: 600;
+    color: #32325d;
+}
+
+/* Security Notice */
+.security-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #8898aa;
+    margin-top: 16px;
+}
+
+.security-notice .icon-lock {
+    width: 16px;
+    height: 16px;
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDdWNUMxMiAyLjc5MDg2IDEwLjIwOTEgMSA4IDFDNi44OTU0MyAxIDUuODk1NDMgMS41MjY3OCA1LjE3MTU3IDIuMzQzMTVDNC40NDc3MiAzLjE1OTUxIDQgNC4yNjUyMiA0IDVWNyIgc3Ryb2tlPSIjODg5OGFhIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxyZWN0IHg9IjIiIHk9IjciIHdpZHRoPSIxMiIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzg4OThhYSIvPgo8L3N2Zz4=') no-repeat center;
+}
+
+/* Saved Payment Methods */
+#saved-payment-methods {
+    margin-bottom: 24px;
+}
+
+.saved-methods-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.saved-method {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.saved-method:hover {
+    border-color: #6772e5;
+    background: #f7f8f9;
+}
+
+.saved-method input[type="radio"] {
+    margin-right: 12px;
+}
+
+.method-details {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-brand {
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.expires {
+    font-size: 13px;
+    color: #8898aa;
+}
+
+/* Loading States */
+.stripe-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #6772e5;
+    border-radius: 50%;
+    animation: stripe-spin 1s linear infinite;
+}
+
+@keyframes stripe-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #stripe-payment-form {
+        padding: 16px;
+    }
+    
+    .stripe-payment-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .form-row .form-group {
+        padding: 0;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    #stripe-payment-form {
+        background: #1a1a1a;
+        border-color: #333;
+    }
+    
+    .stripe-payment-header h3 {
+        color: #fff;
+    }
+    
+    .stripe-card-element {
+        background: #2a2a2a;
+        border-color: #444;
+    }
+    
+    .form-control {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #fff;
+    }
+    
+    .payment-summary {
+        background: #2a2a2a;
+    }
+    
+    .summary-row .amount {
+        color: #fff;
+    }
+}

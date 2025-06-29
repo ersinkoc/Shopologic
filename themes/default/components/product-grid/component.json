@@ -1,0 +1,54 @@
+{
+    "label": "Product Grid",
+    "description": "Display products in a responsive grid layout",
+    "category": "products",
+    "icon": "grid",
+    "props": {
+        "columns": {
+            "type": "number",
+            "label": "Columns",
+            "default": 4,
+            "min": 1,
+            "max": 6
+        },
+        "limit": {
+            "type": "number",
+            "label": "Number of Products",
+            "default": 12,
+            "min": 1,
+            "max": 50
+        },
+        "category": {
+            "type": "string",
+            "label": "Category Filter",
+            "default": "",
+            "description": "Filter by category slug"
+        },
+        "featured": {
+            "type": "boolean",
+            "label": "Featured Only",
+            "default": false
+        },
+        "sort": {
+            "type": "select",
+            "label": "Sort By",
+            "options": ["newest", "price_asc", "price_desc", "name", "popularity"],
+            "default": "newest"
+        },
+        "show_price": {
+            "type": "boolean",
+            "label": "Show Price",
+            "default": true
+        },
+        "show_add_to_cart": {
+            "type": "boolean",
+            "label": "Show Add to Cart",
+            "default": true
+        },
+        "show_rating": {
+            "type": "boolean",
+            "label": "Show Rating",
+            "default": true
+        }
+    }
+}

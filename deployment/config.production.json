@@ -1,0 +1,183 @@
+{
+  "environment": "production",
+  "servers": [
+    {
+      "host": "web1.shopologic.com",
+      "user": "deploy",
+      "path": "/var/www/shopologic",
+      "port": 22,
+      "roles": ["web", "app"]
+    },
+    {
+      "host": "web2.shopologic.com",
+      "user": "deploy",
+      "path": "/var/www/shopologic",
+      "port": 22,
+      "roles": ["web", "app"]
+    },
+    {
+      "host": "worker1.shopologic.com",
+      "user": "deploy",
+      "path": "/var/www/shopologic",
+      "port": 22,
+      "roles": ["worker"]
+    }
+  ],
+  "repository": {
+    "url": "git@github.com:shopologic/shopologic.git",
+    "branch": "main"
+  },
+  "build": {
+    "composer": {
+      "install": "composer install --no-dev --optimize-autoloader --no-interaction --no-progress",
+      "dump_autoload": true,
+      "optimize": true
+    },
+    "npm": {
+      "install": "npm ci --production",
+      "build": "npm run build:production",
+      "path": "themes/default"
+    }
+  },
+  "deployment": {
+    "strategy": "blue-green",
+    "keep_releases": 10,
+    "shared_files": [
+      ".env",
+      "storage/oauth-private.key",
+      "storage/oauth-public.key"
+    ],
+    "shared_directories": [
+      "storage/logs",
+      "storage/uploads",
+      "public/uploads"
+    ],
+    "writable_directories": [
+      "storage",
+      "storage/cache",
+      "storage/logs",
+      "storage/sessions",
+      "storage/uploads",
+      "public/uploads"
+    ],
+    "create_directories": [
+      "storage/backups",
+      "storage/exports",
+      "storage/monitoring"
+    ]
+  },
+  "database": {
+    "backup_before_migration": true,
+    "migration_timeout": 300
+  },
+  "hooks": {
+    "before_deploy": [
+      "php cli/deploy.php check",
+      "php cli/maintenance.php enable 'System upgrade in progress. Back in 10 minutes!'"
+    ],
+    "after_clone": [
+      "cp .env.production .env"
+    ],
+    "before_install": [
+      "php cli/deploy.php prepare production"
+    ],
+    "after_install": [
+      "php cli/migrate.php up --env=production --force",
+      "php cli/cache.php clear --all",
+      "php cli/plugin.php update --all"
+    ],
+    "before_symlink": [
+      "php cli/test.php --suite=smoke",
+      "php cli/health check production"
+    ],
+    "after_symlink": [
+      "php cli/cache.php warm",
+      "php cli/queue.php restart",
+      "sudo systemctl reload php8.3-fpm",
+      "sudo systemctl reload nginx"
+    ],
+    "after_deploy": [
+      "php cli/maintenance.php disable",
+      "php cli/monitor.php collect",
+      "php cli/cdn.php purge --all"
+    ],
+    "on_failure": [
+      "php cli/deploy.php rollback",
+      "php cli/maintenance.php disable"
+    ]
+  },
+  "services": {
+    "restart": [
+      "php8.3-fpm",
+      "nginx",
+      "shopologic-worker",
+      "shopologic-scheduler"
+    ]
+  },
+  "health_check": {
+    "enabled": true,
+    "endpoints": [
+      {
+        "url": "/health",
+        "expected_status": 200,
+        "timeout": 10
+      },
+      {
+        "url": "/api/v1/health",
+        "expected_status": 200,
+        "timeout": 10
+      }
+    ],
+    "retries": 5,
+    "delay": 10
+  },
+  "load_balancer": {
+    "type": "nginx",
+    "health_check_interval": 5,
+    "drain_timeout": 30
+  },
+  "cdn": {
+    "provider": "cloudflare",
+    "purge_on_deploy": true,
+    "zones": ["${CLOUDFLARE_ZONE_ID}"]
+  },
+  "monitoring": {
+    "enabled": true,
+    "error_threshold": 5,
+    "response_time_threshold": 2000
+  },
+  "rollback": {
+    "automatic": true,
+    "conditions": [
+      "health_check_failed",
+      "error_rate_exceeded",
+      "response_time_exceeded"
+    ]
+  },
+  "notifications": {
+    "slack": {
+      "webhook_url": "${SLACK_WEBHOOK_URL}",
+      "channel": "#deployments",
+      "username": "Shopologic Deploy",
+      "notify_start": true,
+      "notify_success": true,
+      "notify_failure": true
+    },
+    "email": {
+      "recipients": ["devops@shopologic.com", "oncall@shopologic.com"],
+      "on_success": true,
+      "on_failure": true
+    },
+    "pagerduty": {
+      "enabled": true,
+      "service_key": "${PAGERDUTY_SERVICE_KEY}",
+      "on_failure": true
+    }
+  },
+  "post_deployment": {
+    "warm_cache": true,
+    "run_indexers": true,
+    "verify_permissions": true,
+    "security_scan": true
+  }
+}

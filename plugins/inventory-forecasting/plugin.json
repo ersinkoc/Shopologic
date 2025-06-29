@@ -1,0 +1,70 @@
+{
+    "name": "Smart Inventory Forecasting",
+    "version": "1.0.0",
+    "description": "Predictive inventory management with demand forecasting, automated reordering, and stock optimization",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "InventoryForecasting\\InventoryForecastingPlugin",
+    "file": "InventoryForecastingPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "products.read",
+        "products.write",
+        "orders.read",
+        "inventory.write",
+        "hooks.*"
+    ],
+    "hooks": [
+        "order.completed",
+        "inventory.updated",
+        "product.low_stock",
+        "admin.inventory.dashboard"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/inventory/forecast/{product_id}",
+        "POST /api/v1/inventory/reorder",
+        "GET /api/v1/inventory/recommendations",
+        "GET /api/v1/inventory/trends"
+    ],
+    "database_tables": [
+        "inventory_forecasts",
+        "demand_patterns",
+        "reorder_rules",
+        "stock_movements",
+        "seasonal_trends"
+    ],
+    "config_schema": {
+        "forecast_window_days": {
+            "type": "number",
+            "default": 30,
+            "min": 7,
+            "max": 365,
+            "description": "Days to forecast ahead"
+        },
+        "auto_reorder": {
+            "type": "boolean",
+            "default": false,
+            "description": "Automatically create reorder alerts"
+        },
+        "safety_stock_days": {
+            "type": "number",
+            "default": 7,
+            "min": 1,
+            "max": 30,
+            "description": "Safety stock buffer in days"
+        },
+        "seasonal_adjustment": {
+            "type": "boolean",
+            "default": true,
+            "description": "Apply seasonal demand adjustments"
+        }
+    },
+    "assets": {
+        "js": ["assets/inventory-charts.js"],
+        "css": ["assets/inventory-dashboard.css"]
+    }
+}

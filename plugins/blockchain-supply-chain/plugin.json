@@ -1,0 +1,47 @@
+{
+    "name": "blockchain-supply-chain",
+    "version": "1.0.0",
+    "description": "Blockchain-based supply chain tracking with product authentication, transparency ledger, and anti-counterfeiting features",
+    "author": "Shopologic",
+    "namespace": "BlockchainSupplyChain",
+    "class": "BlockchainSupplyChain\\BlockchainSupplyChainPlugin",
+    "permissions": [
+        "hooks.product.*",
+        "hooks.order.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "blockchain.verify",
+        "blockchain.track"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "blockchain_networks": ["ethereum", "polygon", "private"],
+        "verification_levels": ["basic", "enhanced", "premium"]
+    },
+    "hooks": [
+        "product.manufactured",
+        "product.shipped",
+        "product.received",
+        "order.verified",
+        "supply.chain.updated"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/blockchain/verify/{product_id}",
+        "POST /api/v1/blockchain/track",
+        "GET /api/v1/blockchain/history/{product_id}",
+        "GET /api/v1/blockchain/certificate/{hash}",
+        "POST /api/v1/blockchain/report-counterfeit"
+    ],
+    "cron_jobs": [
+        "*/10 * * * * - sync_blockchain",
+        "0 * * * * - verify_transactions",
+        "0 2 * * * - generate_certificates",
+        "0 4 * * * - audit_supply_chain"
+    ]
+}

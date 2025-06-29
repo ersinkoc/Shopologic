@@ -1,0 +1,82 @@
+{
+    "name": "default",
+    "label": "Default Theme",
+    "description": "Clean and modern e-commerce theme for Shopologic",
+    "version": "1.0.0",
+    "author": "Shopologic Team",
+    "license": "MIT",
+    "preview": "preview.png",
+    "styles": [
+        "assets/css/theme.css"
+    ],
+    "scripts": [
+        "assets/js/theme.js"
+    ],
+    "regions": [
+        {
+            "id": "header",
+            "label": "Header",
+            "accepts": ["navigation", "banner", "search"],
+            "max_items": 5
+        },
+        {
+            "id": "hero",
+            "label": "Hero Section",
+            "accepts": ["hero-banner", "slider", "video"],
+            "max_items": 1
+        },
+        {
+            "id": "content",
+            "label": "Main Content",
+            "accepts": ["*"]
+        },
+        {
+            "id": "sidebar",
+            "label": "Sidebar",
+            "accepts": ["widget", "navigation", "product-filters"],
+            "max_items": 10
+        },
+        {
+            "id": "footer",
+            "label": "Footer",
+            "accepts": ["navigation", "text", "newsletter"],
+            "max_items": 4
+        }
+    ],
+    "settings": {
+        "colors": {
+            "primary": "#007bff",
+            "secondary": "#6c757d",
+            "success": "#28a745",
+            "danger": "#dc3545",
+            "warning": "#ffc107",
+            "info": "#17a2b8",
+            "light": "#f8f9fa",
+            "dark": "#343a40"
+        },
+        "fonts": {
+            "body": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+            "heading": "Georgia, 'Times New Roman', serif"
+        },
+        "layout": {
+            "container_width": "1200px",
+            "sidebar_width": "300px",
+            "header_height": "80px"
+        }
+    },
+    "components": {
+        "hero-banner": {
+            "default_props": {
+                "overlay_opacity": 0.6,
+                "text_color": "#ffffff"
+            }
+        },
+        "product-grid": {
+            "default_props": {
+                "columns": 4,
+                "show_price": true,
+                "show_add_to_cart": true
+            }
+        }
+    }
+}

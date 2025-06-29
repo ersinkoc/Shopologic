@@ -1,0 +1,47 @@
+{
+    "name": "enterprise-security-compliance",
+    "version": "1.0.0",
+    "description": "Enterprise-grade security and compliance with vulnerability scanning, audit trails, GDPR compliance, and threat detection",
+    "author": "Shopologic",
+    "namespace": "EnterpriseSecurityCompliance",
+    "class": "EnterpriseSecurityCompliance\\EnterpriseSecurityCompliancePlugin",
+    "permissions": [
+        "hooks.security.*",
+        "hooks.audit.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "security.scan",
+        "compliance.audit"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["vulnerability_scanning", "audit_trails", "gdpr_compliance", "threat_detection"],
+        "compliance_standards": ["PCI-DSS", "GDPR", "CCPA", "SOX", "HIPAA"]
+    },
+    "hooks": [
+        "user.login",
+        "user.action",
+        "data.accessed",
+        "security.threat_detected",
+        "compliance.audit_required"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/security/dashboard",
+        "POST /api/v1/security/scan",
+        "GET /api/v1/compliance/status",
+        "GET /api/v1/audit/logs",
+        "POST /api/v1/security/report-incident"
+    ],
+    "cron_jobs": [
+        "0 */4 * * * - vulnerability_scan",
+        "0 2 * * * - generate_audit_reports",
+        "*/15 * * * * - threat_monitoring",
+        "0 1 * * SUN - compliance_check"
+    ]
+}

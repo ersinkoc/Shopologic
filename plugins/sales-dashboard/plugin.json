@@ -1,0 +1,81 @@
+{
+    "name": "Sales Performance Dashboard",
+    "version": "1.0.0",
+    "description": "Advanced sales analytics with real-time reporting, forecasting, and performance insights",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "SalesDashboard\\SalesDashboardPlugin",
+    "file": "SalesDashboardPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "orders.read",
+        "analytics.read",
+        "reports.generate",
+        "hooks.*"
+    ],
+    "hooks": [
+        "order.completed",
+        "admin.dashboard.widgets",
+        "reports.scheduled",
+        "analytics.updated"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/analytics/sales/overview",
+        "GET /api/v1/analytics/sales/trends",
+        "GET /api/v1/analytics/sales/forecast",
+        "POST /api/v1/analytics/reports/generate",
+        "GET /api/v1/analytics/products/performance"
+    ],
+    "database_tables": [
+        "sales_metrics",
+        "performance_snapshots",
+        "sales_forecasts",
+        "custom_reports"
+    ],
+    "config_schema": {
+        "real_time_updates": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable real-time dashboard updates"
+        },
+        "default_date_range": {
+            "type": "select",
+            "default": "30_days",
+            "options": {
+                "7_days": "Last 7 days",
+                "30_days": "Last 30 days",
+                "90_days": "Last 90 days",
+                "1_year": "Last year"
+            },
+            "description": "Default dashboard date range"
+        },
+        "enable_forecasting": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable sales forecasting"
+        },
+        "auto_generate_reports": {
+            "type": "boolean",
+            "default": true,
+            "description": "Auto-generate scheduled reports"
+        },
+        "report_frequency": {
+            "type": "select",
+            "default": "weekly",
+            "options": {
+                "daily": "Daily",
+                "weekly": "Weekly", 
+                "monthly": "Monthly"
+            },
+            "description": "Automated report frequency"
+        }
+    },
+    "assets": {
+        "js": ["assets/charts.js", "assets/dashboard.js", "assets/reports.js"],
+        "css": ["assets/dashboard.css"]
+    }
+}

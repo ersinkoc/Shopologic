@@ -1,0 +1,365 @@
+{
+    "name": "Multi-Currency Support",
+    "version": "1.0.0",
+    "description": "Display prices in multiple currencies with real-time exchange rates, automatic geo-detection, and currency switcher widget",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com",
+        "url": "https://shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/multi-currency",
+    "keywords": ["currency", "international", "exchange-rates", "multi-currency", "localization"],
+    "requirements": {
+        "php_version": ">=8.1",
+        "core_version": ">=1.0.0",
+        "dependencies": {
+            "core-commerce": ">=1.0.0"
+        }
+    },
+    "provides": [
+        "CurrencyInterface",
+        "ExchangeRateInterface"
+    ],
+    "autoload": {
+        "psr-4": {
+            "MultiCurrency\\": "src/"
+        }
+    },
+    "config": {
+        "main_class": "MultiCurrency\\MultiCurrencyPlugin",
+        "namespace": "MultiCurrency"
+    },
+    "permissions": [
+        "currency.manage",
+        "currency.rates"
+    ],
+    "hooks": [
+        {
+            "hook": "price.display",
+            "handler": "convertPrice",
+            "priority": 5
+        },
+        {
+            "hook": "page.head",
+            "handler": "injectCurrencyData",
+            "priority": 10
+        },
+        {
+            "hook": "page.header",
+            "handler": "displayCurrencySwitcher",
+            "priority": 50
+        },
+        {
+            "hook": "checkout.totals",
+            "handler": "convertCheckoutTotals",
+            "priority": 10
+        },
+        {
+            "hook": "order.placed",
+            "handler": "recordExchangeRate",
+            "priority": 20
+        }
+    ],
+    "api_endpoints": [
+        {
+            "method": "GET",
+            "path": "/api/v1/currencies",
+            "handler": "Controllers\\CurrencyController@index",
+            "auth": false
+        },
+        {
+            "method": "GET",
+            "path": "/api/v1/currencies/active",
+            "handler": "Controllers\\CurrencyController@getActive",
+            "auth": false
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/currencies/set",
+            "handler": "Controllers\\CurrencyController@setCurrency",
+            "auth": false
+        },
+        {
+            "method": "GET",
+            "path": "/api/v1/currencies/rates",
+            "handler": "Controllers\\CurrencyController@getRates",
+            "auth": false
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/currencies/convert",
+            "handler": "Controllers\\CurrencyController@convert",
+            "auth": false
+        },
+        {
+            "method": "GET",
+            "path": "/api/v1/currencies/detect",
+            "handler": "Controllers\\CurrencyController@detectCurrency",
+            "auth": false
+        }
+    ],
+    "database_tables": [
+        "currencies",
+        "currency_rates",
+        "currency_rate_history",
+        "order_currency_data"
+    ],
+    "assets": {
+        "js": [
+            {
+                "src": "assets/js/currency-switcher.js",
+                "position": "footer",
+                "pages": ["all"]
+            },
+            {
+                "src": "assets/js/price-converter.js",
+                "position": "footer",
+                "pages": ["all"]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets/css/currency-switcher.css",
+                "pages": ["all"]
+            }
+        ]
+    },
+    "config_schema": {
+        "base_currency": {
+            "type": "select",
+            "label": "Base Currency",
+            "description": "Your store's base currency for pricing",
+            "default": "USD",
+            "options": {
+                "USD": "US Dollar",
+                "EUR": "Euro",
+                "GBP": "British Pound",
+                "CAD": "Canadian Dollar",
+                "AUD": "Australian Dollar",
+                "JPY": "Japanese Yen",
+                "CHF": "Swiss Franc",
+                "CNY": "Chinese Yuan"
+            },
+            "required": true
+        },
+        "enabled_currencies": {
+            "type": "multiselect",
+            "label": "Enabled Currencies",
+            "description": "Currencies available for customers",
+            "default": ["USD", "EUR", "GBP"],
+            "options": {
+                "USD": "US Dollar",
+                "EUR": "Euro", 
+                "GBP": "British Pound",
+                "CAD": "Canadian Dollar",
+                "AUD": "Australian Dollar",
+                "JPY": "Japanese Yen",
+                "CHF": "Swiss Franc",
+                "CNY": "Chinese Yuan",
+                "INR": "Indian Rupee",
+                "KRW": "South Korean Won",
+                "SEK": "Swedish Krona",
+                "NOK": "Norwegian Krone",
+                "DKK": "Danish Krone",
+                "PLN": "Polish Zloty",
+                "CZK": "Czech Koruna",
+                "HUF": "Hungarian Forint",
+                "MXN": "Mexican Peso",
+                "BRL": "Brazilian Real",
+                "ARS": "Argentine Peso",
+                "CLP": "Chilean Peso",
+                "SGD": "Singapore Dollar",
+                "HKD": "Hong Kong Dollar",
+                "NZD": "New Zealand Dollar",
+                "ZAR": "South African Rand",
+                "RUB": "Russian Ruble",
+                "TRY": "Turkish Lira",
+                "AED": "UAE Dirham",
+                "SAR": "Saudi Riyal"
+            }
+        },
+        "exchange_rate_provider": {
+            "type": "select",
+            "label": "Exchange Rate Provider",
+            "default": "ecb",
+            "options": {
+                "ecb": "European Central Bank (Free)",
+                "fixer": "Fixer.io API",
+                "openexchange": "Open Exchange Rates",
+                "currencylayer": "Currency Layer",
+                "manual": "Manual Rates"
+            }
+        },
+        "api_key": {
+            "type": "string",
+            "label": "API Key",
+            "description": "API key for selected exchange rate provider",
+            "encrypted": true,
+            "depends_on": {
+                "exchange_rate_provider": ["fixer", "openexchange", "currencylayer"]
+            }
+        },
+        "update_frequency": {
+            "type": "select",
+            "label": "Rate Update Frequency",
+            "default": "daily",
+            "options": {
+                "realtime": "Real-time",
+                "hourly": "Hourly",
+                "daily": "Daily",
+                "weekly": "Weekly",
+                "manual": "Manual Only"
+            },
+            "depends_on": {
+                "exchange_rate_provider": ["ecb", "fixer", "openexchange", "currencylayer"]
+            }
+        },
+        "auto_detect_currency": {
+            "type": "boolean",
+            "label": "Auto-Detect Currency",
+            "description": "Automatically set currency based on visitor location",
+            "default": true
+        },
+        "geo_detection_method": {
+            "type": "select",
+            "label": "Geo Detection Method",
+            "default": "ip",
+            "options": {
+                "ip": "IP Address",
+                "browser": "Browser Language",
+                "combined": "IP + Browser"
+            },
+            "depends_on": {
+                "auto_detect_currency": true
+            }
+        },
+        "currency_format": {
+            "type": "select",
+            "label": "Currency Format",
+            "default": "symbol_before",
+            "options": {
+                "symbol_before": "$100.00",
+                "symbol_after": "100.00$",
+                "code_before": "USD 100.00",
+                "code_after": "100.00 USD"
+            }
+        },
+        "decimal_places": {
+            "type": "number",
+            "label": "Decimal Places",
+            "default": 2,
+            "min": 0,
+            "max": 4
+        },
+        "thousand_separator": {
+            "type": "select",
+            "label": "Thousand Separator",
+            "default": ",",
+            "options": {
+                ",": "Comma (1,000)",
+                ".": "Period (1.000)",
+                " ": "Space (1 000)",
+                "": "None (1000)"
+            }
+        },
+        "decimal_separator": {
+            "type": "select",
+            "label": "Decimal Separator",
+            "default": ".",
+            "options": {
+                ".": "Period (10.00)",
+                ",": "Comma (10,00)"
+            }
+        },
+        "rounding_method": {
+            "type": "select",
+            "label": "Price Rounding",
+            "default": "none",
+            "options": {
+                "none": "No Rounding",
+                "round": "Standard Rounding",
+                "ceil": "Round Up",
+                "floor": "Round Down",
+                "99": "End with .99",
+                "95": "End with .95"
+            }
+        },
+        "show_original_price": {
+            "type": "boolean",
+            "label": "Show Original Price",
+            "description": "Display base currency price alongside converted price",
+            "default": false
+        },
+        "cache_duration": {
+            "type": "number",
+            "label": "Cache Duration (minutes)",
+            "description": "How long to cache exchange rates",
+            "default": 60,
+            "min": 1,
+            "max": 1440
+        },
+        "switcher_style": {
+            "type": "select",
+            "label": "Switcher Style",
+            "default": "dropdown",
+            "options": {
+                "dropdown": "Dropdown Menu",
+                "flags": "Flag Icons",
+                "list": "Currency List",
+                "modal": "Modal Window"
+            }
+        },
+        "switcher_position": {
+            "type": "select",
+            "label": "Switcher Position",
+            "default": "header",
+            "options": {
+                "header": "Header",
+                "footer": "Footer",
+                "both": "Header & Footer",
+                "floating": "Floating Button"
+            }
+        },
+        "cookie_lifetime": {
+            "type": "number",
+            "label": "Cookie Lifetime (days)",
+            "description": "Remember user's currency selection",
+            "default": 30,
+            "min": 1,
+            "max": 365
+        }
+    },
+    "widgets": [
+        {
+            "id": "currency_rates",
+            "name": "Exchange Rates",
+            "description": "Current exchange rates",
+            "position": "dashboard",
+            "permissions": ["currency.rates"]
+        }
+    ],
+    "cron_jobs": [
+        {
+            "schedule": "0 */1 * * *",
+            "handler": "updateExchangeRates",
+            "description": "Update exchange rates based on configured frequency"
+        },
+        {
+            "schedule": "0 0 * * *",
+            "handler": "archiveRateHistory",
+            "description": "Archive historical exchange rates"
+        }
+    ],
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Multiple currency support",
+            "Real-time exchange rates",
+            "Auto geo-detection",
+            "Currency switcher widget",
+            "Price conversion",
+            "Order currency tracking"
+        ]
+    }
+}

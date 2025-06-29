@@ -1,0 +1,59 @@
+{
+    "name": "Wishlist Intelligence",
+    "version": "1.0.0",
+    "description": "Smart wishlist with price alerts, availability tracking, and intelligent recommendations",
+    "author": {
+        "name": "Shopologic Team", 
+        "email": "plugins@shopologic.com"
+    },
+    "class": "WishlistIntelligence\\WishlistIntelligencePlugin",
+    "file": "WishlistIntelligencePlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "customers.read",
+        "customers.write",
+        "products.read",
+        "notifications.send",
+        "hooks.*"
+    ],
+    "hooks": [
+        "product.price_changed",
+        "product.back_in_stock",
+        "customer.dashboard"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/wishlist",
+        "POST /api/v1/wishlist/add",
+        "DELETE /api/v1/wishlist/{id}",
+        "POST /api/v1/wishlist/price-alert"
+    ],
+    "database_tables": [
+        "wishlists",
+        "wishlist_items",
+        "price_alerts",
+        "wishlist_analytics"
+    ],
+    "config_schema": {
+        "enable_price_alerts": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable price drop notifications"
+        },
+        "enable_stock_alerts": {
+            "type": "boolean", 
+            "default": true,
+            "description": "Enable back-in-stock notifications"
+        },
+        "smart_recommendations": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show intelligent product recommendations"
+        }
+    },
+    "assets": {
+        "js": ["assets/wishlist.js"],
+        "css": ["assets/wishlist.css"]
+    }
+}

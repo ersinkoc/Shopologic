@@ -1,0 +1,75 @@
+<div class="header-top">
+    <div class="container">
+        <div class="header-top-left">
+            {{ do_action('header_top_left') }}
+            <span class="welcome-message">{{ apply_filters('welcome_message', 'Welcome to our store!') }}</span>
+        </div>
+        <div class="header-top-right">
+            <nav class="top-nav">
+                {% if user %}
+                    <a href="{{ url('account') }}">My Account</a>
+                    <a href="{{ url('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url('login') }}">Login</a>
+                    <a href="{{ url('register') }}">Register</a>
+                {% endif %}
+            </nav>
+            {{ do_action('header_top_right') }}
+        </div>
+    </div>
+</div>
+
+<div class="header-main">
+    <div class="container">
+        <div class="header-content">
+            {# Logo #}
+            <div class="site-logo">
+                <a href="{{ url('/') }}">
+                    {% if site_logo %}
+                        {{ image(site_logo, site_name, {class: 'logo-image'}) }}
+                    {% else %}
+                        <h1 class="site-title">{{ site_name|default('Shopologic') }}</h1>
+                    {% endif %}
+                </a>
+            </div>
+            
+            {# Search #}
+            <div class="header-search">
+                {{ form_start(url('search'), 'GET', {class: 'search-form'}) }}
+                    {{ input('q', 'search', search_query|default(''), {
+                        placeholder: 'Search products...',
+                        class: 'search-input'
+                    }) }}
+                    {{ button('Search', 'submit', {class: 'search-button'}) }}
+                {{ form_end() }}
+            </div>
+            
+            {# Header Actions #}
+            <div class="header-actions">
+                {{ do_action('header_actions_before') }}
+                
+                {# Mini Cart #}
+                <div class="mini-cart">
+                    <a href="{{ url('cart') }}" class="cart-link">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count">{{ cart.item_count|default(0) }}</span>
+                        <span class="cart-total">{{ cart.total|number_format(2) }}</span>
+                    </a>
+                </div>
+                
+                {{ do_action('header_actions_after') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Main Navigation #}
+<nav class="main-navigation">
+    <div class="container">
+        {{ component('navigation-menu', {
+            menu_id: 'main-menu',
+            style: 'horizontal',
+            align: 'left'
+        }) }}
+    </div>
+</nav>

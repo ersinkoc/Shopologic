@@ -1,0 +1,93 @@
+{
+    "name": "Smart Pricing Engine",
+    "version": "1.0.0",
+    "description": "Dynamic pricing based on demand, inventory levels, competitor analysis, and market conditions",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "SmartPricing\\SmartPricingPlugin",
+    "file": "SmartPricingPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "products.read",
+        "products.write",
+        "orders.read",
+        "analytics.read",
+        "cache.write",
+        "hooks.*"
+    ],
+    "provides": [
+        "PricingEngineInterface",
+        "CompetitorAnalysisInterface"
+    ],
+    "hooks": [
+        "product.price_calculated",
+        "order.completed",
+        "inventory.updated",
+        "admin.pricing_rules"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/pricing/rules",
+        "POST /api/v1/pricing/rules",
+        "GET /api/v1/pricing/analysis/{product_id}",
+        "POST /api/v1/pricing/optimize"
+    ],
+    "database_tables": [
+        "pricing_rules",
+        "pricing_history",
+        "competitor_prices",
+        "demand_analytics"
+    ],
+    "config_schema": {
+        "enable_dynamic_pricing": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable dynamic pricing adjustments"
+        },
+        "price_adjustment_limit": {
+            "type": "number",
+            "default": 20,
+            "min": 5,
+            "max": 50,
+            "description": "Maximum price adjustment percentage"
+        },
+        "demand_weight": {
+            "type": "number",
+            "default": 0.4,
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "description": "Weight for demand-based pricing"
+        },
+        "inventory_weight": {
+            "type": "number", 
+            "default": 0.3,
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "description": "Weight for inventory-based pricing"
+        },
+        "competitor_weight": {
+            "type": "number",
+            "default": 0.3,
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "description": "Weight for competitor-based pricing"
+        },
+        "minimum_margin": {
+            "type": "number",
+            "default": 15,
+            "min": 5,
+            "max": 50,
+            "description": "Minimum profit margin percentage"
+        }
+    },
+    "assets": {
+        "js": ["assets/pricing-dashboard.js"],
+        "css": ["assets/pricing-styles.css"]
+    }
+}

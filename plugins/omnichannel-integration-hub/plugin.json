@@ -1,0 +1,48 @@
+{
+    "name": "omnichannel-integration-hub",
+    "version": "1.0.0",
+    "description": "Unified commerce platform integrating online store, POS, marketplaces, social commerce, and mobile apps with real-time inventory sync",
+    "author": "Shopologic",
+    "namespace": "OmnichannelIntegrationHub",
+    "class": "OmnichannelIntegrationHub\\OmnichannelIntegrationHubPlugin",
+    "permissions": [
+        "hooks.order.*",
+        "hooks.inventory.*",
+        "hooks.customer.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "channels.manage",
+        "integrations.configure"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "channels": ["web", "pos", "mobile", "marketplace", "social"],
+        "real_time_sync": true
+    },
+    "hooks": [
+        "order.created",
+        "inventory.updated",
+        "product.synced",
+        "customer.unified",
+        "channel.connected"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/omnichannel/channels",
+        "POST /api/v1/omnichannel/sync",
+        "GET /api/v1/omnichannel/inventory",
+        "POST /api/v1/omnichannel/order/route",
+        "GET /api/v1/omnichannel/analytics"
+    ],
+    "cron_jobs": [
+        "*/5 * * * * - sync_inventory",
+        "*/15 * * * * - sync_orders",
+        "0 * * * * - sync_products",
+        "0 2 * * * - reconcile_channels"
+    ]
+}

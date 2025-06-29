@@ -1,0 +1,73 @@
+{
+    "name": "Smart Search Engine",
+    "version": "1.0.0",
+    "description": "Advanced search with natural language processing, autocomplete, faceted filtering, and visual search",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "SmartSearch\\SmartSearchPlugin",
+    "file": "SmartSearchPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "products.read",
+        "search.write",
+        "analytics.write",
+        "hooks.*"
+    ],
+    "hooks": [
+        "search.query",
+        "product.indexed",
+        "search.autocomplete",
+        "frontend.search_form"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/search/autocomplete",
+        "POST /api/v1/search/query",
+        "GET /api/v1/search/facets",
+        "POST /api/v1/search/visual",
+        "GET /api/v1/search/trending"
+    ],
+    "database_tables": [
+        "search_index",
+        "search_queries",
+        "search_analytics",
+        "product_vectors",
+        "search_synonyms"
+    ],
+    "config_schema": {
+        "enable_autocomplete": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable search autocomplete"
+        },
+        "enable_spell_check": {
+            "type": "boolean",
+            "default": true,
+            "description": "Auto-correct spelling mistakes"
+        },
+        "enable_synonym_search": {
+            "type": "boolean",
+            "default": true,
+            "description": "Search using synonyms"
+        },
+        "results_per_page": {
+            "type": "number",
+            "default": 20,
+            "min": 10,
+            "max": 100,
+            "description": "Search results per page"
+        },
+        "boost_exact_matches": {
+            "type": "boolean",
+            "default": true,
+            "description": "Boost exact title matches"
+        }
+    },
+    "assets": {
+        "js": ["assets/search-engine.js", "assets/autocomplete.js", "assets/filters.js"],
+        "css": ["assets/search-interface.css"]
+    }
+}

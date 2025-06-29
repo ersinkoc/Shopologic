@@ -1,0 +1,69 @@
+<div class="footer-widgets">
+    <div class="container">
+        <div class="footer-columns">
+            {# Column 1 - About #}
+            <div class="footer-column">
+                <h3>About {{ site_name|default('Shopologic') }}</h3>
+                <p>{{ site_description|default('Your trusted online shopping destination.') }}</p>
+                <div class="social-links">
+                    {{ do_action('footer_social_links') }}
+                </div>
+            </div>
+            
+            {# Column 2 - Customer Service #}
+            <div class="footer-column">
+                <h3>Customer Service</h3>
+                {{ component('navigation-menu', {
+                    menu_id: 'footer-service-menu',
+                    style: 'vertical'
+                }) }}
+            </div>
+            
+            {# Column 3 - Information #}
+            <div class="footer-column">
+                <h3>Information</h3>
+                {{ component('navigation-menu', {
+                    menu_id: 'footer-info-menu',
+                    style: 'vertical'
+                }) }}
+            </div>
+            
+            {# Column 4 - Newsletter #}
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get special offers and updates</p>
+                {{ form_start(url('newsletter/subscribe'), 'POST', {class: 'newsletter-form'}) }}
+                    {{ input('email', 'email', '', {
+                        placeholder: 'Your email address',
+                        required: true,
+                        class: 'newsletter-input'
+                    }) }}
+                    {{ button('Subscribe', 'submit', {class: 'newsletter-button'}) }}
+                {{ form_end() }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-bottom">
+    <div class="container">
+        <div class="footer-bottom-content">
+            <div class="copyright">
+                &copy; {{ 'now'|date('Y') }} {{ site_name|default('Shopologic') }}. 
+                {{ apply_filters('footer_copyright', 'All rights reserved.') }}
+            </div>
+            
+            <div class="footer-links">
+                <a href="{{ url('privacy') }}">Privacy Policy</a>
+                <a href="{{ url('terms') }}">Terms of Service</a>
+                <a href="{{ url('sitemap') }}">Sitemap</a>
+            </div>
+            
+            <div class="payment-methods">
+                {{ do_action('footer_payment_methods') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ do_action('footer_after') }}

@@ -1,0 +1,247 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      target: ${APP_ENV:-production}
+      args:
+        - PHP_VERSION=8.3
+    container_name: shopologic_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./public/uploads:/var/www/html/public/uploads
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_URL=${APP_URL:-http://localhost}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE:-shopologic}
+      - DB_USERNAME=${DB_USERNAME:-shopologic}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - shopologic
+    ports:
+      - "${APP_PORT:-80}:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: shopologic_postgres
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_DB=${DB_DATABASE:-shopologic}
+      - POSTGRES_USER=${DB_USERNAME:-shopologic}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=en_US.utf8 --lc-ctype=en_US.utf8
+    networks:
+      - shopologic
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-shopologic}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: shopologic_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
+    volumes:
+      - redis_data:/data
+    networks:
+      - shopologic
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    build:
+      context: .
+      target: ${APP_ENV:-production}
+    container_name: shopologic_worker
+    restart: unless-stopped
+    command: php cli/queue.php work --daemon
+    working_dir: /var/www/html
+    volumes:
+      - ./storage:/var/www/html/storage
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE:-shopologic}
+      - DB_USERNAME=${DB_USERNAME:-shopologic}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE_CONNECTION=redis
+    depends_on:
+      - app
+      - postgres
+      - redis
+    networks:
+      - shopologic
+
+  scheduler:
+    build:
+      context: .
+      target: ${APP_ENV:-production}
+    container_name: shopologic_scheduler
+    restart: unless-stopped
+    command: sh -c "while true; do php cli/schedule.php run; sleep 60; done"
+    working_dir: /var/www/html
+    volumes:
+      - ./storage:/var/www/html/storage
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE:-shopologic}
+      - DB_USERNAME=${DB_USERNAME:-shopologic}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - app
+      - postgres
+      - redis
+    networks:
+      - shopologic
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: shopologic_mailhog
+    restart: unless-stopped
+    ports:
+      - "${MAILHOG_PORT:-8025}:8025"
+      - "${SMTP_PORT:-1025}:1025"
+    networks:
+      - shopologic
+    profiles:
+      - development
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: shopologic_phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=postgres
+      - PMA_PORT=5432
+      - PMA_USER=${DB_USERNAME:-shopologic}
+      - PMA_PASSWORD=${DB_PASSWORD:-secret}
+    ports:
+      - "${PMA_PORT:-8080}:80"
+    depends_on:
+      - postgres
+    networks:
+      - shopologic
+    profiles:
+      - development
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: shopologic_prometheus
+    restart: unless-stopped
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - shopologic
+    profiles:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: shopologic_grafana
+    restart: unless-stopped
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./docker/grafana/datasources:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - shopologic
+    profiles:
+      - monitoring
+
+  nginx:
+    image: nginx:alpine
+    container_name: shopologic_nginx
+    restart: unless-stopped
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites:/etc/nginx/sites-enabled
+      - ./public:/var/www/html/public
+      - nginx_logs:/var/log/nginx
+    ports:
+      - "${NGINX_HTTP_PORT:-8080}:80"
+      - "${NGINX_HTTPS_PORT:-8443}:443"
+    depends_on:
+      - app
+    networks:
+      - shopologic
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  nginx_logs:
+    driver: local
+
+networks:
+  shopologic:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

@@ -1,0 +1,85 @@
+{
+    "name": "Subscription Commerce",
+    "version": "1.0.0",
+    "description": "Complete subscription management with recurring billing, customer portals, and retention analytics",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "SubscriptionCommerce\\SubscriptionCommercePlugin",
+    "file": "SubscriptionCommercePlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "subscriptions.manage",
+        "customers.read",
+        "orders.create",
+        "billing.process",
+        "hooks.*"
+    ],
+    "hooks": [
+        "subscription.created",
+        "subscription.renewed",
+        "subscription.cancelled",
+        "billing.failed",
+        "product.subscription_enabled"
+    ],
+    "api_endpoints": [
+        "POST /api/v1/subscriptions/create",
+        "GET /api/v1/subscriptions/{id}",
+        "POST /api/v1/subscriptions/{id}/pause",
+        "POST /api/v1/subscriptions/{id}/resume",
+        "POST /api/v1/subscriptions/{id}/cancel",
+        "GET /api/v1/subscriptions/customer/{id}"
+    ],
+    "database_tables": [
+        "subscriptions",
+        "subscription_plans",
+        "billing_cycles",
+        "subscription_analytics",
+        "dunning_management"
+    ],
+    "config_schema": {
+        "enable_trial_periods": {
+            "type": "boolean",
+            "default": true,
+            "description": "Allow free trial periods"
+        },
+        "default_trial_days": {
+            "type": "number",
+            "default": 14,
+            "min": 1,
+            "max": 90,
+            "description": "Default trial period in days"
+        },
+        "enable_plan_changes": {
+            "type": "boolean",
+            "default": true,
+            "description": "Allow customers to change plans"
+        },
+        "proration_enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable proration for plan changes"
+        },
+        "failed_payment_retries": {
+            "type": "number",
+            "default": 3,
+            "min": 1,
+            "max": 10,
+            "description": "Number of failed payment retries"
+        },
+        "dunning_grace_period": {
+            "type": "number",
+            "default": 7,
+            "min": 1,
+            "max": 30,
+            "description": "Grace period before cancellation (days)"
+        }
+    },
+    "assets": {
+        "js": ["assets/subscription-management.js", "assets/billing-portal.js"],
+        "css": ["assets/subscriptions.css"]
+    }
+}

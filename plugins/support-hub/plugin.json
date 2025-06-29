@@ -1,0 +1,78 @@
+{
+    "name": "Customer Support Hub",
+    "version": "1.0.0",
+    "description": "Integrated customer support with live chat, help desk tickets, FAQ automation, and AI assistance",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "SupportHub\\SupportHubPlugin",
+    "file": "SupportHubPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "customers.read",
+        "support.manage",
+        "notifications.send",
+        "hooks.*"
+    ],
+    "hooks": [
+        "support.ticket_created",
+        "chat.message_received",
+        "order.issue_reported",
+        "frontend.chat_widget"
+    ],
+    "api_endpoints": [
+        "POST /api/v1/support/tickets",
+        "GET /api/v1/support/tickets/{id}",
+        "POST /api/v1/support/chat/start",
+        "POST /api/v1/support/faq/search",
+        "GET /api/v1/support/knowledge-base"
+    ],
+    "database_tables": [
+        "support_tickets",
+        "chat_conversations",
+        "faq_articles",
+        "support_analytics",
+        "auto_responses"
+    ],
+    "config_schema": {
+        "enable_live_chat": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable live chat widget"
+        },
+        "enable_ticket_system": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable support ticket system"
+        },
+        "auto_response_enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable automated responses"
+        },
+        "business_hours_start": {
+            "type": "time",
+            "default": "09:00",
+            "description": "Support hours start time"
+        },
+        "business_hours_end": {
+            "type": "time",
+            "default": "18:00",
+            "description": "Support hours end time"
+        },
+        "response_time_target": {
+            "type": "number",
+            "default": 24,
+            "min": 1,
+            "max": 168,
+            "description": "Target response time in hours"
+        }
+    },
+    "assets": {
+        "js": ["assets/chat-widget.js", "assets/ticket-system.js"],
+        "css": ["assets/support-hub.css"]
+    }
+}

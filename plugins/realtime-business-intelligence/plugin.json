@@ -1,0 +1,47 @@
+{
+    "name": "realtime-business-intelligence",
+    "version": "1.0.0",
+    "description": "Real-time business intelligence with live dashboards, predictive KPIs, automated alerts, and executive reporting",
+    "author": "Shopologic",
+    "namespace": "RealtimeBusinessIntelligence",
+    "class": "RealtimeBusinessIntelligence\\RealtimeBusinessIntelligencePlugin",
+    "permissions": [
+        "hooks.analytics.*",
+        "hooks.dashboard.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "bi.dashboard.view",
+        "bi.reports.generate"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["real_time_kpis", "predictive_analytics", "automated_alerts", "executive_reports"],
+        "update_intervals": ["real_time", "5min", "hourly", "daily"]
+    },
+    "hooks": [
+        "order.created",
+        "user.activity",
+        "analytics.metric_updated",
+        "dashboard.data_request",
+        "alert.threshold_exceeded"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/bi/dashboard",
+        "GET /api/v1/bi/kpis",
+        "POST /api/v1/bi/reports/generate",
+        "GET /api/v1/bi/alerts",
+        "GET /api/v1/bi/trends"
+    ],
+    "cron_jobs": [
+        "* * * * * - update_realtime_metrics",
+        "*/5 * * * * - calculate_kpis",
+        "0 * * * * - generate_alerts",
+        "0 6 * * * - generate_daily_report"
+    ]
+}

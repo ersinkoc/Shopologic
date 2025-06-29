@@ -1,0 +1,113 @@
+{
+    "name": "Core Commerce",
+    "version": "1.0.0",
+    "description": "Core e-commerce functionality for Shopologic",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com",
+        "url": "https://shopologic.com"
+    },
+    "license": "MIT",
+    "requirements": {
+        "php_version": ">=8.3",
+        "core_version": ">=1.0.0",
+        "dependencies": {}
+    },
+    "config": {
+        "main_class": "CoreCommerce\\CoreCommercePlugin",
+        "namespace": "CoreCommerce"
+    },
+    "provides": [
+        "ProductRepositoryInterface",
+        "CategoryRepositoryInterface",
+        "CartServiceInterface",
+        "OrderServiceInterface",
+        "CustomerServiceInterface"
+    ],
+    "hooks": [
+        "system.init",
+        "product.created",
+        "product.updated",
+        "product.deleted",
+        "order.created",
+        "order.updated",
+        "order.completed",
+        "cart.item_added",
+        "cart.item_removed",
+        "cart.updated"
+    ],
+    "permissions": [
+        "product.view",
+        "product.create",
+        "product.update",
+        "product.delete",
+        "category.view",
+        "category.manage",
+        "order.view",
+        "order.create",
+        "order.update",
+        "order.delete",
+        "customer.view",
+        "customer.manage"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/products",
+        "GET /api/v1/products/{id}",
+        "POST /api/v1/products",
+        "PUT /api/v1/products/{id}",
+        "DELETE /api/v1/products/{id}",
+        "GET /api/v1/categories",
+        "GET /api/v1/categories/{id}",
+        "GET /api/v1/cart",
+        "POST /api/v1/cart/items",
+        "PUT /api/v1/cart/items/{id}",
+        "DELETE /api/v1/cart/items/{id}",
+        "POST /api/v1/cart/clear",
+        "GET /api/v1/orders",
+        "GET /api/v1/orders/{id}",
+        "POST /api/v1/orders",
+        "PUT /api/v1/orders/{id}/status"
+    ],
+    "database_tables": [
+        "products",
+        "product_images",
+        "product_variants",
+        "product_attributes",
+        "categories",
+        "product_categories",
+        "carts",
+        "cart_items",
+        "orders",
+        "order_items",
+        "order_status_history",
+        "customers",
+        "customer_addresses"
+    ],
+    "config_schema": {
+        "default_currency": {
+            "type": "string",
+            "default": "USD",
+            "required": true
+        },
+        "tax_enabled": {
+            "type": "boolean",
+            "default": true
+        },
+        "stock_management": {
+            "type": "boolean",
+            "default": true
+        },
+        "guest_checkout": {
+            "type": "boolean",
+            "default": true
+        },
+        "order_statuses": {
+            "type": "array",
+            "default": ["pending", "processing", "shipped", "delivered", "cancelled", "refunded"]
+        }
+    },
+    "assets": {
+        "js": [],
+        "css": []
+    }
+}

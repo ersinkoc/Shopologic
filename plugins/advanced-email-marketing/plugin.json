@@ -1,0 +1,47 @@
+{
+    "name": "advanced-email-marketing",
+    "version": "1.0.0",
+    "description": "Advanced email marketing with behavioral triggers, AI personalization, automated drip campaigns, and deliverability optimization",
+    "author": "Shopologic",
+    "namespace": "AdvancedEmailMarketing",
+    "class": "AdvancedEmailMarketing\\AdvancedEmailMarketingPlugin",
+    "permissions": [
+        "hooks.email.*",
+        "hooks.customer.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "email.campaigns.create",
+        "email.templates.manage"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["behavioral_triggers", "ai_personalization", "automated_workflows", "deliverability_optimization"],
+        "providers": ["smtp", "sendgrid", "mailgun", "ses"]
+    },
+    "hooks": [
+        "customer.registered",
+        "order.completed",
+        "cart.abandoned",
+        "product.viewed",
+        "email.campaign.sent"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/email/campaigns",
+        "POST /api/v1/email/campaigns",
+        "POST /api/v1/email/send",
+        "GET /api/v1/email/analytics",
+        "POST /api/v1/email/test"
+    ],
+    "cron_jobs": [
+        "*/5 * * * * - process_email_queue",
+        "0 * * * * - process_automated_campaigns",
+        "0 */6 * * * - optimize_deliverability",
+        "0 2 * * * - generate_email_reports"
+    ]
+}

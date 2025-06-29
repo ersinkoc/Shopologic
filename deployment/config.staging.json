@@ -1,0 +1,86 @@
+{
+  "environment": "staging",
+  "servers": [
+    {
+      "host": "staging.shopologic.com",
+      "user": "deploy",
+      "path": "/var/www/shopologic-staging",
+      "port": 22
+    }
+  ],
+  "repository": {
+    "url": "git@github.com:shopologic/shopologic.git",
+    "branch": "develop"
+  },
+  "build": {
+    "composer": {
+      "install": "composer install --no-dev --optimize-autoloader --no-interaction",
+      "dump_autoload": true
+    },
+    "npm": {
+      "install": "npm ci --production",
+      "build": "npm run build",
+      "path": "themes/default"
+    }
+  },
+  "deployment": {
+    "strategy": "rolling",
+    "keep_releases": 5,
+    "shared_files": [
+      ".env",
+      "storage/oauth-private.key",
+      "storage/oauth-public.key"
+    ],
+    "shared_directories": [
+      "storage/logs",
+      "storage/uploads",
+      "public/uploads"
+    ],
+    "writable_directories": [
+      "storage",
+      "storage/cache",
+      "storage/logs",
+      "storage/sessions",
+      "storage/uploads",
+      "public/uploads"
+    ]
+  },
+  "hooks": {
+    "before_deploy": [
+      "php cli/maintenance.php enable 'Deployment in progress. We'll be back in a few minutes!'"
+    ],
+    "after_clone": [
+      "cp .env.staging .env"
+    ],
+    "after_install": [
+      "php cli/migrate.php up --env=staging",
+      "php cli/cache.php clear",
+      "php cli/cache.php warm"
+    ],
+    "after_deploy": [
+      "php cli/maintenance.php disable",
+      "php cli/monitor.php collect"
+    ],
+    "on_failure": [
+      "php cli/maintenance.php disable"
+    ]
+  },
+  "health_check": {
+    "enabled": true,
+    "endpoint": "/health",
+    "timeout": 30,
+    "retries": 3
+  },
+  "notifications": {
+    "slack": {
+      "webhook_url": "${SLACK_WEBHOOK_URL}",
+      "channel": "#deployments",
+      "username": "Shopologic Deploy"
+    },
+    "email": {
+      "recipients": ["devops@shopologic.com"],
+      "on_success": false,
+      "on_failure": true
+    }
+  }
+}

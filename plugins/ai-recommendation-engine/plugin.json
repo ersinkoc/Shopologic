@@ -1,0 +1,49 @@
+{
+    "name": "ai-recommendation-engine",
+    "version": "1.0.0",
+    "description": "Advanced AI-powered product recommendation engine with machine learning algorithms, collaborative filtering, and real-time personalization",
+    "author": "Shopologic",
+    "namespace": "AiRecommendationEngine",
+    "class": "AiRecommendationEngine\\AiRecommendationEnginePlugin",
+    "permissions": [
+        "hooks.order.*",
+        "hooks.product.*",
+        "hooks.customer.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "ai.recommendations.view",
+        "ai.recommendations.manage",
+        "ai.analytics.view"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0",
+        "shopologic/analytics": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "ml_training_enabled": true,
+        "real_time_processing": true
+    },
+    "hooks": [
+        "order.completed",
+        "product.viewed",
+        "cart.item_added",
+        "customer.login",
+        "product.price"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/ai/recommendations/{customer_id}",
+        "POST /api/v1/ai/track-interaction",
+        "GET /api/v1/ai/similar-products/{product_id}",
+        "POST /api/v1/ai/train-model",
+        "GET /api/v1/ai/analytics"
+    ],
+    "cron_jobs": [
+        "0 2 * * * - train_models",
+        "*/15 * * * * - process_interactions",
+        "0 4 * * SUN - cleanup_old_data"
+    ]
+}

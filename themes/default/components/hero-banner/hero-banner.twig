@@ -1,0 +1,77 @@
+<div class="hero-banner" style="background-image: url('{{ background_image }}'); color: {{ text_color }};">
+    <div class="hero-overlay" style="opacity: {{ overlay_opacity }};"></div>
+    <div class="hero-content">
+        {% if title %}
+            <h1 class="hero-title">{{ title }}</h1>
+        {% endif %}
+        
+        {% if subtitle %}
+            <p class="hero-subtitle">{{ subtitle }}</p>
+        {% endif %}
+        
+        {% if button_text and button_url %}
+            <a href="{{ button_url }}" class="hero-button btn btn-primary">{{ button_text }}</a>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.hero-banner {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 40px 20px;
+}
+
+.hero-title {
+    font-size: 48px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.hero-subtitle {
+    font-size: 24px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 15px 40px;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 32px;
+    }
+    
+    .hero-subtitle {
+        font-size: 18px;
+    }
+}
+</style>

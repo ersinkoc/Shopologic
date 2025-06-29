@@ -1,0 +1,81 @@
+{
+    "name": "Multi-Vendor Marketplace",
+    "version": "1.0.0",
+    "description": "Transform single store into multi-vendor marketplace with vendor management, commissions, and analytics",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "MultiVendorMarketplace\\MultiVendorMarketplacePlugin",
+    "file": "MultiVendorMarketplacePlugin.php", 
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "vendors.manage",
+        "products.read",
+        "products.write",
+        "orders.read",
+        "commissions.write",
+        "hooks.*"
+    ],
+    "hooks": [
+        "vendor.registered",
+        "product.submitted",
+        "order.completed",
+        "commission.calculated",
+        "admin.vendor.dashboard"
+    ],
+    "api_endpoints": [
+        "POST /api/v1/vendors/register",
+        "GET /api/v1/vendors/{id}/products",
+        "GET /api/v1/vendors/{id}/analytics",
+        "POST /api/v1/vendors/commission-payout",
+        "GET /api/v1/marketplace/stats"
+    ],
+    "database_tables": [
+        "vendors",
+        "vendor_products",
+        "vendor_commissions",
+        "commission_payouts",
+        "marketplace_analytics"
+    ],
+    "config_schema": {
+        "commission_rate": {
+            "type": "number",
+            "default": 15,
+            "min": 0,
+            "max": 50,
+            "description": "Default commission rate percentage"
+        },
+        "auto_approve_vendors": {
+            "type": "boolean",
+            "default": false,
+            "description": "Automatically approve new vendors"
+        },
+        "auto_approve_products": {
+            "type": "boolean",
+            "default": false,
+            "description": "Automatically approve vendor products"
+        },
+        "enable_vendor_dashboard": {
+            "type": "boolean",
+            "default": true,
+            "description": "Provide vendor dashboard"
+        },
+        "payout_frequency": {
+            "type": "select",
+            "default": "monthly",
+            "options": {
+                "weekly": "Weekly",
+                "monthly": "Monthly",
+                "quarterly": "Quarterly"
+            },
+            "description": "Commission payout frequency"
+        }
+    },
+    "assets": {
+        "js": ["assets/vendor-dashboard.js", "assets/marketplace.js"],
+        "css": ["assets/marketplace.css"]
+    }
+}

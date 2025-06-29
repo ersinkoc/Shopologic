@@ -1,0 +1,76 @@
+{
+    "name": "Customer Segmentation Engine",
+    "version": "1.0.0",
+    "description": "Automatic customer segmentation with behavioral targeting, personalized campaigns, and lifecycle marketing",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "CustomerSegmentation\\CustomerSegmentationPlugin",
+    "file": "CustomerSegmentationPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "customers.read",
+        "customers.write",
+        "orders.read",
+        "analytics.read",
+        "notifications.send",
+        "hooks.*"
+    ],
+    "hooks": [
+        "customer.registered",
+        "order.completed",
+        "customer.login",
+        "product.viewed",
+        "admin.customers.dashboard"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/segments",
+        "POST /api/v1/segments/create",
+        "GET /api/v1/segments/{id}/customers",
+        "POST /api/v1/segments/analyze",
+        "POST /api/v1/segments/campaign"
+    ],
+    "database_tables": [
+        "customer_segments",
+        "segment_memberships",
+        "segment_rules",
+        "segment_campaigns",
+        "behavioral_scores"
+    ],
+    "config_schema": {
+        "auto_segment": {
+            "type": "boolean",
+            "default": true,
+            "description": "Automatically assign customers to segments"
+        },
+        "segment_update_frequency": {
+            "type": "select",
+            "default": "daily",
+            "options": {
+                "hourly": "Every hour",
+                "daily": "Daily",
+                "weekly": "Weekly"
+            },
+            "description": "How often to update segments"
+        },
+        "min_segment_size": {
+            "type": "number",
+            "default": 10,
+            "min": 5,
+            "max": 1000,
+            "description": "Minimum customers per segment"
+        },
+        "enable_predictive_segments": {
+            "type": "boolean",
+            "default": true,
+            "description": "Create predictive behavior segments"
+        }
+    },
+    "assets": {
+        "js": ["assets/segmentation-dashboard.js"],
+        "css": ["assets/segments.css"]
+    }
+}

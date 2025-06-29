@@ -1,0 +1,430 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Shopologic\Core\Plugin;
+
+use Shopologic\Core\Container\Container;
+use Shopologic\Core\Events\EventManager;
+use Shopologic\Core\Plugin\Exception\PluginException;
+use Shopologic\Core\Plugin\Exception\DependencyException;
+use Shopologic\Core\Plugin\Events\PluginLoadedEvent;
+use Shopologic\Core\Plugin\Events\PluginActivatedEvent;
+use Shopologic\Core\Plugin\Events\PluginDeactivatedEvent;
+use Shopologic\Core\Plugin\Events\PluginBootedEvent;
+use Shopologic\Core\Plugin\Events\PluginInstalledEvent;
+use Shopologic\Core\Plugin\Events\PluginUninstalledEvent;
+use Shopologic\Core\Plugin\Events\PluginUpdatedEvent;
+
+class PluginManager
+{
+    protected Container $container;
+    protected EventManager $events;
+    protected array $plugins = [];
+    protected array $booted = [];
+    protected array $activated = [];
+    protected string $pluginPath;
+    protected PluginRepository $repository;
+
+    public function __construct(Container $container, EventManager $events, string $pluginPath)
+    {
+        $this->container = $container;
+        $this->events = $events;
+        $this->pluginPath = $pluginPath;
+        $this->repository = new PluginRepository();
+    }
+
+    /**
+     * Discover all plugins in the plugin directory
+     */
+    public function discover(): array
+    {
+        $discovered = [];
+        
+        if (!is_dir($this->pluginPath)) {
+            return $discovered;
+        }
+        
+        $directories = scandir($this->pluginPath);
+        
+        foreach ($directories as $directory) {
+            if ($directory === '.' || $directory === '..') {
+                continue;
+            }
+            
+            $pluginDir = $this->pluginPath . '/' . $directory;
+            
+            if (!is_dir($pluginDir)) {
+                continue;
+            }
+            
+            $manifestFile = $pluginDir . '/plugin.json';
+            
+            if (!file_exists($manifestFile)) {
+                continue;
+            }
+            
+            $manifest = json_decode(file_get_contents($manifestFile), true);
+            
+            if (!$manifest || !isset($manifest['class'])) {
+                continue;
+            }
+            
+            $discovered[$directory] = $manifest;
+        }
+        
+        return $discovered;
+    }
+
+    /**
+     * Load a plugin
+     */
+    public function load(string $name, array $manifest): void
+    {
+        if ($this->isLoaded($name)) {
+            return;
+        }
+        
+        // Load plugin autoloader if exists
+        $autoloadFile = $this->pluginPath . '/' . $name . '/vendor/autoload.php';
+        if (file_exists($autoloadFile)) {
+            require_once $autoloadFile;
+        }
+        
+        // Load plugin class file
+        $classFile = $this->pluginPath . '/' . $name . '/' . $manifest['file'];
+        if (!file_exists($classFile)) {
+            throw new PluginException("Plugin class file not found: {$classFile}");
+        }
+        
+        require_once $classFile;
+        
+        $className = $manifest['class'];
+        
+        if (!class_exists($className)) {
+            throw new PluginException("Plugin class not found: {$className}");
+        }
+        
+        $plugin = new $className();
+        
+        if (!$plugin instanceof PluginInterface) {
+            throw new PluginException("Plugin must implement PluginInterface: {$className}");
+        }
+        
+        $this->plugins[$name] = [
+            'instance' => $plugin,
+            'manifest' => $manifest,
+        ];
+        
+        $this->events->dispatch(new PluginLoadedEvent($name, $plugin));
+    }
+
+    /**
+     * Load all discovered plugins
+     */
+    public function loadAll(): void
+    {
+        $discovered = $this->discover();
+        
+        foreach ($discovered as $name => $manifest) {
+            try {
+                $this->load($name, $manifest);
+            } catch (PluginException $e) {
+                // Log error but continue loading other plugins
+                error_log("Failed to load plugin {$name}: " . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Activate a plugin
+     */
+    public function activate(string $name): void
+    {
+        if (!$this->isLoaded($name)) {
+            throw new PluginException("Plugin not loaded: {$name}");
+        }
+        
+        if ($this->isActivated($name)) {
+            return;
+        }
+        
+        $plugin = $this->getPlugin($name);
+        
+        // Check dependencies
+        $this->checkDependencies($plugin);
+        
+        // Activate the plugin
+        $plugin->activate();
+        
+        $this->activated[$name] = true;
+        $this->repository->setActivated($name, true);
+        
+        $this->events->dispatch(new PluginActivatedEvent($name, $plugin));
+    }
+
+    /**
+     * Deactivate a plugin
+     */
+    public function deactivate(string $name): void
+    {
+        if (!$this->isActivated($name)) {
+            return;
+        }
+        
+        $plugin = $this->getPlugin($name);
+        
+        // Check if other plugins depend on this one
+        $this->checkDependents($name);
+        
+        $plugin->deactivate();
+        
+        unset($this->activated[$name]);
+        $this->repository->setActivated($name, false);
+        
+        $this->events->dispatch(new PluginDeactivatedEvent($name, $plugin));
+    }
+
+    /**
+     * Boot a plugin
+     */
+    public function boot(string $name): void
+    {
+        if (!$this->isActivated($name)) {
+            throw new PluginException("Plugin not activated: {$name}");
+        }
+        
+        if ($this->isBooted($name)) {
+            return;
+        }
+        
+        $plugin = $this->getPlugin($name);
+        
+        // Boot dependencies first
+        foreach ($plugin->getDependencies() as $dependency => $version) {
+            if ($this->isLoaded($dependency) && $this->isActivated($dependency)) {
+                $this->boot($dependency);
+            }
+        }
+        
+        $plugin->boot();
+        
+        $this->booted[$name] = true;
+        
+        $this->events->dispatch(new PluginBootedEvent($name, $plugin));
+    }
+
+    /**
+     * Boot all activated plugins
+     */
+    public function bootAll(): void
+    {
+        $activated = $this->repository->getActivated();
+        
+        foreach ($activated as $name) {
+            if ($this->isLoaded($name)) {
+                try {
+                    $this->boot($name);
+                } catch (PluginException $e) {
+                    error_log("Failed to boot plugin {$name}: " . $e->getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     * Install a plugin
+     */
+    public function install(string $name): void
+    {
+        if (!$this->isLoaded($name)) {
+            throw new PluginException("Plugin not loaded: {$name}");
+        }
+        
+        $plugin = $this->getPlugin($name);
+        
+        $plugin->install();
+        
+        $this->repository->setInstalled($name, true);
+        $this->repository->setVersion($name, $plugin->getVersion());
+        
+        $this->events->dispatch(new PluginInstalledEvent($name, $plugin));
+    }
+
+    /**
+     * Uninstall a plugin
+     */
+    public function uninstall(string $name): void
+    {
+        if ($this->isActivated($name)) {
+            $this->deactivate($name);
+        }
+        
+        $plugin = $this->getPlugin($name);
+        
+        $plugin->uninstall();
+        
+        $this->repository->setInstalled($name, false);
+        
+        unset($this->plugins[$name]);
+        
+        $this->events->dispatch(new PluginUninstalledEvent($name, $plugin));
+    }
+
+    /**
+     * Update a plugin
+     */
+    public function update(string $name): void
+    {
+        if (!$this->isLoaded($name)) {
+            throw new PluginException("Plugin not loaded: {$name}");
+        }
+        
+        $plugin = $this->getPlugin($name);
+        $previousVersion = $this->repository->getVersion($name) ?? '0.0.0';
+        
+        $plugin->update($previousVersion);
+        
+        $this->repository->setVersion($name, $plugin->getVersion());
+        
+        $this->events->dispatch(new PluginUpdatedEvent($name, $plugin, $previousVersion));
+    }
+
+    /**
+     * Get a plugin instance
+     */
+    public function getPlugin(string $name): PluginInterface
+    {
+        if (!$this->isLoaded($name)) {
+            throw new PluginException("Plugin not loaded: {$name}");
+        }
+        
+        return $this->plugins[$name]['instance'];
+    }
+
+    /**
+     * Get all loaded plugins
+     */
+    public function getPlugins(): array
+    {
+        $plugins = [];
+        
+        foreach ($this->plugins as $name => $data) {
+            $plugins[$name] = $data['instance'];
+        }
+        
+        return $plugins;
+    }
+
+    /**
+     * Check if a plugin is loaded
+     */
+    public function isLoaded(string $name): bool
+    {
+        return isset($this->plugins[$name]);
+    }
+
+    /**
+     * Check if a plugin is activated
+     */
+    public function isActivated(string $name): bool
+    {
+        return isset($this->activated[$name]);
+    }
+
+    /**
+     * Check if a plugin is booted
+     */
+    public function isBooted(string $name): bool
+    {
+        return isset($this->booted[$name]);
+    }
+
+    /**
+     * Check plugin dependencies
+     */
+    protected function checkDependencies(PluginInterface $plugin): void
+    {
+        foreach ($plugin->getDependencies() as $dependency => $version) {
+            if (!$this->isLoaded($dependency)) {
+                throw new DependencyException("Required dependency not found: {$dependency}");
+            }
+            
+            if (!$this->isActivated($dependency)) {
+                throw new DependencyException("Required dependency not activated: {$dependency}");
+            }
+            
+            $dependencyPlugin = $this->getPlugin($dependency);
+            
+            if (!$this->checkVersion($dependencyPlugin->getVersion(), $version)) {
+                throw new DependencyException(
+                    "Dependency version mismatch: {$dependency} requires {$version}, found {$dependencyPlugin->getVersion()}"
+                );
+            }
+        }
+    }
+
+    /**
+     * Check if other plugins depend on this one
+     */
+    protected function checkDependents(string $name): void
+    {
+        foreach ($this->plugins as $pluginName => $data) {
+            if (!$this->isActivated($pluginName)) {
+                continue;
+            }
+            
+            $plugin = $data['instance'];
+            $dependencies = $plugin->getDependencies();
+            
+            if (isset($dependencies[$name])) {
+                throw new DependencyException(
+                    "Cannot deactivate {$name}: {$pluginName} depends on it"
+                );
+            }
+        }
+    }
+
+    /**
+     * Check version constraint
+     */
+    protected function checkVersion(string $version, string $constraint): bool
+    {
+        // Simple version checking - can be enhanced with semantic versioning
+        if ($constraint === '*') {
+            return true;
+        }
+        
+        if (str_starts_with($constraint, '>=')) {
+            $required = substr($constraint, 2);
+            return version_compare($version, $required, '>=');
+        }
+        
+        if (str_starts_with($constraint, '>')) {
+            $required = substr($constraint, 1);
+            return version_compare($version, $required, '>');
+        }
+        
+        if (str_starts_with($constraint, '^')) {
+            // Caret constraint - compatible with given version
+            $required = substr($constraint, 1);
+            return version_compare($version, $required, '>=') && 
+                   version_compare($version, $this->getNextMajorVersion($required), '<');
+        }
+        
+        return $version === $constraint;
+    }
+
+    /**
+     * Get next major version
+     */
+    protected function getNextMajorVersion(string $version): string
+    {
+        $parts = explode('.', $version);
+        $parts[0] = (string)((int)$parts[0] + 1);
+        $parts[1] = '0';
+        $parts[2] = '0';
+        
+        return implode('.', $parts);
+    }
+}

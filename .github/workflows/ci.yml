@@ -1,0 +1,505 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly security scan
+
+env:
+  PHP_VERSION: '8.3'
+  POSTGRES_VERSION: '15'
+  REDIS_VERSION: '7'
+
+jobs:
+  lint:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, pgsql, redis, gd, zip
+        coverage: none
+        
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+          
+    - name: Install dependencies
+      run: |
+        composer install --prefer-dist --no-progress --no-interaction
+        
+    - name: Run PHP linting
+      run: |
+        find . -name "*.php" -not -path "./vendor/*" -not -path "./storage/*" -print0 | xargs -0 -n1 -P8 php -l
+        
+    - name: Check coding standards
+      run: |
+        ./vendor/bin/phpcs --standard=PSR12 core/ plugins/ tests/
+        
+    - name: Run static analysis
+      run: |
+        ./vendor/bin/phpstan analyse --level=8 core/
+        
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, pgsql, redis
+        coverage: none
+        
+    - name: Run security scan
+      run: |
+        php cli/security.php scan --format=json > security-report.json
+        
+    - name: Check for vulnerabilities
+      run: |
+        if grep -q '"severity": "high"' security-report.json || grep -q '"severity": "critical"' security-report.json; then
+          echo "High or critical vulnerabilities found!"
+          cat security-report.json
+          exit 1
+        fi
+        
+    - name: Upload security report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: security-report
+        path: security-report.json
+        
+  test-unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shopologic_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, pgsql, redis, gd, zip
+        coverage: xdebug
+        
+    - name: Install dependencies
+      run: |
+        composer install --prefer-dist --no-progress --no-interaction
+        
+    - name: Setup test database
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_DATABASE: shopologic_test
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
+      run: |
+        php cli/migrate.php fresh --env=test
+        php cli/seed.php run --env=test
+        
+    - name: Run unit tests
+      env:
+        DB_HOST: localhost
+        REDIS_HOST: localhost
+      run: |
+        php cli/test.php --coverage --coverage-html=coverage
+        
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage/
+        
+    - name: Check code coverage
+      run: |
+        coverage_percent=$(grep -oP 'Total Coverage: \K\d+' coverage/index.html || echo 0)
+        if [ "$coverage_percent" -lt 80 ]; then
+          echo "Code coverage is below 80% (current: ${coverage_percent}%)"
+          exit 1
+        fi
+        
+  test-integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [lint, security]
+    
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shopologic_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, pgsql, redis, gd, zip
+        coverage: none
+        
+    - name: Install dependencies
+      run: |
+        composer install --prefer-dist --no-progress --no-interaction
+        
+    - name: Setup test environment
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_DATABASE: shopologic_test
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
+        REDIS_HOST: localhost
+      run: |
+        php cli/migrate.php fresh --env=test
+        php cli/seed.php run --env=test
+        
+    - name: Run integration tests
+      env:
+        DB_HOST: localhost
+        REDIS_HOST: localhost
+      run: |
+        php cli/test.php --suite=Integration
+        
+  test-e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: [test-unit]
+    
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shopologic_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, pgsql, redis, gd, zip
+        coverage: none
+        
+    - name: Install dependencies
+      run: |
+        composer install --prefer-dist --no-progress --no-interaction
+        
+    - name: Setup E2E environment
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_DATABASE: shopologic_test
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
+        REDIS_HOST: localhost
+      run: |
+        php cli/e2e.php setup
+        
+    - name: Start test server
+      run: |
+        php -S localhost:8000 -t public/ &
+        sleep 5
+        
+    - name: Run E2E tests
+      env:
+        E2E_BASE_URL: http://localhost:8000
+        E2E_HEADLESS: true
+      run: |
+        php cli/e2e.php run
+        
+    - name: Upload E2E screenshots
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: e2e-screenshots
+        path: tests/screenshots/
+        
+    - name: Upload E2E report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: e2e-report
+        path: tests/reports/
+        
+  performance:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    needs: [test-integration]
+    
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shopologic_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: mbstring, pgsql, redis, gd, zip
+        coverage: none
+        
+    - name: Install dependencies
+      run: |
+        composer install --prefer-dist --no-progress --no-interaction
+        
+    - name: Setup performance test environment
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_DATABASE: shopologic_test
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
+        REDIS_HOST: localhost
+      run: |
+        php cli/migrate.php fresh --env=test
+        php cli/seed.php run --count=1000  # Seed with more data for performance testing
+        
+    - name: Start test server
+      run: |
+        php -S localhost:8000 -t public/ &
+        sleep 5
+        
+    - name: Run performance tests
+      run: |
+        php cli/e2e.php run PerformanceTest
+        
+    - name: Check performance metrics
+      run: |
+        if [ -f "performance-report.json" ]; then
+          avg_load_time=$(jq '.summary.average_page_load_ms' performance-report.json)
+          if (( $(echo "$avg_load_time > 3000" | bc -l) )); then
+            echo "Average page load time exceeds 3 seconds!"
+            exit 1
+          fi
+        fi
+        
+    - name: Upload performance report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: performance-report
+        path: performance-report.json
+        
+  build:
+    name: Build Assets
+    runs-on: ubuntu-latest
+    needs: [lint]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install Node dependencies
+      run: |
+        cd themes/default
+        npm ci
+        
+    - name: Build theme assets
+      run: |
+        cd themes/default
+        npm run build
+        
+    - name: Check asset sizes
+      run: |
+        max_size=500000  # 500KB
+        for file in themes/default/dist/js/*.js; do
+          size=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file")
+          if [ "$size" -gt "$max_size" ]; then
+            echo "File $file exceeds maximum size (${size} bytes)"
+            exit 1
+          fi
+        done
+        
+    - name: Upload built assets
+      uses: actions/upload-artifact@v3
+      with:
+        name: theme-assets
+        path: themes/default/dist/
+        
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [test-unit, test-integration]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: false
+        tags: shopologic:${{ github.sha }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        
+    - name: Test Docker image
+      run: |
+        docker run --rm shopologic:${{ github.sha }} php -v
+        docker run --rm shopologic:${{ github.sha }} php cli/test.php --help
+        
+  deploy-check:
+    name: Deployment Check
+    runs-on: ubuntu-latest
+    needs: [test-e2e, performance, build, docker]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check deployment readiness
+      run: |
+        echo "All tests passed!"
+        echo "Ready for deployment to production"
+        
+    - name: Create deployment artifact
+      run: |
+        tar -czf shopologic-${{ github.sha }}.tar.gz \
+          --exclude='.git' \
+          --exclude='node_modules' \
+          --exclude='storage/logs/*' \
+          --exclude='storage/cache/*' \
+          --exclude='tests' \
+          .
+          
+    - name: Upload deployment artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: deployment-artifact
+        path: shopologic-${{ github.sha }}.tar.gz
+        retention-days: 7
+        
+  notify:
+    name: Notify Results
+    runs-on: ubuntu-latest
+    needs: [deploy-check]
+    if: always()
+    
+    steps:
+    - name: Send notification
+      run: |
+        if [ "${{ needs.deploy-check.result }}" == "success" ]; then
+          echo "✅ CI Pipeline passed successfully!"
+        else
+          echo "❌ CI Pipeline failed!"
+        fi

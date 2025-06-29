@@ -1,0 +1,67 @@
+{
+    "name": "Review Intelligence",
+    "version": "1.0.0", 
+    "description": "Smart review management with sentiment analysis, fake review detection, and automated responses",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "ReviewIntelligence\\ReviewIntelligencePlugin",
+    "file": "ReviewIntelligencePlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "products.read",
+        "customers.read",
+        "reviews.write",
+        "notifications.send",
+        "hooks.*"
+    ],
+    "hooks": [
+        "review.submitted",
+        "review.moderated",
+        "order.completed",
+        "product.display"
+    ],
+    "api_endpoints": [
+        "POST /api/v1/reviews/analyze",
+        "GET /api/v1/reviews/sentiment/{product_id}",
+        "POST /api/v1/reviews/moderate",
+        "GET /api/v1/reviews/insights"
+    ],
+    "database_tables": [
+        "review_analysis",
+        "sentiment_scores",
+        "review_flags",
+        "review_insights"
+    ],
+    "config_schema": {
+        "enable_sentiment_analysis": {
+            "type": "boolean",
+            "default": true,
+            "description": "Analyze review sentiment automatically"
+        },
+        "enable_fake_detection": {
+            "type": "boolean",
+            "default": true,
+            "description": "Detect potentially fake reviews"
+        },
+        "auto_moderate": {
+            "type": "boolean",
+            "default": false,
+            "description": "Automatically moderate flagged reviews"
+        },
+        "review_request_delay_days": {
+            "type": "number",
+            "default": 7,
+            "min": 1,
+            "max": 30,
+            "description": "Days after purchase to request review"
+        }
+    },
+    "assets": {
+        "js": ["assets/review-analytics.js"],
+        "css": ["assets/reviews.css"]
+    }
+}

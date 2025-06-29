@@ -1,0 +1,262 @@
+{
+    "name": "Google Analytics Integration",
+    "version": "1.0.0",
+    "description": "Integrate Google Analytics 4 (GA4) and Universal Analytics for comprehensive e-commerce tracking, including enhanced e-commerce events, conversion tracking, and custom dimensions",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com",
+        "url": "https://shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/analytics-google",
+    "keywords": ["analytics", "google", "tracking", "ecommerce", "ga4", "gtag"],
+    "requirements": {
+        "php_version": ">=8.1",
+        "core_version": ">=1.0.0",
+        "dependencies": {
+            "core-commerce": ">=1.0.0"
+        }
+    },
+    "provides": [
+        "AnalyticsInterface",
+        "TrackingInterface"
+    ],
+    "autoload": {
+        "psr-4": {
+            "GoogleAnalytics\\": "src/"
+        }
+    },
+    "config": {
+        "main_class": "GoogleAnalytics\\GoogleAnalyticsPlugin",
+        "namespace": "GoogleAnalytics"
+    },
+    "permissions": [
+        "analytics.view",
+        "analytics.configure"
+    ],
+    "hooks": [
+        {
+            "hook": "page.head",
+            "handler": "injectTrackingCode",
+            "priority": 5
+        },
+        {
+            "hook": "checkout.completed",
+            "handler": "trackPurchase",
+            "priority": 10
+        },
+        {
+            "hook": "cart.item_added",
+            "handler": "trackAddToCart",
+            "priority": 10
+        },
+        {
+            "hook": "product.viewed",
+            "handler": "trackProductView",
+            "priority": 10
+        },
+        {
+            "hook": "user.registered",
+            "handler": "trackSignUp",
+            "priority": 10
+        },
+        {
+            "hook": "user.logged_in",
+            "handler": "trackLogin",
+            "priority": 10
+        },
+        {
+            "hook": "search.performed",
+            "handler": "trackSearch",
+            "priority": 10
+        }
+    ],
+    "api_endpoints": [
+        {
+            "method": "POST",
+            "path": "/api/v1/analytics/event",
+            "handler": "Controllers\\AnalyticsController@trackEvent",
+            "auth": false
+        },
+        {
+            "method": "GET",
+            "path": "/api/v1/analytics/reports",
+            "handler": "Controllers\\AnalyticsController@getReports",
+            "auth": true,
+            "permission": "analytics.view"
+        }
+    ],
+    "database_tables": [
+        "google_analytics_events",
+        "google_analytics_conversions"
+    ],
+    "assets": {
+        "js": [
+            {
+                "src": "assets/js/google-analytics.js",
+                "position": "head",
+                "pages": ["all"],
+                "priority": 1
+            },
+            {
+                "src": "assets/js/enhanced-ecommerce.js",
+                "position": "footer",
+                "pages": ["product", "category", "checkout", "cart"]
+            }
+        ]
+    },
+    "config_schema": {
+        "ga4_measurement_id": {
+            "type": "string",
+            "label": "GA4 Measurement ID",
+            "description": "Your Google Analytics 4 Measurement ID (e.g., G-XXXXXXXXXX)",
+            "placeholder": "G-XXXXXXXXXX",
+            "required": true,
+            "pattern": "^G-[A-Z0-9]+$"
+        },
+        "universal_tracking_id": {
+            "type": "string",
+            "label": "Universal Analytics ID (Legacy)",
+            "description": "Your Universal Analytics Tracking ID (e.g., UA-XXXXX-X)",
+            "placeholder": "UA-XXXXX-X",
+            "required": false,
+            "pattern": "^UA-\\d+-\\d+$"
+        },
+        "enable_enhanced_ecommerce": {
+            "type": "boolean",
+            "label": "Enable Enhanced E-commerce",
+            "description": "Track detailed e-commerce interactions including product impressions, promotions, and checkout steps",
+            "default": true
+        },
+        "enable_user_id_tracking": {
+            "type": "boolean",
+            "label": "Enable User ID Tracking",
+            "description": "Track logged-in users across devices",
+            "default": true
+        },
+        "enable_demographics": {
+            "type": "boolean",
+            "label": "Enable Demographics & Interests",
+            "description": "Collect demographics and interests data",
+            "default": false
+        },
+        "custom_dimensions": {
+            "type": "array",
+            "label": "Custom Dimensions",
+            "description": "Map custom dimensions to track additional data",
+            "schema": {
+                "dimension_name": {
+                    "type": "string",
+                    "label": "Dimension Name"
+                },
+                "dimension_index": {
+                    "type": "number",
+                    "label": "Dimension Index"
+                },
+                "data_source": {
+                    "type": "select",
+                    "label": "Data Source",
+                    "options": {
+                        "user_type": "User Type",
+                        "customer_group": "Customer Group",
+                        "traffic_source": "Traffic Source",
+                        "device_category": "Device Category"
+                    }
+                }
+            }
+        },
+        "conversion_events": {
+            "type": "multiselect",
+            "label": "Conversion Events",
+            "description": "Select which events to track as conversions",
+            "default": ["purchase", "sign_up"],
+            "options": {
+                "purchase": "Purchase",
+                "sign_up": "Sign Up",
+                "add_to_cart": "Add to Cart",
+                "begin_checkout": "Begin Checkout",
+                "contact_form": "Contact Form Submission",
+                "newsletter_signup": "Newsletter Signup"
+            }
+        },
+        "currency": {
+            "type": "string",
+            "label": "Currency Code",
+            "description": "Default currency for e-commerce tracking",
+            "default": "USD",
+            "pattern": "^[A-Z]{3}$"
+        },
+        "anonymize_ip": {
+            "type": "boolean",
+            "label": "Anonymize IP",
+            "description": "Anonymize visitor IP addresses for privacy compliance",
+            "default": true
+        },
+        "cookie_domain": {
+            "type": "select",
+            "label": "Cookie Domain",
+            "default": "auto",
+            "options": {
+                "auto": "Automatic",
+                "none": "None (for localhost)",
+                "custom": "Custom Domain"
+            }
+        },
+        "custom_cookie_domain": {
+            "type": "string",
+            "label": "Custom Cookie Domain",
+            "description": "Specify custom cookie domain if selected above",
+            "required": false,
+            "depends_on": {
+                "cookie_domain": "custom"
+            }
+        },
+        "debug_mode": {
+            "type": "boolean",
+            "label": "Debug Mode",
+            "description": "Enable debug mode for Google Analytics (shows events in browser console)",
+            "default": false
+        },
+        "server_side_tracking": {
+            "type": "boolean",
+            "label": "Server-Side Tracking",
+            "description": "Send events from server-side for better accuracy",
+            "default": false
+        },
+        "measurement_protocol_secret": {
+            "type": "string",
+            "label": "Measurement Protocol API Secret",
+            "description": "Required for server-side tracking with GA4",
+            "required": false,
+            "encrypted": true,
+            "depends_on": {
+                "server_side_tracking": true
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "analytics_overview",
+            "name": "Analytics Overview",
+            "description": "Quick overview of key metrics",
+            "position": "dashboard",
+            "permissions": ["analytics.view"]
+        }
+    ],
+    "cron_jobs": [
+        {
+            "schedule": "0 2 * * *",
+            "handler": "syncOfflineConversions",
+            "description": "Sync offline conversions daily"
+        }
+    ],
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "GA4 and Universal Analytics support",
+            "Enhanced e-commerce tracking",
+            "Custom dimensions and events",
+            "Server-side tracking option"
+        ]
+    }
+}

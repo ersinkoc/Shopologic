@@ -1,0 +1,85 @@
+{% extends '@theme/layouts/base.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block content %}
+    {# Hero Section #}
+    <section class="hero-section" {{ editable_region('hero', {max_items: 1}) }}>
+        {% if hero_component %}
+            {{ component(hero_component.name, hero_component.props) }}
+        {% else %}
+            {{ component('hero-banner', {
+                title: 'Welcome to Shopologic',
+                subtitle: 'Your one-stop shop for everything',
+                background_image: theme_asset('images/hero-bg.jpg'),
+                text_color: '#ffffff',
+                overlay_opacity: 0.6
+            }) }}
+        {% endif %}
+    </section>
+    
+    {# Featured Products #}
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">{{ apply_filters('featured_products_title', 'Featured Products') }}</h2>
+            
+            <div {{ editable_region('featured_products') }}>
+                {{ component('product-grid', {
+                    columns: 4,
+                    limit: 8,
+                    category: 'featured',
+                    show_price: true,
+                    show_add_to_cart: true
+                }) }}
+            </div>
+        </div>
+    </section>
+    
+    {# Categories #}
+    <section class="shop-categories">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            
+            <div class="category-grid" {{ editable_region('categories') }}>
+                {% for category in categories|default([]) %}
+                    <div class="category-card">
+                        <a href="{{ category.url }}">
+                            {% if category.image %}
+                                {{ image(category.image, category.name, {class: 'category-image'}) }}
+                            {% endif %}
+                            <h3>{{ category.name }}</h3>
+                            <p>{{ category.product_count }} Products</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    {# Newsletter #}
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-wrap" {{ editable_region('newsletter', {max_items: 1}) }}>
+                {{ component('newsletter-signup', {
+                    title: 'Stay Updated',
+                    subtitle: 'Subscribe to our newsletter for exclusive offers',
+                    button_text: 'Subscribe'
+                }) }}
+            </div>
+        </div>
+    </section>
+    
+    {{ do_action('homepage_after_sections') }}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    
+    {# Page-specific scripts #}
+    {{ add_inline_js('homepage-init', "
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize homepage features
+            console.log('Homepage loaded');
+        });
+    ") }}
+{% endblock %}

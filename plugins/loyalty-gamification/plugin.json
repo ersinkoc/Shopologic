@@ -1,0 +1,91 @@
+{
+    "name": "Loyalty Gamification",
+    "version": "1.0.0",
+    "description": "Gamified loyalty system with points, badges, achievements, leaderboards, and challenges",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "LoyaltyGamification\\LoyaltyGamificationPlugin",
+    "file": "LoyaltyGamificationPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "customers.read",
+        "customers.write",
+        "orders.read",
+        "notifications.send",
+        "hooks.*"
+    ],
+    "provides": [
+        "LoyaltyEngineInterface",
+        "GamificationInterface"
+    ],
+    "hooks": [
+        "customer.registered",
+        "order.completed",
+        "product.reviewed",
+        "customer.birthday",
+        "social.shared"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/loyalty/profile",
+        "GET /api/v1/loyalty/leaderboard",
+        "POST /api/v1/loyalty/redeem",
+        "GET /api/v1/loyalty/challenges",
+        "POST /api/v1/loyalty/challenge/{id}/complete"
+    ],
+    "database_tables": [
+        "loyalty_points",
+        "loyalty_badges",
+        "loyalty_achievements",
+        "loyalty_challenges",
+        "loyalty_leaderboard",
+        "loyalty_transactions"
+    ],
+    "config_schema": {
+        "points_per_dollar": {
+            "type": "number",
+            "default": 10,
+            "min": 1,
+            "max": 100,
+            "description": "Points earned per dollar spent"
+        },
+        "registration_bonus": {
+            "type": "number",
+            "default": 100,
+            "min": 0,
+            "max": 1000,
+            "description": "Bonus points for new registration"
+        },
+        "review_points": {
+            "type": "number",
+            "default": 50,
+            "min": 0,
+            "max": 500,
+            "description": "Points for writing a review"
+        },
+        "referral_points": {
+            "type": "number",
+            "default": 500,
+            "min": 0,
+            "max": 2000,
+            "description": "Points for successful referral"
+        },
+        "enable_leaderboard": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show public leaderboard"
+        },
+        "badge_notifications": {
+            "type": "boolean",
+            "default": true,
+            "description": "Send notifications for new badges"
+        }
+    },
+    "assets": {
+        "js": ["assets/gamification.js", "assets/confetti.js"],
+        "css": ["assets/loyalty-styles.css"]
+    }
+}

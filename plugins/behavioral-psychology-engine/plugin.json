@@ -1,0 +1,49 @@
+{
+    "name": "behavioral-psychology-engine",
+    "version": "1.0.0",
+    "description": "Advanced behavioral psychology system using urgency triggers, social proof automation, and cognitive bias application for conversion optimization",
+    "author": "Shopologic",
+    "namespace": "BehavioralPsychologyEngine",
+    "class": "BehavioralPsychologyEngine\\BehavioralPsychologyEnginePlugin",
+    "permissions": [
+        "hooks.page.*",
+        "hooks.product.*",
+        "hooks.cart.*",
+        "hooks.checkout.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "psychology.triggers.manage",
+        "psychology.campaigns.create"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "trigger_types": ["urgency", "scarcity", "social_proof", "authority", "reciprocity"],
+        "real_time_personalization": true
+    },
+    "hooks": [
+        "page.product_view",
+        "cart.item_added",
+        "checkout.initiated",
+        "user.behavior_tracked",
+        "conversion.opportunity_detected"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/psychology/triggers/active",
+        "POST /api/v1/psychology/triggers/create",
+        "GET /api/v1/psychology/campaigns/{campaign_id}",
+        "POST /api/v1/psychology/personalize",
+        "GET /api/v1/psychology/analytics"
+    ],
+    "cron_jobs": [
+        "*/30 * * * * - update_social_proof",
+        "0 */4 * * * - analyze_trigger_effectiveness",
+        "0 2 * * * - optimize_campaigns",
+        "0 1 * * MON - generate_psychology_reports"
+    ]
+}

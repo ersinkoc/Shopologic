@@ -1,0 +1,60 @@
+{
+    "name": "Smart Bundle Builder",
+    "version": "1.0.0", 
+    "description": "Intelligent product bundling with dynamic discounts, cross-sell suggestions, and bundle analytics",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com"
+    },
+    "class": "BundleBuilder\\BundleBuilderPlugin",
+    "file": "BundleBuilderPlugin.php",
+    "dependencies": {
+        "core-commerce": ">=1.0.0"
+    },
+    "permissions": [
+        "products.read",
+        "products.write", 
+        "orders.read",
+        "hooks.*"
+    ],
+    "hooks": [
+        "product.display",
+        "cart.updated",
+        "admin.product.form"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/bundles/suggestions/{product_id}",
+        "POST /api/v1/bundles/create",
+        "GET /api/v1/bundles/analytics"
+    ],
+    "database_tables": [
+        "product_bundles",
+        "bundle_items", 
+        "bundle_analytics"
+    ],
+    "config_schema": {
+        "auto_suggest_bundles": {
+            "type": "boolean",
+            "default": true,
+            "description": "Automatically suggest bundles based on purchase patterns"
+        },
+        "bundle_discount_percentage": {
+            "type": "number",
+            "default": 10,
+            "min": 5,
+            "max": 50,
+            "description": "Default bundle discount percentage"
+        },
+        "min_bundle_items": {
+            "type": "number",
+            "default": 2,
+            "min": 2,
+            "max": 10,
+            "description": "Minimum items required for a bundle"
+        }
+    },
+    "assets": {
+        "js": ["assets/bundle-builder.js"],
+        "css": ["assets/bundle-styles.css"]
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "name": "advanced-cms",
+    "version": "1.0.0",
+    "description": "Advanced content management with AI writing assistance, SEO optimization, multi-language support, and dynamic content personalization",
+    "author": "Shopologic",
+    "namespace": "AdvancedCms",
+    "class": "AdvancedCms\\AdvancedCmsPlugin",
+    "permissions": [
+        "hooks.content.*",
+        "hooks.seo.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "content.create",
+        "content.publish"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["ai_writing", "seo_optimization", "multilingual", "personalization"],
+        "content_types": ["page", "blog", "product_description", "landing_page"]
+    },
+    "hooks": [
+        "content.created",
+        "content.published",
+        "seo.optimized",
+        "content.personalized",
+        "translation.generated"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/cms/content",
+        "POST /api/v1/cms/content",
+        "POST /api/v1/cms/ai-generate",
+        "POST /api/v1/cms/seo-optimize",
+        "GET /api/v1/cms/analytics"
+    ],
+    "cron_jobs": [
+        "0 * * * * - optimize_content_seo",
+        "0 2 * * * - generate_content_analytics",
+        "0 */6 * * * - update_content_scores",
+        "0 3 * * SUN - cleanup_old_revisions"
+    ]
+}

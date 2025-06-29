@@ -1,0 +1,288 @@
+{# Fetch products based on props #}
+{% set products = get_products({
+    'limit': limit,
+    'category': category,
+    'featured': featured,
+    'sort': sort
+}) %}
+
+<div class="product-grid" data-columns="{{ columns }}">
+    {% for product in products %}
+        <div class="product-card">
+            <a href="{{ product.url }}" class="product-link">
+                <div class="product-image-wrapper">
+                    {% if product.image %}
+                        <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image">
+                    {% else %}
+                        <div class="product-image-placeholder">
+                            <span>No Image</span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if product.sale_price %}
+                        <span class="product-badge sale">Sale</span>
+                    {% endif %}
+                </div>
+                
+                <div class="product-info">
+                    <h3 class="product-title">{{ product.name }}</h3>
+                    
+                    {% if show_rating and product.rating %}
+                        <div class="product-rating">
+                            {% for i in 1..5 %}
+                                <span class="star {{ i <= product.rating ? 'filled' : '' }}">★</span>
+                            {% endfor %}
+                            <span class="rating-count">({{ product.review_count }})</span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if show_price %}
+                        <div class="product-price">
+                            {% if product.sale_price %}
+                                <span class="price-regular crossed">{{ product.regular_price|number_format(2) }}</span>
+                                <span class="price-sale">{{ product.sale_price|number_format(2) }}</span>
+                            {% else %}
+                                <span class="price-regular">{{ product.price|number_format(2) }}</span>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </a>
+            
+            {% if show_add_to_cart %}
+                <button class="add-to-cart" data-product-id="{{ product.id }}">
+                    Add to Cart
+                </button>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="no-products">
+            <p>No products found.</p>
+        </div>
+    {% endfor %}
+</div>
+
+<style>
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat({{ columns }}, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-image-wrapper {
+    position: relative;
+    padding-top: 100%; /* 1:1 aspect ratio */
+    overflow: hidden;
+}
+
+.product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+.product-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background: #dc3545;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.product-info {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.star {
+    color: #ddd;
+    margin-right: 2px;
+}
+
+.star.filled {
+    color: #ffc107;
+}
+
+.rating-count {
+    margin-left: 5px;
+    color: #666;
+}
+
+.product-price {
+    margin-top: auto;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.price-regular.crossed {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.add-to-cart:hover {
+    background: #0056b3;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .product-grid[data-columns="6"],
+    .product-grid[data-columns="5"],
+    .product-grid[data-columns="4"] {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productId = this.getAttribute('data-product-id');
+            const originalText = this.textContent;
+            
+            // Show loading state
+            this.textContent = 'Adding...';
+            this.disabled = true;
+            
+            // Simulate AJAX request
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('[name="_csrf_token"]')?.value || ''
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.textContent = 'Added!';
+                this.classList.add('success');
+                
+                // Update cart count
+                const cartCount = document.querySelector('.cart-count');
+                if (cartCount && data.cart_count) {
+                    cartCount.textContent = data.cart_count;
+                }
+                
+                // Reset button
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.disabled = false;
+                    this.classList.remove('success');
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                this.textContent = 'Error';
+                this.classList.add('error');
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.disabled = false;
+                    this.classList.remove('error');
+                }, 2000);
+            });
+        });
+    });
+});
+</script>

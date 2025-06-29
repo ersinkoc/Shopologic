@@ -1,0 +1,317 @@
+{
+    "name": "Product Reviews & Ratings",
+    "version": "1.0.0",
+    "description": "Add customer reviews and ratings to products with moderation, rich snippets, email notifications, and review incentives",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com",
+        "url": "https://shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/reviews-ratings",
+    "keywords": ["reviews", "ratings", "feedback", "testimonials", "ugc"],
+    "requirements": {
+        "php_version": ">=8.1",
+        "core_version": ">=1.0.0",
+        "dependencies": {
+            "core-commerce": ">=1.0.0"
+        }
+    },
+    "provides": [
+        "ReviewsInterface",
+        "RatingsInterface"
+    ],
+    "autoload": {
+        "psr-4": {
+            "ReviewsRatings\\": "src/"
+        }
+    },
+    "config": {
+        "main_class": "ReviewsRatings\\ReviewsPlugin",
+        "namespace": "ReviewsRatings"
+    },
+    "permissions": [
+        "reviews.view",
+        "reviews.create",
+        "reviews.moderate",
+        "reviews.delete",
+        "reviews.respond"
+    ],
+    "hooks": [
+        {
+            "hook": "product.display",
+            "handler": "displayProductReviews",
+            "priority": 20
+        },
+        {
+            "hook": "product.schema",
+            "handler": "addReviewSchema",
+            "priority": 10
+        },
+        {
+            "hook": "order.completed",
+            "handler": "scheduleReviewRequest",
+            "priority": 30
+        },
+        {
+            "hook": "admin.menu",
+            "handler": "addAdminMenu",
+            "priority": 50
+        }
+    ],
+    "api_endpoints": [
+        {
+            "method": "GET",
+            "path": "/api/v1/products/{id}/reviews",
+            "handler": "Controllers\\ReviewController@getProductReviews",
+            "auth": false
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/products/{id}/reviews",
+            "handler": "Controllers\\ReviewController@createReview",
+            "auth": true
+        },
+        {
+            "method": "PUT",
+            "path": "/api/v1/reviews/{id}",
+            "handler": "Controllers\\ReviewController@updateReview",
+            "auth": true
+        },
+        {
+            "method": "DELETE",
+            "path": "/api/v1/reviews/{id}",
+            "handler": "Controllers\\ReviewController@deleteReview",
+            "auth": true
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/reviews/{id}/helpful",
+            "handler": "Controllers\\ReviewController@markHelpful",
+            "auth": false
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/reviews/{id}/report",
+            "handler": "Controllers\\ReviewController@reportReview",
+            "auth": false
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/reviews/{id}/response",
+            "handler": "Controllers\\ReviewController@respondToReview",
+            "auth": true,
+            "permission": "reviews.respond"
+        }
+    ],
+    "database_tables": [
+        "reviews",
+        "review_votes",
+        "review_reports",
+        "review_responses",
+        "review_invitations"
+    ],
+    "assets": {
+        "js": [
+            {
+                "src": "assets/js/reviews-widget.js",
+                "position": "footer",
+                "pages": ["product"]
+            },
+            {
+                "src": "assets/js/review-form.js",
+                "position": "footer",
+                "pages": ["account", "product"]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets/css/reviews.css",
+                "pages": ["product", "account"]
+            },
+            {
+                "src": "assets/css/star-rating.css",
+                "pages": ["all"]
+            }
+        ]
+    },
+    "templates": [
+        {
+            "name": "review-widget",
+            "file": "templates/review-widget.twig"
+        },
+        {
+            "name": "review-form",
+            "file": "templates/review-form.twig"
+        },
+        {
+            "name": "email-review-request",
+            "file": "templates/emails/review-request.twig"
+        }
+    ],
+    "config_schema": {
+        "enable_reviews": {
+            "type": "boolean",
+            "label": "Enable Reviews",
+            "description": "Allow customers to leave reviews",
+            "default": true
+        },
+        "enable_ratings": {
+            "type": "boolean",
+            "label": "Enable Ratings",
+            "description": "Allow star ratings without requiring written reviews",
+            "default": true
+        },
+        "rating_scale": {
+            "type": "select",
+            "label": "Rating Scale",
+            "default": "5",
+            "options": {
+                "5": "5 Stars",
+                "10": "10 Stars",
+                "100": "100 Points"
+            }
+        },
+        "require_purchase": {
+            "type": "boolean",
+            "label": "Require Purchase",
+            "description": "Only allow reviews from verified purchasers",
+            "default": true
+        },
+        "moderation_mode": {
+            "type": "select",
+            "label": "Moderation Mode",
+            "default": "auto",
+            "options": {
+                "auto": "Auto-approve (with spam filtering)",
+                "manual": "Manual approval required",
+                "none": "No moderation"
+            }
+        },
+        "allow_anonymous": {
+            "type": "boolean",
+            "label": "Allow Anonymous Reviews",
+            "description": "Allow reviewers to post anonymously",
+            "default": false
+        },
+        "review_request_delay": {
+            "type": "number",
+            "label": "Review Request Delay (days)",
+            "description": "Days after order completion to send review request",
+            "default": 14,
+            "min": 1,
+            "max": 90
+        },
+        "enable_rich_snippets": {
+            "type": "boolean",
+            "label": "Enable Rich Snippets",
+            "description": "Add structured data for search engines",
+            "default": true
+        },
+        "enable_media_uploads": {
+            "type": "boolean",
+            "label": "Enable Photo/Video Uploads",
+            "description": "Allow customers to upload photos and videos with reviews",
+            "default": true
+        },
+        "max_media_files": {
+            "type": "number",
+            "label": "Max Media Files",
+            "description": "Maximum number of photos/videos per review",
+            "default": 5,
+            "min": 1,
+            "max": 10,
+            "depends_on": {
+                "enable_media_uploads": true
+            }
+        },
+        "incentive_enabled": {
+            "type": "boolean",
+            "label": "Enable Review Incentives",
+            "description": "Reward customers for leaving reviews",
+            "default": false
+        },
+        "incentive_type": {
+            "type": "select",
+            "label": "Incentive Type",
+            "default": "points",
+            "options": {
+                "points": "Loyalty Points",
+                "discount": "Discount Code",
+                "credit": "Store Credit"
+            },
+            "depends_on": {
+                "incentive_enabled": true
+            }
+        },
+        "incentive_amount": {
+            "type": "number",
+            "label": "Incentive Amount",
+            "description": "Points, percentage, or credit amount",
+            "default": 100,
+            "depends_on": {
+                "incentive_enabled": true
+            }
+        },
+        "spam_keywords": {
+            "type": "textarea",
+            "label": "Spam Keywords",
+            "description": "Comma-separated list of keywords to flag as spam",
+            "default": "viagra,casino,lottery,click here",
+            "rows": 3
+        },
+        "min_review_length": {
+            "type": "number",
+            "label": "Minimum Review Length",
+            "description": "Minimum characters required for written reviews",
+            "default": 20,
+            "min": 0,
+            "max": 500
+        },
+        "enable_qa": {
+            "type": "boolean",
+            "label": "Enable Q&A Section",
+            "description": "Allow customers to ask and answer questions",
+            "default": true
+        }
+    },
+    "widgets": [
+        {
+            "id": "recent_reviews",
+            "name": "Recent Reviews",
+            "description": "Display recent customer reviews",
+            "position": "dashboard",
+            "permissions": ["reviews.view"]
+        },
+        {
+            "id": "review_stats",
+            "name": "Review Statistics",
+            "description": "Overview of review metrics",
+            "position": "dashboard",
+            "permissions": ["reviews.view"]
+        }
+    ],
+    "cron_jobs": [
+        {
+            "schedule": "0 10 * * *",
+            "handler": "sendReviewRequests",
+            "description": "Send review request emails daily"
+        },
+        {
+            "schedule": "0 */6 * * *",
+            "handler": "calculateRatings",
+            "description": "Recalculate product ratings"
+        }
+    ],
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Product reviews and ratings",
+            "Review moderation system",
+            "Rich snippets support",
+            "Review incentives",
+            "Media uploads",
+            "Q&A functionality"
+        ]
+    }
+}

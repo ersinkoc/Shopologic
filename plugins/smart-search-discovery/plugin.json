@@ -1,0 +1,47 @@
+{
+    "name": "smart-search-discovery",
+    "version": "1.0.0",
+    "description": "AI-powered search with natural language processing, visual search, voice search, and intelligent product discovery",
+    "author": "Shopologic",
+    "namespace": "SmartSearchDiscovery",
+    "class": "SmartSearchDiscovery\\SmartSearchDiscoveryPlugin",
+    "permissions": [
+        "hooks.search.*",
+        "hooks.product.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "search.analytics.view",
+        "search.configuration.manage"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "search_features": ["nlp", "visual", "voice", "semantic", "faceted"],
+        "ai_models": ["bert", "clip", "whisper"]
+    },
+    "hooks": [
+        "search.query",
+        "search.results",
+        "product.discovery",
+        "user.search_behavior",
+        "content.index"
+    ],
+    "api_endpoints": [
+        "POST /api/v1/search/query",
+        "POST /api/v1/search/visual",
+        "POST /api/v1/search/voice",
+        "GET /api/v1/search/suggestions",
+        "GET /api/v1/search/analytics"
+    ],
+    "cron_jobs": [
+        "0 */2 * * * - update_search_index",
+        "0 1 * * * - train_search_models",
+        "0 */4 * * * - analyze_search_patterns",
+        "0 3 * * SUN - optimize_search_relevance"
+    ]
+}

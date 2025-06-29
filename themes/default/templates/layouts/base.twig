@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="{{ app.locale|default('en') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>{% block title %}{{ page_title|default('Welcome') }} - {{ site_name|default('Shopologic') }}{% endblock %}</title>
+    
+    {% block meta %}
+        <meta name="description" content="{{ page_description|default('') }}">
+        <meta name="keywords" content="{{ page_keywords|default('') }}">
+    {% endblock %}
+    
+    {# Open Graph #}
+    <meta property="og:title" content="{{ block('title') }}">
+    <meta property="og:description" content="{{ page_description|default('') }}">
+    <meta property="og:image" content="{{ page_image|default('') }}">
+    <meta property="og:url" content="{{ app.request.url }}">
+    
+    {# Favicon #}
+    <link rel="icon" type="image/x-icon" href="{{ theme_asset('favicon.ico') }}">
+    
+    {# Styles #}
+    {% block styles %}
+        {{ render_styles() }}
+    {% endblock %}
+    
+    {# Head Scripts #}
+    {{ render_scripts('head') }}
+    
+    {# Hook: wp_head equivalent #}
+    {{ do_action('theme_head') }}
+</head>
+<body class="{% block body_class %}page{% endblock %}" {{ editable_region('body') }}>
+    {{ do_action('theme_body_open') }}
+    
+    <div class="site-wrapper">
+        {# Header #}
+        {% block header %}
+            <header class="site-header" {{ editable_region('header') }}>
+                {% include '@theme/partials/header.twig' %}
+            </header>
+        {% endblock %}
+        
+        {# Main Content #}
+        <main class="site-main">
+            {{ do_action('theme_content_before') }}
+            
+            {% block content %}
+                {# Page content goes here #}
+            {% endblock %}
+            
+            {{ do_action('theme_content_after') }}
+        </main>
+        
+        {# Footer #}
+        {% block footer %}
+            <footer class="site-footer" {{ editable_region('footer') }}>
+                {% include '@theme/partials/footer.twig' %}
+            </footer>
+        {% endblock %}
+    </div>
+    
+    {# Scripts #}
+    {% block scripts %}
+        {{ render_scripts() }}
+    {% endblock %}
+    
+    {# Hook: wp_footer equivalent #}
+    {{ do_action('theme_footer') }}
+</body>
+</html>

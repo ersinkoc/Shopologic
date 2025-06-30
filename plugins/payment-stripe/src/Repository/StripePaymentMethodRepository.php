@@ -8,8 +8,7 @@ use Shopologic\Core\Database\DB;
 use Shopologic\Plugins\PaymentStripe\Models\StripePaymentMethod;
 use Illuminate\Support\Collection;
 
-class StripePaymentMethodRepository
-{
+class StripePaymentMethodRepository\n{
     /**
      * Create a new payment method
      */

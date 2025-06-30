@@ -2,9 +2,25 @@
     "name": "enterprise-supply-chain-management",
     "version": "1.0.0",
     "description": "Advanced supply chain management with end-to-end visibility, supplier relationship management, logistics optimization, and blockchain traceability",
-    "author": "Shopologic",
-    "namespace": "EnterpriseSupplyChainManagement",
-    "class": "EnterpriseSupplyChainManagement\\EnterpriseSupplyChainManagementPlugin",
+    "author": {
+        "name": "Shopologic"
+    },
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/core": "^1.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\EnterpriseSupplyChainManagement\\": "src/"
+        }
+    },
+    "bootstrap": {
+        "class": "EnterpriseSupplyChainManagementPlugin",
+        "file": "EnterpriseSupplyChainManagementPlugin.php"
+    },
     "permissions": [
         "hooks.supply_chain.*",
         "hooks.logistics.*",
@@ -14,34 +30,78 @@
         "supply_chain.manage",
         "logistics.optimize"
     ],
-    "dependencies": {
-        "shopologic/core": "^1.0"
+    "hooks": {
+        "actions": [
+            "supply_chain.shipment_created",
+            "supplier.performance_updated",
+            "logistics.route_optimized",
+            "supply_chain.disruption_detected",
+            "blockchain.transaction_recorded"
+        ]
     },
-    "settings": {
-        "configurable": true,
-        "api_enabled": true,
-        "widget_enabled": true,
-        "features": ["supplier_management", "logistics_optimization", "traceability", "risk_management"],
-        "integrations": ["blockchain", "iot_sensors", "ai_optimization", "third_party_logistics"]
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/supply-chain/overview",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/suppliers/evaluate",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/logistics/optimize-routes",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/supply-chain/trace-product",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/supply-chain/risk-assessment",
+                "handler": "handleGet"
+            }
+        ]
     },
-    "hooks": [
-        "supply_chain.shipment_created",
-        "supplier.performance_updated",
-        "logistics.route_optimized",
-        "supply_chain.disruption_detected",
-        "blockchain.transaction_recorded"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/supply-chain/overview",
-        "POST /api/v1/suppliers/evaluate",
-        "GET /api/v1/logistics/optimize-routes",
-        "POST /api/v1/supply-chain/trace-product",
-        "GET /api/v1/supply-chain/risk-assessment"
-    ],
-    "cron_jobs": [
+    "config": {
+        "schema": {
+            "configurable": {
+                "type": "boolean",
+                "default": true
+            },
+            "api_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "widget_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "features": [
+                "supplier_management",
+                "logistics_optimization",
+                "traceability",
+                "risk_management"
+            ],
+            "integrations": [
+                "blockchain",
+                "iot_sensors",
+                "ai_optimization",
+                "third_party_logistics"
+            ]
+        }
+    },
+    "scheduled_tasks": [
         "0 */6 * * * - monitor_supply_chain_health",
         "0 2 * * * - optimize_logistics_routes",
         "0 3 * * * - update_supplier_performance",
         "0 4 * * * - assess_supply_chain_risks"
-    ]
+    ],
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/enterprise-supply-chain-management"
 }

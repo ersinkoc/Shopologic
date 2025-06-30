@@ -1,5 +1,10 @@
 <?php
 
+
+declare(strict_types=1);
+
+namespace Shopologic\Plugins\EnterpriseSupplyChainManagement;
+declare(strict_types=1);
 use Shopologic\Database\Migration;
 use Shopologic\Database\Schema;
 

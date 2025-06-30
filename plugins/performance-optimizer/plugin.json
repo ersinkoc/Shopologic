@@ -1,0 +1,175 @@
+{
+    "name": "Performance Optimizer",
+    "version": "1.0.0",
+    "description": "Comprehensive performance optimization with intelligent caching, database optimization, asset optimization, and real-time monitoring for maximum e-commerce performance",
+    "author": {
+        "name": "Shopologic Team"
+    },
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/core": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\PerformanceOptimizer\\": "src/"
+        }
+    },
+    "bootstrap": {
+        "file": "PerformanceOptimizerPlugin.php",
+        "class": "PerformanceOptimizerPlugin"
+    },
+    "permissions": [
+        "performance.view_metrics",
+        "performance.manage_cache",
+        "performance.optimize_database",
+        "performance.configure_cdn",
+        "performance.view_reports",
+        "performance.manage_settings"
+    ],
+    "hooks": {
+        "actions": [
+            "app.before_render",
+            "app.after_render",
+            "cache.before_clear",
+            "database.slow_query",
+            "asset.before_serve",
+            "performance.threshold_exceeded"
+        ],
+        "filters": [
+            "response.headers",
+            "database.query",
+            "cache.ttl",
+            "asset.url",
+            "html.output",
+            "api.response"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/performance/metrics",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/performance/metrics/{metric_type}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/performance/cache/clear",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/performance/cache/warm",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/performance/database/slow-queries",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/performance/database/optimize",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/performance/assets/report",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/performance/assets/optimize",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/performance/monitoring/realtime",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/performance/reports/{report_type}",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "cache": {
+                "default_ttl": 3600,
+                "page_cache": true,
+                "api_cache": true,
+                "query_cache": true,
+                "object_cache": true
+            },
+            "optimization": {
+                "minify_html": true,
+                "minify_css": true,
+                "minify_js": true,
+                "optimize_images": true,
+                "lazy_load_images": true
+            },
+            "monitoring": {
+                "enable_profiling": true,
+                "slow_query_threshold": 1000,
+                "performance_threshold": {
+                    "page_load": 3000,
+                    "api_response": 500,
+                    "database_query": 100
+                }
+            },
+            "cdn": {
+                "enabled": false,
+                "provider": null,
+                "static_assets": true,
+                "dynamic_content": false
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "performance-metrics-widget",
+            "title": "Real-time Performance Metrics",
+            "position": "top",
+            "priority": 5
+        },
+        {
+            "id": "performance-dashboard-widget",
+            "title": "Performance Dashboard",
+            "position": "main",
+            "priority": 30
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*/5 * * * *",
+            "description": "Collect performance metrics"
+        },
+        {
+            "schedule": "0 * * * *",
+            "description": "Analyze slow queries"
+        },
+        {
+            "schedule": "0 3 * * *",
+            "description": "Optimize database tables"
+        },
+        {
+            "schedule": "0 4 * * *",
+            "description": "Clean expired cache entries"
+        },
+        {
+            "schedule": "0 2 * * SUN",
+            "description": "Generate weekly performance report"
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/performance-optimizer"
+}

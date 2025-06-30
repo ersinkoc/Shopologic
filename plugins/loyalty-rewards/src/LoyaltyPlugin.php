@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace LoyaltyRewards;
+namespace Shopologic\Plugins\LoyaltyRewards;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\PluginInterface;
@@ -674,5 +674,21 @@ class LoyaltyPlugin extends AbstractPlugin implements PluginInterface
                 $this->setConfig($key, $value);
             }
         }
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

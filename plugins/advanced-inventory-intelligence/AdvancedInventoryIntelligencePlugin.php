@@ -1,6 +1,7 @@
 <?php
 
-namespace AdvancedInventoryIntelligence;
+declare(strict_types=1);
+namespace Shopologic\Plugins\AdvancedInventoryIntelligence;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Hook\HookSystem;
@@ -441,7 +442,7 @@ class AdvancedInventoryIntelligencePlugin extends AbstractPlugin implements Widg
                 
                 $this->storeForecast($product->id, $forecast);
                 
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Forecast generation failed', [
                     'product_id' => $product->id,
                     'error' => $e->getMessage()
@@ -469,7 +470,7 @@ class AdvancedInventoryIntelligencePlugin extends AbstractPlugin implements Widg
                 if ($reorderRecommendation['confidence'] > 0.8) {
                     $this->processAutoReorder($candidate->product_id, $reorderRecommendation);
                 }
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Auto-reorder failed', [
                     'product_id' => $candidate->product_id,
                     'error' => $e->getMessage()
@@ -618,5 +619,29 @@ class AdvancedInventoryIntelligencePlugin extends AbstractPlugin implements Widg
         ];
         
         return $key ? ($config[$key] ?? $default) : $config;
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

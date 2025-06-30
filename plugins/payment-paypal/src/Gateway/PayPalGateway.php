@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PayPalPayment\Gateway;
+namespace Shopologic\Plugins\PaymentPaypal\Gateway;
 
 use Core\Payment\PaymentGatewayInterface;
 use Core\Payment\PaymentResult;
@@ -95,7 +95,7 @@ class PayPalGateway implements PaymentGatewayInterface
                 'error_code' => $e->getCode(),
                 'error_details' => $e->getDetails()
             ]);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return PaymentResult::failed(
                 'An unexpected error occurred: ' . $e->getMessage()
             );
@@ -161,7 +161,7 @@ class PayPalGateway implements PaymentGatewayInterface
                 'links' => $result['links'] ?? []
             ];
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return [
                 'success' => false,
                 'error' => $e->getMessage()
@@ -202,7 +202,7 @@ class PayPalGateway implements PaymentGatewayInterface
                 'Refund failed: ' . ($result['message'] ?? 'Unknown error')
             );
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return PaymentResult::failed(
                 'Refund error: ' . $e->getMessage()
             );
@@ -220,7 +220,7 @@ class PayPalGateway implements PaymentGatewayInterface
                 $headers,
                 $body
             );
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return false;
         }
     }

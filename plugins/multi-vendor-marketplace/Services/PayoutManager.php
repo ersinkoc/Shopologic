@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace MultiVendorMarketplace\Services;
 
 use Shopologic\Core\Services\BaseService;
@@ -113,7 +115,7 @@ class PayoutManager extends BaseService
                     'status' => 'success'
                 ];
                 
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $results['failed']++;
                 $results['vendors'][] = [
                     'vendor_id' => $vendor['id'],
@@ -192,7 +194,7 @@ class PayoutManager extends BaseService
                 'commission_count' => count($commissions)
             ];
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             // Update payout status to failed
             $this->updatePayoutStatus($payoutId, 'failed', null, $e->getMessage());
             

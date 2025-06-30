@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Api;
+namespace Shopologic\Plugins\ShippingFedex\Api;
 
 use Shopologic\Core\Http\Request;
 use Shopologic\Core\Http\JsonResponse;
@@ -68,7 +68,7 @@ class FedExApiController extends ApiController
                 'package_count' => count($validated['packages'])
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 400);
         }
     }
@@ -119,7 +119,7 @@ class FedExApiController extends ApiController
                 'estimated_delivery' => $response->getEstimatedDelivery()
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -147,7 +147,7 @@ class FedExApiController extends ApiController
                 'events' => $response->getEvents()
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -197,7 +197,7 @@ class FedExApiController extends ApiController
                 'pickup_charge' => $response->getPickupCharge()
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -227,7 +227,7 @@ class FedExApiController extends ApiController
                 'errors' => $response->getErrors()
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -244,7 +244,7 @@ class FedExApiController extends ApiController
                 'services' => $services
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -270,7 +270,7 @@ class FedExApiController extends ApiController
 
             return $this->respondWithSuccess($config);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -307,7 +307,7 @@ class FedExApiController extends ApiController
 
             return $this->respondWithSuccess(['message' => 'Settings updated successfully']);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -338,7 +338,7 @@ class FedExApiController extends ApiController
                 'environment' => $this->container->get('config')->get('fedex.environment', 'sandbox')
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError('Connection failed: ' . $e->getMessage(), 500);
         }
     }

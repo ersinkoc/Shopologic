@@ -9,8 +9,7 @@ use Shopologic\Plugins\PaymentStripe\Repository\StripeCustomerRepository;
 use Shopologic\Plugins\PaymentStripe\Repository\StripePaymentMethodRepository;
 use Illuminate\Support\Collection;
 
-class StripePaymentMethodService
-{
+class StripePaymentMethodService\n{
     private StripeClient $client;
     private StripeCustomerRepository $customerRepository;
     private StripePaymentMethodRepository $methodRepository;
@@ -61,7 +60,7 @@ class StripePaymentMethodService
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('Failed to attach payment method', [
                 'payment_method_id' => $paymentMethodId,
                 'customer_id' => $customer->id,
@@ -92,7 +91,7 @@ class StripePaymentMethodService
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('Failed to detach payment method', [
                 'payment_method_id' => $paymentMethodId,
                 'error' => $e->getMessage()
@@ -129,7 +128,7 @@ class StripePaymentMethodService
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('Failed to set default payment method', [
                 'payment_method_id' => $paymentMethodId,
                 'error' => $e->getMessage()

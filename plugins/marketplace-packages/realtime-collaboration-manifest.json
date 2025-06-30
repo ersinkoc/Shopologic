@@ -1,0 +1,621 @@
+{
+    "package_info": {
+        "name": "realtime-collaboration",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:11",
+        "package_size": 25411,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "realtime-collaboration",
+        "version": "1.0.0",
+        "description": "Enterprise real-time collaboration suite with WebSocket\/WebRTC support, live cursors, collaborative editing, presence awareness, screen sharing, voice\/video chat, and activity feeds",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/realtime-collaboration",
+        "keywords": [
+            "collaboration",
+            "realtime",
+            "websocket",
+            "webrtc",
+            "live-editing",
+            "presence",
+            "screen-sharing",
+            "video-chat"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/websocket": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\RealtimeCollaboration\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "RealtimeCollaborationPlugin",
+            "file": "src\/RealtimeCollaborationPlugin.php"
+        },
+        "provides": [
+            "CollaborationInterface",
+            "PresenceInterface",
+            "WebRTCInterface",
+            "RealtimeStorageInterface"
+        ],
+        "permissions": [
+            "collaboration.access",
+            "collaboration.create_rooms",
+            "collaboration.manage_rooms",
+            "collaboration.screen_share",
+            "collaboration.voice_chat",
+            "collaboration.video_chat",
+            "collaboration.moderate",
+            "collaboration.view_analytics",
+            "collaboration.export_sessions"
+        ],
+        "hooks": {
+            "actions": [
+                "collaboration.room_created",
+                "collaboration.user_joined",
+                "collaboration.user_left",
+                "collaboration.content_changed",
+                "collaboration.screen_shared",
+                "collaboration.call_started",
+                "collaboration.call_ended",
+                "collaboration.message_sent"
+            ],
+            "filters": [
+                "collaboration.permissions",
+                "collaboration.room_settings",
+                "collaboration.user_capabilities",
+                "collaboration.content_sync",
+                "collaboration.presence_data"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/collaboration\/rooms",
+                    "handler": "Controllers\\RoomController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/collaboration\/rooms",
+                    "handler": "Controllers\\RoomController@create",
+                    "auth": true,
+                    "permission": "collaboration.create_rooms"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/collaboration\/rooms\/{id}",
+                    "handler": "Controllers\\RoomController@show",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/collaboration\/rooms\/{id}\/join",
+                    "handler": "Controllers\\RoomController@join",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/collaboration\/rooms\/{id}\/leave",
+                    "handler": "Controllers\\RoomController@leave",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/collaboration\/rooms\/{id}\/presence",
+                    "handler": "Controllers\\PresenceController@getRoomPresence",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/collaboration\/presence\/update",
+                    "handler": "Controllers\\PresenceController@updatePresence",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/collaboration\/webrtc\/signal",
+                    "handler": "Controllers\\WebRTCController@signal",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/collaboration\/webrtc\/ice",
+                    "handler": "Controllers\\WebRTCController@ice",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/collaboration\/activity",
+                    "handler": "Controllers\\ActivityController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/collaboration\/broadcast",
+                    "handler": "Controllers\\BroadcastController@send",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/collaboration\/analytics",
+                    "handler": "Controllers\\AnalyticsController@index",
+                    "auth": true,
+                    "permission": "collaboration.view_analytics"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/ws\/collaboration",
+                    "handler": "Controllers\\WebSocketController@handle",
+                    "auth": false
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "collaboration_rooms",
+                "collaboration_room_users",
+                "collaboration_presence",
+                "collaboration_cursors",
+                "collaboration_activities",
+                "collaboration_messages",
+                "collaboration_documents",
+                "collaboration_document_ops",
+                "collaboration_webrtc_sessions",
+                "collaboration_recordings",
+                "collaboration_analytics"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/collaboration-core.js",
+                    "position": "footer",
+                    "pages": [
+                        "all"
+                    ],
+                    "deps": [
+                        "jquery"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/websocket-client.js",
+                    "position": "footer",
+                    "pages": [
+                        "all"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/presence-manager.js",
+                    "position": "footer",
+                    "pages": [
+                        "all"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/collaborative-editor.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin",
+                        "editor"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/webrtc-handler.js",
+                    "position": "footer",
+                    "pages": [
+                        "all"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/screen-share.js",
+                    "position": "footer",
+                    "pages": [
+                        "all"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/collaboration.css",
+                    "pages": [
+                        "all"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/presence-indicators.css",
+                    "pages": [
+                        "all"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/video-chat.css",
+                    "pages": [
+                        "all"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "websocket_server": {
+                    "type": "string",
+                    "label": "WebSocket Server URL",
+                    "default": "ws:\/\/localhost:8080",
+                    "required": true
+                },
+                "enable_presence": {
+                    "type": "boolean",
+                    "label": "Enable Presence Awareness",
+                    "default": true,
+                    "description": "Show online users and their activities"
+                },
+                "presence_timeout": {
+                    "type": "number",
+                    "label": "Presence Timeout (seconds)",
+                    "default": 30,
+                    "min": 10,
+                    "max": 300
+                },
+                "enable_cursors": {
+                    "type": "boolean",
+                    "label": "Enable Live Cursors",
+                    "default": true,
+                    "description": "Show other users' cursor positions"
+                },
+                "cursor_colors": {
+                    "type": "array",
+                    "label": "Cursor Colors",
+                    "default": [
+                        "#FF6B6B",
+                        "#4ECDC4",
+                        "#45B7D1",
+                        "#96CEB4",
+                        "#FECA57",
+                        "#FF9FF3",
+                        "#54A0FF",
+                        "#48DBFB"
+                    ]
+                },
+                "enable_voice_chat": {
+                    "type": "boolean",
+                    "label": "Enable Voice Chat",
+                    "default": true
+                },
+                "enable_video_chat": {
+                    "type": "boolean",
+                    "label": "Enable Video Chat",
+                    "default": true
+                },
+                "enable_screen_sharing": {
+                    "type": "boolean",
+                    "label": "Enable Screen Sharing",
+                    "default": true
+                },
+                "webrtc_config": {
+                    "type": "object",
+                    "label": "WebRTC Configuration",
+                    "default": {
+                        "iceServers": [
+                            {
+                                "urls": "stun:stun.l.google.com:19302"
+                            }
+                        ]
+                    }
+                },
+                "max_room_participants": {
+                    "type": "number",
+                    "label": "Maximum Room Participants",
+                    "default": 50,
+                    "min": 2,
+                    "max": 200
+                },
+                "enable_recording": {
+                    "type": "boolean",
+                    "label": "Enable Session Recording",
+                    "default": false
+                },
+                "recording_format": {
+                    "type": "select",
+                    "label": "Recording Format",
+                    "default": "webm",
+                    "options": {
+                        "webm": "WebM",
+                        "mp4": "MP4",
+                        "mkv": "MKV"
+                    },
+                    "depends_on": {
+                        "enable_recording": true
+                    }
+                },
+                "enable_collaborative_editing": {
+                    "type": "boolean",
+                    "label": "Enable Collaborative Editing",
+                    "default": true
+                },
+                "conflict_resolution": {
+                    "type": "select",
+                    "label": "Conflict Resolution Strategy",
+                    "default": "ot",
+                    "options": {
+                        "ot": "Operational Transform",
+                        "crdt": "CRDT (Conflict-free Replicated Data Type)",
+                        "manual": "Manual Resolution"
+                    }
+                },
+                "sync_interval": {
+                    "type": "number",
+                    "label": "Sync Interval (ms)",
+                    "default": 100,
+                    "min": 50,
+                    "max": 1000
+                },
+                "enable_activity_feed": {
+                    "type": "boolean",
+                    "label": "Enable Activity Feed",
+                    "default": true
+                },
+                "activity_retention_days": {
+                    "type": "number",
+                    "label": "Activity Retention (days)",
+                    "default": 30,
+                    "min": 1,
+                    "max": 365
+                },
+                "enable_notifications": {
+                    "type": "boolean",
+                    "label": "Enable Real-time Notifications",
+                    "default": true
+                },
+                "notification_types": {
+                    "type": "multiselect",
+                    "label": "Enabled Notifications",
+                    "default": [
+                        "user_joined",
+                        "user_left",
+                        "mention",
+                        "content_changed"
+                    ],
+                    "options": {
+                        "user_joined": "User Joined",
+                        "user_left": "User Left",
+                        "mention": "Mentions",
+                        "content_changed": "Content Changes",
+                        "call_started": "Call Started",
+                        "screen_shared": "Screen Shared",
+                        "typing": "Typing Indicators"
+                    }
+                },
+                "enable_chat": {
+                    "type": "boolean",
+                    "label": "Enable Text Chat",
+                    "default": true
+                },
+                "chat_history_limit": {
+                    "type": "number",
+                    "label": "Chat History Limit",
+                    "default": 1000,
+                    "min": 100,
+                    "max": 10000
+                },
+                "enable_file_sharing": {
+                    "type": "boolean",
+                    "label": "Enable File Sharing",
+                    "default": true
+                },
+                "max_file_size": {
+                    "type": "number",
+                    "label": "Max File Size (MB)",
+                    "default": 100,
+                    "min": 1,
+                    "max": 1000
+                },
+                "allowed_file_types": {
+                    "type": "array",
+                    "label": "Allowed File Types",
+                    "default": [
+                        "jpg",
+                        "jpeg",
+                        "png",
+                        "gif",
+                        "pdf",
+                        "doc",
+                        "docx",
+                        "xls",
+                        "xlsx",
+                        "ppt",
+                        "pptx",
+                        "txt",
+                        "csv",
+                        "zip"
+                    ]
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "active_collaborations",
+                "name": "Active Collaborations",
+                "description": "Currently active collaboration sessions",
+                "position": "dashboard",
+                "permissions": [
+                    "collaboration.access"
+                ]
+            },
+            {
+                "id": "collaboration_stats",
+                "name": "Collaboration Statistics",
+                "description": "Usage statistics and metrics",
+                "position": "dashboard",
+                "permissions": [
+                    "collaboration.view_analytics"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "cleanupInactiveSessions",
+                "description": "Clean up inactive collaboration sessions"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "processRecordings",
+                "description": "Process and compress recordings"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "generateAnalytics",
+                "description": "Generate collaboration analytics"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "cleanupOldActivities",
+                "description": "Clean up old activity logs"
+            }
+        ],
+        "channels": {
+            "room": {
+                "events": [
+                    "user.joined",
+                    "user.left",
+                    "user.typing",
+                    "cursor.moved",
+                    "content.changed",
+                    "selection.changed"
+                ]
+            },
+            "presence": {
+                "events": [
+                    "status.changed",
+                    "activity.updated",
+                    "location.changed"
+                ]
+            },
+            "webrtc": {
+                "events": [
+                    "offer",
+                    "answer",
+                    "ice.candidate",
+                    "stream.added",
+                    "stream.removed"
+                ]
+            },
+            "document": {
+                "events": [
+                    "operation.applied",
+                    "sync.requested",
+                    "conflict.detected",
+                    "version.updated"
+                ]
+            }
+        },
+        "features": {
+            "collaborative_editing": {
+                "supported_formats": [
+                    "text",
+                    "markdown",
+                    "html",
+                    "json",
+                    "code"
+                ],
+                "max_document_size": "10MB",
+                "version_history": true,
+                "auto_save": true
+            },
+            "presence_awareness": {
+                "indicators": [
+                    "online",
+                    "away",
+                    "busy",
+                    "offline"
+                ],
+                "custom_status": true,
+                "location_tracking": true,
+                "activity_tracking": true
+            },
+            "webrtc_capabilities": {
+                "audio": true,
+                "video": true,
+                "screen_share": true,
+                "data_channels": true,
+                "max_peers": 25
+            },
+            "real_time_sync": {
+                "methods": [
+                    "websocket",
+                    "sse",
+                    "long_polling"
+                ],
+                "compression": true,
+                "encryption": true,
+                "reconnection": true
+            }
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "WebSocket-based real-time sync",
+                "Collaborative editing with OT\/CRDT",
+                "Presence awareness system",
+                "Live cursor tracking",
+                "WebRTC voice\/video chat",
+                "Screen sharing capability",
+                "Activity feed and notifications",
+                "Text chat with history",
+                "File sharing support",
+                "Session recording",
+                "Analytics dashboard",
+                "Multi-room support",
+                "Permission management",
+                "Conflict resolution"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "enterprise",
+            "real-time"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "B",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

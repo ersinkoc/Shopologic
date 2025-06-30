@@ -6,58 +6,101 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "JourneyAnalytics\\JourneyAnalyticsPlugin", 
-    "file": "JourneyAnalyticsPlugin.php",
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "JourneyAnalyticsPlugin",
+        "file": "JourneyAnalyticsPlugin.php"
     },
     "permissions": [
         "customers.read",
-        "orders.read", 
+        "orders.read",
         "analytics.write",
         "hooks.*"
     ],
-    "hooks": [
-        "page.viewed",
-        "product.viewed", 
-        "cart.item_added",
-        "order.completed",
-        "customer.searched"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/analytics/journey/{customer_id}",
-        "GET /api/v1/analytics/funnel",
-        "GET /api/v1/analytics/heatmap",
-        "GET /api/v1/analytics/segments"
-    ],
-    "database_tables": [
-        "customer_journeys",
-        "journey_touchpoints",
-        "conversion_funnels",
-        "behavior_segments",
-        "journey_analytics"
-    ],
-    "config_schema": {
-        "track_anonymous_users": {
-            "type": "boolean",
-            "default": true,
-            "description": "Track anonymous visitor behavior"
-        },
-        "session_timeout": {
-            "type": "number",
-            "default": 30,
-            "min": 15,
-            "max": 120,
-            "description": "Session timeout in minutes"
-        },
-        "enable_heatmaps": {
-            "type": "boolean",
-            "default": true,
-            "description": "Generate behavior heatmaps"
-        }
+    "hooks": {
+        "actions": [
+            "page.viewed",
+            "product.viewed",
+            "cart.item_added",
+            "order.completed",
+            "customer.searched"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/analytics/journey/{customer_id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/analytics/funnel",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/analytics/heatmap",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/analytics/segments",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "customer_journeys",
+            "journey_touchpoints",
+            "conversion_funnels",
+            "behavior_segments",
+            "journey_analytics"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/journey-tracking.js", "assets/heatmap.js"],
-        "css": ["assets/analytics.css"]
-    }
+        "js": [
+            "assets/journey-tracking.js",
+            "assets/heatmap.js"
+        ],
+        "css": [
+            "assets/analytics.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "track_anonymous_users": {
+                "type": "boolean",
+                "default": true,
+                "description": "Track anonymous visitor behavior"
+            },
+            "session_timeout": {
+                "type": "number",
+                "default": 30,
+                "min": 15,
+                "max": 120,
+                "description": "Session timeout in minutes"
+            },
+            "enable_heatmaps": {
+                "type": "boolean",
+                "default": true,
+                "description": "Generate behavior heatmaps"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\JourneyAnalytics\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/journey-analytics"
 }

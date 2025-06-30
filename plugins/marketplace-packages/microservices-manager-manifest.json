@@ -1,0 +1,613 @@
+{
+    "package_info": {
+        "name": "microservices-manager",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:04",
+        "package_size": 19261,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "microservices-manager",
+        "version": "1.0.0",
+        "description": "Complete microservices orchestration with service discovery, health monitoring, load balancing, circuit breakers, API gateway, distributed tracing, and service mesh management",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/microservices-manager",
+        "keywords": [
+            "microservices",
+            "orchestration",
+            "service-discovery",
+            "load-balancing",
+            "circuit-breaker",
+            "api-gateway",
+            "distributed-tracing",
+            "service-mesh"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/networking": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\MicroservicesManager\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "MicroservicesManagerPlugin",
+            "file": "src\/MicroservicesManagerPlugin.php"
+        },
+        "provides": [
+            "ServiceRegistryInterface",
+            "LoadBalancerInterface",
+            "CircuitBreakerInterface",
+            "ServiceMeshInterface"
+        ],
+        "permissions": [
+            "microservices.access",
+            "microservices.manage_services",
+            "microservices.view_metrics",
+            "microservices.configure_gateway",
+            "microservices.manage_mesh",
+            "microservices.view_traces"
+        ],
+        "hooks": {
+            "actions": [
+                "service.registered",
+                "service.deregistered",
+                "service.health_changed",
+                "circuit.opened",
+                "circuit.closed",
+                "request.routed"
+            ],
+            "filters": [
+                "service.endpoints",
+                "routing.rules",
+                "circuit.thresholds",
+                "retry.policies",
+                "trace.sampling"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/services",
+                    "handler": "Controllers\\ServiceController@index",
+                    "auth": true,
+                    "permission": "microservices.access"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/microservices\/services",
+                    "handler": "Controllers\\ServiceController@register",
+                    "auth": true,
+                    "permission": "microservices.manage_services"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/services\/{id}",
+                    "handler": "Controllers\\ServiceController@show",
+                    "auth": true,
+                    "permission": "microservices.access"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/microservices\/services\/{id}",
+                    "handler": "Controllers\\ServiceController@update",
+                    "auth": true,
+                    "permission": "microservices.manage_services"
+                },
+                {
+                    "method": "DELETE",
+                    "path": "\/api\/v1\/microservices\/services\/{id}",
+                    "handler": "Controllers\\ServiceController@deregister",
+                    "auth": true,
+                    "permission": "microservices.manage_services"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/services\/{id}\/health",
+                    "handler": "Controllers\\HealthController@check",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/microservices\/services\/{id}\/health",
+                    "handler": "Controllers\\HealthController@report",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/topology",
+                    "handler": "Controllers\\TopologyController@map",
+                    "auth": true,
+                    "permission": "microservices.access"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/traces",
+                    "handler": "Controllers\\TracingController@index",
+                    "auth": true,
+                    "permission": "microservices.view_traces"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/traces\/{traceId}",
+                    "handler": "Controllers\\TracingController@show",
+                    "auth": true,
+                    "permission": "microservices.view_traces"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/metrics",
+                    "handler": "Controllers\\MetricsController@dashboard",
+                    "auth": true,
+                    "permission": "microservices.view_metrics"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/microservices\/gateway\/routes",
+                    "handler": "Controllers\\GatewayController@addRoute",
+                    "auth": true,
+                    "permission": "microservices.configure_gateway"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/microservices\/circuit-breakers",
+                    "handler": "Controllers\\CircuitBreakerController@index",
+                    "auth": true,
+                    "permission": "microservices.access"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/microservices\/circuit-breakers\/{serviceId}\/reset",
+                    "handler": "Controllers\\CircuitBreakerController@reset",
+                    "auth": true,
+                    "permission": "microservices.manage_services"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "microservices_registry",
+                "service_instances",
+                "service_health_checks",
+                "api_gateway_routes",
+                "circuit_breaker_states",
+                "distributed_traces",
+                "service_metrics",
+                "load_balancer_configs",
+                "service_mesh_policies",
+                "request_logs"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/service-topology.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "d3",
+                        "vis-network"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/distributed-tracing.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "timeline-js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/metrics-dashboard.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js",
+                        "prometheus-query"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/circuit-breaker-monitor.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/service-topology.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/tracing-viewer.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/metrics-dashboard.css",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "service_discovery_method": {
+                    "type": "select",
+                    "label": "Service Discovery Method",
+                    "default": "consul",
+                    "options": {
+                        "consul": "HashiCorp Consul",
+                        "etcd": "etcd",
+                        "zookeeper": "Apache Zookeeper",
+                        "kubernetes": "Kubernetes",
+                        "dns": "DNS-based",
+                        "static": "Static Configuration"
+                    }
+                },
+                "load_balancing_algorithm": {
+                    "type": "select",
+                    "label": "Load Balancing Algorithm",
+                    "default": "round_robin",
+                    "options": {
+                        "round_robin": "Round Robin",
+                        "least_connections": "Least Connections",
+                        "weighted": "Weighted",
+                        "random": "Random",
+                        "ip_hash": "IP Hash",
+                        "least_response_time": "Least Response Time"
+                    }
+                },
+                "health_check_interval": {
+                    "type": "number",
+                    "label": "Health Check Interval (seconds)",
+                    "default": 30,
+                    "min": 5,
+                    "max": 300
+                },
+                "health_check_timeout": {
+                    "type": "number",
+                    "label": "Health Check Timeout (seconds)",
+                    "default": 5,
+                    "min": 1,
+                    "max": 30
+                },
+                "circuit_breaker_enabled": {
+                    "type": "boolean",
+                    "label": "Enable Circuit Breakers",
+                    "default": true
+                },
+                "circuit_breaker_config": {
+                    "type": "object",
+                    "label": "Circuit Breaker Configuration",
+                    "depends_on": {
+                        "circuit_breaker_enabled": true
+                    },
+                    "properties": {
+                        "failure_threshold": {
+                            "type": "number",
+                            "label": "Failure Threshold (%)",
+                            "default": 50,
+                            "min": 10,
+                            "max": 90
+                        },
+                        "success_threshold": {
+                            "type": "number",
+                            "label": "Success Threshold",
+                            "default": 5,
+                            "min": 1,
+                            "max": 10
+                        },
+                        "timeout": {
+                            "type": "number",
+                            "label": "Timeout (seconds)",
+                            "default": 60,
+                            "min": 10,
+                            "max": 300
+                        },
+                        "half_open_requests": {
+                            "type": "number",
+                            "label": "Half-Open Max Requests",
+                            "default": 3,
+                            "min": 1,
+                            "max": 10
+                        }
+                    }
+                },
+                "enable_distributed_tracing": {
+                    "type": "boolean",
+                    "label": "Enable Distributed Tracing",
+                    "default": true
+                },
+                "tracing_backend": {
+                    "type": "select",
+                    "label": "Tracing Backend",
+                    "default": "jaeger",
+                    "options": {
+                        "jaeger": "Jaeger",
+                        "zipkin": "Zipkin",
+                        "datadog": "Datadog APM",
+                        "new_relic": "New Relic",
+                        "custom": "Custom Implementation"
+                    },
+                    "depends_on": {
+                        "enable_distributed_tracing": true
+                    }
+                },
+                "trace_sampling_rate": {
+                    "type": "number",
+                    "label": "Trace Sampling Rate (%)",
+                    "default": 10,
+                    "min": 0.1,
+                    "max": 100,
+                    "step": 0.1,
+                    "depends_on": {
+                        "enable_distributed_tracing": true
+                    }
+                },
+                "enable_api_gateway": {
+                    "type": "boolean",
+                    "label": "Enable API Gateway",
+                    "default": true
+                },
+                "gateway_features": {
+                    "type": "multiselect",
+                    "label": "Gateway Features",
+                    "default": [
+                        "routing",
+                        "authentication",
+                        "rate_limiting",
+                        "caching"
+                    ],
+                    "options": {
+                        "routing": "Request Routing",
+                        "authentication": "Authentication",
+                        "authorization": "Authorization",
+                        "rate_limiting": "Rate Limiting",
+                        "caching": "Response Caching",
+                        "compression": "Compression",
+                        "cors": "CORS Handling",
+                        "request_transformation": "Request Transformation",
+                        "response_transformation": "Response Transformation",
+                        "websocket_support": "WebSocket Support"
+                    },
+                    "depends_on": {
+                        "enable_api_gateway": true
+                    }
+                },
+                "enable_service_mesh": {
+                    "type": "boolean",
+                    "label": "Enable Service Mesh",
+                    "default": false,
+                    "description": "Advanced service-to-service communication"
+                },
+                "service_mesh_features": {
+                    "type": "multiselect",
+                    "label": "Service Mesh Features",
+                    "default": [
+                        "mtls",
+                        "traffic_management"
+                    ],
+                    "options": {
+                        "mtls": "Mutual TLS",
+                        "traffic_management": "Traffic Management",
+                        "policy_enforcement": "Policy Enforcement",
+                        "observability": "Enhanced Observability",
+                        "canary_deployments": "Canary Deployments",
+                        "fault_injection": "Fault Injection"
+                    },
+                    "depends_on": {
+                        "enable_service_mesh": true
+                    }
+                },
+                "retry_policy": {
+                    "type": "object",
+                    "label": "Retry Policy",
+                    "properties": {
+                        "max_attempts": {
+                            "type": "number",
+                            "label": "Max Retry Attempts",
+                            "default": 3,
+                            "min": 0,
+                            "max": 10
+                        },
+                        "backoff_strategy": {
+                            "type": "select",
+                            "label": "Backoff Strategy",
+                            "default": "exponential",
+                            "options": {
+                                "fixed": "Fixed Delay",
+                                "linear": "Linear Backoff",
+                                "exponential": "Exponential Backoff",
+                                "jitter": "Exponential with Jitter"
+                            }
+                        },
+                        "initial_delay": {
+                            "type": "number",
+                            "label": "Initial Delay (ms)",
+                            "default": 100,
+                            "min": 10,
+                            "max": 5000
+                        }
+                    }
+                },
+                "metrics_collection": {
+                    "type": "multiselect",
+                    "label": "Metrics to Collect",
+                    "default": [
+                        "latency",
+                        "throughput",
+                        "error_rate",
+                        "saturation"
+                    ],
+                    "options": {
+                        "latency": "Request Latency",
+                        "throughput": "Throughput",
+                        "error_rate": "Error Rate",
+                        "saturation": "Resource Saturation",
+                        "availability": "Service Availability",
+                        "dependency_health": "Dependency Health",
+                        "business_metrics": "Business Metrics"
+                    }
+                },
+                "enable_chaos_engineering": {
+                    "type": "boolean",
+                    "label": "Enable Chaos Engineering",
+                    "default": false,
+                    "description": "Test resilience with controlled failures"
+                },
+                "service_timeout_default": {
+                    "type": "number",
+                    "label": "Default Service Timeout (seconds)",
+                    "default": 30,
+                    "min": 1,
+                    "max": 300
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "service_topology",
+                "name": "Service Topology",
+                "description": "Visual service dependency map",
+                "position": "dashboard",
+                "permissions": [
+                    "microservices.access"
+                ]
+            },
+            {
+                "id": "service_health",
+                "name": "Service Health",
+                "description": "Overall system health status",
+                "position": "dashboard",
+                "permissions": [
+                    "microservices.access"
+                ]
+            },
+            {
+                "id": "circuit_breaker_status",
+                "name": "Circuit Breaker Status",
+                "description": "Current circuit breaker states",
+                "position": "dashboard",
+                "permissions": [
+                    "microservices.access"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/1 * * * *",
+                "handler": "performHealthChecks",
+                "description": "Check service health"
+            },
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "updateServiceTopology",
+                "description": "Update service dependency map"
+            },
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "collectMetrics",
+                "description": "Collect service metrics"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "cleanupOldTraces",
+                "description": "Clean up old trace data"
+            },
+            {
+                "schedule": "*\/10 * * * *",
+                "handler": "evaluateCircuitBreakers",
+                "description": "Evaluate circuit breaker states"
+            }
+        ],
+        "service_templates": {
+            "rest_api": {
+                "name": "REST API Service",
+                "health_endpoint": "\/health",
+                "metrics_endpoint": "\/metrics",
+                "default_timeout": 30
+            },
+            "grpc_service": {
+                "name": "gRPC Service",
+                "health_service": "grpc.health.v1.Health",
+                "default_timeout": 15
+            },
+            "message_queue": {
+                "name": "Message Queue Service",
+                "health_check": "queue_depth",
+                "default_timeout": 60
+            }
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "Service registry and discovery",
+                "Health monitoring and checks",
+                "Load balancing with multiple algorithms",
+                "Circuit breaker pattern implementation",
+                "API gateway with routing and policies",
+                "Distributed tracing integration",
+                "Service mesh capabilities",
+                "Metrics collection and visualization",
+                "Retry policies and timeout management",
+                "Service topology visualization",
+                "Chaos engineering support"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "api"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

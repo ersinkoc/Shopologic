@@ -1,0 +1,146 @@
+{
+    "package_info": {
+        "name": "predictive-analytics-engine",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:10",
+        "package_size": 22639,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "predictive-analytics-engine",
+        "version": "1.0.0",
+        "description": "Advanced predictive analytics with sales forecasting, customer behavior prediction, market trend analysis, and actionable business intelligence",
+        "author": {
+            "name": "Shopologic"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/analytics": "^1.0",
+                "shopologic\/core": "^1.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\PredictiveAnalyticsEngine\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "PredictiveAnalyticsEnginePlugin",
+            "file": "PredictiveAnalyticsEnginePlugin.php"
+        },
+        "permissions": [
+            "hooks.order.*",
+            "hooks.customer.*",
+            "hooks.product.*",
+            "api.access",
+            "dashboard.widget",
+            "cron.execute",
+            "analytics.predictions.view",
+            "analytics.predictions.manage",
+            "analytics.reports.generate"
+        ],
+        "hooks": {
+            "actions": [
+                "order.completed",
+                "customer.behavior_tracked",
+                "product.performance_analyzed",
+                "market.trend_detected",
+                "analytics.generate_forecast"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/predictions\/sales\/{period}",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/predictions\/customer-behavior\/{customer_id}",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/predictions\/market-trends",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/predictions\/custom-forecast",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/predictions\/accuracy-metrics",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "configurable": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "api_enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "widget_enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "prediction_models": [
+                    "sales",
+                    "customer_behavior",
+                    "market_trends",
+                    "inventory_demand"
+                ],
+                "real_time_analysis": {
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
+        "scheduled_tasks": [
+            "0 1 * * * - update_predictions",
+            "0 *\/6 * * * - analyze_trends",
+            "0 2 * * SUN - generate_weekly_insights",
+            "0 3 1 * * - train_prediction_models"
+        ]
+    },
+    "marketplace_info": {
+        "category": "analytics",
+        "tags": [
+            "analytics",
+            "enterprise"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

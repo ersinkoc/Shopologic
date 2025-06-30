@@ -1,0 +1,160 @@
+{
+    "package_info": {
+        "name": "gift-card-plus",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:02",
+        "package_size": 15938,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Gift Card Plus",
+        "version": "1.0.0",
+        "description": "Advanced gift card system with scheduling, personalization, digital delivery, and social gifting",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "GiftCardPlusPlugin",
+            "file": "GiftCardPlusPlugin.php"
+        },
+        "permissions": [
+            "orders.read",
+            "orders.write",
+            "customers.read",
+            "email.send",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "checkout.payment_methods",
+                "order.completed",
+                "gift_card.redeemed",
+                "frontend.gift_card_form"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/gift-cards\/purchase",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/gift-cards\/balance\/{code}",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/gift-cards\/redeem",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/gift-cards\/schedule",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/gift-cards\/templates",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "gift_cards",
+                "gift_card_transactions",
+                "gift_card_templates",
+                "scheduled_deliveries"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/gift-card-designer.js",
+                "assets\/scheduler.js"
+            ],
+            "css": [
+                "assets\/gift-cards.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_scheduled_delivery": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allow scheduling gift card delivery"
+                },
+                "enable_custom_designs": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allow custom gift card designs"
+                },
+                "max_gift_card_amount": {
+                    "type": "number",
+                    "default": 500,
+                    "min": 10,
+                    "max": 5000,
+                    "description": "Maximum gift card amount"
+                },
+                "expiry_days": {
+                    "type": "number",
+                    "default": 365,
+                    "min": 30,
+                    "max": 1825,
+                    "description": "Gift card expiry in days"
+                },
+                "enable_social_sharing": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable social media sharing"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\GiftCardPlus\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "real-time"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

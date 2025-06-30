@@ -1,0 +1,190 @@
+{
+    "package_info": {
+        "name": "dynamic-inventory-forecasting",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:01",
+        "package_size": 18167,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Dynamic Inventory Forecasting",
+        "version": "1.0.0",
+        "description": "Advanced demand forecasting using time series analysis, seasonal patterns, machine learning models, and external factors for optimal inventory management and stock optimization",
+        "author": {
+            "name": "Shopologic Team"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/inventory": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\DynamicInventoryForecasting\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "file": "DynamicInventoryForecastingPlugin.php",
+            "class": "DynamicInventoryForecastingPlugin"
+        },
+        "permissions": [
+            "forecasting.view_forecasts",
+            "forecasting.generate_forecasts",
+            "forecasting.configure_models",
+            "forecasting.export_reports",
+            "forecasting.manage_alerts"
+        ],
+        "hooks": {
+            "actions": [
+                "order.completed",
+                "product.stock_updated",
+                "supplier.order_received",
+                "forecast.threshold_reached",
+                "forecast.anomaly_detected"
+            ],
+            "filters": [
+                "inventory.reorder_point",
+                "inventory.safety_stock",
+                "purchase_order.suggested_quantity",
+                "analytics.inventory_metrics",
+                "dashboard.inventory_alerts"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/forecasting\/products\/{product_id}\/forecast",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/forecasting\/categories\/{category_id}\/forecast",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/forecasting\/generate",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/forecasting\/accuracy-metrics",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/forecasting\/demand-patterns",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/forecasting\/manual-adjustment",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/forecasting\/alerts",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/forecasting\/reports\/{report_type}",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "forecast_horizon_days": {
+                    "type": "integer",
+                    "default": 90
+                },
+                "minimum_data_points": {
+                    "type": "integer",
+                    "default": 30
+                },
+                "confidence_interval": {
+                    "type": "double",
+                    "default": 0.95
+                },
+                "seasonality_detection": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "external_factors": [
+                    "weather",
+                    "holidays",
+                    "promotions",
+                    "competitor_pricing"
+                ]
+            }
+        },
+        "widgets": [
+            {
+                "id": "inventory-forecast-widget",
+                "title": "Inventory Forecast Dashboard",
+                "position": "main",
+                "priority": 15
+            },
+            {
+                "id": "stock-alert-widget",
+                "title": "Stock Level Alerts",
+                "position": "sidebar",
+                "priority": 10
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 1 * * *",
+                "description": "Generate daily demand forecasts"
+            },
+            {
+                "schedule": "0 *\/4 * * *",
+                "description": "Update real-time forecast adjustments"
+            },
+            {
+                "schedule": "0 6 * * MON",
+                "description": "Calculate weekly forecast accuracy"
+            },
+            {
+                "schedule": "0 2 1 * *",
+                "description": "Generate monthly forecast reports"
+            }
+        ]
+    },
+    "marketplace_info": {
+        "category": "inventory",
+        "tags": [
+            "inventory",
+            "performance"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

@@ -9,13 +9,12 @@
     },
     "license": "MIT",
     "requirements": {
-        "php_version": ">=8.3",
-        "core_version": ">=1.0.0",
-        "dependencies": {}
+        "php": ">=8.3",
+        "core": ">=1.0.0"
     },
-    "config": {
-        "main_class": "CoreCommerce\\CoreCommercePlugin",
-        "namespace": "CoreCommerce"
+    "bootstrap": {
+        "class": "CoreCommercePlugin",
+        "file": "CoreCommercePlugin.php"
     },
     "provides": [
         "ProductRepositoryInterface",
@@ -23,18 +22,6 @@
         "CartServiceInterface",
         "OrderServiceInterface",
         "CustomerServiceInterface"
-    ],
-    "hooks": [
-        "system.init",
-        "product.created",
-        "product.updated",
-        "product.deleted",
-        "order.created",
-        "order.updated",
-        "order.completed",
-        "cart.item_added",
-        "cart.item_removed",
-        "cart.updated"
     ],
     "permissions": [
         "product.view",
@@ -50,64 +37,162 @@
         "customer.view",
         "customer.manage"
     ],
-    "api_endpoints": [
-        "GET /api/v1/products",
-        "GET /api/v1/products/{id}",
-        "POST /api/v1/products",
-        "PUT /api/v1/products/{id}",
-        "DELETE /api/v1/products/{id}",
-        "GET /api/v1/categories",
-        "GET /api/v1/categories/{id}",
-        "GET /api/v1/cart",
-        "POST /api/v1/cart/items",
-        "PUT /api/v1/cart/items/{id}",
-        "DELETE /api/v1/cart/items/{id}",
-        "POST /api/v1/cart/clear",
-        "GET /api/v1/orders",
-        "GET /api/v1/orders/{id}",
-        "POST /api/v1/orders",
-        "PUT /api/v1/orders/{id}/status"
-    ],
-    "database_tables": [
-        "products",
-        "product_images",
-        "product_variants",
-        "product_attributes",
-        "categories",
-        "product_categories",
-        "carts",
-        "cart_items",
-        "orders",
-        "order_items",
-        "order_status_history",
-        "customers",
-        "customer_addresses"
-    ],
-    "config_schema": {
-        "default_currency": {
-            "type": "string",
-            "default": "USD",
-            "required": true
-        },
-        "tax_enabled": {
-            "type": "boolean",
-            "default": true
-        },
-        "stock_management": {
-            "type": "boolean",
-            "default": true
-        },
-        "guest_checkout": {
-            "type": "boolean",
-            "default": true
-        },
-        "order_statuses": {
-            "type": "array",
-            "default": ["pending", "processing", "shipped", "delivered", "cancelled", "refunded"]
-        }
+    "hooks": {
+        "actions": [
+            "system.init",
+            "product.created",
+            "product.updated",
+            "product.deleted",
+            "order.created",
+            "order.updated",
+            "order.completed",
+            "cart.item_added",
+            "cart.item_removed",
+            "cart.updated"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/products",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/products/{id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/products",
+                "handler": "handlePost"
+            },
+            {
+                "method": "PUT",
+                "path": "/api/v1/products/{id}",
+                "handler": "handlePut"
+            },
+            {
+                "method": "DELETE",
+                "path": "/api/v1/products/{id}",
+                "handler": "handleDelete"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/categories",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/categories/{id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/cart",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/cart/items",
+                "handler": "handlePost"
+            },
+            {
+                "method": "PUT",
+                "path": "/api/v1/cart/items/{id}",
+                "handler": "handlePut"
+            },
+            {
+                "method": "DELETE",
+                "path": "/api/v1/cart/items/{id}",
+                "handler": "handleDelete"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/cart/clear",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/orders",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/orders/{id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/orders",
+                "handler": "handlePost"
+            },
+            {
+                "method": "PUT",
+                "path": "/api/v1/orders/{id}/status",
+                "handler": "handlePut"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "products",
+            "product_images",
+            "product_variants",
+            "product_attributes",
+            "categories",
+            "product_categories",
+            "carts",
+            "cart_items",
+            "orders",
+            "order_items",
+            "order_status_history",
+            "customers",
+            "customer_addresses"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
         "js": [],
         "css": []
-    }
+    },
+    "config": {
+        "schema": {
+            "default_currency": {
+                "type": "string",
+                "default": "USD",
+                "required": true
+            },
+            "tax_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "stock_management": {
+                "type": "boolean",
+                "default": true
+            },
+            "guest_checkout": {
+                "type": "boolean",
+                "default": true
+            },
+            "order_statuses": {
+                "type": "array",
+                "default": [
+                    "pending",
+                    "processing",
+                    "shipped",
+                    "delivered",
+                    "cancelled",
+                    "refunded"
+                ]
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\CoreCommerce\\": "src/"
+        }
+    },
+    "homepage": "https://shopologic.com/plugins/core-commerce"
 }

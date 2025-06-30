@@ -9,8 +9,7 @@ use Shopologic\Plugins\PaymentStripe\Models\StripeCustomer;
 use Shopologic\Plugins\PaymentStripe\Models\StripePaymentMethod;
 use Illuminate\Support\Collection;
 
-class StripeCustomerRepository
-{
+class StripeCustomerRepository\n{
     /**
      * Create a new Stripe customer record
      */

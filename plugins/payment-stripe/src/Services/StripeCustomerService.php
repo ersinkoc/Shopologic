@@ -10,8 +10,7 @@ use Shopologic\Plugins\PaymentStripe\Models\StripeCustomer;
 use Shopologic\Plugins\PaymentStripe\Repository\StripeCustomerRepository;
 use Shopologic\Plugins\PaymentStripe\Exceptions\StripeException;
 
-class StripeCustomerService
-{
+class StripeCustomerService\n{
     private StripeClient $client;
     private StripeCustomerRepository $repository;
 
@@ -80,7 +79,7 @@ class StripeCustomerService
                 'livemode' => $stripeResponse['livemode'] ?? false
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             throw new StripeException('Failed to create Stripe customer: ' . $e->getMessage());
         }
     }
@@ -127,7 +126,7 @@ class StripeCustomerService
                 $stripeCustomer->phone = $customer->phone;
                 $stripeCustomer->save();
 
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 // Log error but don't fail the process
                 logger()->error('Failed to update Stripe customer', [
                     'stripe_id' => $stripeCustomer->stripe_id,
@@ -173,7 +172,7 @@ class StripeCustomerService
                 $stripeCustomer->default_payment_method = $paymentMethod['id'];
                 $stripeCustomer->save();
 
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 logger()->error('Failed to set default payment method', [
                     'stripe_id' => $stripeCustomer->stripe_id,
                     'payment_method_id' => $paymentMethod['id'],
@@ -197,7 +196,7 @@ class StripeCustomerService
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('Failed to delete Stripe customer', [
                 'stripe_id' => $stripeId,
                 'error' => $e->getMessage()
@@ -229,7 +228,7 @@ class StripeCustomerService
 
             return $stripeCustomer;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('Failed to sync Stripe customer', [
                 'stripe_id' => $stripeId,
                 'error' => $e->getMessage()

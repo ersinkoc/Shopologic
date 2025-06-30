@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace MultiVendorMarketplace\Controllers;
 
 use Shopologic\Core\Controller\BaseController;
@@ -77,7 +79,7 @@ class VendorController extends BaseController
             
         } catch (ValidationException $e) {
             return $this->error($e->getMessage(), 422);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 400);
         }
     }
@@ -112,7 +114,7 @@ class VendorController extends BaseController
             
             return $this->success($data);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -173,7 +175,7 @@ class VendorController extends BaseController
             return $this->error($e->getMessage(), 422);
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -204,7 +206,7 @@ class VendorController extends BaseController
                 'products' => $products
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -246,7 +248,7 @@ class VendorController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -290,7 +292,7 @@ class VendorController extends BaseController
             return $this->error($e->getMessage(), 422);
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 400);
         }
     }
@@ -308,7 +310,7 @@ class VendorController extends BaseController
             
             return $this->success($vendors);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -339,7 +341,7 @@ class VendorController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -376,7 +378,7 @@ class VendorController extends BaseController
                 'reviews' => $reviews
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }

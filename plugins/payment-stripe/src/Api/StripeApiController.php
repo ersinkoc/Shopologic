@@ -83,7 +83,7 @@ class StripeApiController extends ApiController
                 return $this->respondWithError($response->getError(), 400);
             }
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -111,7 +111,7 @@ class StripeApiController extends ApiController
 
             return $this->respondWithSuccess($paymentData);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -141,7 +141,7 @@ class StripeApiController extends ApiController
                 'client_secret' => $setupIntent['client_secret']
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -169,7 +169,7 @@ class StripeApiController extends ApiController
                 ];
             }));
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -188,7 +188,7 @@ class StripeApiController extends ApiController
                 return new JsonResponse(['error' => $response->getMessage()], $response->getStatusCode());
             }
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new JsonResponse(['error' => 'Webhook processing failed'], 500);
         }
     }
@@ -222,7 +222,7 @@ class StripeApiController extends ApiController
                 return $this->respondWithError($response->getError(), 400);
             }
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -246,7 +246,7 @@ class StripeApiController extends ApiController
 
             return $this->respondWithSuccess($config);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -286,7 +286,7 @@ class StripeApiController extends ApiController
 
             return $this->respondWithSuccess(['message' => 'Settings updated successfully']);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError($e->getMessage(), 500);
         }
     }
@@ -313,7 +313,7 @@ class StripeApiController extends ApiController
                 'default_currency' => $response['default_currency']
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->respondWithError('Connection failed: ' . $e->getMessage(), 500);
         }
     }

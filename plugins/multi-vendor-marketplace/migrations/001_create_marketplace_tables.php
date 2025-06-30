@@ -1,5 +1,10 @@
 <?php
 
+
+declare(strict_types=1);
+
+namespace Shopologic\Plugins\MultiVendorMarketplace;
+declare(strict_types=1);
 use Shopologic\Core\Database\Migration;
 use Shopologic\Core\Database\Schema;
 use Shopologic\Core\Database\Blueprint;

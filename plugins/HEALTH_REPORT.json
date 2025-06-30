@@ -1,0 +1,3362 @@
+{
+    "timestamp": "2025-06-30 18:51:00",
+    "ecosystem_health": {
+        "total_plugins": 77,
+        "average_score": 64,
+        "status_distribution": {
+            "excellent": 0,
+            "good": 2,
+            "warning": 38,
+            "critical": 37
+        }
+    },
+    "plugins": {
+        "HelloWorld": {
+            "plugin": "HelloWorld",
+            "timestamp": "2025-06-30 18:50:54",
+            "status": "good",
+            "score": 86,
+            "checks": {
+                "structure": {
+                    "status": "pass",
+                    "message": "All required files and directories present"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md too short (7 lines), HOOKS.md too short (7 lines)"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md too short (7 lines), HOOKS.md too short (7 lines)"
+            ],
+            "errors": [],
+            "performance": []
+        },
+        "ab-testing-framework": {
+            "plugin": "ab-testing-framework",
+            "timestamp": "2025-06-30 18:50:54",
+            "status": "good",
+            "score": 86,
+            "checks": {
+                "structure": {
+                    "status": "pass",
+                    "message": "All required files and directories present"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [],
+            "performance": []
+        },
+        "advanced-analytics-reporting": {
+            "plugin": "advanced-analytics-reporting",
+            "timestamp": "2025-06-30 18:50:54",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "pass",
+                    "message": "All required files and directories present"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in 001_create_analytics_tables.php, shell execution in Report.php, shell execution in ReportExecution.php"
+                },
+                "performance": {
+                    "status": "warning",
+                    "message": "Performance concerns: potential N+1 queries in Metric.php, potential N+1 queries in ReportExecution.php"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "performance: Performance concerns: potential N+1 queries in Metric.php, potential N+1 queries in ReportExecution.php",
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "security: Security issues: shell execution in 001_create_analytics_tables.php, shell execution in Report.php, shell execution in ReportExecution.php"
+            ],
+            "performance": []
+        },
+        "advanced-cms": {
+            "plugin": "advanced-cms",
+            "timestamp": "2025-06-30 18:50:54",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "advanced-email-marketing": {
+            "plugin": "advanced-email-marketing",
+            "timestamp": "2025-06-30 18:50:54",
+            "status": "critical",
+            "score": 43,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in 001_create_email_marketing_tables.php, shell execution in AutomationStep.php, shell execution in SubscriberAutomation.php"
+                },
+                "performance": {
+                    "status": "warning",
+                    "message": "Performance concerns: potential N+1 queries in SegmentRepository.php, potential N+1 queries in SegmentationService.php"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "performance: Performance concerns: potential N+1 queries in SegmentRepository.php, potential N+1 queries in SegmentationService.php",
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in 001_create_email_marketing_tables.php, shell execution in AutomationStep.php, shell execution in SubscriberAutomation.php"
+            ],
+            "performance": []
+        },
+        "advanced-inventory": {
+            "plugin": "advanced-inventory",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in AdvancedInventoryPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in AdvancedInventoryPlugin.php"
+            ],
+            "performance": []
+        },
+        "advanced-inventory-intelligence": {
+            "plugin": "advanced-inventory-intelligence",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "advanced-personalization-engine": {
+            "plugin": "advanced-personalization-engine",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "ai-content-generator": {
+            "plugin": "ai-content-generator",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "ai-recommendation-engine": {
+            "plugin": "ai-recommendation-engine",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in AiRecommendationEnginePlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in AiRecommendationEnginePlugin.php"
+            ],
+            "performance": []
+        },
+        "ai-recommendations": {
+            "plugin": "ai-recommendations",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "critical",
+            "score": 43,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in 001_create_ai_tables.php, shell execution in RecommendationEngine.php"
+                },
+                "performance": {
+                    "status": "warning",
+                    "message": "Performance concerns: potential N+1 queries in DeepLearningEngine.php"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "performance: Performance concerns: potential N+1 queries in DeepLearningEngine.php",
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in 001_create_ai_tables.php, shell execution in RecommendationEngine.php"
+            ],
+            "performance": []
+        },
+        "analytics-google": {
+            "plugin": "analytics-google",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "api-mock-server": {
+            "plugin": "api-mock-server",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in ApiMockServerPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: tests\/, docs\/",
+                "security: Security issues: shell execution in ApiMockServerPlugin.php"
+            ],
+            "performance": []
+        },
+        "behavioral-psychology-engine": {
+            "plugin": "behavioral-psychology-engine",
+            "timestamp": "2025-06-30 18:50:55",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "blockchain-supply-chain": {
+            "plugin": "blockchain-supply-chain",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in 2024_01_01_create_blockchain_supply_chain_tables.php, shell execution in BlockchainServiceInterface.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in 2024_01_01_create_blockchain_supply_chain_tables.php, shell execution in BlockchainServiceInterface.php"
+            ],
+            "performance": []
+        },
+        "blue-green-deployment": {
+            "plugin": "blue-green-deployment",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in BlueGreenDeploymentPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in BlueGreenDeploymentPlugin.php"
+            ],
+            "performance": []
+        },
+        "bundle-builder": {
+            "plugin": "bundle-builder",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in SmartBundleBuilderPluginEnhanced.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in SmartBundleBuilderPluginEnhanced.php"
+            ],
+            "performance": []
+        },
+        "code-quality-analyzer": {
+            "plugin": "code-quality-analyzer",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "container-orchestration": {
+            "plugin": "container-orchestration",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "core-commerce": {
+            "plugin": "core-commerce",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in CoreCommercePlugin.php, shell execution in CoreCommercePluginEnhanced.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "pass",
+                    "message": "Documentation complete and healthy"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [],
+            "errors": [
+                "structure: Missing: src\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in CoreCommercePlugin.php, shell execution in CoreCommercePluginEnhanced.php"
+            ],
+            "performance": []
+        },
+        "customer-lifetime-value-optimizer": {
+            "plugin": "customer-lifetime-value-optimizer",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in CustomerLifetimeValueOptimizerPlugin.php, shell execution in 2024_01_01_create_clv_optimizer_tables.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in CustomerLifetimeValueOptimizerPlugin.php, shell execution in 2024_01_01_create_clv_optimizer_tables.php"
+            ],
+            "performance": []
+        },
+        "customer-loyalty-rewards": {
+            "plugin": "customer-loyalty-rewards",
+            "timestamp": "2025-06-30 18:50:56",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in CustomerLoyaltyRewardsPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in CustomerLoyaltyRewardsPlugin.php"
+            ],
+            "performance": []
+        },
+        "customer-segmentation": {
+            "plugin": "customer-segmentation",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "customer-segmentation-engine": {
+            "plugin": "customer-segmentation-engine",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in CustomerSegmentationEnginePlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in CustomerSegmentationEnginePlugin.php"
+            ],
+            "performance": []
+        },
+        "database-query-optimizer": {
+            "plugin": "database-query-optimizer",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in DatabaseQueryOptimizerPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: tests\/, docs\/",
+                "security: Security issues: shell execution in DatabaseQueryOptimizerPlugin.php"
+            ],
+            "performance": []
+        },
+        "dynamic-inventory-forecasting": {
+            "plugin": "dynamic-inventory-forecasting",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in DynamicInventoryForecastingPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in DynamicInventoryForecastingPlugin.php"
+            ],
+            "performance": []
+        },
+        "edge-computing-gateway": {
+            "plugin": "edge-computing-gateway",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in EdgeComputingGatewayPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in EdgeComputingGatewayPlugin.php"
+            ],
+            "performance": []
+        },
+        "email-marketing": {
+            "plugin": "email-marketing",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "enterprise-security-compliance": {
+            "plugin": "enterprise-security-compliance",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in EnterpriseSecurityCompliancePlugin.php, shell execution in 2024_01_01_create_enterprise_security_tables.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in EnterpriseSecurityCompliancePlugin.php, shell execution in 2024_01_01_create_enterprise_security_tables.php"
+            ],
+            "performance": []
+        },
+        "enterprise-supply-chain-management": {
+            "plugin": "enterprise-supply-chain-management",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in EnterpriseSupplyChainManagementPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in EnterpriseSupplyChainManagementPlugin.php"
+            ],
+            "performance": []
+        },
+        "event-sourcing": {
+            "plugin": "event-sourcing",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "feature-flag-manager": {
+            "plugin": "feature-flag-manager",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "fraud-detection-system": {
+            "plugin": "fraud-detection-system",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in FraudDetectionSystemPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in FraudDetectionSystemPlugin.php"
+            ],
+            "performance": []
+        },
+        "gift-card-plus": {
+            "plugin": "gift-card-plus",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in GiftCardPlusPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in GiftCardPlusPlugin.php"
+            ],
+            "performance": []
+        },
+        "graphql-schema-builder": {
+            "plugin": "graphql-schema-builder",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in GraphQLSchemaBuilderPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in GraphQLSchemaBuilderPlugin.php"
+            ],
+            "performance": []
+        },
+        "headless-commerce-api": {
+            "plugin": "headless-commerce-api",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: migrations\/, tests\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in HeadlessCommerceAPIPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: migrations\/, tests\/",
+                "security: Security issues: shell execution in HeadlessCommerceAPIPlugin.php"
+            ],
+            "performance": []
+        },
+        "inventory-forecasting": {
+            "plugin": "inventory-forecasting",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "inventory-management": {
+            "plugin": "inventory-management",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "journey-analytics": {
+            "plugin": "journey-analytics",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "warning",
+                    "message": "Performance concerns: potential N+1 queries in JourneyAnalyticsPlugin.php"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "performance: Performance concerns: potential N+1 queries in JourneyAnalyticsPlugin.php",
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "live-chat": {
+            "plugin": "live-chat",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in LiveChatPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in LiveChatPlugin.php"
+            ],
+            "performance": []
+        },
+        "loyalty-gamification": {
+            "plugin": "loyalty-gamification",
+            "timestamp": "2025-06-30 18:50:57",
+            "status": "critical",
+            "score": 43,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in LoyaltyGamificationPlugin.php, shell execution in LoyaltyGamificationPluginEnhanced.php"
+                },
+                "performance": {
+                    "status": "warning",
+                    "message": "Performance concerns: potential N+1 queries in LoyaltyGamificationPlugin.php"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "performance: Performance concerns: potential N+1 queries in LoyaltyGamificationPlugin.php",
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in LoyaltyGamificationPlugin.php, shell execution in LoyaltyGamificationPluginEnhanced.php"
+            ],
+            "performance": []
+        },
+        "loyalty-rewards": {
+            "plugin": "loyalty-rewards",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in LoyaltyPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in LoyaltyPlugin.php"
+            ],
+            "performance": []
+        },
+        "microservices-manager": {
+            "plugin": "microservices-manager",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in MicroservicesManagerPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in MicroservicesManagerPlugin.php"
+            ],
+            "performance": []
+        },
+        "ml-model-deployment": {
+            "plugin": "ml-model-deployment",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "multi-currency": {
+            "plugin": "multi-currency",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "multi-currency-localization": {
+            "plugin": "multi-currency-localization",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in Currency.php, shell execution in Localization.php, shell execution in MultiCurrencyLocalizationPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in Currency.php, shell execution in Localization.php, shell execution in MultiCurrencyLocalizationPlugin.php"
+            ],
+            "performance": []
+        },
+        "multi-tenant-saas": {
+            "plugin": "multi-tenant-saas",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "multi-vendor-marketplace": {
+            "plugin": "multi-vendor-marketplace",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "omnichannel-integration-hub": {
+            "plugin": "omnichannel-integration-hub",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "payment-paypal": {
+            "plugin": "payment-paypal",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "payment-stripe": {
+            "plugin": "payment-stripe",
+            "timestamp": "2025-06-30 18:50:58",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in StripeClient.php, shell execution in StripeRetryService.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: tests\/, docs\/",
+                "security: Security issues: shell execution in StripeClient.php, shell execution in StripeRetryService.php"
+            ],
+            "performance": []
+        },
+        "performance-optimizer": {
+            "plugin": "performance-optimizer",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in PerformanceOptimizerPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in PerformanceOptimizerPlugin.php"
+            ],
+            "performance": []
+        },
+        "performance-profiler": {
+            "plugin": "performance-profiler",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in PerformanceProfilerPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in PerformanceProfilerPlugin.php"
+            ],
+            "performance": []
+        },
+        "predictive-analytics-engine": {
+            "plugin": "predictive-analytics-engine",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "progressive-web-app-builder": {
+            "plugin": "progressive-web-app-builder",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "pwa-enhancer": {
+            "plugin": "pwa-enhancer",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in PWAEnhancerPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in PWAEnhancerPlugin.php"
+            ],
+            "performance": []
+        },
+        "realtime-business-intelligence": {
+            "plugin": "realtime-business-intelligence",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in 2024_01_01_create_realtime_bi_tables.php, shell execution in RealtimeBusinessIntelligencePlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in 2024_01_01_create_realtime_bi_tables.php, shell execution in RealtimeBusinessIntelligencePlugin.php"
+            ],
+            "performance": []
+        },
+        "realtime-collaboration": {
+            "plugin": "realtime-collaboration",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "review-intelligence": {
+            "plugin": "review-intelligence",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "reviews-ratings": {
+            "plugin": "reviews-ratings",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "sales-dashboard": {
+            "plugin": "sales-dashboard",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "seo-optimizer": {
+            "plugin": "seo-optimizer",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "serverless-functions": {
+            "plugin": "serverless-functions",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in ServerlessFunctionsPlugin.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in ServerlessFunctionsPlugin.php"
+            ],
+            "performance": []
+        },
+        "shipping-fedex": {
+            "plugin": "shipping-fedex",
+            "timestamp": "2025-06-30 18:50:59",
+            "status": "critical",
+            "score": 43,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in FedExApiClient.php"
+                },
+                "performance": {
+                    "status": "warning",
+                    "message": "Performance concerns: potential N+1 queries in FedExCostPredictor.php, potential N+1 queries in FedExRouteOptimizer.php"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "performance: Performance concerns: potential N+1 queries in FedExCostPredictor.php, potential N+1 queries in FedExRouteOptimizer.php",
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: assets\/, tests\/, docs\/",
+                "security: Security issues: shell execution in FedExApiClient.php"
+            ],
+            "performance": []
+        },
+        "smart-pricing": {
+            "plugin": "smart-pricing",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "smart-pricing-intelligence": {
+            "plugin": "smart-pricing-intelligence",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "smart-search": {
+            "plugin": "smart-search",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "smart-search-discovery": {
+            "plugin": "smart-search-discovery",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "smart-shipping": {
+            "plugin": "smart-shipping",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "social-commerce-integration": {
+            "plugin": "social-commerce-integration",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "social-proof-engine": {
+            "plugin": "social-proof-engine",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in SocialProofPluginEnhanced.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in SocialProofPluginEnhanced.php"
+            ],
+            "performance": []
+        },
+        "subscription-commerce": {
+            "plugin": "subscription-commerce",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "support-hub": {
+            "plugin": "support-hub",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "visual-page-builder": {
+            "plugin": "visual-page-builder",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "voice-commerce": {
+            "plugin": "voice-commerce",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in VoiceCommercePlugin.php, shell execution in VoiceCommercePluginEnhanced.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in VoiceCommercePlugin.php, shell execution in VoiceCommercePluginEnhanced.php"
+            ],
+            "performance": []
+        },
+        "websocket-realtime-engine": {
+            "plugin": "websocket-realtime-engine",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "warning",
+            "score": 71,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "pass",
+                    "message": "No security issues detected"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: templates\/, assets\/, migrations\/, tests\/, docs\/"
+            ],
+            "performance": []
+        },
+        "wishlist-intelligence": {
+            "plugin": "wishlist-intelligence",
+            "timestamp": "2025-06-30 18:51:00",
+            "status": "critical",
+            "score": 57,
+            "checks": {
+                "structure": {
+                    "status": "fail",
+                    "message": "Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/"
+                },
+                "bootstrap": {
+                    "status": "pass",
+                    "message": "Bootstrap file healthy"
+                },
+                "dependencies": {
+                    "status": "pass",
+                    "message": "All dependencies satisfied"
+                },
+                "security": {
+                    "status": "fail",
+                    "message": "Security issues: shell execution in WishlistIntelligencePluginEnhanced.php"
+                },
+                "performance": {
+                    "status": "pass",
+                    "message": "No performance issues detected"
+                },
+                "documentation": {
+                    "status": "warning",
+                    "message": "Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+                },
+                "compatibility": {
+                    "status": "pass",
+                    "message": "Fully compatible"
+                }
+            },
+            "warnings": [
+                "documentation: Documentation issues: API.md contains TODOs, HOOKS.md contains TODOs"
+            ],
+            "errors": [
+                "structure: Missing: src\/, templates\/, assets\/, migrations\/, tests\/, docs\/",
+                "security: Security issues: shell execution in WishlistIntelligencePluginEnhanced.php"
+            ],
+            "performance": []
+        }
+    }
+}

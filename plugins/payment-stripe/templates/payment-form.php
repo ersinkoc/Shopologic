@@ -1,4 +1,10 @@
 <?php
+
+
+declare(strict_types=1);
+
+namespace Shopologic\Plugins\PaymentStripe;
+declare(strict_types=1);
 /**
  * Stripe Payment Form Template
  * 

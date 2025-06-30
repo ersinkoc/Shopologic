@@ -174,31 +174,17 @@ try {
             break;
             
         case 'generate':
-            $name = $arguments[0] ?? null;
-            if (!$name) {
-                echo "Error: Plugin name is required.\n";
-                echo "Usage: php cli/plugin.php generate MyPlugin\n";
-                exit(1);
-            }
-            
-            echo "Generating plugin: {$name}...\n";
-            generatePlugin($name);
-            echo "Plugin generated successfully in plugins/{$name}/\n";
-            break;
+            // Redirect to the new generate-plugin.php script
+            $args = array_merge(['php', __DIR__ . '/generate-plugin.php'], $arguments);
+            $result = 0;
+            passthru(implode(' ', array_map('escapeshellarg', $args)), $result);
+            exit($result);
             
         case 'validate':
-            $name = $arguments[0] ?? null;
-            if (!$name) {
-                echo "Validating all plugins...\n";
-                $plugins = $repository->getAll();
-                foreach ($plugins as $plugin) {
-                    validatePlugin($plugin['name'], $repository);
-                }
-            } else {
-                echo "Validating plugin: {$name}...\n";
-                validatePlugin($name, $repository);
-            }
-            break;
+            // Redirect to the new validate-plugins.php script
+            $result = 0;
+            passthru('php ' . escapeshellarg(__DIR__ . '/validate-plugins.php'), $result);
+            exit($result);
             
         default:
             echo "Shopologic Plugin Management Tool\n";

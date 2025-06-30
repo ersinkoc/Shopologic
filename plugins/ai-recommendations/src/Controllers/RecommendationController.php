@@ -1,5 +1,7 @@
 <?php
-namespace AIRecommendations\Controllers;
+
+declare(strict_types=1);
+namespace Shopologic\Plugins\AiRecommendations\Controllers;
 
 use Shopologic\Core\HTTP\Request;
 use Shopologic\Core\HTTP\Response;
@@ -12,8 +14,7 @@ use AIRecommendations\Services\PerformanceAnalyzer;
  * 
  * Handles API requests for product recommendations
  */
-class RecommendationController
-{
+class RecommendationController\n{
     private RecommendationEngine $engine;
     private PerformanceAnalyzer $analyzer;
 
@@ -68,7 +69,7 @@ class RecommendationController
                 ]
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new JsonResponse([
                 'success' => false,
                 'error' => [
@@ -124,7 +125,7 @@ class RecommendationController
                 ]
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new JsonResponse([
                 'success' => false,
                 'error' => [
@@ -188,7 +189,7 @@ class RecommendationController
                 ]
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new JsonResponse([
                 'success' => false,
                 'error' => [
@@ -255,7 +256,7 @@ class RecommendationController
                 ]
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new JsonResponse([
                 'success' => false,
                 'error' => [
@@ -290,7 +291,7 @@ class RecommendationController
                 ]
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new JsonResponse([
                 'success' => false,
                 'error' => [
@@ -326,7 +327,7 @@ class RecommendationController
                 ]
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new JsonResponse([
                 'success' => false,
                 'error' => [

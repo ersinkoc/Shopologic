@@ -19,8 +19,7 @@ use Shopologic\Core\Logger\LoggerInterface;
  * - Fraud detection metrics
  * - Cohort analysis
  */
-class StripeAnalyticsService
-{
+class StripeAnalyticsService\n{
     private StripeAnalyticsRepository $analyticsRepository;
     private StripePaymentRepository $paymentRepository;
     private LoggerInterface $logger;
@@ -158,7 +157,7 @@ class StripeAnalyticsService
                 'alerts_count' => count($report['alerts'])
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Failed to generate hourly report', [
                 'error' => $e->getMessage()
             ]);

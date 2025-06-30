@@ -1,5 +1,7 @@
 <?php
-namespace PWAEnhancer;
+
+declare(strict_types=1);
+namespace Shopologic\Plugins\PwaEnhancer;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\Hook;
@@ -506,5 +508,53 @@ class PWAEnhancerPlugin extends AbstractPlugin
         ]);
         
         $this->api->filesystem()->put('public/offline.html', $offlineContent);
+    }
+
+    /**
+     * Register Services
+     */
+    protected function registerServices(): void
+    {
+        // TODO: Implement registerServices
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Hooks
+     */
+    protected function registerHooks(): void
+    {
+        // TODO: Implement registerHooks
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

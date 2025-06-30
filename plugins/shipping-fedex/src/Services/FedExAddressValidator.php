@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Services;
+namespace Shopologic\Plugins\ShippingFedex\Services;
 
 use Shopologic\Core\Ecommerce\Models\CustomerAddress;
 
-class FedExAddressValidator
-{
+class FedExAddressValidator\n{
     private FedExApiClient $apiClient;
 
     public function __construct(FedExApiClient $apiClient)
@@ -48,7 +47,7 @@ class FedExAddressValidator
                 'errors' => $result['errors'] ?? ['Address validation failed']
             ];
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('FedEx address validation failed', [
                 'address' => $address->toArray(),
                 'error' => $e->getMessage()

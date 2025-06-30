@@ -5,370 +5,389 @@
     "author": {
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com",
-        "url": "https://shopologic.com"
+        "url": "https:\/\/shopologic.com"
     },
     "license": "MIT",
-    "homepage": "https://shopologic.com/plugins/live-chat",
-    "keywords": ["chat", "support", "customer-service", "live-chat", "messaging"],
+    "homepage": "https:\/\/shopologic.com\/plugins\/live-chat",
+    "keywords": [
+        "chat",
+        "support",
+        "customer-service",
+        "live-chat",
+        "messaging"
+    ],
     "requirements": {
-        "php_version": ">=8.1",
-        "core_version": ">=1.0.0"
+        "php": ">=8.3",
+        "core": ">=1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\LiveChat\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "LiveChatPlugin",
+        "file": "src\/LiveChatPlugin.php"
     },
     "provides": [
         "ChatInterface",
         "SupportInterface"
     ],
-    "autoload": {
-        "psr-4": {
-            "LiveChat\\": "src/"
-        }
-    },
-    "config": {
-        "main_class": "LiveChat\\LiveChatPlugin",
-        "namespace": "LiveChat"
-    },
     "permissions": [
         "chat.agent",
         "chat.supervisor",
         "chat.admin",
         "chat.view_analytics"
     ],
-    "hooks": [
-        {
-            "hook": "page.footer",
-            "handler": "injectChatWidget",
-            "priority": 100
-        },
-        {
-            "hook": "admin.menu",
-            "handler": "addChatMenu",
-            "priority": 40
-        },
-        {
-            "hook": "user.online",
-            "handler": "trackVisitor",
-            "priority": 10
-        },
-        {
-            "hook": "order.placed",
-            "handler": "notifyAgents",
-            "priority": 50
-        }
-    ],
-    "api_endpoints": [
-        {
-            "method": "GET",
-            "path": "/api/v1/chat/widget/config",
-            "handler": "Controllers\\WidgetController@getConfig",
-            "auth": false
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/chat/conversations",
-            "handler": "Controllers\\ChatController@startConversation",
-            "auth": false
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/chat/conversations/{id}",
-            "handler": "Controllers\\ChatController@getConversation",
-            "auth": false
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/chat/conversations/{id}/messages",
-            "handler": "Controllers\\ChatController@sendMessage",
-            "auth": false
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/chat/conversations/{id}/typing",
-            "handler": "Controllers\\ChatController@updateTyping",
-            "auth": false
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/chat/conversations/{id}/end",
-            "handler": "Controllers\\ChatController@endConversation",
-            "auth": false
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/chat/agent/conversations",
-            "handler": "Controllers\\AgentController@getConversations",
-            "auth": true,
-            "permission": "chat.agent"
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/chat/agent/conversations/{id}/accept",
-            "handler": "Controllers\\AgentController@acceptConversation",
-            "auth": true,
-            "permission": "chat.agent"
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/chat/agent/conversations/{id}/transfer",
-            "handler": "Controllers\\AgentController@transferConversation",
-            "auth": true,
-            "permission": "chat.agent"
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/chat/canned-responses",
-            "handler": "Controllers\\CannedResponseController@index",
-            "auth": true,
-            "permission": "chat.agent"
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/chat/upload",
-            "handler": "Controllers\\ChatController@uploadFile",
-            "auth": false
-        }
-    ],
-    "websocket_channels": [
-        {
-            "channel": "chat.{conversation_id}",
-            "events": ["message", "typing", "agent_joined", "agent_left", "conversation_ended"]
-        },
-        {
-            "channel": "chat.agents",
-            "events": ["new_conversation", "conversation_updated", "agent_status"]
-        }
-    ],
-    "database_tables": [
-        "chat_conversations",
-        "chat_messages",
-        "chat_agents",
-        "chat_canned_responses",
-        "chat_ratings",
-        "chat_visitor_data",
-        "chat_agent_stats"
-    ],
+    "hooks": {
+        "actions": [
+            {
+                "hook": "page.footer",
+                "handler": "injectChatWidget",
+                "priority": 100
+            },
+            {
+                "hook": "admin.menu",
+                "handler": "addChatMenu",
+                "priority": 40
+            },
+            {
+                "hook": "user.online",
+                "handler": "trackVisitor",
+                "priority": 10
+            },
+            {
+                "hook": "order.placed",
+                "handler": "notifyAgents",
+                "priority": 50
+            }
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/chat\/widget\/config",
+                "handler": "Controllers\\WidgetController@getConfig",
+                "auth": false
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/chat\/conversations",
+                "handler": "Controllers\\ChatController@startConversation",
+                "auth": false
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/chat\/conversations\/{id}",
+                "handler": "Controllers\\ChatController@getConversation",
+                "auth": false
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/chat\/conversations\/{id}\/messages",
+                "handler": "Controllers\\ChatController@sendMessage",
+                "auth": false
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/chat\/conversations\/{id}\/typing",
+                "handler": "Controllers\\ChatController@updateTyping",
+                "auth": false
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/chat\/conversations\/{id}\/end",
+                "handler": "Controllers\\ChatController@endConversation",
+                "auth": false
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/chat\/agent\/conversations",
+                "handler": "Controllers\\AgentController@getConversations",
+                "auth": true,
+                "permission": "chat.agent"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/chat\/agent\/conversations\/{id}\/accept",
+                "handler": "Controllers\\AgentController@acceptConversation",
+                "auth": true,
+                "permission": "chat.agent"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/chat\/agent\/conversations\/{id}\/transfer",
+                "handler": "Controllers\\AgentController@transferConversation",
+                "auth": true,
+                "permission": "chat.agent"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/chat\/canned-responses",
+                "handler": "Controllers\\CannedResponseController@index",
+                "auth": true,
+                "permission": "chat.agent"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/chat\/upload",
+                "handler": "Controllers\\ChatController@uploadFile",
+                "auth": false
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "chat_conversations",
+            "chat_messages",
+            "chat_agents",
+            "chat_canned_responses",
+            "chat_ratings",
+            "chat_visitor_data",
+            "chat_agent_stats"
+        ],
+        "migrations": "migrations\/"
+    },
     "assets": {
         "js": [
             {
-                "src": "assets/js/chat-widget.js",
+                "src": "assets\/js\/chat-widget.js",
                 "position": "footer",
-                "pages": ["all"],
+                "pages": [
+                    "all"
+                ],
                 "defer": true
             },
             {
-                "src": "assets/js/agent-dashboard.js",
+                "src": "assets\/js\/agent-dashboard.js",
                 "position": "footer",
-                "pages": ["admin"],
+                "pages": [
+                    "admin"
+                ],
                 "defer": true
             }
         ],
         "css": [
             {
-                "src": "assets/css/chat-widget.css",
-                "pages": ["all"]
+                "src": "assets\/css\/chat-widget.css",
+                "pages": [
+                    "all"
+                ]
             },
             {
-                "src": "assets/css/agent-dashboard.css",
-                "pages": ["admin"]
+                "src": "assets\/css\/agent-dashboard.css",
+                "pages": [
+                    "admin"
+                ]
             }
         ]
     },
-    "config_schema": {
-        "enabled": {
-            "type": "boolean",
-            "label": "Enable Live Chat",
-            "description": "Show chat widget on frontend",
-            "default": true
-        },
-        "widget_position": {
-            "type": "select",
-            "label": "Widget Position",
-            "default": "bottom-right",
-            "options": {
-                "bottom-right": "Bottom Right",
-                "bottom-left": "Bottom Left",
-                "top-right": "Top Right",
-                "top-left": "Top Left"
-            }
-        },
-        "widget_color": {
-            "type": "color",
-            "label": "Primary Color",
-            "description": "Main color for chat widget",
-            "default": "#4F46E5"
-        },
-        "welcome_message": {
-            "type": "textarea",
-            "label": "Welcome Message",
-            "description": "Initial message shown to visitors",
-            "default": "Hi! How can we help you today?",
-            "rows": 3
-        },
-        "offline_message": {
-            "type": "textarea",
-            "label": "Offline Message",
-            "description": "Message shown when no agents are available",
-            "default": "We're currently offline. Please leave a message and we'll get back to you soon!",
-            "rows": 3
-        },
-        "business_hours": {
-            "type": "array",
-            "label": "Business Hours",
-            "description": "Define when agents are typically available",
-            "schema": {
-                "day": {
-                    "type": "select",
-                    "label": "Day",
-                    "options": {
-                        "monday": "Monday",
-                        "tuesday": "Tuesday",
-                        "wednesday": "Wednesday",
-                        "thursday": "Thursday",
-                        "friday": "Friday",
-                        "saturday": "Saturday",
-                        "sunday": "Sunday"
-                    }
-                },
-                "start": {
-                    "type": "time",
-                    "label": "Start Time"
-                },
-                "end": {
-                    "type": "time",
-                    "label": "End Time"
+    "config": {
+        "schema": {
+            "enabled": {
+                "type": "boolean",
+                "label": "Enable Live Chat",
+                "description": "Show chat widget on frontend",
+                "default": true
+            },
+            "widget_position": {
+                "type": "select",
+                "label": "Widget Position",
+                "default": "bottom-right",
+                "options": {
+                    "bottom-right": "Bottom Right",
+                    "bottom-left": "Bottom Left",
+                    "top-right": "Top Right",
+                    "top-left": "Top Left"
                 }
-            }
-        },
-        "require_email": {
-            "type": "boolean",
-            "label": "Require Email",
-            "description": "Require visitors to provide email before chatting",
-            "default": false
-        },
-        "require_name": {
-            "type": "boolean",
-            "label": "Require Name",
-            "description": "Require visitors to provide name before chatting",
-            "default": true
-        },
-        "enable_file_sharing": {
-            "type": "boolean",
-            "label": "Enable File Sharing",
-            "description": "Allow visitors and agents to share files",
-            "default": true
-        },
-        "allowed_file_types": {
-            "type": "multiselect",
-            "label": "Allowed File Types",
-            "default": ["jpg", "png", "pdf", "doc", "docx"],
-            "options": {
-                "jpg": "JPG Images",
-                "png": "PNG Images",
-                "gif": "GIF Images",
-                "pdf": "PDF Documents",
-                "doc": "Word Documents",
-                "docx": "Word Documents (XML)",
-                "txt": "Text Files",
-                "csv": "CSV Files"
             },
-            "depends_on": {
-                "enable_file_sharing": true
-            }
-        },
-        "max_file_size": {
-            "type": "number",
-            "label": "Max File Size (MB)",
-            "default": 5,
-            "min": 1,
-            "max": 50,
-            "depends_on": {
-                "enable_file_sharing": true
-            }
-        },
-        "enable_sound_notifications": {
-            "type": "boolean",
-            "label": "Enable Sound Notifications",
-            "description": "Play sound for new messages",
-            "default": true
-        },
-        "enable_desktop_notifications": {
-            "type": "boolean",
-            "label": "Enable Desktop Notifications",
-            "description": "Show browser notifications for new messages",
-            "default": true
-        },
-        "enable_chatbot": {
-            "type": "boolean",
-            "label": "Enable Chatbot",
-            "description": "Use AI chatbot for initial responses",
-            "default": false
-        },
-        "chatbot_name": {
-            "type": "string",
-            "label": "Chatbot Name",
-            "default": "Assistant",
-            "depends_on": {
-                "enable_chatbot": true
-            }
-        },
-        "auto_assign_conversations": {
-            "type": "boolean",
-            "label": "Auto-Assign Conversations",
-            "description": "Automatically assign new chats to available agents",
-            "default": true
-        },
-        "assignment_method": {
-            "type": "select",
-            "label": "Assignment Method",
-            "default": "round-robin",
-            "options": {
-                "round-robin": "Round Robin",
-                "least-active": "Least Active Agent",
-                "skill-based": "Skill-Based Routing"
+            "widget_color": {
+                "type": "color",
+                "label": "Primary Color",
+                "description": "Main color for chat widget",
+                "default": "#4F46E5"
             },
-            "depends_on": {
-                "auto_assign_conversations": true
+            "welcome_message": {
+                "type": "textarea",
+                "label": "Welcome Message",
+                "description": "Initial message shown to visitors",
+                "default": "Hi! How can we help you today?",
+                "rows": 3
+            },
+            "offline_message": {
+                "type": "textarea",
+                "label": "Offline Message",
+                "description": "Message shown when no agents are available",
+                "default": "We're currently offline. Please leave a message and we'll get back to you soon!",
+                "rows": 3
+            },
+            "business_hours": {
+                "type": "array",
+                "label": "Business Hours",
+                "description": "Define when agents are typically available",
+                "schema": {
+                    "day": {
+                        "type": "select",
+                        "label": "Day",
+                        "options": {
+                            "monday": "Monday",
+                            "tuesday": "Tuesday",
+                            "wednesday": "Wednesday",
+                            "thursday": "Thursday",
+                            "friday": "Friday",
+                            "saturday": "Saturday",
+                            "sunday": "Sunday"
+                        }
+                    },
+                    "start": {
+                        "type": "time",
+                        "label": "Start Time"
+                    },
+                    "end": {
+                        "type": "time",
+                        "label": "End Time"
+                    }
+                }
+            },
+            "require_email": {
+                "type": "boolean",
+                "label": "Require Email",
+                "description": "Require visitors to provide email before chatting",
+                "default": false
+            },
+            "require_name": {
+                "type": "boolean",
+                "label": "Require Name",
+                "description": "Require visitors to provide name before chatting",
+                "default": true
+            },
+            "enable_file_sharing": {
+                "type": "boolean",
+                "label": "Enable File Sharing",
+                "description": "Allow visitors and agents to share files",
+                "default": true
+            },
+            "allowed_file_types": {
+                "type": "multiselect",
+                "label": "Allowed File Types",
+                "default": [
+                    "jpg",
+                    "png",
+                    "pdf",
+                    "doc",
+                    "docx"
+                ],
+                "options": {
+                    "jpg": "JPG Images",
+                    "png": "PNG Images",
+                    "gif": "GIF Images",
+                    "pdf": "PDF Documents",
+                    "doc": "Word Documents",
+                    "docx": "Word Documents (XML)",
+                    "txt": "Text Files",
+                    "csv": "CSV Files"
+                },
+                "depends_on": {
+                    "enable_file_sharing": true
+                }
+            },
+            "max_file_size": {
+                "type": "number",
+                "label": "Max File Size (MB)",
+                "default": 5,
+                "min": 1,
+                "max": 50,
+                "depends_on": {
+                    "enable_file_sharing": true
+                }
+            },
+            "enable_sound_notifications": {
+                "type": "boolean",
+                "label": "Enable Sound Notifications",
+                "description": "Play sound for new messages",
+                "default": true
+            },
+            "enable_desktop_notifications": {
+                "type": "boolean",
+                "label": "Enable Desktop Notifications",
+                "description": "Show browser notifications for new messages",
+                "default": true
+            },
+            "enable_chatbot": {
+                "type": "boolean",
+                "label": "Enable Chatbot",
+                "description": "Use AI chatbot for initial responses",
+                "default": false
+            },
+            "chatbot_name": {
+                "type": "string",
+                "label": "Chatbot Name",
+                "default": "Assistant",
+                "depends_on": {
+                    "enable_chatbot": true
+                }
+            },
+            "auto_assign_conversations": {
+                "type": "boolean",
+                "label": "Auto-Assign Conversations",
+                "description": "Automatically assign new chats to available agents",
+                "default": true
+            },
+            "assignment_method": {
+                "type": "select",
+                "label": "Assignment Method",
+                "default": "round-robin",
+                "options": {
+                    "round-robin": "Round Robin",
+                    "least-active": "Least Active Agent",
+                    "skill-based": "Skill-Based Routing"
+                },
+                "depends_on": {
+                    "auto_assign_conversations": true
+                }
+            },
+            "visitor_tracking": {
+                "type": "boolean",
+                "label": "Enable Visitor Tracking",
+                "description": "Track visitor behavior and page views",
+                "default": true
+            },
+            "show_visitor_info": {
+                "type": "boolean",
+                "label": "Show Visitor Info to Agents",
+                "description": "Display visitor location, browser, and page history",
+                "default": true,
+                "depends_on": {
+                    "visitor_tracking": true
+                }
+            },
+            "enable_ratings": {
+                "type": "boolean",
+                "label": "Enable Chat Ratings",
+                "description": "Ask visitors to rate chat experience",
+                "default": true
+            },
+            "transcript_email": {
+                "type": "boolean",
+                "label": "Email Chat Transcripts",
+                "description": "Send chat transcript to visitor's email",
+                "default": true
+            },
+            "gdpr_compliance": {
+                "type": "boolean",
+                "label": "GDPR Compliance Mode",
+                "description": "Show privacy notice and require consent",
+                "default": false
+            },
+            "data_retention_days": {
+                "type": "number",
+                "label": "Data Retention (Days)",
+                "description": "Automatically delete old chat data",
+                "default": 365,
+                "min": 30,
+                "max": 1825
             }
-        },
-        "visitor_tracking": {
-            "type": "boolean",
-            "label": "Enable Visitor Tracking",
-            "description": "Track visitor behavior and page views",
-            "default": true
-        },
-        "show_visitor_info": {
-            "type": "boolean",
-            "label": "Show Visitor Info to Agents",
-            "description": "Display visitor location, browser, and page history",
-            "default": true,
-            "depends_on": {
-                "visitor_tracking": true
-            }
-        },
-        "enable_ratings": {
-            "type": "boolean",
-            "label": "Enable Chat Ratings",
-            "description": "Ask visitors to rate chat experience",
-            "default": true
-        },
-        "transcript_email": {
-            "type": "boolean",
-            "label": "Email Chat Transcripts",
-            "description": "Send chat transcript to visitor's email",
-            "default": true
-        },
-        "gdpr_compliance": {
-            "type": "boolean",
-            "label": "GDPR Compliance Mode",
-            "description": "Show privacy notice and require consent",
-            "default": false
-        },
-        "data_retention_days": {
-            "type": "number",
-            "label": "Data Retention (Days)",
-            "description": "Automatically delete old chat data",
-            "default": 365,
-            "min": 30,
-            "max": 1825
         }
     },
     "widgets": [
@@ -377,17 +396,21 @@
             "name": "Active Chats",
             "description": "Currently active chat conversations",
             "position": "dashboard",
-            "permissions": ["chat.agent"]
+            "permissions": [
+                "chat.agent"
+            ]
         },
         {
             "id": "chat_analytics",
             "name": "Chat Analytics",
             "description": "Chat performance metrics",
             "position": "dashboard",
-            "permissions": ["chat.view_analytics"]
+            "permissions": [
+                "chat.view_analytics"
+            ]
         }
     ],
-    "cron_jobs": [
+    "scheduled_tasks": [
         {
             "schedule": "0 * * * *",
             "handler": "calculateAgentStats",

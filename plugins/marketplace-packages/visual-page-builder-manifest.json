@@ -1,0 +1,672 @@
+{
+    "package_info": {
+        "name": "visual-page-builder",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:14",
+        "package_size": 20352,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "visual-page-builder",
+        "version": "1.0.0",
+        "description": "Advanced drag-and-drop page builder with real-time preview, responsive design, custom blocks, templates library, CSS\/JS editor, version control, and AI-powered layout suggestions",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/visual-page-builder",
+        "keywords": [
+            "page-builder",
+            "drag-drop",
+            "visual-editor",
+            "responsive-design",
+            "templates",
+            "blocks",
+            "wysiwyg",
+            "ai-layout"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/media": "^1.0.0",
+                "shopologic\/themes": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\VisualPageBuilder\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "VisualPageBuilderPlugin",
+            "file": "src\/VisualPageBuilderPlugin.php"
+        },
+        "provides": [
+            "PageBuilderInterface",
+            "BlockProviderInterface",
+            "TemplateEngineInterface"
+        ],
+        "permissions": [
+            "pagebuilder.access",
+            "pagebuilder.create_pages",
+            "pagebuilder.edit_pages",
+            "pagebuilder.delete_pages",
+            "pagebuilder.manage_templates",
+            "pagebuilder.manage_blocks",
+            "pagebuilder.use_advanced_features",
+            "pagebuilder.publish",
+            "pagebuilder.export",
+            "pagebuilder.ai_suggestions"
+        ],
+        "hooks": {
+            "actions": [
+                "page.created",
+                "page.updated",
+                "block.registered",
+                "template.saved",
+                "layout.generated"
+            ],
+            "filters": [
+                "content.render",
+                "page.output",
+                "blocks.available",
+                "templates.list",
+                "assets.enqueue"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/pagebuilder\/pages",
+                    "handler": "Controllers\\PageController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/pages",
+                    "handler": "Controllers\\PageController@create",
+                    "auth": true,
+                    "permission": "pagebuilder.create_pages"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/pagebuilder\/pages\/{id}",
+                    "handler": "Controllers\\PageController@show",
+                    "auth": true
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/pagebuilder\/pages\/{id}",
+                    "handler": "Controllers\\PageController@update",
+                    "auth": true,
+                    "permission": "pagebuilder.edit_pages"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/pages\/{id}\/preview",
+                    "handler": "Controllers\\PageController@preview",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/pages\/{id}\/publish",
+                    "handler": "Controllers\\PageController@publish",
+                    "auth": true,
+                    "permission": "pagebuilder.publish"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/pagebuilder\/blocks",
+                    "handler": "Controllers\\BlockController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/blocks",
+                    "handler": "Controllers\\BlockController@create",
+                    "auth": true,
+                    "permission": "pagebuilder.manage_blocks"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/pagebuilder\/templates",
+                    "handler": "Controllers\\TemplateController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/templates",
+                    "handler": "Controllers\\TemplateController@create",
+                    "auth": true,
+                    "permission": "pagebuilder.manage_templates"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/ai\/suggest-layout",
+                    "handler": "Controllers\\AIController@suggestLayout",
+                    "auth": true,
+                    "permission": "pagebuilder.ai_suggestions"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/export\/{id}",
+                    "handler": "Controllers\\ExportController@export",
+                    "auth": true,
+                    "permission": "pagebuilder.export"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pagebuilder\/import",
+                    "handler": "Controllers\\ImportController@import",
+                    "auth": true,
+                    "permission": "pagebuilder.create_pages"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "pagebuilder_pages",
+                "pagebuilder_page_versions",
+                "pagebuilder_blocks",
+                "pagebuilder_block_instances",
+                "pagebuilder_templates",
+                "pagebuilder_template_categories",
+                "pagebuilder_assets",
+                "pagebuilder_styles",
+                "pagebuilder_scripts",
+                "pagebuilder_ai_suggestions"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/pagebuilder.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "jquery",
+                        "sortable",
+                        "vue"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/block-editor.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/preview.js",
+                    "position": "footer",
+                    "pages": [
+                        "preview"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/pagebuilder.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/blocks.css",
+                    "pages": [
+                        "all"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/responsive.css",
+                    "pages": [
+                        "all"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_ai_suggestions": {
+                    "type": "boolean",
+                    "label": "Enable AI Layout Suggestions",
+                    "default": true,
+                    "description": "Use AI to suggest optimal layouts based on content"
+                },
+                "enable_versioning": {
+                    "type": "boolean",
+                    "label": "Enable Version Control",
+                    "default": true,
+                    "description": "Keep history of page changes"
+                },
+                "max_versions": {
+                    "type": "number",
+                    "label": "Maximum Versions per Page",
+                    "default": 50,
+                    "min": 10,
+                    "max": 100
+                },
+                "autosave_interval": {
+                    "type": "number",
+                    "label": "Autosave Interval (seconds)",
+                    "default": 30,
+                    "min": 10,
+                    "max": 300
+                },
+                "enable_code_editor": {
+                    "type": "boolean",
+                    "label": "Enable Advanced Code Editor",
+                    "default": true,
+                    "description": "Allow custom CSS\/JS editing"
+                },
+                "responsive_breakpoints": {
+                    "type": "object",
+                    "label": "Responsive Breakpoints",
+                    "default": {
+                        "mobile": 480,
+                        "tablet": 768,
+                        "desktop": 1024,
+                        "wide": 1440
+                    }
+                },
+                "block_categories": {
+                    "type": "array",
+                    "label": "Block Categories",
+                    "default": [
+                        "Basic",
+                        "Media",
+                        "Commerce",
+                        "Forms",
+                        "Navigation",
+                        "Social",
+                        "Advanced"
+                    ]
+                },
+                "template_categories": {
+                    "type": "array",
+                    "label": "Template Categories",
+                    "default": [
+                        "Landing Pages",
+                        "Product Pages",
+                        "Blog Layouts",
+                        "Contact Pages",
+                        "About Pages",
+                        "Portfolio",
+                        "Coming Soon"
+                    ]
+                },
+                "enable_custom_blocks": {
+                    "type": "boolean",
+                    "label": "Allow Custom Block Creation",
+                    "default": true
+                },
+                "enable_global_blocks": {
+                    "type": "boolean",
+                    "label": "Enable Global Blocks",
+                    "default": true,
+                    "description": "Create reusable blocks across pages"
+                },
+                "grid_columns": {
+                    "type": "number",
+                    "label": "Grid System Columns",
+                    "default": 12,
+                    "min": 6,
+                    "max": 24
+                },
+                "enable_animations": {
+                    "type": "boolean",
+                    "label": "Enable Animations",
+                    "default": true
+                },
+                "animation_types": {
+                    "type": "multiselect",
+                    "label": "Available Animations",
+                    "default": [
+                        "fade",
+                        "slide",
+                        "zoom",
+                        "rotate",
+                        "bounce",
+                        "flip"
+                    ],
+                    "options": {
+                        "fade": "Fade In\/Out",
+                        "slide": "Slide",
+                        "zoom": "Zoom",
+                        "rotate": "Rotate",
+                        "bounce": "Bounce",
+                        "flip": "Flip",
+                        "parallax": "Parallax",
+                        "typewriter": "Typewriter"
+                    }
+                },
+                "enable_lazy_loading": {
+                    "type": "boolean",
+                    "label": "Enable Lazy Loading",
+                    "default": true
+                },
+                "compression_quality": {
+                    "type": "number",
+                    "label": "Image Compression Quality",
+                    "default": 85,
+                    "min": 60,
+                    "max": 100
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "pagebuilder_stats",
+                "name": "Page Builder Statistics",
+                "description": "Pages, blocks, and template usage",
+                "position": "dashboard",
+                "permissions": [
+                    "pagebuilder.access"
+                ]
+            },
+            {
+                "id": "recent_pages",
+                "name": "Recently Edited Pages",
+                "description": "Quick access to recent pages",
+                "position": "dashboard",
+                "permissions": [
+                    "pagebuilder.access"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 2 * * *",
+                "handler": "cleanupOldVersions",
+                "description": "Clean up old page versions"
+            },
+            {
+                "schedule": "0 *\/6 * * *",
+                "handler": "optimizeAssets",
+                "description": "Optimize and cache page assets"
+            },
+            {
+                "schedule": "0 3 * * SUN",
+                "handler": "generateSitemap",
+                "description": "Update sitemap with new pages"
+            }
+        ],
+        "blocks": {
+            "provided": [
+                {
+                    "id": "heading",
+                    "name": "Heading",
+                    "category": "Basic",
+                    "icon": "dashicons-heading",
+                    "supports": [
+                        "typography",
+                        "spacing",
+                        "animation"
+                    ]
+                },
+                {
+                    "id": "text",
+                    "name": "Text",
+                    "category": "Basic",
+                    "icon": "dashicons-text",
+                    "supports": [
+                        "typography",
+                        "spacing",
+                        "columns"
+                    ]
+                },
+                {
+                    "id": "image",
+                    "name": "Image",
+                    "category": "Media",
+                    "icon": "dashicons-format-image",
+                    "supports": [
+                        "sizing",
+                        "filters",
+                        "lightbox",
+                        "lazy-load"
+                    ]
+                },
+                {
+                    "id": "video",
+                    "name": "Video",
+                    "category": "Media",
+                    "icon": "dashicons-video-alt3",
+                    "supports": [
+                        "autoplay",
+                        "controls",
+                        "poster"
+                    ]
+                },
+                {
+                    "id": "button",
+                    "name": "Button",
+                    "category": "Basic",
+                    "icon": "dashicons-button",
+                    "supports": [
+                        "styling",
+                        "icons",
+                        "hover-effects"
+                    ]
+                },
+                {
+                    "id": "columns",
+                    "name": "Columns",
+                    "category": "Basic",
+                    "icon": "dashicons-columns",
+                    "supports": [
+                        "responsive",
+                        "gaps",
+                        "vertical-align"
+                    ]
+                },
+                {
+                    "id": "product-grid",
+                    "name": "Product Grid",
+                    "category": "Commerce",
+                    "icon": "dashicons-grid-view",
+                    "supports": [
+                        "filtering",
+                        "sorting",
+                        "pagination"
+                    ]
+                },
+                {
+                    "id": "form",
+                    "name": "Form",
+                    "category": "Forms",
+                    "icon": "dashicons-feedback",
+                    "supports": [
+                        "validation",
+                        "ajax",
+                        "conditional-logic"
+                    ]
+                },
+                {
+                    "id": "accordion",
+                    "name": "Accordion",
+                    "category": "Advanced",
+                    "icon": "dashicons-list-view",
+                    "supports": [
+                        "icons",
+                        "animation",
+                        "multiple-open"
+                    ]
+                },
+                {
+                    "id": "tabs",
+                    "name": "Tabs",
+                    "category": "Advanced",
+                    "icon": "dashicons-category",
+                    "supports": [
+                        "icons",
+                        "vertical",
+                        "ajax-load"
+                    ]
+                },
+                {
+                    "id": "slider",
+                    "name": "Slider",
+                    "category": "Media",
+                    "icon": "dashicons-slides",
+                    "supports": [
+                        "autoplay",
+                        "navigation",
+                        "pagination"
+                    ]
+                },
+                {
+                    "id": "countdown",
+                    "name": "Countdown",
+                    "category": "Advanced",
+                    "icon": "dashicons-clock",
+                    "supports": [
+                        "actions",
+                        "styling",
+                        "timezone"
+                    ]
+                },
+                {
+                    "id": "map",
+                    "name": "Map",
+                    "category": "Media",
+                    "icon": "dashicons-location",
+                    "supports": [
+                        "markers",
+                        "controls",
+                        "styling"
+                    ]
+                },
+                {
+                    "id": "social-icons",
+                    "name": "Social Icons",
+                    "category": "Social",
+                    "icon": "dashicons-share",
+                    "supports": [
+                        "styling",
+                        "animation",
+                        "custom-links"
+                    ]
+                },
+                {
+                    "id": "testimonial",
+                    "name": "Testimonial",
+                    "category": "Commerce",
+                    "icon": "dashicons-format-quote",
+                    "supports": [
+                        "carousel",
+                        "grid",
+                        "styling"
+                    ]
+                },
+                {
+                    "id": "pricing-table",
+                    "name": "Pricing Table",
+                    "category": "Commerce",
+                    "icon": "dashicons-money-alt",
+                    "supports": [
+                        "features",
+                        "ribbons",
+                        "animation"
+                    ]
+                },
+                {
+                    "id": "code",
+                    "name": "Custom Code",
+                    "category": "Advanced",
+                    "icon": "dashicons-editor-code",
+                    "supports": [
+                        "html",
+                        "css",
+                        "javascript"
+                    ]
+                },
+                {
+                    "id": "spacer",
+                    "name": "Spacer",
+                    "category": "Basic",
+                    "icon": "dashicons-align-center",
+                    "supports": [
+                        "height",
+                        "responsive"
+                    ]
+                },
+                {
+                    "id": "divider",
+                    "name": "Divider",
+                    "category": "Basic",
+                    "icon": "dashicons-minus",
+                    "supports": [
+                        "style",
+                        "width",
+                        "alignment"
+                    ]
+                },
+                {
+                    "id": "embed",
+                    "name": "Embed",
+                    "category": "Media",
+                    "icon": "dashicons-embed-generic",
+                    "supports": [
+                        "responsive",
+                        "aspect-ratio"
+                    ]
+                }
+            ]
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "Drag-and-drop interface",
+                "20+ pre-built blocks",
+                "Responsive design tools",
+                "Version control system",
+                "AI-powered layout suggestions",
+                "Template library",
+                "Custom CSS\/JS editor",
+                "Real-time preview",
+                "Import\/Export functionality"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "real-time",
+            "mobile"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "B",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

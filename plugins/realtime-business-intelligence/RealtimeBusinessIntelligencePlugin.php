@@ -1,6 +1,7 @@
 <?php
 
-namespace RealtimeBusinessIntelligence;
+declare(strict_types=1);
+namespace Shopologic\Plugins\RealtimeBusinessIntelligence;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Hook\HookSystem;
@@ -460,7 +461,7 @@ class RealtimeBusinessIntelligencePlugin extends AbstractPlugin implements Widge
                 if ($this->isSignificantChange($kpi['name'], $value)) {
                     $this->notifyKpiChange($kpi['name'], $value);
                 }
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('KPI calculation failed', [
                     'kpi' => $kpi['name'],
                     'error' => $e->getMessage()
@@ -602,5 +603,29 @@ class RealtimeBusinessIntelligencePlugin extends AbstractPlugin implements Widge
         ];
         
         return $key ? ($config[$key] ?? $default) : $config;
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

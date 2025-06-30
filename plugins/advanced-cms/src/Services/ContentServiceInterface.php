@@ -1,6 +1,7 @@
 <?php
 
-namespace AdvancedCms\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\AdvancedCms\Services;
 
 interface ContentServiceInterface
 {

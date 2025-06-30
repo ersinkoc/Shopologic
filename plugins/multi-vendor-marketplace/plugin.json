@@ -6,10 +6,16 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "MultiVendorMarketplace\\MultiVendorMarketplacePlugin",
-    "file": "MultiVendorMarketplacePlugin.php", 
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "MultiVendorMarketplacePlugin",
+        "file": "MultiVendorMarketplacePlugin.php"
     },
     "permissions": [
         "vendors.manage",
@@ -19,63 +25,104 @@
         "commissions.write",
         "hooks.*"
     ],
-    "hooks": [
-        "vendor.registered",
-        "product.submitted",
-        "order.completed",
-        "commission.calculated",
-        "admin.vendor.dashboard"
-    ],
-    "api_endpoints": [
-        "POST /api/v1/vendors/register",
-        "GET /api/v1/vendors/{id}/products",
-        "GET /api/v1/vendors/{id}/analytics",
-        "POST /api/v1/vendors/commission-payout",
-        "GET /api/v1/marketplace/stats"
-    ],
-    "database_tables": [
-        "vendors",
-        "vendor_products",
-        "vendor_commissions",
-        "commission_payouts",
-        "marketplace_analytics"
-    ],
-    "config_schema": {
-        "commission_rate": {
-            "type": "number",
-            "default": 15,
-            "min": 0,
-            "max": 50,
-            "description": "Default commission rate percentage"
-        },
-        "auto_approve_vendors": {
-            "type": "boolean",
-            "default": false,
-            "description": "Automatically approve new vendors"
-        },
-        "auto_approve_products": {
-            "type": "boolean",
-            "default": false,
-            "description": "Automatically approve vendor products"
-        },
-        "enable_vendor_dashboard": {
-            "type": "boolean",
-            "default": true,
-            "description": "Provide vendor dashboard"
-        },
-        "payout_frequency": {
-            "type": "select",
-            "default": "monthly",
-            "options": {
-                "weekly": "Weekly",
-                "monthly": "Monthly",
-                "quarterly": "Quarterly"
+    "hooks": {
+        "actions": [
+            "vendor.registered",
+            "product.submitted",
+            "order.completed",
+            "commission.calculated",
+            "admin.vendor.dashboard"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/api/v1/vendors/register",
+                "handler": "handlePost"
             },
-            "description": "Commission payout frequency"
-        }
+            {
+                "method": "GET",
+                "path": "/api/v1/vendors/{id}/products",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/vendors/{id}/analytics",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/vendors/commission-payout",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/marketplace/stats",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "vendors",
+            "vendor_products",
+            "vendor_commissions",
+            "commission_payouts",
+            "marketplace_analytics"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/vendor-dashboard.js", "assets/marketplace.js"],
-        "css": ["assets/marketplace.css"]
-    }
+        "js": [
+            "assets/vendor-dashboard.js",
+            "assets/marketplace.js"
+        ],
+        "css": [
+            "assets/marketplace.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "commission_rate": {
+                "type": "number",
+                "default": 15,
+                "min": 0,
+                "max": 50,
+                "description": "Default commission rate percentage"
+            },
+            "auto_approve_vendors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Automatically approve new vendors"
+            },
+            "auto_approve_products": {
+                "type": "boolean",
+                "default": false,
+                "description": "Automatically approve vendor products"
+            },
+            "enable_vendor_dashboard": {
+                "type": "boolean",
+                "default": true,
+                "description": "Provide vendor dashboard"
+            },
+            "payout_frequency": {
+                "type": "select",
+                "default": "monthly",
+                "options": {
+                    "weekly": "Weekly",
+                    "monthly": "Monthly",
+                    "quarterly": "Quarterly"
+                },
+                "description": "Commission payout frequency"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\MultiVendorMarketplace\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/multi-vendor-marketplace"
 }

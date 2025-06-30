@@ -1,6 +1,7 @@
 <?php
 
-namespace EnterpriseSupplyChainManagement\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\EnterpriseSupplyChainManagement\Services;
 
 interface SupplierManagementServiceInterface
 {

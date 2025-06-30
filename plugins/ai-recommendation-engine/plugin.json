@@ -2,9 +2,26 @@
     "name": "ai-recommendation-engine",
     "version": "1.0.0",
     "description": "Advanced AI-powered product recommendation engine with machine learning algorithms, collaborative filtering, and real-time personalization",
-    "author": "Shopologic",
-    "namespace": "AiRecommendationEngine",
-    "class": "AiRecommendationEngine\\AiRecommendationEnginePlugin",
+    "author": {
+        "name": "Shopologic"
+    },
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/analytics": "^1.0",
+            "shopologic/core": "^1.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\AiRecommendationEngine\\": "src/"
+        }
+    },
+    "bootstrap": {
+        "class": "AiRecommendationEnginePlugin",
+        "file": "AiRecommendationEnginePlugin.php"
+    },
     "permissions": [
         "hooks.order.*",
         "hooks.product.*",
@@ -16,34 +33,73 @@
         "ai.recommendations.manage",
         "ai.analytics.view"
     ],
-    "dependencies": {
-        "shopologic/core": "^1.0",
-        "shopologic/analytics": "^1.0"
+    "hooks": {
+        "actions": [
+            "order.completed",
+            "product.viewed",
+            "cart.item_added",
+            "customer.login",
+            "product.price"
+        ]
     },
-    "settings": {
-        "configurable": true,
-        "api_enabled": true,
-        "widget_enabled": true,
-        "ml_training_enabled": true,
-        "real_time_processing": true
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/ai/recommendations/{customer_id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/ai/track-interaction",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/ai/similar-products/{product_id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/ai/train-model",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/ai/analytics",
+                "handler": "handleGet"
+            }
+        ]
     },
-    "hooks": [
-        "order.completed",
-        "product.viewed",
-        "cart.item_added",
-        "customer.login",
-        "product.price"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/ai/recommendations/{customer_id}",
-        "POST /api/v1/ai/track-interaction",
-        "GET /api/v1/ai/similar-products/{product_id}",
-        "POST /api/v1/ai/train-model",
-        "GET /api/v1/ai/analytics"
-    ],
-    "cron_jobs": [
+    "config": {
+        "schema": {
+            "configurable": {
+                "type": "boolean",
+                "default": true
+            },
+            "api_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "widget_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "ml_training_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "real_time_processing": {
+                "type": "boolean",
+                "default": true
+            }
+        }
+    },
+    "scheduled_tasks": [
         "0 2 * * * - train_models",
         "*/15 * * * * - process_interactions",
         "0 4 * * SUN - cleanup_old_data"
-    ]
+    ],
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/ai-recommendation-engine"
 }

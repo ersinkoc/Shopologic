@@ -1,0 +1,712 @@
+{
+    "package_info": {
+        "name": "headless-commerce-api",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:03",
+        "package_size": 27720,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "headless-commerce-api",
+        "version": "1.0.0",
+        "description": "Complete headless commerce API with REST and GraphQL endpoints, real-time webhooks, SDK generation, API versioning, rate limiting, and comprehensive e-commerce functionality",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/headless-commerce-api",
+        "keywords": [
+            "headless",
+            "commerce",
+            "api",
+            "rest",
+            "graphql",
+            "sdk",
+            "webhooks",
+            "ecommerce"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/commerce": "^1.0.0",
+                "shopologic\/api": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\HeadlessCommerceApi\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "HeadlessCommerceApiPlugin",
+            "file": "src\/HeadlessCommerceAPIPlugin.php"
+        },
+        "provides": [
+            "HeadlessAPIInterface",
+            "CommerceAPIInterface",
+            "WebhookManagerInterface",
+            "SDKGeneratorInterface"
+        ],
+        "permissions": [
+            "headless.access",
+            "headless.manage_tokens",
+            "headless.view_analytics",
+            "headless.manage_webhooks",
+            "headless.configure_api",
+            "headless.generate_sdk"
+        ],
+        "hooks": {
+            "actions": [
+                "api.request",
+                "api.response",
+                "webhook.triggered",
+                "token.created",
+                "rate_limit.exceeded",
+                "api.error"
+            ],
+            "filters": [
+                "api.endpoints",
+                "api.response_format",
+                "api.authentication",
+                "api.rate_limits",
+                "api.cors_settings"
+            ]
+        },
+        "api": {
+            "versions": [
+                "v1",
+                "v2"
+            ],
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/products",
+                    "handler": "Controllers\\ProductController@index",
+                    "auth": false
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/products\/{id}",
+                    "handler": "Controllers\\ProductController@show",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/products",
+                    "handler": "Controllers\\ProductController@store",
+                    "auth": true,
+                    "permission": "products.create"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/{version}\/products\/{id}",
+                    "handler": "Controllers\\ProductController@update",
+                    "auth": true,
+                    "permission": "products.update"
+                },
+                {
+                    "method": "DELETE",
+                    "path": "\/api\/{version}\/products\/{id}",
+                    "handler": "Controllers\\ProductController@destroy",
+                    "auth": true,
+                    "permission": "products.delete"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/categories",
+                    "handler": "Controllers\\CategoryController@index",
+                    "auth": false
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/categories\/{id}\/products",
+                    "handler": "Controllers\\CategoryController@products",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/cart",
+                    "handler": "Controllers\\CartController@create",
+                    "auth": false
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/cart\/{id}",
+                    "handler": "Controllers\\CartController@show",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/cart\/{id}\/items",
+                    "handler": "Controllers\\CartController@addItem",
+                    "auth": false
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/{version}\/cart\/{id}\/items\/{itemId}",
+                    "handler": "Controllers\\CartController@updateItem",
+                    "auth": false
+                },
+                {
+                    "method": "DELETE",
+                    "path": "\/api\/{version}\/cart\/{id}\/items\/{itemId}",
+                    "handler": "Controllers\\CartController@removeItem",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/checkout",
+                    "handler": "Controllers\\CheckoutController@process",
+                    "auth": false
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/orders",
+                    "handler": "Controllers\\OrderController@index",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/orders\/{id}",
+                    "handler": "Controllers\\OrderController@show",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/customers",
+                    "handler": "Controllers\\CustomerController@register",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/auth\/login",
+                    "handler": "Controllers\\AuthController@login",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/auth\/logout",
+                    "handler": "Controllers\\AuthController@logout",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/auth\/refresh",
+                    "handler": "Controllers\\AuthController@refresh",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/search",
+                    "handler": "Controllers\\SearchController@search",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/webhooks",
+                    "handler": "Controllers\\WebhookController@create",
+                    "auth": true,
+                    "permission": "headless.manage_webhooks"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/webhooks",
+                    "handler": "Controllers\\WebhookController@index",
+                    "auth": true,
+                    "permission": "headless.manage_webhooks"
+                },
+                {
+                    "method": "DELETE",
+                    "path": "\/api\/{version}\/webhooks\/{id}",
+                    "handler": "Controllers\\WebhookController@destroy",
+                    "auth": true,
+                    "permission": "headless.manage_webhooks"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/shipping\/methods",
+                    "handler": "Controllers\\ShippingController@methods",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/shipping\/calculate",
+                    "handler": "Controllers\\ShippingController@calculate",
+                    "auth": false
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/{version}\/payment\/methods",
+                    "handler": "Controllers\\PaymentController@methods",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/{version}\/payment\/process",
+                    "handler": "Controllers\\PaymentController@process",
+                    "auth": true
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "headless_api_tokens",
+                "headless_api_requests",
+                "headless_webhooks",
+                "headless_webhook_logs",
+                "headless_rate_limits",
+                "headless_sdk_downloads",
+                "headless_api_metrics",
+                "headless_error_logs"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/api-dashboard.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "jquery",
+                        "chart.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/webhook-manager.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/api-explorer.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "swagger-ui"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/api-dashboard.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/api-explorer.css",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "api_versions": {
+                    "type": "multiselect",
+                    "label": "Active API Versions",
+                    "default": [
+                        "v1",
+                        "v2"
+                    ],
+                    "options": {
+                        "v1": "Version 1.0",
+                        "v2": "Version 2.0"
+                    }
+                },
+                "default_version": {
+                    "type": "select",
+                    "label": "Default API Version",
+                    "default": "v2",
+                    "options": {
+                        "v1": "Version 1.0",
+                        "v2": "Version 2.0"
+                    }
+                },
+                "authentication_methods": {
+                    "type": "multiselect",
+                    "label": "Authentication Methods",
+                    "default": [
+                        "jwt",
+                        "api_key"
+                    ],
+                    "options": {
+                        "jwt": "JWT Tokens",
+                        "api_key": "API Keys",
+                        "oauth2": "OAuth 2.0",
+                        "basic": "Basic Auth"
+                    }
+                },
+                "jwt_settings": {
+                    "type": "object",
+                    "label": "JWT Settings",
+                    "properties": {
+                        "secret": {
+                            "type": "string",
+                            "label": "JWT Secret",
+                            "encrypted": true
+                        },
+                        "expiration": {
+                            "type": "number",
+                            "label": "Token Expiration (hours)",
+                            "default": 24,
+                            "min": 1,
+                            "max": 720
+                        },
+                        "refresh_expiration": {
+                            "type": "number",
+                            "label": "Refresh Token Expiration (days)",
+                            "default": 30,
+                            "min": 1,
+                            "max": 365
+                        }
+                    }
+                },
+                "rate_limiting": {
+                    "type": "object",
+                    "label": "Rate Limiting",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "requests_per_minute": {
+                            "type": "number",
+                            "default": 60,
+                            "min": 10,
+                            "max": 1000
+                        },
+                        "burst_limit": {
+                            "type": "number",
+                            "default": 100,
+                            "min": 10,
+                            "max": 1000
+                        }
+                    }
+                },
+                "cors_settings": {
+                    "type": "object",
+                    "label": "CORS Settings",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "allowed_origins": {
+                            "type": "array",
+                            "default": [
+                                "*"
+                            ]
+                        },
+                        "allowed_methods": {
+                            "type": "array",
+                            "default": [
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "DELETE",
+                                "OPTIONS"
+                            ]
+                        },
+                        "allowed_headers": {
+                            "type": "array",
+                            "default": [
+                                "Content-Type",
+                                "Authorization",
+                                "X-Requested-With"
+                            ]
+                        },
+                        "max_age": {
+                            "type": "number",
+                            "default": 86400
+                        }
+                    }
+                },
+                "response_format": {
+                    "type": "select",
+                    "label": "Default Response Format",
+                    "default": "json",
+                    "options": {
+                        "json": "JSON",
+                        "xml": "XML",
+                        "msgpack": "MessagePack"
+                    }
+                },
+                "pagination": {
+                    "type": "object",
+                    "label": "Pagination Settings",
+                    "properties": {
+                        "default_limit": {
+                            "type": "number",
+                            "default": 20,
+                            "min": 1,
+                            "max": 100
+                        },
+                        "max_limit": {
+                            "type": "number",
+                            "default": 100,
+                            "min": 10,
+                            "max": 1000
+                        },
+                        "style": {
+                            "type": "select",
+                            "default": "offset",
+                            "options": {
+                                "offset": "Offset\/Limit",
+                                "page": "Page Number",
+                                "cursor": "Cursor-based"
+                            }
+                        }
+                    }
+                },
+                "webhook_settings": {
+                    "type": "object",
+                    "label": "Webhook Settings",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "retry_attempts": {
+                            "type": "number",
+                            "default": 3,
+                            "min": 0,
+                            "max": 10
+                        },
+                        "timeout": {
+                            "type": "number",
+                            "label": "Timeout (seconds)",
+                            "default": 30,
+                            "min": 5,
+                            "max": 120
+                        },
+                        "signature_method": {
+                            "type": "select",
+                            "default": "hmac_sha256",
+                            "options": {
+                                "hmac_sha256": "HMAC-SHA256",
+                                "hmac_sha512": "HMAC-SHA512"
+                            }
+                        }
+                    }
+                },
+                "enable_graphql": {
+                    "type": "boolean",
+                    "label": "Enable GraphQL Endpoint",
+                    "default": true
+                },
+                "enable_api_explorer": {
+                    "type": "boolean",
+                    "label": "Enable API Explorer",
+                    "default": true,
+                    "description": "Interactive API documentation"
+                },
+                "enable_sdk_generation": {
+                    "type": "boolean",
+                    "label": "Enable SDK Generation",
+                    "default": true
+                },
+                "sdk_languages": {
+                    "type": "multiselect",
+                    "label": "SDK Languages",
+                    "default": [
+                        "javascript",
+                        "php",
+                        "python"
+                    ],
+                    "options": {
+                        "javascript": "JavaScript\/TypeScript",
+                        "php": "PHP",
+                        "python": "Python",
+                        "ruby": "Ruby",
+                        "java": "Java",
+                        "csharp": "C#",
+                        "go": "Go",
+                        "swift": "Swift"
+                    },
+                    "depends_on": {
+                        "enable_sdk_generation": true
+                    }
+                },
+                "cache_settings": {
+                    "type": "object",
+                    "label": "Cache Settings",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "ttl": {
+                            "type": "number",
+                            "label": "Cache TTL (seconds)",
+                            "default": 300,
+                            "min": 0,
+                            "max": 3600
+                        },
+                        "vary_by": {
+                            "type": "multiselect",
+                            "default": [
+                                "authorization",
+                                "accept-language"
+                            ],
+                            "options": {
+                                "authorization": "Authorization Header",
+                                "accept-language": "Language",
+                                "x-currency": "Currency",
+                                "x-country": "Country"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "api_metrics",
+                "name": "API Metrics",
+                "description": "Request counts and performance",
+                "position": "dashboard",
+                "permissions": [
+                    "headless.access"
+                ]
+            },
+            {
+                "id": "webhook_activity",
+                "name": "Webhook Activity",
+                "description": "Recent webhook deliveries",
+                "position": "dashboard",
+                "permissions": [
+                    "headless.manage_webhooks"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "processWebhookQueue",
+                "description": "Process pending webhooks"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "cleanupExpiredTokens",
+                "description": "Clean up expired API tokens"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "generateAPIMetrics",
+                "description": "Generate API usage metrics"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "updateSDKs",
+                "description": "Update generated SDKs"
+            }
+        ],
+        "webhook_events": [
+            "product.created",
+            "product.updated",
+            "product.deleted",
+            "category.created",
+            "category.updated",
+            "category.deleted",
+            "order.created",
+            "order.updated",
+            "order.shipped",
+            "order.delivered",
+            "order.cancelled",
+            "customer.created",
+            "customer.updated",
+            "customer.deleted",
+            "cart.created",
+            "cart.updated",
+            "cart.abandoned",
+            "payment.completed",
+            "payment.failed",
+            "refund.created",
+            "inventory.updated",
+            "price.changed"
+        ],
+        "transformers": {
+            "product": "Transformers\\ProductTransformer",
+            "category": "Transformers\\CategoryTransformer",
+            "cart": "Transformers\\CartTransformer",
+            "order": "Transformers\\OrderTransformer",
+            "customer": "Transformers\\CustomerTransformer",
+            "payment": "Transformers\\PaymentTransformer"
+        },
+        "sdk_templates": {
+            "javascript": {
+                "template": "templates\/sdk\/javascript.twig",
+                "package_name": "@shopologic\/commerce-sdk"
+            },
+            "php": {
+                "template": "templates\/sdk\/php.twig",
+                "package_name": "shopologic\/commerce-sdk"
+            },
+            "python": {
+                "template": "templates\/sdk\/python.twig",
+                "package_name": "shopologic-commerce-sdk"
+            }
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "Complete REST API for commerce",
+                "GraphQL endpoint",
+                "Real-time webhooks",
+                "JWT authentication",
+                "API versioning",
+                "Rate limiting",
+                "CORS support",
+                "SDK generation",
+                "API Explorer",
+                "Comprehensive documentation",
+                "Response caching",
+                "Webhook retry logic"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "integration",
+        "tags": [
+            "integration",
+            "real-time",
+            "api"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

@@ -1,6 +1,7 @@
 <?php
 
-namespace AdvancedEmailMarketing\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\AdvancedEmailMarketing\Services;
 
 interface CampaignServiceInterface
 {

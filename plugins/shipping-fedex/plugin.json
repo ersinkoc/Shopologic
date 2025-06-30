@@ -2,23 +2,30 @@
     "name": "shipping-fedex",
     "version": "1.0.0",
     "description": "FedEx shipping integration for Shopologic",
-    "author": "Shopologic Team",
+    "author": {
+        "name": "Shopologic Team"
+    },
     "license": "MIT",
-    "php_version": ">=8.3",
-    "core_version": ">=1.0.0",
-    "dependencies": {
-        "core-commerce": "^1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\ShippingFedex\\": "src/"
+        }
+    },
+    "bootstrap": {
+        "class": "ShippingFedexPlugin",
+        "file": "src/FedExShippingPlugin.php"
     },
     "provides": [
         "ShippingMethodInterface",
         "TrackingInterface",
         "LabelGeneratorInterface"
-    ],
-    "hooks": [
-        "order.shipped",
-        "shipping.calculate",
-        "shipping.label.generate",
-        "shipping.tracking.update"
     ],
     "permissions": [
         "shipping.fedex.configure",
@@ -26,103 +33,177 @@
         "shipping.fedex.track",
         "shipping.fedex.schedule_pickup"
     ],
-    "api_endpoints": [
-        "POST /api/shipping/fedex/rates",
-        "POST /api/shipping/fedex/label",
-        "GET /api/shipping/fedex/track/{number}",
-        "POST /api/shipping/fedex/pickup",
-        "POST /api/shipping/fedex/validate-address",
-        "GET /api/shipping/fedex/services"
-    ],
-    "database_tables": [
-        "fedex_shipments",
-        "fedex_tracking_events",
-        "fedex_service_zones",
-        "fedex_rate_cache"
-    ],
-    "config_schema": {
-        "account_number": {
-            "type": "string",
-            "label": "FedEx Account Number",
-            "required": true,
-            "encrypted": true
-        },
-        "meter_number": {
-            "type": "string",
-            "label": "Meter Number",
-            "required": true,
-            "encrypted": true
-        },
-        "key": {
-            "type": "string",
-            "label": "FedEx Web Services Key",
-            "required": true,
-            "encrypted": true
-        },
-        "password": {
-            "type": "string",
-            "label": "FedEx Web Services Password",
-            "required": true,
-            "encrypted": true
-        },
-        "environment": {
-            "type": "enum",
-            "label": "Environment",
-            "values": ["sandbox", "production"],
-            "default": "sandbox"
-        },
-        "default_packaging": {
-            "type": "enum",
-            "label": "Default Packaging",
-            "values": ["YOUR_PACKAGING", "FEDEX_ENVELOPE", "FEDEX_PAK", "FEDEX_BOX", "FEDEX_TUBE"],
-            "default": "YOUR_PACKAGING"
-        },
-        "dropoff_type": {
-            "type": "enum",
-            "label": "Dropoff Type",
-            "values": ["REGULAR_PICKUP", "REQUEST_COURIER", "DROP_BOX", "BUSINESS_SERVICE_CENTER", "STATION"],
-            "default": "REGULAR_PICKUP"
-        },
-        "enabled_services": {
-            "type": "array",
-            "label": "Enabled Services",
-            "default": ["FEDEX_GROUND", "FEDEX_EXPRESS_SAVER", "FEDEX_2_DAY", "STANDARD_OVERNIGHT", "PRIORITY_OVERNIGHT"],
-            "options": {
-                "FEDEX_GROUND": "FedEx Ground",
-                "FEDEX_EXPRESS_SAVER": "FedEx Express Saver",
-                "FEDEX_2_DAY": "FedEx 2Day",
-                "FEDEX_2_DAY_AM": "FedEx 2Day A.M.",
-                "STANDARD_OVERNIGHT": "FedEx Standard Overnight",
-                "PRIORITY_OVERNIGHT": "FedEx Priority Overnight",
-                "FIRST_OVERNIGHT": "FedEx First Overnight",
-                "INTERNATIONAL_ECONOMY": "FedEx International Economy",
-                "INTERNATIONAL_PRIORITY": "FedEx International Priority"
+    "hooks": {
+        "actions": [
+            "order.shipped",
+            "shipping.calculate",
+            "shipping.label.generate",
+            "shipping.tracking.update"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/api/shipping/fedex/rates",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/shipping/fedex/label",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/shipping/fedex/track/{number}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/shipping/fedex/pickup",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/shipping/fedex/validate-address",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/shipping/fedex/services",
+                "handler": "handleGet"
             }
-        },
-        "insurance_enabled": {
-            "type": "boolean",
-            "label": "Enable Insurance",
-            "default": true
-        },
-        "signature_option": {
-            "type": "enum",
-            "label": "Signature Option",
-            "values": ["NO_SIGNATURE", "INDIRECT", "DIRECT", "ADULT"],
-            "default": "NO_SIGNATURE"
-        },
-        "label_format": {
-            "type": "enum",
-            "label": "Label Format",
-            "values": ["PDF", "PNG", "ZPL"],
-            "default": "PDF"
-        },
-        "label_stock_type": {
-            "type": "enum",
-            "label": "Label Stock Type",
-            "values": ["PAPER_4X6", "PAPER_4X8", "PAPER_4X9", "PAPER_7X4.75", "PAPER_8.5X11"],
-            "default": "PAPER_4X6"
+        ]
+    },
+    "database": {
+        "tables": [
+            "fedex_shipments",
+            "fedex_tracking_events",
+            "fedex_service_zones",
+            "fedex_rate_cache"
+        ],
+        "migrations": "migrations/"
+    },
+    "config": {
+        "schema": {
+            "account_number": {
+                "type": "string",
+                "label": "FedEx Account Number",
+                "required": true,
+                "encrypted": true
+            },
+            "meter_number": {
+                "type": "string",
+                "label": "Meter Number",
+                "required": true,
+                "encrypted": true
+            },
+            "key": {
+                "type": "string",
+                "label": "FedEx Web Services Key",
+                "required": true,
+                "encrypted": true
+            },
+            "password": {
+                "type": "string",
+                "label": "FedEx Web Services Password",
+                "required": true,
+                "encrypted": true
+            },
+            "environment": {
+                "type": "enum",
+                "label": "Environment",
+                "values": [
+                    "sandbox",
+                    "production"
+                ],
+                "default": "sandbox"
+            },
+            "default_packaging": {
+                "type": "enum",
+                "label": "Default Packaging",
+                "values": [
+                    "YOUR_PACKAGING",
+                    "FEDEX_ENVELOPE",
+                    "FEDEX_PAK",
+                    "FEDEX_BOX",
+                    "FEDEX_TUBE"
+                ],
+                "default": "YOUR_PACKAGING"
+            },
+            "dropoff_type": {
+                "type": "enum",
+                "label": "Dropoff Type",
+                "values": [
+                    "REGULAR_PICKUP",
+                    "REQUEST_COURIER",
+                    "DROP_BOX",
+                    "BUSINESS_SERVICE_CENTER",
+                    "STATION"
+                ],
+                "default": "REGULAR_PICKUP"
+            },
+            "enabled_services": {
+                "type": "array",
+                "label": "Enabled Services",
+                "default": [
+                    "FEDEX_GROUND",
+                    "FEDEX_EXPRESS_SAVER",
+                    "FEDEX_2_DAY",
+                    "STANDARD_OVERNIGHT",
+                    "PRIORITY_OVERNIGHT"
+                ],
+                "options": {
+                    "FEDEX_GROUND": "FedEx Ground",
+                    "FEDEX_EXPRESS_SAVER": "FedEx Express Saver",
+                    "FEDEX_2_DAY": "FedEx 2Day",
+                    "FEDEX_2_DAY_AM": "FedEx 2Day A.M.",
+                    "STANDARD_OVERNIGHT": "FedEx Standard Overnight",
+                    "PRIORITY_OVERNIGHT": "FedEx Priority Overnight",
+                    "FIRST_OVERNIGHT": "FedEx First Overnight",
+                    "INTERNATIONAL_ECONOMY": "FedEx International Economy",
+                    "INTERNATIONAL_PRIORITY": "FedEx International Priority"
+                }
+            },
+            "insurance_enabled": {
+                "type": "boolean",
+                "label": "Enable Insurance",
+                "default": true
+            },
+            "signature_option": {
+                "type": "enum",
+                "label": "Signature Option",
+                "values": [
+                    "NO_SIGNATURE",
+                    "INDIRECT",
+                    "DIRECT",
+                    "ADULT"
+                ],
+                "default": "NO_SIGNATURE"
+            },
+            "label_format": {
+                "type": "enum",
+                "label": "Label Format",
+                "values": [
+                    "PDF",
+                    "PNG",
+                    "ZPL"
+                ],
+                "default": "PDF"
+            },
+            "label_stock_type": {
+                "type": "enum",
+                "label": "Label Stock Type",
+                "values": [
+                    "PAPER_4X6",
+                    "PAPER_4X8",
+                    "PAPER_4X9",
+                    "PAPER_7X4.75",
+                    "PAPER_8.5X11"
+                ],
+                "default": "PAPER_4X6"
+            }
         }
     },
-    "main_class": "FedExShippingPlugin",
-    "namespace": "Shopologic\\Plugins\\ShippingFedEx"
+    "homepage": "https://shopologic.com/plugins/shipping-fedex"
 }

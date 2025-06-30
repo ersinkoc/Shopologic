@@ -1,0 +1,593 @@
+{
+    "name": "serverless-functions",
+    "version": "1.0.0",
+    "description": "Serverless function execution platform with multi-language support, event triggers, auto-scaling, cold start optimization, distributed tracing, and cost management",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/serverless-functions",
+    "keywords": [
+        "serverless",
+        "functions",
+        "faas",
+        "lambda",
+        "cloud-functions",
+        "event-driven",
+        "auto-scaling",
+        "microservices"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/runtime": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\ServerlessFunctions\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "ServerlessFunctionsPlugin",
+        "file": "src\/ServerlessFunctionsPlugin.php"
+    },
+    "provides": [
+        "FunctionRuntimeInterface",
+        "EventTriggerInterface",
+        "ScalingManagerInterface",
+        "CostOptimizerInterface"
+    ],
+    "permissions": [
+        "serverless.access",
+        "serverless.deploy_functions",
+        "serverless.execute_functions",
+        "serverless.view_logs",
+        "serverless.manage_triggers",
+        "serverless.configure_scaling"
+    ],
+    "hooks": {
+        "actions": [
+            "function.deployed",
+            "function.invoked",
+            "function.scaled",
+            "trigger.fired",
+            "cold_start.detected",
+            "cost_threshold.exceeded"
+        ],
+        "filters": [
+            "function.code",
+            "function.environment",
+            "trigger.conditions",
+            "scaling.rules",
+            "cost.allocation"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/serverless\/functions",
+                "handler": "Controllers\\FunctionController@deploy",
+                "auth": true,
+                "permission": "serverless.deploy_functions"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/serverless\/functions",
+                "handler": "Controllers\\FunctionController@index",
+                "auth": true,
+                "permission": "serverless.access"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/serverless\/functions\/{id}",
+                "handler": "Controllers\\FunctionController@show",
+                "auth": true,
+                "permission": "serverless.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/serverless\/functions\/{id}\/invoke",
+                "handler": "Controllers\\InvocationController@invoke",
+                "auth": true,
+                "permission": "serverless.execute_functions"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/serverless\/functions\/{id}\/invoke-async",
+                "handler": "Controllers\\InvocationController@invokeAsync",
+                "auth": true,
+                "permission": "serverless.execute_functions"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/serverless\/functions\/{id}\/logs",
+                "handler": "Controllers\\LogController@show",
+                "auth": true,
+                "permission": "serverless.view_logs"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/serverless\/triggers",
+                "handler": "Controllers\\TriggerController@create",
+                "auth": true,
+                "permission": "serverless.manage_triggers"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/serverless\/metrics",
+                "handler": "Controllers\\MetricsController@dashboard",
+                "auth": true,
+                "permission": "serverless.access"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/serverless\/costs",
+                "handler": "Controllers\\CostController@report",
+                "auth": true,
+                "permission": "serverless.access"
+            },
+            {
+                "method": "PUT",
+                "path": "\/api\/v1\/serverless\/functions\/{id}\/scale",
+                "handler": "Controllers\\ScalingController@update",
+                "auth": true,
+                "permission": "serverless.configure_scaling"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "serverless_functions",
+            "serverless_invocations",
+            "serverless_triggers",
+            "serverless_logs",
+            "serverless_metrics",
+            "serverless_scaling_rules",
+            "serverless_cost_tracking",
+            "serverless_environments",
+            "serverless_deployments",
+            "serverless_cold_starts"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/function-editor.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "monaco-editor",
+                    "jquery"
+                ]
+            },
+            {
+                "src": "assets\/js\/serverless-dashboard.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "chart.js",
+                    "d3"
+                ]
+            },
+            {
+                "src": "assets\/js\/log-viewer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "ansi_up"
+                ]
+            },
+            {
+                "src": "assets\/js\/cost-analyzer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/function-editor.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/serverless-dashboard.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/log-viewer.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "runtime_environments": {
+                "type": "multiselect",
+                "label": "Supported Runtimes",
+                "default": [
+                    "nodejs",
+                    "python",
+                    "php"
+                ],
+                "options": {
+                    "nodejs": "Node.js",
+                    "python": "Python",
+                    "php": "PHP",
+                    "go": "Go",
+                    "rust": "Rust",
+                    "java": "Java",
+                    "dotnet": "C#\/.NET",
+                    "ruby": "Ruby",
+                    "custom": "Custom Runtime"
+                }
+            },
+            "execution_backend": {
+                "type": "select",
+                "label": "Execution Backend",
+                "default": "docker",
+                "options": {
+                    "docker": "Docker Containers",
+                    "firecracker": "Firecracker microVMs",
+                    "wasm": "WebAssembly",
+                    "native": "Native Process",
+                    "kubernetes": "Kubernetes Jobs"
+                }
+            },
+            "scaling_config": {
+                "type": "object",
+                "label": "Auto-scaling Configuration",
+                "properties": {
+                    "min_instances": {
+                        "type": "number",
+                        "label": "Minimum Instances",
+                        "default": 0,
+                        "min": 0,
+                        "max": 10
+                    },
+                    "max_instances": {
+                        "type": "number",
+                        "label": "Maximum Instances",
+                        "default": 100,
+                        "min": 1,
+                        "max": 1000
+                    },
+                    "scale_up_threshold": {
+                        "type": "number",
+                        "label": "Scale Up CPU %",
+                        "default": 70,
+                        "min": 50,
+                        "max": 95
+                    },
+                    "scale_down_threshold": {
+                        "type": "number",
+                        "label": "Scale Down CPU %",
+                        "default": 30,
+                        "min": 5,
+                        "max": 50
+                    },
+                    "cooldown_period": {
+                        "type": "number",
+                        "label": "Cooldown Period (seconds)",
+                        "default": 60,
+                        "min": 10,
+                        "max": 300
+                    }
+                }
+            },
+            "cold_start_optimization": {
+                "type": "object",
+                "label": "Cold Start Optimization",
+                "properties": {
+                    "keep_warm": {
+                        "type": "boolean",
+                        "label": "Keep Functions Warm",
+                        "default": true
+                    },
+                    "warm_instances": {
+                        "type": "number",
+                        "label": "Warm Instance Count",
+                        "default": 1,
+                        "min": 0,
+                        "max": 10,
+                        "depends_on": {
+                            "keep_warm": true
+                        }
+                    },
+                    "provisioned_concurrency": {
+                        "type": "boolean",
+                        "label": "Provisioned Concurrency",
+                        "default": false
+                    },
+                    "snapshot_enabled": {
+                        "type": "boolean",
+                        "label": "Enable Snapshots",
+                        "default": true,
+                        "description": "Snapshot function state for faster starts"
+                    }
+                }
+            },
+            "resource_limits": {
+                "type": "object",
+                "label": "Resource Limits",
+                "properties": {
+                    "memory_mb": {
+                        "type": "number",
+                        "label": "Memory (MB)",
+                        "default": 256,
+                        "min": 128,
+                        "max": 3008
+                    },
+                    "timeout_seconds": {
+                        "type": "number",
+                        "label": "Timeout (seconds)",
+                        "default": 300,
+                        "min": 1,
+                        "max": 900
+                    },
+                    "cpu_shares": {
+                        "type": "number",
+                        "label": "CPU Shares",
+                        "default": 1024,
+                        "min": 128,
+                        "max": 10240
+                    },
+                    "ephemeral_storage_mb": {
+                        "type": "number",
+                        "label": "Ephemeral Storage (MB)",
+                        "default": 512,
+                        "min": 512,
+                        "max": 10240
+                    }
+                }
+            },
+            "event_sources": {
+                "type": "multiselect",
+                "label": "Event Sources",
+                "default": [
+                    "http",
+                    "cron",
+                    "queue"
+                ],
+                "options": {
+                    "http": "HTTP\/API Gateway",
+                    "cron": "Scheduled (Cron)",
+                    "queue": "Message Queue",
+                    "storage": "Storage Events",
+                    "database": "Database Triggers",
+                    "webhook": "Webhooks",
+                    "stream": "Event Streams",
+                    "custom": "Custom Events"
+                }
+            },
+            "networking": {
+                "type": "object",
+                "label": "Networking Configuration",
+                "properties": {
+                    "vpc_enabled": {
+                        "type": "boolean",
+                        "label": "VPC Integration",
+                        "default": false
+                    },
+                    "egress_allowed": {
+                        "type": "boolean",
+                        "label": "Allow Internet Access",
+                        "default": true
+                    },
+                    "private_endpoints": {
+                        "type": "boolean",
+                        "label": "Private Endpoints Only",
+                        "default": false
+                    }
+                }
+            },
+            "observability": {
+                "type": "object",
+                "label": "Observability",
+                "properties": {
+                    "tracing_enabled": {
+                        "type": "boolean",
+                        "label": "Distributed Tracing",
+                        "default": true
+                    },
+                    "metrics_enabled": {
+                        "type": "boolean",
+                        "label": "Metrics Collection",
+                        "default": true
+                    },
+                    "log_level": {
+                        "type": "select",
+                        "label": "Log Level",
+                        "default": "info",
+                        "options": {
+                            "debug": "Debug",
+                            "info": "Info",
+                            "warning": "Warning",
+                            "error": "Error"
+                        }
+                    },
+                    "log_retention_days": {
+                        "type": "number",
+                        "label": "Log Retention (days)",
+                        "default": 7,
+                        "min": 1,
+                        "max": 365
+                    }
+                }
+            },
+            "security": {
+                "type": "object",
+                "label": "Security Settings",
+                "properties": {
+                    "secrets_manager": {
+                        "type": "select",
+                        "label": "Secrets Manager",
+                        "default": "internal",
+                        "options": {
+                            "internal": "Internal Vault",
+                            "aws_secrets": "AWS Secrets Manager",
+                            "hashicorp_vault": "HashiCorp Vault",
+                            "kubernetes_secrets": "Kubernetes Secrets"
+                        }
+                    },
+                    "iam_enabled": {
+                        "type": "boolean",
+                        "label": "IAM Integration",
+                        "default": true
+                    },
+                    "encryption_at_rest": {
+                        "type": "boolean",
+                        "label": "Encrypt at Rest",
+                        "default": true
+                    }
+                }
+            },
+            "cost_management": {
+                "type": "object",
+                "label": "Cost Management",
+                "properties": {
+                    "budget_alerts": {
+                        "type": "boolean",
+                        "label": "Budget Alerts",
+                        "default": true
+                    },
+                    "monthly_budget": {
+                        "type": "number",
+                        "label": "Monthly Budget ($)",
+                        "default": 100,
+                        "min": 0,
+                        "max": 10000
+                    },
+                    "cost_allocation_tags": {
+                        "type": "boolean",
+                        "label": "Cost Allocation Tags",
+                        "default": true
+                    },
+                    "spot_instances": {
+                        "type": "boolean",
+                        "label": "Use Spot Instances",
+                        "default": false
+                    }
+                }
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "function_overview",
+            "name": "Function Overview",
+            "description": "Active functions and invocations",
+            "position": "dashboard",
+            "permissions": [
+                "serverless.access"
+            ]
+        },
+        {
+            "id": "performance_metrics",
+            "name": "Performance Metrics",
+            "description": "Execution times and cold starts",
+            "position": "dashboard",
+            "permissions": [
+                "serverless.access"
+            ]
+        },
+        {
+            "id": "cost_tracker",
+            "name": "Cost Tracker",
+            "description": "Function execution costs",
+            "position": "dashboard",
+            "permissions": [
+                "serverless.access"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "collectFunctionMetrics",
+            "description": "Collect function metrics"
+        },
+        {
+            "schedule": "*\/15 * * * *",
+            "handler": "optimizeColdStarts",
+            "description": "Optimize cold start performance"
+        },
+        {
+            "schedule": "0 * * * *",
+            "handler": "calculateCosts",
+            "description": "Calculate function costs"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "cleanupOldLogs",
+            "description": "Clean up old function logs"
+        },
+        {
+            "schedule": "*\/10 * * * *",
+            "handler": "scaleResources",
+            "description": "Auto-scale function resources"
+        }
+    ],
+    "function_templates": {
+        "http_api": {
+            "name": "HTTP API Handler",
+            "runtime": "nodejs",
+            "description": "RESTful API endpoint"
+        },
+        "data_processor": {
+            "name": "Data Processor",
+            "runtime": "python",
+            "description": "Process data from queue"
+        },
+        "cron_job": {
+            "name": "Scheduled Task",
+            "runtime": "php",
+            "description": "Scheduled background job"
+        },
+        "webhook_handler": {
+            "name": "Webhook Handler",
+            "runtime": "nodejs",
+            "description": "Handle external webhooks"
+        },
+        "image_processor": {
+            "name": "Image Processor",
+            "runtime": "python",
+            "description": "Process uploaded images"
+        }
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Multi-language runtime support",
+            "Event-driven triggers",
+            "Auto-scaling capabilities",
+            "Cold start optimization",
+            "Distributed tracing",
+            "Cost management",
+            "Function versioning",
+            "Environment variables",
+            "Secrets management",
+            "VPC integration",
+            "Custom domains"
+        ]
+    }
+}

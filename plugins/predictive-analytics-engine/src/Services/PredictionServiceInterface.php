@@ -1,6 +1,7 @@
 <?php
 
-namespace PredictiveAnalyticsEngine\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\PredictiveAnalyticsEngine\Services;
 
 interface PredictionServiceInterface
 {

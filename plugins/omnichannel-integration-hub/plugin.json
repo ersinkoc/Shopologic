@@ -2,9 +2,25 @@
     "name": "omnichannel-integration-hub",
     "version": "1.0.0",
     "description": "Unified commerce platform integrating online store, POS, marketplaces, social commerce, and mobile apps with real-time inventory sync",
-    "author": "Shopologic",
-    "namespace": "OmnichannelIntegrationHub",
-    "class": "OmnichannelIntegrationHub\\OmnichannelIntegrationHubPlugin",
+    "author": {
+        "name": "Shopologic"
+    },
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/core": "^1.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\OmnichannelIntegrationHub\\": "src/"
+        }
+    },
+    "bootstrap": {
+        "class": "OmnichannelIntegrationHubPlugin",
+        "file": "OmnichannelIntegrationHubPlugin.php"
+    },
     "permissions": [
         "hooks.order.*",
         "hooks.inventory.*",
@@ -15,34 +31,77 @@
         "channels.manage",
         "integrations.configure"
     ],
-    "dependencies": {
-        "shopologic/core": "^1.0"
+    "hooks": {
+        "actions": [
+            "order.created",
+            "inventory.updated",
+            "product.synced",
+            "customer.unified",
+            "channel.connected"
+        ]
     },
-    "settings": {
-        "configurable": true,
-        "api_enabled": true,
-        "widget_enabled": true,
-        "channels": ["web", "pos", "mobile", "marketplace", "social"],
-        "real_time_sync": true
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/omnichannel/channels",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/omnichannel/sync",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/omnichannel/inventory",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/omnichannel/order/route",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/omnichannel/analytics",
+                "handler": "handleGet"
+            }
+        ]
     },
-    "hooks": [
-        "order.created",
-        "inventory.updated",
-        "product.synced",
-        "customer.unified",
-        "channel.connected"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/omnichannel/channels",
-        "POST /api/v1/omnichannel/sync",
-        "GET /api/v1/omnichannel/inventory",
-        "POST /api/v1/omnichannel/order/route",
-        "GET /api/v1/omnichannel/analytics"
-    ],
-    "cron_jobs": [
+    "config": {
+        "schema": {
+            "configurable": {
+                "type": "boolean",
+                "default": true
+            },
+            "api_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "widget_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "channels": [
+                "web",
+                "pos",
+                "mobile",
+                "marketplace",
+                "social"
+            ],
+            "real_time_sync": {
+                "type": "boolean",
+                "default": true
+            }
+        }
+    },
+    "scheduled_tasks": [
         "*/5 * * * * - sync_inventory",
         "*/15 * * * * - sync_orders",
         "0 * * * * - sync_products",
         "0 2 * * * - reconcile_channels"
-    ]
+    ],
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/omnichannel-integration-hub"
 }

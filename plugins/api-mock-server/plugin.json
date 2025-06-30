@@ -1,0 +1,599 @@
+{
+    "name": "api-mock-server",
+    "version": "1.0.0",
+    "description": "Advanced API mocking server for developers with request recording, response templating, scenario testing, latency simulation, error injection, and OpenAPI\/Swagger integration",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/api-mock-server",
+    "keywords": [
+        "api",
+        "mock",
+        "testing",
+        "development",
+        "swagger",
+        "openapi",
+        "simulation",
+        "debugging"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/api": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\ApiMockServer\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "ApiMockServerPlugin",
+        "file": "src\/ApiMockServerPlugin.php"
+    },
+    "provides": [
+        "MockServerInterface",
+        "ApiRecorderInterface",
+        "ResponseGeneratorInterface"
+    ],
+    "permissions": [
+        "mockserver.access",
+        "mockserver.create_mocks",
+        "mockserver.edit_mocks",
+        "mockserver.delete_mocks",
+        "mockserver.record_requests",
+        "mockserver.manage_scenarios",
+        "mockserver.view_logs",
+        "mockserver.export_data",
+        "mockserver.configure"
+    ],
+    "hooks": {
+        "actions": [
+            "mock.created",
+            "mock.updated",
+            "request.recorded",
+            "scenario.executed",
+            "response.generated"
+        ],
+        "filters": [
+            "api.request",
+            "api.response",
+            "mock.response",
+            "request.validation",
+            "response.transformation"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/mockserver\/mocks",
+                "handler": "Controllers\\MockController@index",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/mockserver\/mocks",
+                "handler": "Controllers\\MockController@create",
+                "auth": true,
+                "permission": "mockserver.create_mocks"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/mockserver\/mocks\/{id}",
+                "handler": "Controllers\\MockController@show",
+                "auth": true
+            },
+            {
+                "method": "PUT",
+                "path": "\/api\/v1\/mockserver\/mocks\/{id}",
+                "handler": "Controllers\\MockController@update",
+                "auth": true,
+                "permission": "mockserver.edit_mocks"
+            },
+            {
+                "method": "DELETE",
+                "path": "\/api\/v1\/mockserver\/mocks\/{id}",
+                "handler": "Controllers\\MockController@delete",
+                "auth": true,
+                "permission": "mockserver.delete_mocks"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/mockserver\/record\/start",
+                "handler": "Controllers\\RecorderController@start",
+                "auth": true,
+                "permission": "mockserver.record_requests"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/mockserver\/record\/stop",
+                "handler": "Controllers\\RecorderController@stop",
+                "auth": true,
+                "permission": "mockserver.record_requests"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/mockserver\/scenarios",
+                "handler": "Controllers\\ScenarioController@index",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/mockserver\/scenarios",
+                "handler": "Controllers\\ScenarioController@create",
+                "auth": true,
+                "permission": "mockserver.manage_scenarios"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/mockserver\/scenarios\/{id}\/run",
+                "handler": "Controllers\\ScenarioController@run",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/mockserver\/logs",
+                "handler": "Controllers\\LogController@index",
+                "auth": true,
+                "permission": "mockserver.view_logs"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/mockserver\/import\/swagger",
+                "handler": "Controllers\\ImportController@swagger",
+                "auth": true,
+                "permission": "mockserver.create_mocks"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/mockserver\/import\/postman",
+                "handler": "Controllers\\ImportController@postman",
+                "auth": true,
+                "permission": "mockserver.create_mocks"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/mockserver\/export\/{format}",
+                "handler": "Controllers\\ExportController@export",
+                "auth": true,
+                "permission": "mockserver.export_data"
+            },
+            {
+                "method": "ANY",
+                "path": "\/mock\/*",
+                "handler": "Controllers\\MockServerController@handle",
+                "auth": false
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "mockserver_mocks",
+            "mockserver_mock_responses",
+            "mockserver_scenarios",
+            "mockserver_scenario_steps",
+            "mockserver_recordings",
+            "mockserver_request_logs",
+            "mockserver_response_templates",
+            "mockserver_variables",
+            "mockserver_collections",
+            "mockserver_environments"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/mockserver.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "jquery",
+                    "ace-editor"
+                ]
+            },
+            {
+                "src": "assets\/js\/scenario-builder.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/js\/request-recorder.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/mockserver.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/code-editor.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "enable_recording": {
+                "type": "boolean",
+                "label": "Enable Request Recording",
+                "default": true,
+                "description": "Record incoming API requests for mock generation"
+            },
+            "recording_filters": {
+                "type": "object",
+                "label": "Recording Filters",
+                "default": {
+                    "include_paths": [
+                        "\/api\/*"
+                    ],
+                    "exclude_paths": [
+                        "\/api\/v1\/mockserver\/*"
+                    ],
+                    "methods": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "PATCH"
+                    ]
+                }
+            },
+            "default_latency": {
+                "type": "number",
+                "label": "Default Response Latency (ms)",
+                "default": 0,
+                "min": 0,
+                "max": 10000
+            },
+            "enable_cors": {
+                "type": "boolean",
+                "label": "Enable CORS for Mock Endpoints",
+                "default": true
+            },
+            "cors_origins": {
+                "type": "array",
+                "label": "Allowed CORS Origins",
+                "default": [
+                    "*"
+                ],
+                "description": "List of allowed origins for CORS"
+            },
+            "response_templates": {
+                "type": "boolean",
+                "label": "Enable Response Templates",
+                "default": true,
+                "description": "Use template engine for dynamic responses"
+            },
+            "template_engine": {
+                "type": "select",
+                "label": "Template Engine",
+                "default": "twig",
+                "options": {
+                    "twig": "Twig",
+                    "mustache": "Mustache",
+                    "handlebars": "Handlebars"
+                }
+            },
+            "enable_scenarios": {
+                "type": "boolean",
+                "label": "Enable Scenario Testing",
+                "default": true,
+                "description": "Allow complex multi-step scenarios"
+            },
+            "max_log_entries": {
+                "type": "number",
+                "label": "Maximum Log Entries",
+                "default": 10000,
+                "min": 100,
+                "max": 100000
+            },
+            "log_retention_days": {
+                "type": "number",
+                "label": "Log Retention (days)",
+                "default": 30,
+                "min": 1,
+                "max": 365
+            },
+            "enable_webhooks": {
+                "type": "boolean",
+                "label": "Enable Webhook Mocking",
+                "default": true
+            },
+            "webhook_retry_attempts": {
+                "type": "number",
+                "label": "Webhook Retry Attempts",
+                "default": 3,
+                "min": 0,
+                "max": 10
+            },
+            "enable_graphql": {
+                "type": "boolean",
+                "label": "Enable GraphQL Mocking",
+                "default": true
+            },
+            "enable_websocket": {
+                "type": "boolean",
+                "label": "Enable WebSocket Mocking",
+                "default": false
+            },
+            "response_formats": {
+                "type": "multiselect",
+                "label": "Supported Response Formats",
+                "default": [
+                    "json",
+                    "xml",
+                    "html",
+                    "text"
+                ],
+                "options": {
+                    "json": "JSON",
+                    "xml": "XML",
+                    "html": "HTML",
+                    "text": "Plain Text",
+                    "binary": "Binary",
+                    "csv": "CSV",
+                    "yaml": "YAML"
+                }
+            },
+            "enable_authentication": {
+                "type": "boolean",
+                "label": "Enable Mock Authentication",
+                "default": true
+            },
+            "auth_methods": {
+                "type": "multiselect",
+                "label": "Supported Auth Methods",
+                "default": [
+                    "bearer",
+                    "basic",
+                    "api_key"
+                ],
+                "options": {
+                    "bearer": "Bearer Token",
+                    "basic": "Basic Auth",
+                    "api_key": "API Key",
+                    "oauth2": "OAuth 2.0",
+                    "jwt": "JWT"
+                }
+            },
+            "enable_rate_limiting": {
+                "type": "boolean",
+                "label": "Enable Rate Limiting Simulation",
+                "default": true
+            },
+            "rate_limit_default": {
+                "type": "number",
+                "label": "Default Rate Limit (req\/min)",
+                "default": 60,
+                "min": 1,
+                "max": 1000
+            },
+            "enable_chaos_testing": {
+                "type": "boolean",
+                "label": "Enable Chaos Testing",
+                "default": false,
+                "description": "Randomly inject errors and delays"
+            },
+            "chaos_probability": {
+                "type": "number",
+                "label": "Chaos Probability (%)",
+                "default": 10,
+                "min": 0,
+                "max": 100,
+                "depends_on": {
+                    "enable_chaos_testing": true
+                }
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "mockserver_stats",
+            "name": "Mock Server Statistics",
+            "description": "Active mocks and request counts",
+            "position": "dashboard",
+            "permissions": [
+                "mockserver.access"
+            ]
+        },
+        {
+            "id": "recent_mock_requests",
+            "name": "Recent Mock Requests",
+            "description": "Latest mock API calls",
+            "position": "dashboard",
+            "permissions": [
+                "mockserver.view_logs"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "0 *\/4 * * *",
+            "handler": "cleanupOldLogs",
+            "description": "Clean up old request logs"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "generateUsageReport",
+            "description": "Generate daily usage reports"
+        },
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "processWebhookQueue",
+            "description": "Process webhook retry queue"
+        }
+    ],
+    "response_types": {
+        "success": {
+            "status": 200,
+            "headers": {
+                "Content-Type": "application\/json"
+            },
+            "body": {
+                "success": true,
+                "data": "{{data}}",
+                "timestamp": "{{timestamp}}"
+            }
+        },
+        "error": {
+            "status": 400,
+            "headers": {
+                "Content-Type": "application\/json"
+            },
+            "body": {
+                "success": false,
+                "error": {
+                    "code": "{{error_code}}",
+                    "message": "{{error_message}}"
+                }
+            }
+        },
+        "not_found": {
+            "status": 404,
+            "headers": {
+                "Content-Type": "application\/json"
+            },
+            "body": {
+                "success": false,
+                "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found"
+                }
+            }
+        },
+        "unauthorized": {
+            "status": 401,
+            "headers": {
+                "Content-Type": "application\/json",
+                "WWW-Authenticate": "Bearer"
+            },
+            "body": {
+                "success": false,
+                "error": {
+                    "code": "UNAUTHORIZED",
+                    "message": "Authentication required"
+                }
+            }
+        },
+        "rate_limited": {
+            "status": 429,
+            "headers": {
+                "Content-Type": "application\/json",
+                "X-RateLimit-Limit": "{{limit}}",
+                "X-RateLimit-Remaining": "{{remaining}}",
+                "X-RateLimit-Reset": "{{reset}}"
+            },
+            "body": {
+                "success": false,
+                "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Too many requests"
+                }
+            }
+        }
+    },
+    "examples": {
+        "simple_mock": {
+            "name": "Simple GET Mock",
+            "method": "GET",
+            "path": "\/api\/v1\/users",
+            "response": {
+                "status": 200,
+                "body": [
+                    {
+                        "id": 1,
+                        "name": "John Doe"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Jane Smith"
+                    }
+                ]
+            }
+        },
+        "dynamic_mock": {
+            "name": "Dynamic User Mock",
+            "method": "GET",
+            "path": "\/api\/v1\/users\/{id}",
+            "response": {
+                "status": 200,
+                "body": {
+                    "id": "{{path.id}}",
+                    "name": "User {{path.id}}",
+                    "email": "user{{path.id}}@example.com",
+                    "created_at": "{{now}}"
+                }
+            }
+        },
+        "conditional_mock": {
+            "name": "Conditional Response",
+            "method": "POST",
+            "path": "\/api\/v1\/login",
+            "conditions": [
+                {
+                    "when": {
+                        "body.username": "admin",
+                        "body.password": "secret"
+                    },
+                    "response": {
+                        "status": 200,
+                        "body": {
+                            "token": "{{uuid}}",
+                            "user": {
+                                "id": 1,
+                                "role": "admin"
+                            }
+                        }
+                    }
+                },
+                {
+                    "default": true,
+                    "response": {
+                        "status": 401,
+                        "body": {
+                            "error": "Invalid credentials"
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Request recording and playback",
+            "Response templating with variables",
+            "Scenario testing support",
+            "OpenAPI\/Swagger import",
+            "Postman collection import",
+            "Latency and error simulation",
+            "WebSocket mocking",
+            "GraphQL mocking",
+            "Chaos testing mode",
+            "Rate limiting simulation",
+            "Authentication mocking",
+            "Webhook simulation",
+            "Request\/Response logging",
+            "Export functionality"
+        ]
+    }
+}

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Models;
+namespace Shopologic\Plugins\ShippingFedex\Models;
 
 use Shopologic\Core\Database\Model;
 

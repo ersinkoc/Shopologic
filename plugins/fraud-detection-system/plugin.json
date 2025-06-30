@@ -1,0 +1,170 @@
+{
+    "name": "Fraud Detection System",
+    "version": "1.0.0",
+    "description": "Real-time fraud detection using machine learning algorithms, behavioral analysis, and risk scoring for secure e-commerce transactions and protection against fraudulent activities",
+    "author": {
+        "name": "Shopologic Team"
+    },
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/core": "^1.0.0",
+            "shopologic/payment": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\FraudDetectionSystem\\": "src/"
+        }
+    },
+    "bootstrap": {
+        "file": "FraudDetectionSystemPlugin.php",
+        "class": "FraudDetectionSystemPlugin"
+    },
+    "permissions": [
+        "fraud.view_alerts",
+        "fraud.manage_rules",
+        "fraud.review_transactions",
+        "fraud.export_reports",
+        "fraud.configure_thresholds",
+        "fraud.manage_blacklists"
+    ],
+    "hooks": {
+        "actions": [
+            "checkout.before_payment",
+            "order.before_create",
+            "customer.login_attempt",
+            "payment.before_process",
+            "fraud.high_risk_detected",
+            "fraud.transaction_blocked"
+        ],
+        "filters": [
+            "order.can_proceed",
+            "payment.risk_score",
+            "customer.trust_level",
+            "checkout.validation_rules",
+            "api.rate_limits"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/api/v1/fraud/analyze-transaction",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/fraud/risk-score/{order_id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/fraud/alerts",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/fraud/manual-review",
+                "handler": "handlePost"
+            },
+            {
+                "method": "PUT",
+                "path": "/api/v1/fraud/rules/{rule_id}",
+                "handler": "handlePut"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/fraud/blacklist",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/fraud/blacklist",
+                "handler": "handlePost"
+            },
+            {
+                "method": "DELETE",
+                "path": "/api/v1/fraud/blacklist/{entry_id}",
+                "handler": "handleDelete"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/fraud/analytics",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/fraud/reports/{report_type}",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "risk_threshold": {
+                "low": 0.3,
+                "medium": 0.6,
+                "high": 0.8,
+                "block": 0.95
+            },
+            "detection_methods": {
+                "machine_learning": true,
+                "rule_based": true,
+                "behavioral": true,
+                "device_fingerprint": true
+            },
+            "auto_block_enabled": {
+                "type": "boolean",
+                "default": true
+            },
+            "manual_review_threshold": {
+                "type": "double",
+                "default": 0.7
+            },
+            "data_retention_days": {
+                "type": "integer",
+                "default": 90
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "fraud-alerts-widget",
+            "title": "Fraud Detection Alerts",
+            "position": "top",
+            "priority": 1
+        },
+        {
+            "id": "fraud-analytics-widget",
+            "title": "Fraud Analytics Dashboard",
+            "position": "main",
+            "priority": 25
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*/5 * * * *",
+            "description": "Process fraud detection queue"
+        },
+        {
+            "schedule": "0 * * * *",
+            "description": "Update fraud pattern models"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "description": "Clean up old fraud logs"
+        },
+        {
+            "schedule": "0 6 * * *",
+            "description": "Generate daily fraud reports"
+        },
+        {
+            "schedule": "0 3 * * SUN",
+            "description": "Retrain machine learning models"
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/fraud-detection-system"
+}

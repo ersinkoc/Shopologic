@@ -1,0 +1,175 @@
+{
+    "package_info": {
+        "name": "loyalty-gamification",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:04",
+        "package_size": 22893,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Loyalty Gamification",
+        "version": "1.0.0",
+        "description": "Gamified loyalty system with points, badges, achievements, leaderboards, and challenges",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "LoyaltyGamificationPlugin",
+            "file": "LoyaltyGamificationPlugin.php"
+        },
+        "provides": [
+            "LoyaltyEngineInterface",
+            "GamificationInterface"
+        ],
+        "permissions": [
+            "customers.read",
+            "customers.write",
+            "orders.read",
+            "notifications.send",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "customer.registered",
+                "order.completed",
+                "product.reviewed",
+                "customer.birthday",
+                "social.shared"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/profile",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/leaderboard",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/redeem",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/challenges",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/challenge\/{id}\/complete",
+                    "handler": "handlePost"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "loyalty_points",
+                "loyalty_badges",
+                "loyalty_achievements",
+                "loyalty_challenges",
+                "loyalty_leaderboard",
+                "loyalty_transactions"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/gamification.js",
+                "assets\/confetti.js"
+            ],
+            "css": [
+                "assets\/loyalty-styles.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "points_per_dollar": {
+                    "type": "number",
+                    "default": 10,
+                    "min": 1,
+                    "max": 100,
+                    "description": "Points earned per dollar spent"
+                },
+                "registration_bonus": {
+                    "type": "number",
+                    "default": 100,
+                    "min": 0,
+                    "max": 1000,
+                    "description": "Bonus points for new registration"
+                },
+                "review_points": {
+                    "type": "number",
+                    "default": 50,
+                    "min": 0,
+                    "max": 500,
+                    "description": "Points for writing a review"
+                },
+                "referral_points": {
+                    "type": "number",
+                    "default": 500,
+                    "min": 0,
+                    "max": 2000,
+                    "description": "Points for successful referral"
+                },
+                "enable_leaderboard": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show public leaderboard"
+                },
+                "badge_notifications": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Send notifications for new badges"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\LoyaltyGamification\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

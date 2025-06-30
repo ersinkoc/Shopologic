@@ -1,0 +1,571 @@
+{
+    "name": "performance-profiler",
+    "version": "1.0.0",
+    "description": "Advanced performance profiling with real-time monitoring, bottleneck detection, memory analysis, database query profiling, cache optimization, and automated performance recommendations",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/performance-profiler",
+    "keywords": [
+        "performance",
+        "profiler",
+        "monitoring",
+        "optimization",
+        "memory",
+        "speed",
+        "bottleneck",
+        "analysis"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/monitor": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\PerformanceProfiler\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "PerformanceProfilerPlugin",
+        "file": "src\/PerformanceProfilerPlugin.php"
+    },
+    "provides": [
+        "ProfilerInterface",
+        "PerformanceMonitorInterface",
+        "OptimizationEngineInterface"
+    ],
+    "permissions": [
+        "performance.access",
+        "performance.profile",
+        "performance.view_reports",
+        "performance.manage_settings",
+        "performance.export_data",
+        "performance.run_benchmarks"
+    ],
+    "hooks": {
+        "actions": [
+            "profile.started",
+            "profile.completed",
+            "bottleneck.detected",
+            "performance.degraded",
+            "optimization.applied",
+            "alert.triggered"
+        ],
+        "filters": [
+            "performance.thresholds",
+            "profile.data",
+            "optimization.rules",
+            "monitoring.targets",
+            "alert.conditions"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/current",
+                "handler": "Controllers\\MonitoringController@current",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/performance\/profile\/start",
+                "handler": "Controllers\\ProfilerController@start",
+                "auth": true,
+                "permission": "performance.profile"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/performance\/profile\/stop",
+                "handler": "Controllers\\ProfilerController@stop",
+                "auth": true,
+                "permission": "performance.profile"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/profiles",
+                "handler": "Controllers\\ProfilerController@index",
+                "auth": true,
+                "permission": "performance.view_reports"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/profiles\/{id}",
+                "handler": "Controllers\\ProfilerController@show",
+                "auth": true,
+                "permission": "performance.view_reports"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/metrics",
+                "handler": "Controllers\\MetricsController@index",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/bottlenecks",
+                "handler": "Controllers\\BottleneckController@index",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/recommendations",
+                "handler": "Controllers\\RecommendationController@index",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/performance\/optimize",
+                "handler": "Controllers\\OptimizationController@optimize",
+                "auth": true,
+                "permission": "performance.profile"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/benchmarks",
+                "handler": "Controllers\\BenchmarkController@index",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/performance\/benchmarks\/run",
+                "handler": "Controllers\\BenchmarkController@run",
+                "auth": true,
+                "permission": "performance.run_benchmarks"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/timeline\/{session}",
+                "handler": "Controllers\\TimelineController@show",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/performance\/flamegraph\/{profile}",
+                "handler": "Controllers\\FlamegraphController@generate",
+                "auth": true
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "performance_profiles",
+            "performance_metrics",
+            "performance_timelines",
+            "performance_bottlenecks",
+            "performance_recommendations",
+            "performance_benchmarks",
+            "performance_alerts",
+            "performance_optimizations",
+            "performance_snapshots",
+            "performance_history"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/profiler.js",
+                "position": "footer",
+                "pages": [
+                    "all"
+                ],
+                "deps": [
+                    "jquery"
+                ]
+            },
+            {
+                "src": "assets\/js\/monitoring-dashboard.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "chart.js",
+                    "d3"
+                ]
+            },
+            {
+                "src": "assets\/js\/timeline-viewer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/js\/flamegraph.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "d3"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/profiler.css",
+                "pages": [
+                    "all"
+                ]
+            },
+            {
+                "src": "assets\/css\/dashboard.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/timeline.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "enable_profiling": {
+                "type": "boolean",
+                "label": "Enable Performance Profiling",
+                "default": true
+            },
+            "profiling_mode": {
+                "type": "select",
+                "label": "Profiling Mode",
+                "default": "sampling",
+                "options": {
+                    "sampling": "Sampling (Low Overhead)",
+                    "continuous": "Continuous (Higher Overhead)",
+                    "triggered": "Triggered (On Demand)"
+                }
+            },
+            "sampling_rate": {
+                "type": "number",
+                "label": "Sampling Rate (%)",
+                "default": 10,
+                "min": 1,
+                "max": 100,
+                "depends_on": {
+                    "profiling_mode": "sampling"
+                }
+            },
+            "metrics_to_collect": {
+                "type": "multiselect",
+                "label": "Metrics to Collect",
+                "default": [
+                    "execution_time",
+                    "memory_usage",
+                    "database_queries",
+                    "cache_hits"
+                ],
+                "options": {
+                    "execution_time": "Execution Time",
+                    "memory_usage": "Memory Usage",
+                    "peak_memory": "Peak Memory",
+                    "database_queries": "Database Queries",
+                    "cache_hits": "Cache Hit Rate",
+                    "network_calls": "External API Calls",
+                    "file_io": "File I\/O Operations",
+                    "cpu_usage": "CPU Usage",
+                    "opcache_stats": "OPcache Statistics",
+                    "garbage_collection": "GC Statistics"
+                }
+            },
+            "performance_thresholds": {
+                "type": "object",
+                "label": "Performance Thresholds",
+                "properties": {
+                    "page_load_time": {
+                        "type": "number",
+                        "label": "Page Load Time (ms)",
+                        "default": 3000,
+                        "min": 100,
+                        "max": 10000
+                    },
+                    "api_response_time": {
+                        "type": "number",
+                        "label": "API Response Time (ms)",
+                        "default": 1000,
+                        "min": 50,
+                        "max": 5000
+                    },
+                    "memory_limit_percent": {
+                        "type": "number",
+                        "label": "Memory Usage Warning (%)",
+                        "default": 80,
+                        "min": 50,
+                        "max": 95
+                    },
+                    "slow_query_time": {
+                        "type": "number",
+                        "label": "Slow Query Time (ms)",
+                        "default": 100,
+                        "min": 10,
+                        "max": 1000
+                    }
+                }
+            },
+            "enable_real_time_monitoring": {
+                "type": "boolean",
+                "label": "Enable Real-time Monitoring",
+                "default": true
+            },
+            "monitoring_interval": {
+                "type": "number",
+                "label": "Monitoring Interval (seconds)",
+                "default": 5,
+                "min": 1,
+                "max": 60,
+                "depends_on": {
+                    "enable_real_time_monitoring": true
+                }
+            },
+            "enable_auto_optimization": {
+                "type": "boolean",
+                "label": "Enable Auto-optimization",
+                "default": false,
+                "description": "Automatically apply performance optimizations"
+            },
+            "optimization_rules": {
+                "type": "multiselect",
+                "label": "Optimization Rules",
+                "default": [
+                    "cache_static",
+                    "minify_assets"
+                ],
+                "options": {
+                    "cache_static": "Cache Static Assets",
+                    "minify_assets": "Minify CSS\/JS",
+                    "optimize_images": "Optimize Images",
+                    "lazy_load": "Enable Lazy Loading",
+                    "database_indexes": "Optimize DB Indexes",
+                    "query_caching": "Enable Query Caching",
+                    "opcache_tuning": "Tune OPcache",
+                    "gzip_compression": "Enable Compression"
+                },
+                "depends_on": {
+                    "enable_auto_optimization": true
+                }
+            },
+            "data_retention_days": {
+                "type": "number",
+                "label": "Data Retention (days)",
+                "default": 30,
+                "min": 7,
+                "max": 365
+            },
+            "enable_alerts": {
+                "type": "boolean",
+                "label": "Enable Performance Alerts",
+                "default": true
+            },
+            "alert_channels": {
+                "type": "multiselect",
+                "label": "Alert Channels",
+                "default": [
+                    "email",
+                    "dashboard"
+                ],
+                "options": {
+                    "email": "Email",
+                    "dashboard": "Dashboard",
+                    "slack": "Slack",
+                    "webhook": "Webhook",
+                    "sms": "SMS"
+                },
+                "depends_on": {
+                    "enable_alerts": true
+                }
+            },
+            "enable_waterfall_view": {
+                "type": "boolean",
+                "label": "Enable Waterfall View",
+                "default": true,
+                "description": "Visual timeline of resource loading"
+            },
+            "enable_flamegraph": {
+                "type": "boolean",
+                "label": "Enable Flame Graphs",
+                "default": true,
+                "description": "Visualize call stack performance"
+            },
+            "benchmark_suites": {
+                "type": "multiselect",
+                "label": "Benchmark Suites",
+                "default": [
+                    "page_load",
+                    "api_endpoints"
+                ],
+                "options": {
+                    "page_load": "Page Load Times",
+                    "api_endpoints": "API Response Times",
+                    "database_operations": "Database Performance",
+                    "cache_performance": "Cache Performance",
+                    "search_performance": "Search Performance",
+                    "checkout_flow": "Checkout Process",
+                    "admin_operations": "Admin Operations"
+                }
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "performance_overview",
+            "name": "Performance Overview",
+            "description": "Real-time performance metrics",
+            "position": "dashboard",
+            "permissions": [
+                "performance.access"
+            ]
+        },
+        {
+            "id": "performance_alerts",
+            "name": "Performance Alerts",
+            "description": "Recent performance issues",
+            "position": "dashboard",
+            "permissions": [
+                "performance.access"
+            ]
+        },
+        {
+            "id": "optimization_suggestions",
+            "name": "Optimization Suggestions",
+            "description": "Recommended performance improvements",
+            "position": "dashboard",
+            "permissions": [
+                "performance.view_reports"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "collectPerformanceMetrics",
+            "description": "Collect performance metrics"
+        },
+        {
+            "schedule": "0 * * * *",
+            "handler": "analyzePerformanceTrends",
+            "description": "Analyze performance trends"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "generatePerformanceReport",
+            "description": "Generate daily performance report"
+        },
+        {
+            "schedule": "0 3 * * *",
+            "handler": "cleanupOldProfiles",
+            "description": "Clean up old profiling data"
+        },
+        {
+            "schedule": "0 4 * * MON",
+            "handler": "runScheduledBenchmarks",
+            "description": "Run weekly benchmarks"
+        }
+    ],
+    "profilers": {
+        "execution": {
+            "name": "Execution Profiler",
+            "class": "Profilers\\ExecutionProfiler",
+            "metrics": [
+                "time",
+                "calls",
+                "memory"
+            ]
+        },
+        "memory": {
+            "name": "Memory Profiler",
+            "class": "Profilers\\MemoryProfiler",
+            "metrics": [
+                "usage",
+                "peak",
+                "allocations"
+            ]
+        },
+        "database": {
+            "name": "Database Profiler",
+            "class": "Profilers\\DatabaseProfiler",
+            "metrics": [
+                "queries",
+                "time",
+                "slow_queries"
+            ]
+        },
+        "cache": {
+            "name": "Cache Profiler",
+            "class": "Profilers\\CacheProfiler",
+            "metrics": [
+                "hits",
+                "misses",
+                "evictions"
+            ]
+        },
+        "network": {
+            "name": "Network Profiler",
+            "class": "Profilers\\NetworkProfiler",
+            "metrics": [
+                "requests",
+                "latency",
+                "bandwidth"
+            ]
+        }
+    },
+    "optimization_presets": {
+        "aggressive": {
+            "name": "Aggressive Optimization",
+            "description": "Maximum performance, may affect functionality",
+            "rules": [
+                "aggressive_caching",
+                "full_page_cache",
+                "database_query_cache",
+                "asset_combination",
+                "image_lazy_load"
+            ]
+        },
+        "balanced": {
+            "name": "Balanced Optimization",
+            "description": "Good performance with safe optimizations",
+            "rules": [
+                "standard_caching",
+                "asset_minification",
+                "selective_lazy_load",
+                "query_optimization"
+            ]
+        },
+        "conservative": {
+            "name": "Conservative Optimization",
+            "description": "Minimal changes, maximum compatibility",
+            "rules": [
+                "basic_caching",
+                "gzip_compression"
+            ]
+        }
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Real-time performance monitoring",
+            "Execution profiling with timeline",
+            "Memory usage analysis",
+            "Database query profiling",
+            "Cache performance tracking",
+            "Bottleneck detection",
+            "Automated optimization suggestions",
+            "Performance benchmarking",
+            "Flame graph visualization",
+            "Waterfall view",
+            "Alert system",
+            "Historical trend analysis"
+        ]
+    }
+}

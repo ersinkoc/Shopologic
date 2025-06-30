@@ -1,0 +1,497 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://shopologic.com/schemas/plugin.json",
+  "title": "Shopologic Plugin Manifest",
+  "description": "Schema for Shopologic plugin.json files",
+  "type": "object",
+  "required": ["name", "version", "description", "author", "bootstrap"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Plugin display name",
+      "minLength": 3,
+      "maxLength": 50,
+      "examples": ["Payment Gateway", "Email Marketing"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version (X.Y.Z)",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[a-zA-Z0-9]+)?$",
+      "examples": ["1.0.0", "2.1.3-beta"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Plugin description",
+      "minLength": 10,
+      "maxLength": 500
+    },
+    "author": {
+      "type": "object",
+      "description": "Author information",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Author name",
+          "minLength": 3
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Author email"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Author website"
+        }
+      }
+    },
+    "license": {
+      "type": "string",
+      "description": "License identifier",
+      "enum": ["MIT", "GPL-2.0", "GPL-3.0", "Apache-2.0", "BSD-3-Clause", "proprietary"],
+      "default": "MIT"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "Plugin homepage URL"
+    },
+    "keywords": {
+      "type": "array",
+      "description": "Keywords for plugin discovery",
+      "items": {
+        "type": "string",
+        "minLength": 2
+      },
+      "maxItems": 10
+    },
+    "requirements": {
+      "type": "object",
+      "description": "System and dependency requirements",
+      "additionalProperties": false,
+      "properties": {
+        "php": {
+          "type": "string",
+          "description": "PHP version constraint",
+          "pattern": "^[><=~^]+\\d+\\.\\d+(\\.\\d+)?$",
+          "default": ">=8.3"
+        },
+        "core": {
+          "type": "string",
+          "description": "Shopologic core version constraint",
+          "pattern": "^[><=~^]+\\d+\\.\\d+(\\.\\d+)?$",
+          "default": ">=1.0.0"
+        },
+        "extensions": {
+          "type": "array",
+          "description": "Required PHP extensions",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dependencies": {
+          "type": "object",
+          "description": "Plugin dependencies",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[><=~^*]+\\d+\\.\\d+(\\.\\d+)?$"
+          }
+        }
+      }
+    },
+    "autoload": {
+      "type": "object",
+      "description": "PSR-4 autoloading configuration",
+      "properties": {
+        "psr-4": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "bootstrap": {
+      "type": "object",
+      "description": "Plugin bootstrap configuration",
+      "required": ["class"],
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "type": "string",
+          "description": "Fully qualified class name",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\\\[A-Za-z][A-Za-z0-9_]*)*$"
+        },
+        "file": {
+          "type": "string",
+          "description": "Main class file path",
+          "pattern": "^[^/].*\\.php$"
+        }
+      }
+    },
+    "provides": {
+      "type": "array",
+      "description": "Interfaces or services provided",
+      "items": {
+        "type": "string"
+      }
+    },
+    "permissions": {
+      "type": "array",
+      "description": "Permissions required by plugin",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z_]+\\.[a-z_]+$"
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Event hooks configuration",
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": ["name", "handler"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Hook name"
+                  },
+                  "handler": {
+                    "type": "string",
+                    "description": "Handler method name"
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Execution priority",
+                    "default": 10,
+                    "minimum": 1,
+                    "maximum": 100
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": ["name", "handler"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Filter name"
+                  },
+                  "handler": {
+                    "type": "string",
+                    "description": "Handler method name"
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "description": "Execution priority",
+                    "default": 10,
+                    "minimum": 1,
+                    "maximum": 100
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "description": "API configuration",
+      "properties": {
+        "endpoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["method", "path", "handler"],
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^/api/v\\d+/"
+              },
+              "handler": {
+                "type": "string",
+                "description": "Controller@method or method name"
+              },
+              "auth": {
+                "type": "boolean",
+                "default": true
+              },
+              "permission": {
+                "type": "string",
+                "pattern": "^[a-z_]+\\.[a-z_]+$"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "description": "Database configuration",
+      "properties": {
+        "tables": {
+          "type": "array",
+          "description": "Table names created by plugin",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          }
+        },
+        "migrations": {
+          "type": "string",
+          "description": "Migrations directory path",
+          "default": "migrations/"
+        }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "description": "Frontend assets configuration",
+      "properties": {
+        "js": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": ["src"],
+                "properties": {
+                  "src": {
+                    "type": "string",
+                    "description": "JavaScript file path"
+                  },
+                  "position": {
+                    "type": "string",
+                    "enum": ["header", "footer"],
+                    "default": "footer"
+                  },
+                  "pages": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": ["all"]
+                  },
+                  "defer": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "async": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "default": 10
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "css": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": ["src"],
+                "properties": {
+                  "src": {
+                    "type": "string",
+                    "description": "CSS file path"
+                  },
+                  "pages": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": ["all"]
+                  },
+                  "media": {
+                    "type": "string",
+                    "default": "all"
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "default": 10
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "description": "Plugin configuration",
+      "properties": {
+        "schema": {
+          "type": "object",
+          "description": "Configuration schema",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["string", "integer", "number", "boolean", "array", "object"]
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "default": {},
+              "required": {
+                "type": "boolean",
+                "default": false
+              },
+              "enum": {
+                "type": "array"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "widgets": {
+      "type": "array",
+      "description": "Dashboard widgets",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": ["dashboard", "sidebar", "header", "footer"],
+            "default": "dashboard"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z_]+\\.[a-z_]+$"
+            }
+          }
+        }
+      }
+    },
+    "scheduled_tasks": {
+      "type": "array",
+      "description": "Cron jobs / scheduled tasks",
+      "items": {
+        "type": "object",
+        "required": ["id", "schedule", "handler"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "schedule": {
+            "type": "string",
+            "description": "Cron expression"
+          },
+          "handler": {
+            "type": "string",
+            "description": "Handler method name"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "templates": {
+      "type": "array",
+      "description": "Template definitions",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "file"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "pattern": "\\.twig$"
+          },
+          "variables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "changelog": {
+      "type": "object",
+      "description": "Version changelog",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

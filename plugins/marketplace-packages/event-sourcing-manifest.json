@@ -1,0 +1,558 @@
+{
+    "package_info": {
+        "name": "event-sourcing",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:02",
+        "package_size": 17995,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "event-sourcing",
+        "version": "1.0.0",
+        "description": "Complete event sourcing implementation with event store, projections, snapshots, CQRS support, event replay, time travel debugging, and distributed event streaming",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/event-sourcing",
+        "keywords": [
+            "event-sourcing",
+            "cqrs",
+            "event-store",
+            "ddd",
+            "projections",
+            "snapshots",
+            "event-streaming",
+            "audit-trail"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/database": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\EventSourcing\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "EventSourcingPlugin",
+            "file": "src\/EventSourcingPlugin.php"
+        },
+        "provides": [
+            "EventStoreInterface",
+            "ProjectionManagerInterface",
+            "AggregateRepositoryInterface",
+            "EventBusInterface"
+        ],
+        "permissions": [
+            "events.access",
+            "events.replay",
+            "events.manage_projections",
+            "events.view_stream",
+            "events.create_snapshots",
+            "events.configure"
+        ],
+        "hooks": {
+            "actions": [
+                "event.stored",
+                "projection.updated",
+                "snapshot.created",
+                "stream.created",
+                "replay.started",
+                "replay.completed"
+            ],
+            "filters": [
+                "event.metadata",
+                "projection.handlers",
+                "snapshot.threshold",
+                "stream.permissions",
+                "event.serializer"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/events\/streams",
+                    "handler": "Controllers\\StreamController@index",
+                    "auth": true,
+                    "permission": "events.access"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/events\/streams\/{streamId}",
+                    "handler": "Controllers\\StreamController@show",
+                    "auth": true,
+                    "permission": "events.view_stream"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/events\/streams\/{streamId}\/events",
+                    "handler": "Controllers\\EventController@append",
+                    "auth": true,
+                    "permission": "events.access"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/events\/streams\/{streamId}\/events",
+                    "handler": "Controllers\\EventController@index",
+                    "auth": true,
+                    "permission": "events.view_stream"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/events\/projections",
+                    "handler": "Controllers\\ProjectionController@index",
+                    "auth": true,
+                    "permission": "events.access"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/events\/projections",
+                    "handler": "Controllers\\ProjectionController@create",
+                    "auth": true,
+                    "permission": "events.manage_projections"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/events\/projections\/{name}\/rebuild",
+                    "handler": "Controllers\\ProjectionController@rebuild",
+                    "auth": true,
+                    "permission": "events.manage_projections"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/events\/snapshots\/{aggregateId}",
+                    "handler": "Controllers\\SnapshotController@show",
+                    "auth": true,
+                    "permission": "events.access"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/events\/snapshots\/{aggregateId}",
+                    "handler": "Controllers\\SnapshotController@create",
+                    "auth": true,
+                    "permission": "events.create_snapshots"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/events\/replay",
+                    "handler": "Controllers\\ReplayController@start",
+                    "auth": true,
+                    "permission": "events.replay"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/events\/replay\/{jobId}",
+                    "handler": "Controllers\\ReplayController@status",
+                    "auth": true,
+                    "permission": "events.replay"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/events\/audit\/{entityType}\/{entityId}",
+                    "handler": "Controllers\\AuditController@trail",
+                    "auth": true,
+                    "permission": "events.access"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/events\/time-travel",
+                    "handler": "Controllers\\TimeTravelController@query",
+                    "auth": true,
+                    "permission": "events.replay"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "event_store",
+                "event_streams",
+                "event_snapshots",
+                "event_projections",
+                "projection_states",
+                "event_metadata",
+                "event_subscriptions",
+                "event_replay_jobs",
+                "event_causation_map",
+                "event_correlation_map"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/event-viewer.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "jquery",
+                        "d3"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/projection-builder.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/time-travel-debugger.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "react",
+                        "timeline-js"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/event-viewer.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/timeline.css",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "event_store_engine": {
+                    "type": "select",
+                    "label": "Event Store Engine",
+                    "default": "database",
+                    "options": {
+                        "database": "Database (PostgreSQL)",
+                        "file": "File-based",
+                        "memory": "In-Memory (Development)",
+                        "distributed": "Distributed Store"
+                    }
+                },
+                "enable_snapshots": {
+                    "type": "boolean",
+                    "label": "Enable Snapshots",
+                    "default": true,
+                    "description": "Create snapshots for faster aggregate loading"
+                },
+                "snapshot_threshold": {
+                    "type": "number",
+                    "label": "Snapshot Threshold",
+                    "default": 100,
+                    "min": 10,
+                    "max": 1000,
+                    "description": "Number of events before creating snapshot",
+                    "depends_on": {
+                        "enable_snapshots": true
+                    }
+                },
+                "enable_projections": {
+                    "type": "boolean",
+                    "label": "Enable Projections",
+                    "default": true,
+                    "description": "Build read models from events"
+                },
+                "projection_mode": {
+                    "type": "select",
+                    "label": "Projection Mode",
+                    "default": "async",
+                    "options": {
+                        "sync": "Synchronous",
+                        "async": "Asynchronous",
+                        "catchup": "Catch-up Mode"
+                    },
+                    "depends_on": {
+                        "enable_projections": true
+                    }
+                },
+                "enable_event_streaming": {
+                    "type": "boolean",
+                    "label": "Enable Event Streaming",
+                    "default": true,
+                    "description": "Stream events to external systems"
+                },
+                "streaming_backends": {
+                    "type": "multiselect",
+                    "label": "Streaming Backends",
+                    "default": [
+                        "webhook"
+                    ],
+                    "options": {
+                        "webhook": "Webhooks",
+                        "websocket": "WebSocket",
+                        "sse": "Server-Sent Events",
+                        "kafka": "Apache Kafka",
+                        "rabbitmq": "RabbitMQ",
+                        "redis": "Redis Streams"
+                    },
+                    "depends_on": {
+                        "enable_event_streaming": true
+                    }
+                },
+                "event_retention_days": {
+                    "type": "number",
+                    "label": "Event Retention (days)",
+                    "default": 365,
+                    "min": 30,
+                    "max": 3650,
+                    "description": "How long to keep events"
+                },
+                "enable_causation_tracking": {
+                    "type": "boolean",
+                    "label": "Enable Causation Tracking",
+                    "default": true,
+                    "description": "Track cause-effect relationships"
+                },
+                "enable_correlation_tracking": {
+                    "type": "boolean",
+                    "label": "Enable Correlation Tracking",
+                    "default": true,
+                    "description": "Track related events across aggregates"
+                },
+                "serialization_format": {
+                    "type": "select",
+                    "label": "Event Serialization",
+                    "default": "json",
+                    "options": {
+                        "json": "JSON",
+                        "msgpack": "MessagePack",
+                        "protobuf": "Protocol Buffers",
+                        "avro": "Apache Avro"
+                    }
+                },
+                "enable_encryption": {
+                    "type": "boolean",
+                    "label": "Enable Event Encryption",
+                    "default": false,
+                    "description": "Encrypt sensitive event data"
+                },
+                "encryption_key": {
+                    "type": "string",
+                    "label": "Encryption Key",
+                    "encrypted": true,
+                    "depends_on": {
+                        "enable_encryption": true
+                    }
+                },
+                "enable_event_versioning": {
+                    "type": "boolean",
+                    "label": "Enable Event Versioning",
+                    "default": true,
+                    "description": "Support multiple event versions"
+                },
+                "enable_upcasting": {
+                    "type": "boolean",
+                    "label": "Enable Event Upcasting",
+                    "default": true,
+                    "description": "Transform old events to new format",
+                    "depends_on": {
+                        "enable_event_versioning": true
+                    }
+                },
+                "enable_time_travel": {
+                    "type": "boolean",
+                    "label": "Enable Time Travel Queries",
+                    "default": true,
+                    "description": "Query state at any point in time"
+                },
+                "enable_audit_trail": {
+                    "type": "boolean",
+                    "label": "Enable Audit Trail",
+                    "default": true,
+                    "description": "Automatic audit logging"
+                },
+                "aggregate_cache_ttl": {
+                    "type": "number",
+                    "label": "Aggregate Cache TTL (seconds)",
+                    "default": 300,
+                    "min": 0,
+                    "max": 3600
+                },
+                "concurrent_projections": {
+                    "type": "number",
+                    "label": "Concurrent Projections",
+                    "default": 4,
+                    "min": 1,
+                    "max": 16,
+                    "description": "Number of projections to run in parallel"
+                },
+                "event_dispatcher_mode": {
+                    "type": "select",
+                    "label": "Event Dispatcher Mode",
+                    "default": "async",
+                    "options": {
+                        "sync": "Synchronous",
+                        "async": "Asynchronous (Queue)",
+                        "reactive": "Reactive Streams"
+                    }
+                },
+                "enable_saga_support": {
+                    "type": "boolean",
+                    "label": "Enable Saga Support",
+                    "default": true,
+                    "description": "Support for long-running processes"
+                },
+                "enable_process_managers": {
+                    "type": "boolean",
+                    "label": "Enable Process Managers",
+                    "default": true,
+                    "description": "Coordinate complex workflows"
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "event_stream_stats",
+                "name": "Event Stream Statistics",
+                "description": "Overview of event streams",
+                "position": "dashboard",
+                "permissions": [
+                    "events.access"
+                ]
+            },
+            {
+                "id": "projection_status",
+                "name": "Projection Status",
+                "description": "Current projection states",
+                "position": "dashboard",
+                "permissions": [
+                    "events.access"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "processProjections",
+                "description": "Process asynchronous projections"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "createSnapshots",
+                "description": "Create aggregate snapshots"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "cleanupOldEvents",
+                "description": "Clean up old events based on retention"
+            },
+            {
+                "schedule": "*\/10 * * * *",
+                "handler": "processEventSubscriptions",
+                "description": "Process event subscriptions"
+            }
+        ],
+        "event_handlers": {
+            "OrderPlaced": {
+                "projections": [
+                    "OrderProjection",
+                    "CustomerOrdersProjection"
+                ],
+                "process_managers": [
+                    "OrderFulfillmentProcess"
+                ],
+                "subscribers": [
+                    "InventoryService",
+                    "EmailService"
+                ]
+            },
+            "PaymentReceived": {
+                "projections": [
+                    "PaymentProjection",
+                    "RevenueProjection"
+                ],
+                "sagas": [
+                    "OrderSaga"
+                ],
+                "subscribers": [
+                    "AccountingService"
+                ]
+            }
+        },
+        "projections": {
+            "order_summary": {
+                "name": "Order Summary",
+                "events": [
+                    "OrderPlaced",
+                    "OrderUpdated",
+                    "OrderShipped",
+                    "OrderDelivered"
+                ],
+                "target": "order_summaries",
+                "mode": "async"
+            },
+            "customer_statistics": {
+                "name": "Customer Statistics",
+                "events": [
+                    "CustomerRegistered",
+                    "OrderPlaced",
+                    "CustomerUpdated"
+                ],
+                "target": "customer_stats",
+                "mode": "live"
+            }
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "Complete event store implementation",
+                "CQRS support with command\/query separation",
+                "Projection system with async processing",
+                "Snapshot functionality",
+                "Event replay capabilities",
+                "Time travel debugging",
+                "Distributed event streaming",
+                "Saga and process manager support",
+                "Audit trail generation",
+                "Event versioning and upcasting",
+                "Causation and correlation tracking"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

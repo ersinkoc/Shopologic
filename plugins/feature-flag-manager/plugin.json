@@ -1,0 +1,585 @@
+{
+    "name": "feature-flag-manager",
+    "version": "1.0.0",
+    "description": "Advanced feature flag system with A\/B testing, progressive rollouts, user targeting, remote configuration, analytics integration, and real-time flag updates",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/feature-flag-manager",
+    "keywords": [
+        "feature-flags",
+        "ab-testing",
+        "rollout",
+        "experimentation",
+        "targeting",
+        "toggles",
+        "canary",
+        "configuration"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/analytics": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\FeatureFlagManager\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "FeatureFlagManagerPlugin",
+        "file": "src\/FeatureFlagManagerPlugin.php"
+    },
+    "provides": [
+        "FeatureFlagInterface",
+        "ExperimentInterface",
+        "TargetingInterface",
+        "RolloutInterface"
+    ],
+    "permissions": [
+        "features.access",
+        "features.manage_flags",
+        "features.view_analytics",
+        "features.manage_experiments",
+        "features.configure_targeting",
+        "features.emergency_kill"
+    ],
+    "hooks": {
+        "actions": [
+            "flag.created",
+            "flag.updated",
+            "flag.toggled",
+            "experiment.started",
+            "experiment.completed",
+            "rollout.updated"
+        ],
+        "filters": [
+            "feature.enabled",
+            "experiment.variant",
+            "targeting.rules",
+            "rollout.percentage",
+            "flag.evaluation"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/features\/flags",
+                "handler": "Controllers\\FlagController@index",
+                "auth": true,
+                "permission": "features.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/features\/flags",
+                "handler": "Controllers\\FlagController@create",
+                "auth": true,
+                "permission": "features.manage_flags"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/features\/flags\/{key}",
+                "handler": "Controllers\\FlagController@show",
+                "auth": true,
+                "permission": "features.access"
+            },
+            {
+                "method": "PUT",
+                "path": "\/api\/v1\/features\/flags\/{key}",
+                "handler": "Controllers\\FlagController@update",
+                "auth": true,
+                "permission": "features.manage_flags"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/features\/flags\/{key}\/toggle",
+                "handler": "Controllers\\FlagController@toggle",
+                "auth": true,
+                "permission": "features.manage_flags"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/features\/evaluate",
+                "handler": "Controllers\\EvaluationController@evaluate",
+                "auth": false,
+                "cache": 300
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/features\/evaluate\/batch",
+                "handler": "Controllers\\EvaluationController@evaluateBatch",
+                "auth": false
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/features\/experiments",
+                "handler": "Controllers\\ExperimentController@index",
+                "auth": true,
+                "permission": "features.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/features\/experiments",
+                "handler": "Controllers\\ExperimentController@create",
+                "auth": true,
+                "permission": "features.manage_experiments"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/features\/experiments\/{id}\/results",
+                "handler": "Controllers\\ExperimentController@results",
+                "auth": true,
+                "permission": "features.view_analytics"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/features\/targeting\/rules",
+                "handler": "Controllers\\TargetingController@createRule",
+                "auth": true,
+                "permission": "features.configure_targeting"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/features\/analytics",
+                "handler": "Controllers\\AnalyticsController@dashboard",
+                "auth": true,
+                "permission": "features.view_analytics"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/features\/rollout\/{key}",
+                "handler": "Controllers\\RolloutController@update",
+                "auth": true,
+                "permission": "features.manage_flags"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/features\/flags\/{key}\/kill",
+                "handler": "Controllers\\EmergencyController@killSwitch",
+                "auth": true,
+                "permission": "features.emergency_kill"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "feature_flags",
+            "feature_experiments",
+            "feature_variants",
+            "feature_targeting_rules",
+            "feature_evaluations",
+            "feature_analytics",
+            "feature_rollout_configs",
+            "feature_user_assignments",
+            "feature_audit_log",
+            "feature_webhooks"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/feature-dashboard.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "jquery",
+                    "chart.js"
+                ]
+            },
+            {
+                "src": "assets\/js\/experiment-analyzer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "statistics.js"
+                ]
+            },
+            {
+                "src": "assets\/js\/targeting-builder.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "jquery-ui"
+                ]
+            },
+            {
+                "src": "assets\/js\/rollout-visualizer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "d3"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/feature-dashboard.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/experiment-results.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/targeting-builder.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "evaluation_mode": {
+                "type": "select",
+                "label": "Evaluation Mode",
+                "default": "local",
+                "options": {
+                    "local": "Local Evaluation",
+                    "remote": "Remote Service",
+                    "hybrid": "Hybrid (Local + Remote)"
+                }
+            },
+            "caching_strategy": {
+                "type": "object",
+                "label": "Caching Configuration",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "ttl": {
+                        "type": "number",
+                        "label": "Cache TTL (seconds)",
+                        "default": 300,
+                        "min": 0,
+                        "max": 3600
+                    },
+                    "cache_evaluations": {
+                        "type": "boolean",
+                        "label": "Cache Evaluations",
+                        "default": true
+                    }
+                }
+            },
+            "default_rollout_strategy": {
+                "type": "select",
+                "label": "Default Rollout Strategy",
+                "default": "percentage",
+                "options": {
+                    "percentage": "Percentage-based",
+                    "ring": "Ring Deployment",
+                    "canary": "Canary Release",
+                    "beta": "Beta Users First",
+                    "geographic": "Geographic Rollout"
+                }
+            },
+            "experiment_settings": {
+                "type": "object",
+                "label": "Experiment Settings",
+                "properties": {
+                    "minimum_sample_size": {
+                        "type": "number",
+                        "label": "Minimum Sample Size",
+                        "default": 1000,
+                        "min": 100,
+                        "max": 100000
+                    },
+                    "confidence_level": {
+                        "type": "number",
+                        "label": "Confidence Level (%)",
+                        "default": 95,
+                        "min": 80,
+                        "max": 99.9
+                    },
+                    "auto_conclude": {
+                        "type": "boolean",
+                        "label": "Auto-conclude Experiments",
+                        "default": false
+                    }
+                }
+            },
+            "targeting_capabilities": {
+                "type": "multiselect",
+                "label": "Targeting Capabilities",
+                "default": [
+                    "user_attributes",
+                    "percentage",
+                    "user_id"
+                ],
+                "options": {
+                    "user_attributes": "User Attributes",
+                    "percentage": "Percentage Split",
+                    "user_id": "User ID",
+                    "user_segment": "User Segments",
+                    "geographic": "Geographic Location",
+                    "device_type": "Device Type",
+                    "browser": "Browser Type",
+                    "custom_rules": "Custom Rules",
+                    "time_based": "Time-based",
+                    "behavioral": "Behavioral Targeting"
+                }
+            },
+            "analytics_integration": {
+                "type": "multiselect",
+                "label": "Analytics Integrations",
+                "default": [
+                    "internal"
+                ],
+                "options": {
+                    "internal": "Internal Analytics",
+                    "google_analytics": "Google Analytics",
+                    "mixpanel": "Mixpanel",
+                    "amplitude": "Amplitude",
+                    "segment": "Segment",
+                    "custom": "Custom Integration"
+                }
+            },
+            "webhook_events": {
+                "type": "multiselect",
+                "label": "Webhook Events",
+                "default": [
+                    "flag_changed",
+                    "experiment_completed"
+                ],
+                "options": {
+                    "flag_created": "Flag Created",
+                    "flag_changed": "Flag Changed",
+                    "flag_deleted": "Flag Deleted",
+                    "experiment_started": "Experiment Started",
+                    "experiment_completed": "Experiment Completed",
+                    "rollout_changed": "Rollout Changed",
+                    "emergency_kill": "Emergency Kill Activated"
+                }
+            },
+            "safety_features": {
+                "type": "object",
+                "label": "Safety Features",
+                "properties": {
+                    "enable_kill_switch": {
+                        "type": "boolean",
+                        "label": "Enable Kill Switch",
+                        "default": true
+                    },
+                    "gradual_rollout_max_speed": {
+                        "type": "number",
+                        "label": "Max Rollout Speed (%\/hour)",
+                        "default": 10,
+                        "min": 1,
+                        "max": 100
+                    },
+                    "automatic_rollback": {
+                        "type": "boolean",
+                        "label": "Automatic Rollback on Errors",
+                        "default": true
+                    },
+                    "error_threshold": {
+                        "type": "number",
+                        "label": "Error Threshold (%)",
+                        "default": 5,
+                        "min": 1,
+                        "max": 50
+                    }
+                }
+            },
+            "performance_settings": {
+                "type": "object",
+                "label": "Performance Settings",
+                "properties": {
+                    "evaluation_timeout": {
+                        "type": "number",
+                        "label": "Evaluation Timeout (ms)",
+                        "default": 50,
+                        "min": 10,
+                        "max": 1000
+                    },
+                    "batch_size": {
+                        "type": "number",
+                        "label": "Batch Evaluation Size",
+                        "default": 100,
+                        "min": 10,
+                        "max": 1000
+                    },
+                    "async_evaluation": {
+                        "type": "boolean",
+                        "label": "Async Evaluation",
+                        "default": false
+                    }
+                }
+            },
+            "audit_settings": {
+                "type": "object",
+                "label": "Audit Settings",
+                "properties": {
+                    "enable_audit_log": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "audit_retention_days": {
+                        "type": "number",
+                        "label": "Audit Retention (days)",
+                        "default": 90,
+                        "min": 30,
+                        "max": 365
+                    },
+                    "detailed_evaluation_log": {
+                        "type": "boolean",
+                        "label": "Log All Evaluations",
+                        "default": false
+                    }
+                }
+            },
+            "sdk_settings": {
+                "type": "object",
+                "label": "SDK Settings",
+                "properties": {
+                    "polling_interval": {
+                        "type": "number",
+                        "label": "Polling Interval (seconds)",
+                        "default": 60,
+                        "min": 10,
+                        "max": 600
+                    },
+                    "enable_websocket": {
+                        "type": "boolean",
+                        "label": "Enable WebSocket Updates",
+                        "default": true
+                    },
+                    "offline_mode": {
+                        "type": "boolean",
+                        "label": "Support Offline Mode",
+                        "default": true
+                    }
+                }
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "feature_overview",
+            "name": "Feature Flag Overview",
+            "description": "Active flags and experiments",
+            "position": "dashboard",
+            "permissions": [
+                "features.access"
+            ]
+        },
+        {
+            "id": "experiment_results",
+            "name": "Experiment Results",
+            "description": "Current experiment performance",
+            "position": "dashboard",
+            "permissions": [
+                "features.view_analytics"
+            ]
+        },
+        {
+            "id": "rollout_progress",
+            "name": "Rollout Progress",
+            "description": "Feature rollout status",
+            "position": "dashboard",
+            "permissions": [
+                "features.access"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "updateRolloutPercentages",
+            "description": "Update gradual rollout percentages"
+        },
+        {
+            "schedule": "*\/15 * * * *",
+            "handler": "checkExperimentCompletion",
+            "description": "Check for completed experiments"
+        },
+        {
+            "schedule": "0 * * * *",
+            "handler": "calculateExperimentResults",
+            "description": "Calculate experiment statistics"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "cleanupOldEvaluations",
+            "description": "Clean up old evaluation data"
+        },
+        {
+            "schedule": "*\/10 * * * *",
+            "handler": "syncRemoteFlags",
+            "description": "Sync with remote flag service"
+        }
+    ],
+    "flag_types": {
+        "boolean": {
+            "name": "Boolean Flag",
+            "default": false
+        },
+        "string": {
+            "name": "String Flag",
+            "default": ""
+        },
+        "number": {
+            "name": "Number Flag",
+            "default": 0
+        },
+        "json": {
+            "name": "JSON Flag",
+            "default": []
+        },
+        "multivariate": {
+            "name": "Multivariate Flag",
+            "variants": []
+        }
+    },
+    "targeting_operators": {
+        "equals": "Equals",
+        "not_equals": "Not Equals",
+        "contains": "Contains",
+        "not_contains": "Not Contains",
+        "greater_than": "Greater Than",
+        "less_than": "Less Than",
+        "in": "In List",
+        "not_in": "Not In List",
+        "regex": "Matches Regex",
+        "semver_eq": "Semantic Version Equals",
+        "semver_gt": "Semantic Version Greater",
+        "semver_lt": "Semantic Version Less"
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Boolean, string, number, and JSON flags",
+            "A\/B testing and multivariate experiments",
+            "Progressive rollout strategies",
+            "Advanced user targeting",
+            "Real-time flag updates via WebSocket",
+            "Analytics and experiment results",
+            "Emergency kill switch",
+            "Audit logging",
+            "SDK support for multiple platforms",
+            "Webhook notifications",
+            "Performance optimization with caching"
+        ]
+    }
+}

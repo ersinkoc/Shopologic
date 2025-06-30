@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Services;
+namespace Shopologic\Plugins\ShippingFedex\Services;
 
 use Shopologic\Core\Ecommerce\Shipping\ShippingRequest;
 use Shopologic\Core\Ecommerce\Shipping\ShippingRate;
 use Shopologic\Plugins\ShippingFedEx\Exceptions\FedExException;
 
-class FedExRateCalculator
-{
+class FedExRateCalculator\n{
     private FedExApiClient $apiClient;
 
     public function __construct(FedExApiClient $apiClient)

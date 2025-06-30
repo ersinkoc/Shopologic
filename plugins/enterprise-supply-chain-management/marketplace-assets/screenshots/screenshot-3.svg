@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f8f9fa"/>
+    <rect x="50" y="50" width="1100" height="60" fill="#667eea" rx="5"/>
+    <text x="80" y="90" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white">
+        Enterprise Supply Chain Management - Screenshot 3
+    </text>
+    
+    <rect x="50" y="150" width="350" height="200" fill="white" stroke="#dee2e6" rx="8"/>
+    <text x="225" y="260" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#6c757d">
+        Dashboard View
+    </text>
+    
+    <rect x="425" y="150" width="350" height="200" fill="white" stroke="#dee2e6" rx="8"/>
+    <text x="600" y="260" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#6c757d">
+        Configuration Panel
+    </text>
+    
+    <rect x="800" y="150" width="350" height="200" fill="white" stroke="#dee2e6" rx="8"/>
+    <text x="975" y="260" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#6c757d">
+        Analytics View
+    </text>
+    
+    <text x="600" y="450" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#868e96">
+        Professional plugin interface showcasing key features and functionality
+    </text>
+</svg>

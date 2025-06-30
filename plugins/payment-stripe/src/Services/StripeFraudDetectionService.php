@@ -18,8 +18,7 @@ use Shopologic\Core\Cache\CacheInterface;
  * - Velocity checks
  * - Geographic risk assessment
  */
-class StripeFraudDetectionService
-{
+class StripeFraudDetectionService\n{
     private StripeClient $stripeClient;
     private StripeFraudRepository $fraudRepository;
     private LoggerInterface $logger;
@@ -122,7 +121,7 @@ class StripeFraudDetectionService
                 'analysis_timestamp' => time()
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Fraud detection analysis failed', [
                 'error' => $e->getMessage(),
                 'payment_data' => $paymentData
@@ -593,7 +592,7 @@ class StripeFraudDetectionService
                 'training_samples' => count($trainingData)
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Failed to update fraud detection models', [
                 'error' => $e->getMessage()
             ]);
@@ -621,7 +620,7 @@ class StripeFraudDetectionService
                 'rules_analyzed' => count($rulePerformance)
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Failed to optimize Radar rules', [
                 'error' => $e->getMessage()
             ]);

@@ -200,7 +200,7 @@ class StripeGateway implements PaymentGatewayInterface
                 error: $e->getMessage(),
                 errorCode: $e->getStripeCode()
             );
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new PaymentResponse(
                 success: false,
                 transactionId: null,
@@ -240,7 +240,7 @@ class StripeGateway implements PaymentGatewayInterface
                 ]
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new PaymentResponse(
                 success: false,
                 transactionId: $paymentId,
@@ -290,7 +290,7 @@ class StripeGateway implements PaymentGatewayInterface
                 currency: strtoupper($refund['currency'])
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new RefundResponse(
                 success: false,
                 refundId: null,
@@ -318,7 +318,7 @@ class StripeGateway implements PaymentGatewayInterface
                 status: 'voided'
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new PaymentResponse(
                 success: false,
                 transactionId: $paymentId,
@@ -381,7 +381,7 @@ class StripeGateway implements PaymentGatewayInterface
 
             return new WebhookResponse(true, 'Webhook processed successfully');
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Stripe webhook error', ['error' => $e->getMessage()]);
             return new WebhookResponse(false, 'Webhook processing failed', 500);
         }
@@ -401,7 +401,7 @@ class StripeGateway implements PaymentGatewayInterface
 
             return $this->client->verifyWebhookSignature($payload, $signature, $secret);
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Webhook verification failed', ['error' => $e->getMessage()]);
             return false;
         }
@@ -435,7 +435,7 @@ class StripeGateway implements PaymentGatewayInterface
                 'publishable_key' => $this->config['publishable_key']
             ];
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             throw new StripeException('Failed to prepare payment: ' . $e->getMessage());
         }
     }
@@ -459,7 +459,7 @@ class StripeGateway implements PaymentGatewayInterface
                         'new_status' => $paymentIntent['status']
                     ]);
                 }
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Failed to sync payment status', [
                     'payment_id' => $payment->id,
                     'error' => $e->getMessage()

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace Shopologic\Plugins\CoreCommerce\Models;
 
 use Shopologic\Core\Database\Model;

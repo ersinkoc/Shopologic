@@ -2,25 +2,30 @@
     "name": "payment-stripe",
     "version": "1.0.0",
     "description": "Stripe payment gateway integration for Shopologic",
-    "author": "Shopologic Team",
+    "author": {
+        "name": "Shopologic Team"
+    },
     "license": "MIT",
-    "php_version": ">=8.3",
-    "core_version": ">=1.0.0",
-    "dependencies": {
-        "core-commerce": "^1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\PaymentStripe\\": "src/"
+        }
+    },
+    "bootstrap": {
+        "class": "PaymentStripePlugin",
+        "file": "src/StripePaymentPlugin.php"
     },
     "provides": [
         "PaymentGatewayInterface",
         "RefundProcessorInterface",
         "WebhookHandlerInterface"
-    ],
-    "hooks": [
-        "order.created",
-        "payment.processing",
-        "payment.completed",
-        "payment.failed",
-        "refund.processing",
-        "refund.completed"
     ],
     "permissions": [
         "payment.process",
@@ -29,79 +34,131 @@
         "order.view",
         "customer.view"
     ],
-    "api_endpoints": [
-        "POST /api/payments/stripe/process",
-        "POST /api/payments/stripe/webhook",
-        "GET /api/payments/stripe/methods",
-        "POST /api/payments/stripe/setup-intent",
-        "POST /api/payments/stripe/payment-intent",
-        "POST /api/payments/stripe/refund/{id}"
-    ],
-    "database_tables": [
-        "stripe_payments",
-        "stripe_webhooks",
-        "stripe_customers",
-        "stripe_payment_methods",
-        "stripe_refunds"
-    ],
-    "config_schema": {
-        "publishable_key": {
-            "type": "string",
-            "label": "Publishable Key",
-            "required": true,
-            "description": "Your Stripe publishable key"
-        },
-        "secret_key": {
-            "type": "string",
-            "label": "Secret Key",
-            "required": true,
-            "encrypted": true,
-            "description": "Your Stripe secret key"
-        },
-        "webhook_secret": {
-            "type": "string",
-            "label": "Webhook Secret",
-            "required": true,
-            "encrypted": true,
-            "description": "Your Stripe webhook endpoint secret"
-        },
-        "capture_method": {
-            "type": "enum",
-            "label": "Payment Capture Method",
-            "values": ["automatic", "manual"],
-            "default": "automatic",
-            "description": "Whether to capture payments automatically or manually"
-        },
-        "statement_descriptor": {
-            "type": "string",
-            "label": "Statement Descriptor",
-            "required": false,
-            "maxLength": 22,
-            "description": "Text that appears on customer's credit card statement"
-        },
-        "enable_3d_secure": {
-            "type": "boolean",
-            "label": "Enable 3D Secure",
-            "default": true,
-            "description": "Enable 3D Secure authentication for payments"
-        },
-        "save_payment_methods": {
-            "type": "boolean",
-            "label": "Save Payment Methods",
-            "default": true,
-            "description": "Allow customers to save payment methods for future use"
-        },
-        "supported_currencies": {
-            "type": "array",
-            "label": "Supported Currencies",
-            "default": ["USD", "EUR", "GBP"],
-            "description": "List of supported currency codes"
-        }
+    "hooks": {
+        "actions": [
+            "order.created",
+            "payment.processing",
+            "payment.completed",
+            "payment.failed",
+            "refund.processing",
+            "refund.completed"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/api/payments/stripe/process",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/payments/stripe/webhook",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/payments/stripe/methods",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/payments/stripe/setup-intent",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/payments/stripe/payment-intent",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/payments/stripe/refund/{id}",
+                "handler": "handlePost"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "stripe_payments",
+            "stripe_webhooks",
+            "stripe_customers",
+            "stripe_payment_methods",
+            "stripe_refunds"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/stripe.js", "assets/stripe-elements.js"],
-        "css": ["assets/stripe.css"]
+        "js": [
+            "assets/stripe.js",
+            "assets/stripe-elements.js"
+        ],
+        "css": [
+            "assets/stripe.css"
+        ]
     },
-    "main_class": "StripePaymentPlugin",
-    "namespace": "Shopologic\\Plugins\\PaymentStripe"
+    "config": {
+        "schema": {
+            "publishable_key": {
+                "type": "string",
+                "label": "Publishable Key",
+                "required": true,
+                "description": "Your Stripe publishable key"
+            },
+            "secret_key": {
+                "type": "string",
+                "label": "Secret Key",
+                "required": true,
+                "encrypted": true,
+                "description": "Your Stripe secret key"
+            },
+            "webhook_secret": {
+                "type": "string",
+                "label": "Webhook Secret",
+                "required": true,
+                "encrypted": true,
+                "description": "Your Stripe webhook endpoint secret"
+            },
+            "capture_method": {
+                "type": "enum",
+                "label": "Payment Capture Method",
+                "values": [
+                    "automatic",
+                    "manual"
+                ],
+                "default": "automatic",
+                "description": "Whether to capture payments automatically or manually"
+            },
+            "statement_descriptor": {
+                "type": "string",
+                "label": "Statement Descriptor",
+                "required": false,
+                "maxLength": 22,
+                "description": "Text that appears on customer's credit card statement"
+            },
+            "enable_3d_secure": {
+                "type": "boolean",
+                "label": "Enable 3D Secure",
+                "default": true,
+                "description": "Enable 3D Secure authentication for payments"
+            },
+            "save_payment_methods": {
+                "type": "boolean",
+                "label": "Save Payment Methods",
+                "default": true,
+                "description": "Allow customers to save payment methods for future use"
+            },
+            "supported_currencies": {
+                "type": "array",
+                "label": "Supported Currencies",
+                "default": [
+                    "USD",
+                    "EUR",
+                    "GBP"
+                ],
+                "description": "List of supported currency codes"
+            }
+        }
+    },
+    "homepage": "https://shopologic.com/plugins/payment-stripe"
 }

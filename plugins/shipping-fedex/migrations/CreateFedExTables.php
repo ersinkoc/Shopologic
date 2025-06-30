@@ -1,5 +1,9 @@
 <?php
 
+
+declare(strict_types=1);
+
+namespace Shopologic\Plugins\ShippingFedex;
 declare(strict_types=1);
 
 use Shopologic\Core\Database\Schema\Schema;

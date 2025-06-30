@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace MultiVendorMarketplace\Controllers;
 
 use Shopologic\Core\Controller\BaseController;
@@ -62,7 +64,7 @@ class VendorDashboardController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -95,7 +97,7 @@ class VendorDashboardController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -122,7 +124,7 @@ class VendorDashboardController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -151,7 +153,7 @@ class VendorDashboardController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -186,7 +188,7 @@ class VendorDashboardController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -218,7 +220,7 @@ class VendorDashboardController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -244,7 +246,7 @@ class VendorDashboardController extends BaseController
             
         } catch (UnauthorizedException $e) {
             return $this->error($e->getMessage(), 403);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }

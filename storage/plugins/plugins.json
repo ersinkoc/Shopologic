@@ -1,9 +1,546 @@
 {
-    "HelloWorld": {
-        "activated": false,
-        "installed": true,
-        "version": "1.0.0",
-        "installed_at": "2025-06-26 21:40:54",
-        "updated_at": "2025-06-26 21:40:54"
+    "timestamp": "2025-06-30 23:08:54",
+    "total_plugins": 77,
+    "active_plugins": 77,
+    "plugins": {
+        "HelloWorld": {
+            "name": "HelloWorld",
+            "version": "1.0.0",
+            "description": "A simple hello world plugin for Shopologic",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/HelloWorld",
+            "active": true
+        },
+        "ab-testing-framework": {
+            "name": "A\/B Testing Framework",
+            "version": "1.0.0",
+            "description": "Built-in experimentation platform for testing pricing, layouts, features, and conversion optimization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/ab-testing-framework",
+            "active": true
+        },
+        "advanced-analytics-reporting": {
+            "name": "Advanced Analytics & Reporting",
+            "version": "1.0.0",
+            "description": "Comprehensive analytics and reporting platform with real-time dashboards, predictive analytics, cohort analysis, custom reports, data visualization, and business intelligence",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/advanced-analytics-reporting",
+            "active": true
+        },
+        "advanced-cms": {
+            "name": "advanced-cms",
+            "version": "1.0.0",
+            "description": "Advanced content management with AI writing assistance, SEO optimization, multi-language support, and dynamic content personalization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/advanced-cms",
+            "active": true
+        },
+        "advanced-email-marketing": {
+            "name": "Advanced Email Marketing Automation",
+            "version": "1.0.0",
+            "description": "Comprehensive email marketing automation platform with advanced segmentation, behavioral triggers, A\/B testing, personalization, deliverability optimization, and analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/advanced-email-marketing",
+            "active": true
+        },
+        "advanced-inventory": {
+            "name": "Advanced Inventory Management",
+            "version": "1.0.0",
+            "description": "Enterprise-grade inventory management with multi-location warehouses, stock tracking, automated reordering, supplier integration, and real-time analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/advanced-inventory",
+            "active": true
+        },
+        "advanced-inventory-intelligence": {
+            "name": "advanced-inventory-intelligence",
+            "version": "1.0.0",
+            "description": "AI-powered inventory management with demand forecasting, automated reordering, stockout prevention, and supplier optimization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/advanced-inventory-intelligence",
+            "active": true
+        },
+        "advanced-personalization-engine": {
+            "name": "advanced-personalization-engine",
+            "version": "1.0.0",
+            "description": "AI-powered personalization engine with real-time behavior analysis, dynamic content optimization, predictive recommendations, and omnichannel personalization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/advanced-personalization-engine",
+            "active": true
+        },
+        "ai-content-generator": {
+            "name": "ai-content-generator",
+            "version": "1.0.0",
+            "description": "Advanced AI-powered content generation with GPT-4, Claude, and custom models. Generate product descriptions, blog posts, marketing copy, SEO content, translations, and more with fine-tuning capabilities",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/ai-content-generator",
+            "active": true
+        },
+        "ai-recommendation-engine": {
+            "name": "ai-recommendation-engine",
+            "version": "1.0.0",
+            "description": "Advanced AI-powered product recommendation engine with machine learning algorithms, collaborative filtering, and real-time personalization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/ai-recommendation-engine",
+            "active": true
+        },
+        "ai-recommendations": {
+            "name": "AI Product Recommendations",
+            "version": "1.0.0",
+            "description": "Intelligent product recommendations using machine learning to increase sales through personalized suggestions, cross-selling, and upselling",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/ai-recommendations",
+            "active": true
+        },
+        "analytics-google": {
+            "name": "Google Analytics Integration",
+            "version": "1.0.0",
+            "description": "Integrate Google Analytics 4 (GA4) and Universal Analytics for comprehensive e-commerce tracking, including enhanced e-commerce events, conversion tracking, and custom dimensions",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/analytics-google",
+            "active": true
+        },
+        "api-mock-server": {
+            "name": "api-mock-server",
+            "version": "1.0.0",
+            "description": "Advanced API mocking server for developers with request recording, response templating, scenario testing, latency simulation, error injection, and OpenAPI\/Swagger integration",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/api-mock-server",
+            "active": true
+        },
+        "behavioral-psychology-engine": {
+            "name": "behavioral-psychology-engine",
+            "version": "1.0.0",
+            "description": "Advanced behavioral psychology system using urgency triggers, social proof automation, and cognitive bias application for conversion optimization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/behavioral-psychology-engine",
+            "active": true
+        },
+        "blockchain-supply-chain": {
+            "name": "blockchain-supply-chain",
+            "version": "1.0.0",
+            "description": "Blockchain-based supply chain tracking with product authentication, transparency ledger, and anti-counterfeiting features",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/blockchain-supply-chain",
+            "active": true
+        },
+        "blue-green-deployment": {
+            "name": "blue-green-deployment",
+            "version": "1.0.0",
+            "description": "Zero-downtime deployment system with blue-green environments, automated rollback, traffic shifting, health monitoring, database migration support, and deployment automation",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/blue-green-deployment",
+            "active": true
+        },
+        "bundle-builder": {
+            "name": "Smart Bundle Builder",
+            "version": "1.0.0",
+            "description": "Intelligent product bundling with dynamic discounts, cross-sell suggestions, and bundle analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/bundle-builder",
+            "active": true
+        },
+        "code-quality-analyzer": {
+            "name": "code-quality-analyzer",
+            "version": "1.0.0",
+            "description": "Comprehensive code quality analysis with static analysis, security scanning, complexity metrics, coding standards enforcement, automated refactoring suggestions, and CI\/CD integration",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/code-quality-analyzer",
+            "active": true
+        },
+        "container-orchestration": {
+            "name": "container-orchestration",
+            "version": "1.0.0",
+            "description": "Complete container orchestration platform with Docker\/Kubernetes support, service mesh, auto-scaling, load balancing, health monitoring, and CI\/CD integration",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/container-orchestration",
+            "active": true
+        },
+        "core-commerce": {
+            "name": "Core Commerce",
+            "version": "1.0.0",
+            "description": "Core e-commerce functionality for Shopologic",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/core-commerce",
+            "active": true
+        },
+        "customer-lifetime-value-optimizer": {
+            "name": "customer-lifetime-value-optimizer",
+            "version": "1.0.0",
+            "description": "Advanced customer lifetime value prediction and optimization with behavioral segmentation, churn prevention, and personalized retention strategies",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/customer-lifetime-value-optimizer",
+            "active": true
+        },
+        "customer-loyalty-rewards": {
+            "name": "Customer Loyalty & Rewards System",
+            "version": "1.0.0",
+            "description": "Comprehensive loyalty and rewards program with points, tiers, referrals, gamification, personalized campaigns, and advanced analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/customer-loyalty-rewards",
+            "active": true
+        },
+        "customer-segmentation": {
+            "name": "Customer Segmentation Engine",
+            "version": "1.0.0",
+            "description": "Automatic customer segmentation with behavioral targeting, personalized campaigns, and lifecycle marketing",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/customer-segmentation",
+            "active": true
+        },
+        "customer-segmentation-engine": {
+            "name": "Customer Segmentation Engine",
+            "version": "1.0.0",
+            "description": "Advanced customer segmentation using RFM analysis, behavioral patterns, machine learning clustering, and predictive lifetime value modeling for targeted marketing and personalization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/customer-segmentation-engine",
+            "active": true
+        },
+        "database-query-optimizer": {
+            "name": "database-query-optimizer",
+            "version": "1.0.0",
+            "description": "Advanced database query optimization with real-time monitoring, automatic index suggestions, query rewriting, execution plan analysis, and performance profiling for PostgreSQL databases",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/database-query-optimizer",
+            "active": true
+        },
+        "dynamic-inventory-forecasting": {
+            "name": "Dynamic Inventory Forecasting",
+            "version": "1.0.0",
+            "description": "Advanced demand forecasting using time series analysis, seasonal patterns, machine learning models, and external factors for optimal inventory management and stock optimization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/dynamic-inventory-forecasting",
+            "active": true
+        },
+        "edge-computing-gateway": {
+            "name": "edge-computing-gateway",
+            "version": "1.0.0",
+            "description": "Distributed edge computing platform with CDN integration, edge functions, request routing, caching strategies, geolocation-based processing, and edge analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/edge-computing-gateway",
+            "active": true
+        },
+        "email-marketing": {
+            "name": "Email Marketing Hub",
+            "version": "1.0.0",
+            "description": "Comprehensive email marketing solution with campaign management, automation workflows, abandoned cart recovery, and integration with popular email services",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/email-marketing",
+            "active": true
+        },
+        "enterprise-security-compliance": {
+            "name": "enterprise-security-compliance",
+            "version": "1.0.0",
+            "description": "Enterprise-grade security and compliance with vulnerability scanning, audit trails, GDPR compliance, and threat detection",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/enterprise-security-compliance",
+            "active": true
+        },
+        "enterprise-supply-chain-management": {
+            "name": "enterprise-supply-chain-management",
+            "version": "1.0.0",
+            "description": "Advanced supply chain management with end-to-end visibility, supplier relationship management, logistics optimization, and blockchain traceability",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/enterprise-supply-chain-management",
+            "active": true
+        },
+        "event-sourcing": {
+            "name": "event-sourcing",
+            "version": "1.0.0",
+            "description": "Complete event sourcing implementation with event store, projections, snapshots, CQRS support, event replay, time travel debugging, and distributed event streaming",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/event-sourcing",
+            "active": true
+        },
+        "feature-flag-manager": {
+            "name": "feature-flag-manager",
+            "version": "1.0.0",
+            "description": "Advanced feature flag system with A\/B testing, progressive rollouts, user targeting, remote configuration, analytics integration, and real-time flag updates",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/feature-flag-manager",
+            "active": true
+        },
+        "fraud-detection-system": {
+            "name": "Fraud Detection System",
+            "version": "1.0.0",
+            "description": "Real-time fraud detection using machine learning algorithms, behavioral analysis, and risk scoring for secure e-commerce transactions and protection against fraudulent activities",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/fraud-detection-system",
+            "active": true
+        },
+        "gift-card-plus": {
+            "name": "Gift Card Plus",
+            "version": "1.0.0",
+            "description": "Advanced gift card system with scheduling, personalization, digital delivery, and social gifting",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/gift-card-plus",
+            "active": true
+        },
+        "graphql-schema-builder": {
+            "name": "graphql-schema-builder",
+            "version": "1.0.0",
+            "description": "Visual GraphQL schema builder with type generation, resolver mapping, real-time playground, subscription support, schema stitching, and automatic REST to GraphQL conversion",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/graphql-schema-builder",
+            "active": true
+        },
+        "headless-commerce-api": {
+            "name": "headless-commerce-api",
+            "version": "1.0.0",
+            "description": "Complete headless commerce API with REST and GraphQL endpoints, real-time webhooks, SDK generation, API versioning, rate limiting, and comprehensive e-commerce functionality",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/headless-commerce-api",
+            "active": true
+        },
+        "inventory-forecasting": {
+            "name": "Smart Inventory Forecasting",
+            "version": "1.0.0",
+            "description": "Predictive inventory management with demand forecasting, automated reordering, and stock optimization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/inventory-forecasting",
+            "active": true
+        },
+        "inventory-management": {
+            "name": "Advanced Inventory Management",
+            "version": "1.0.0",
+            "description": "Comprehensive inventory tracking with multi-warehouse support, low stock alerts, supplier management, and automated reordering",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/inventory-management",
+            "active": true
+        },
+        "journey-analytics": {
+            "name": "Customer Journey Analytics",
+            "version": "1.0.0",
+            "description": "Advanced customer behavior tracking, journey mapping, and conversion funnel analysis",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/journey-analytics",
+            "active": true
+        },
+        "live-chat": {
+            "name": "Live Chat Support",
+            "version": "1.0.0",
+            "description": "Real-time customer support chat with agent dashboard, canned responses, file sharing, visitor tracking, and chatbot integration",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/live-chat",
+            "active": true
+        },
+        "loyalty-gamification": {
+            "name": "Loyalty Gamification",
+            "version": "1.0.0",
+            "description": "Gamified loyalty system with points, badges, achievements, leaderboards, and challenges",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/loyalty-gamification",
+            "active": true
+        },
+        "loyalty-rewards": {
+            "name": "Loyalty & Rewards Program",
+            "version": "1.0.0",
+            "description": "Complete loyalty program with points, tiers, rewards, referrals, and VIP benefits to increase customer retention and lifetime value",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/loyalty-rewards",
+            "active": true
+        },
+        "microservices-manager": {
+            "name": "microservices-manager",
+            "version": "1.0.0",
+            "description": "Complete microservices orchestration with service discovery, health monitoring, load balancing, circuit breakers, API gateway, distributed tracing, and service mesh management",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/microservices-manager",
+            "active": true
+        },
+        "ml-model-deployment": {
+            "name": "ml-model-deployment",
+            "version": "1.0.0",
+            "description": "Machine learning model deployment platform with TensorFlow\/PyTorch support, model versioning, A\/B testing, real-time inference, batch processing, and monitoring",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/ml-model-deployment",
+            "active": true
+        },
+        "multi-currency": {
+            "name": "Multi-Currency Support",
+            "version": "1.0.0",
+            "description": "Display prices in multiple currencies with real-time exchange rates, automatic geo-detection, and currency switcher widget",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/multi-currency",
+            "active": true
+        },
+        "multi-currency-localization": {
+            "name": "Multi-Currency & Localization",
+            "version": "1.0.0",
+            "description": "Comprehensive multi-currency support with real-time exchange rates, localization, regional pricing, tax compliance, and international e-commerce features",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/multi-currency-localization",
+            "active": true
+        },
+        "multi-tenant-saas": {
+            "name": "multi-tenant-saas",
+            "version": "1.0.0",
+            "description": "Complete multi-tenant SaaS management system with tenant isolation, subscription billing, resource quotas, custom domains, automated provisioning, and usage analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/multi-tenant-saas",
+            "active": true
+        },
+        "multi-vendor-marketplace": {
+            "name": "Multi-Vendor Marketplace",
+            "version": "1.0.0",
+            "description": "Transform single store into multi-vendor marketplace with vendor management, commissions, and analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/multi-vendor-marketplace",
+            "active": true
+        },
+        "omnichannel-integration-hub": {
+            "name": "omnichannel-integration-hub",
+            "version": "1.0.0",
+            "description": "Unified commerce platform integrating online store, POS, marketplaces, social commerce, and mobile apps with real-time inventory sync",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/omnichannel-integration-hub",
+            "active": true
+        },
+        "payment-paypal": {
+            "name": "PayPal Payment Gateway",
+            "version": "1.0.0",
+            "description": "Accept payments via PayPal, including PayPal Checkout, credit cards, and PayPal Pay Later options",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/payment-paypal",
+            "active": true
+        },
+        "payment-stripe": {
+            "name": "payment-stripe",
+            "version": "1.0.0",
+            "description": "Stripe payment gateway integration for Shopologic",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/payment-stripe",
+            "active": true
+        },
+        "performance-optimizer": {
+            "name": "Performance Optimizer",
+            "version": "1.0.0",
+            "description": "Comprehensive performance optimization with intelligent caching, database optimization, asset optimization, and real-time monitoring for maximum e-commerce performance",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/performance-optimizer",
+            "active": true
+        },
+        "performance-profiler": {
+            "name": "performance-profiler",
+            "version": "1.0.0",
+            "description": "Advanced performance profiling with real-time monitoring, bottleneck detection, memory analysis, database query profiling, cache optimization, and automated performance recommendations",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/performance-profiler",
+            "active": true
+        },
+        "predictive-analytics-engine": {
+            "name": "predictive-analytics-engine",
+            "version": "1.0.0",
+            "description": "Advanced predictive analytics with sales forecasting, customer behavior prediction, market trend analysis, and actionable business intelligence",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/predictive-analytics-engine",
+            "active": true
+        },
+        "progressive-web-app-builder": {
+            "name": "progressive-web-app-builder",
+            "version": "1.0.0",
+            "description": "Complete PWA builder with offline support, push notifications, app shell architecture, service workers, manifest generation, caching strategies, and app store deployment",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/progressive-web-app-builder",
+            "active": true
+        },
+        "pwa-enhancer": {
+            "name": "PWA Enhancer",
+            "version": "1.0.0",
+            "description": "Progressive Web App features with offline capability, push notifications, and app-like experience",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/pwa-enhancer",
+            "active": true
+        },
+        "realtime-business-intelligence": {
+            "name": "realtime-business-intelligence",
+            "version": "1.0.0",
+            "description": "Real-time business intelligence with live dashboards, predictive KPIs, automated alerts, and executive reporting",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/realtime-business-intelligence",
+            "active": true
+        },
+        "realtime-collaboration": {
+            "name": "realtime-collaboration",
+            "version": "1.0.0",
+            "description": "Enterprise real-time collaboration suite with WebSocket\/WebRTC support, live cursors, collaborative editing, presence awareness, screen sharing, voice\/video chat, and activity feeds",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/realtime-collaboration",
+            "active": true
+        },
+        "review-intelligence": {
+            "name": "Review Intelligence",
+            "version": "1.0.0",
+            "description": "Smart review management with sentiment analysis, fake review detection, and automated responses",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/review-intelligence",
+            "active": true
+        },
+        "reviews-ratings": {
+            "name": "Product Reviews & Ratings",
+            "version": "1.0.0",
+            "description": "Add customer reviews and ratings to products with moderation, rich snippets, email notifications, and review incentives",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/reviews-ratings",
+            "active": true
+        },
+        "sales-dashboard": {
+            "name": "Sales Performance Dashboard",
+            "version": "1.0.0",
+            "description": "Advanced sales analytics with real-time reporting, forecasting, and performance insights",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/sales-dashboard",
+            "active": true
+        },
+        "seo-optimizer": {
+            "name": "SEO Optimizer Pro",
+            "version": "1.0.0",
+            "description": "Comprehensive SEO toolkit with meta tags management, XML sitemaps, schema markup, canonical URLs, robots.txt editor, and SEO analysis tools",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/seo-optimizer",
+            "active": true
+        },
+        "serverless-functions": {
+            "name": "serverless-functions",
+            "version": "1.0.0",
+            "description": "Serverless function execution platform with multi-language support, event triggers, auto-scaling, cold start optimization, distributed tracing, and cost management",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/serverless-functions",
+            "active": true
+        },
+        "shipping-fedex": {
+            "name": "shipping-fedex",
+            "version": "1.0.0",
+            "description": "FedEx shipping integration for Shopologic",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/shipping-fedex",
+            "active": true
+        },
+        "smart-pricing": {
+            "name": "Smart Pricing Engine",
+            "version": "1.0.0",
+            "description": "Dynamic pricing based on demand, inventory levels, competitor analysis, and market conditions",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/smart-pricing",
+            "active": true
+        },
+        "smart-pricing-intelligence": {
+            "name": "Smart Pricing Intelligence",
+            "version": "1.0.0",
+            "description": "Advanced pricing optimization with competitor monitoring, dynamic pricing algorithms, profit maximization, and real-time market response capabilities for competitive advantage",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/smart-pricing-intelligence",
+            "active": true
+        },
+        "smart-search": {
+            "name": "Smart Search Engine",
+            "version": "1.0.0",
+            "description": "Advanced search with natural language processing, autocomplete, faceted filtering, and visual search",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/smart-search",
+            "active": true
+        },
+        "smart-search-discovery": {
+            "name": "smart-search-discovery",
+            "version": "1.0.0",
+            "description": "AI-powered search with natural language processing, visual search, voice search, and intelligent product discovery",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/smart-search-discovery",
+            "active": true
+        },
+        "smart-shipping": {
+            "name": "Smart Shipping Calculator",
+            "version": "1.0.0",
+            "description": "Intelligent shipping with real-time rates, delivery predictions, carbon footprint tracking, and optimization",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/smart-shipping",
+            "active": true
+        },
+        "social-commerce-integration": {
+            "name": "social-commerce-integration",
+            "version": "1.0.0",
+            "description": "Complete social commerce integration with shoppable posts, influencer management, social proof automation, and multi-platform selling",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/social-commerce-integration",
+            "active": true
+        },
+        "social-proof-engine": {
+            "name": "Social Proof Engine",
+            "version": "1.0.0",
+            "description": "Real-time social proof notifications, FOMO triggers, and social validation to boost conversions",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/social-proof-engine",
+            "active": true
+        },
+        "subscription-commerce": {
+            "name": "Subscription Commerce",
+            "version": "1.0.0",
+            "description": "Complete subscription management with recurring billing, customer portals, and retention analytics",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/subscription-commerce",
+            "active": true
+        },
+        "support-hub": {
+            "name": "Customer Support Hub",
+            "version": "1.0.0",
+            "description": "Integrated customer support with live chat, help desk tickets, FAQ automation, and AI assistance",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/support-hub",
+            "active": true
+        },
+        "visual-page-builder": {
+            "name": "visual-page-builder",
+            "version": "1.0.0",
+            "description": "Advanced drag-and-drop page builder with real-time preview, responsive design, custom blocks, templates library, CSS\/JS editor, version control, and AI-powered layout suggestions",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/visual-page-builder",
+            "active": true
+        },
+        "voice-commerce": {
+            "name": "Voice Commerce",
+            "version": "1.0.0",
+            "description": "Voice-powered shopping experience using browser Speech Recognition and Text-to-Speech APIs",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/voice-commerce",
+            "active": true
+        },
+        "websocket-realtime-engine": {
+            "name": "websocket-realtime-engine",
+            "version": "1.0.0",
+            "description": "High-performance WebSocket server for real-time communication with channels, presence, broadcasting, clustering support, message queuing, and client SDKs",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/websocket-realtime-engine",
+            "active": true
+        },
+        "wishlist-intelligence": {
+            "name": "Wishlist Intelligence",
+            "version": "1.0.0",
+            "description": "Smart wishlist with price alerts, availability tracking, and intelligent recommendations",
+            "path": "\/mnt\/c\/Sync\/Codebox\/ClaudeCode\/Shopologic\/plugins\/wishlist-intelligence",
+            "active": true
+        }
     }
 }

@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Services;
+namespace Shopologic\Plugins\ShippingFedex\Services;
 
 use Shopologic\Plugins\ShippingFedEx\Models\FedExShipment;
 use Shopologic\Plugins\ShippingFedEx\Exceptions\FedExException;
 
-class FedExLabelGenerator
-{
+class FedExLabelGenerator\n{
     private FedExApiClient $apiClient;
 
     public function __construct(FedExApiClient $apiClient)

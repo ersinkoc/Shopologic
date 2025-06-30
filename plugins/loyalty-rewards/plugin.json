@@ -5,456 +5,495 @@
     "author": {
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com",
-        "url": "https://shopologic.com"
+        "url": "https:\/\/shopologic.com"
     },
     "license": "MIT",
-    "homepage": "https://shopologic.com/plugins/loyalty-rewards",
-    "keywords": ["loyalty", "rewards", "points", "vip", "referral", "retention"],
+    "homepage": "https:\/\/shopologic.com\/plugins\/loyalty-rewards",
+    "keywords": [
+        "loyalty",
+        "rewards",
+        "points",
+        "vip",
+        "referral",
+        "retention"
+    ],
     "requirements": {
-        "php_version": ">=8.1",
-        "core_version": ">=1.0.0",
+        "php": ">=8.3",
+        "core": ">=1.0.0",
         "dependencies": {
-            "core-commerce": ">=1.0.0"
+            "shopologic\/commerce": "^1.0.0"
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\LoyaltyRewards\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "LoyaltyRewardsPlugin",
+        "file": "src\/LoyaltyPlugin.php"
     },
     "provides": [
         "LoyaltyInterface",
         "RewardsInterface"
     ],
-    "autoload": {
-        "psr-4": {
-            "LoyaltyRewards\\": "src/"
-        }
-    },
-    "config": {
-        "main_class": "LoyaltyRewards\\LoyaltyPlugin",
-        "namespace": "LoyaltyRewards"
-    },
     "permissions": [
         "loyalty.view",
         "loyalty.manage",
         "loyalty.points.adjust",
         "loyalty.rewards.manage"
     ],
-    "hooks": [
-        {
-            "hook": "user.registered",
-            "handler": "awardSignupPoints",
-            "priority": 25
-        },
-        {
-            "hook": "order.completed",
-            "handler": "awardPurchasePoints",
-            "priority": 15
-        },
-        {
-            "hook": "review.created",
-            "handler": "awardReviewPoints",
-            "priority": 20
-        },
-        {
-            "hook": "user.birthday",
-            "handler": "awardBirthdayPoints",
-            "priority": 10
-        },
-        {
-            "hook": "page.account",
-            "handler": "displayLoyaltyDashboard",
-            "priority": 10
-        },
-        {
-            "hook": "cart.totals",
-            "handler": "displayPointsRedemption",
-            "priority": 30
-        }
-    ],
-    "api_endpoints": [
-        {
-            "method": "GET",
-            "path": "/api/v1/loyalty/balance",
-            "handler": "Controllers\\LoyaltyController@getBalance",
-            "auth": true
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/loyalty/history",
-            "handler": "Controllers\\LoyaltyController@getHistory",
-            "auth": true
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/loyalty/redeem",
-            "handler": "Controllers\\LoyaltyController@redeemPoints",
-            "auth": true
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/loyalty/rewards",
-            "handler": "Controllers\\RewardsController@getAvailable",
-            "auth": true
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/loyalty/rewards/{id}/claim",
-            "handler": "Controllers\\RewardsController@claimReward",
-            "auth": true
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/loyalty/referral/code",
-            "handler": "Controllers\\ReferralController@getCode",
-            "auth": true
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/loyalty/referral/apply",
-            "handler": "Controllers\\ReferralController@applyCode",
-            "auth": true
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/loyalty/tiers",
-            "handler": "Controllers\\TierController@getTiers",
-            "auth": false
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/loyalty/points/adjust",
-            "handler": "Controllers\\AdminController@adjustPoints",
-            "auth": true,
-            "permission": "loyalty.points.adjust"
-        }
-    ],
-    "database_tables": [
-        "loyalty_points_balance",
-        "loyalty_points_transactions",
-        "loyalty_tiers",
-        "loyalty_tier_history",
-        "loyalty_rewards",
-        "loyalty_reward_redemptions",
-        "loyalty_referrals",
-        "loyalty_earning_rules",
-        "loyalty_campaigns"
-    ],
+    "hooks": {
+        "actions": [
+            {
+                "hook": "user.registered",
+                "handler": "awardSignupPoints",
+                "priority": 25
+            },
+            {
+                "hook": "order.completed",
+                "handler": "awardPurchasePoints",
+                "priority": 15
+            },
+            {
+                "hook": "review.created",
+                "handler": "awardReviewPoints",
+                "priority": 20
+            },
+            {
+                "hook": "user.birthday",
+                "handler": "awardBirthdayPoints",
+                "priority": 10
+            },
+            {
+                "hook": "page.account",
+                "handler": "displayLoyaltyDashboard",
+                "priority": 10
+            },
+            {
+                "hook": "cart.totals",
+                "handler": "displayPointsRedemption",
+                "priority": 30
+            }
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/loyalty\/balance",
+                "handler": "Controllers\\LoyaltyController@getBalance",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/loyalty\/history",
+                "handler": "Controllers\\LoyaltyController@getHistory",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/loyalty\/redeem",
+                "handler": "Controllers\\LoyaltyController@redeemPoints",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/loyalty\/rewards",
+                "handler": "Controllers\\RewardsController@getAvailable",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/loyalty\/rewards\/{id}\/claim",
+                "handler": "Controllers\\RewardsController@claimReward",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/loyalty\/referral\/code",
+                "handler": "Controllers\\ReferralController@getCode",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/loyalty\/referral\/apply",
+                "handler": "Controllers\\ReferralController@applyCode",
+                "auth": true
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/loyalty\/tiers",
+                "handler": "Controllers\\TierController@getTiers",
+                "auth": false
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/loyalty\/points\/adjust",
+                "handler": "Controllers\\AdminController@adjustPoints",
+                "auth": true,
+                "permission": "loyalty.points.adjust"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "loyalty_points_balance",
+            "loyalty_points_transactions",
+            "loyalty_tiers",
+            "loyalty_tier_history",
+            "loyalty_rewards",
+            "loyalty_reward_redemptions",
+            "loyalty_referrals",
+            "loyalty_earning_rules",
+            "loyalty_campaigns"
+        ],
+        "migrations": "migrations\/"
+    },
     "assets": {
         "js": [
             {
-                "src": "assets/js/loyalty-widget.js",
+                "src": "assets\/js\/loyalty-widget.js",
                 "position": "footer",
-                "pages": ["all"]
+                "pages": [
+                    "all"
+                ]
             },
             {
-                "src": "assets/js/points-redemption.js",
+                "src": "assets\/js\/points-redemption.js",
                 "position": "footer",
-                "pages": ["checkout", "cart"]
+                "pages": [
+                    "checkout",
+                    "cart"
+                ]
             },
             {
-                "src": "assets/js/referral-share.js",
+                "src": "assets\/js\/referral-share.js",
                 "position": "footer",
-                "pages": ["account"]
+                "pages": [
+                    "account"
+                ]
             }
         ],
         "css": [
             {
-                "src": "assets/css/loyalty-dashboard.css",
-                "pages": ["account"]
+                "src": "assets\/css\/loyalty-dashboard.css",
+                "pages": [
+                    "account"
+                ]
             },
             {
-                "src": "assets/css/points-display.css",
-                "pages": ["all"]
+                "src": "assets\/css\/points-display.css",
+                "pages": [
+                    "all"
+                ]
             }
         ]
     },
-    "config_schema": {
-        "program_name": {
-            "type": "string",
-            "label": "Program Name",
-            "description": "Name of your loyalty program",
-            "default": "Rewards Club",
-            "required": true
-        },
-        "points_name": {
-            "type": "string",
-            "label": "Points Name",
-            "description": "What to call points (e.g., Points, Stars, Coins)",
-            "default": "Points",
-            "required": true
-        },
-        "points_icon": {
-            "type": "select",
-            "label": "Points Icon",
-            "default": "star",
-            "options": {
-                "star": "Star ⭐",
-                "coin": "Coin 🪙",
-                "gem": "Gem 💎",
-                "heart": "Heart ❤️",
-                "trophy": "Trophy 🏆",
-                "custom": "Custom Icon"
-            }
-        },
-        "earning_rate": {
-            "type": "number",
-            "label": "Base Earning Rate",
-            "description": "Points earned per currency unit spent",
-            "default": 1,
-            "min": 0.1,
-            "max": 100,
-            "step": 0.1
-        },
-        "redemption_rate": {
-            "type": "number",
-            "label": "Redemption Rate",
-            "description": "Currency value per point when redeeming",
-            "default": 0.01,
-            "min": 0.001,
-            "max": 1,
-            "step": 0.001
-        },
-        "minimum_redemption": {
-            "type": "number",
-            "label": "Minimum Points for Redemption",
-            "description": "Minimum points required to redeem",
-            "default": 100,
-            "min": 1,
-            "max": 10000
-        },
-        "points_expiry": {
-            "type": "select",
-            "label": "Points Expiration",
-            "default": "365",
-            "options": {
-                "0": "Never Expire",
-                "90": "90 Days",
-                "180": "180 Days",
-                "365": "1 Year",
-                "730": "2 Years"
-            }
-        },
-        "signup_bonus": {
-            "type": "number",
-            "label": "Signup Bonus Points",
-            "description": "Points awarded for creating an account",
-            "default": 100,
-            "min": 0,
-            "max": 10000
-        },
-        "first_purchase_bonus": {
-            "type": "number",
-            "label": "First Purchase Bonus",
-            "description": "Extra points for first purchase",
-            "default": 200,
-            "min": 0,
-            "max": 10000
-        },
-        "birthday_bonus": {
-            "type": "number",
-            "label": "Birthday Bonus Points",
-            "description": "Points awarded on customer's birthday",
-            "default": 500,
-            "min": 0,
-            "max": 10000
-        },
-        "review_points": {
-            "type": "number",
-            "label": "Product Review Points",
-            "description": "Points for leaving a product review",
-            "default": 50,
-            "min": 0,
-            "max": 1000
-        },
-        "social_share_points": {
-            "type": "number",
-            "label": "Social Share Points",
-            "description": "Points for sharing on social media",
-            "default": 25,
-            "min": 0,
-            "max": 500
-        },
-        "enable_tiers": {
-            "type": "boolean",
-            "label": "Enable VIP Tiers",
-            "description": "Enable tiered loyalty levels",
-            "default": true
-        },
-        "tiers": {
-            "type": "array",
-            "label": "VIP Tiers",
-            "description": "Configure loyalty tier levels",
-            "schema": {
-                "name": {
-                    "type": "string",
-                    "label": "Tier Name"
-                },
-                "points_required": {
-                    "type": "number",
-                    "label": "Points Required"
-                },
-                "earning_multiplier": {
-                    "type": "number",
-                    "label": "Points Multiplier",
-                    "step": 0.1
-                },
-                "perks": {
-                    "type": "multiselect",
-                    "label": "Tier Perks",
-                    "options": {
-                        "free_shipping": "Free Shipping",
-                        "early_access": "Early Access to Sales",
-                        "exclusive_products": "Exclusive Products",
-                        "birthday_gift": "Birthday Gift",
-                        "priority_support": "Priority Support",
-                        "double_points_days": "Double Points Days"
-                    }
+    "config": {
+        "schema": {
+            "program_name": {
+                "type": "string",
+                "label": "Program Name",
+                "description": "Name of your loyalty program",
+                "default": "Rewards Club",
+                "required": true
+            },
+            "points_name": {
+                "type": "string",
+                "label": "Points Name",
+                "description": "What to call points (e.g., Points, Stars, Coins)",
+                "default": "Points",
+                "required": true
+            },
+            "points_icon": {
+                "type": "select",
+                "label": "Points Icon",
+                "default": "star",
+                "options": {
+                    "star": "Star \u2b50",
+                    "coin": "Coin \ud83e\ude99",
+                    "gem": "Gem \ud83d\udc8e",
+                    "heart": "Heart \u2764\ufe0f",
+                    "trophy": "Trophy \ud83c\udfc6",
+                    "custom": "Custom Icon"
                 }
             },
-            "default": [
-                {
-                    "name": "Bronze",
-                    "points_required": 0,
-                    "earning_multiplier": 1.0,
-                    "perks": []
-                },
-                {
-                    "name": "Silver",
-                    "points_required": 1000,
-                    "earning_multiplier": 1.25,
-                    "perks": ["birthday_gift"]
-                },
-                {
-                    "name": "Gold",
-                    "points_required": 5000,
-                    "earning_multiplier": 1.5,
-                    "perks": ["birthday_gift", "free_shipping", "early_access"]
-                },
-                {
-                    "name": "Platinum",
-                    "points_required": 10000,
-                    "earning_multiplier": 2.0,
-                    "perks": ["birthday_gift", "free_shipping", "early_access", "exclusive_products", "priority_support"]
-                }
-            ],
-            "depends_on": {
-                "enable_tiers": true
-            }
-        },
-        "enable_referrals": {
-            "type": "boolean",
-            "label": "Enable Referral Program",
-            "description": "Allow customers to earn points by referring friends",
-            "default": true
-        },
-        "referral_reward_referrer": {
-            "type": "number",
-            "label": "Referrer Reward Points",
-            "description": "Points for the person who refers",
-            "default": 500,
-            "min": 0,
-            "max": 10000,
-            "depends_on": {
-                "enable_referrals": true
-            }
-        },
-        "referral_reward_referee": {
-            "type": "number",
-            "label": "Referee Reward Points",
-            "description": "Points for the person who was referred",
-            "default": 200,
-            "min": 0,
-            "max": 10000,
-            "depends_on": {
-                "enable_referrals": true
-            }
-        },
-        "referral_minimum_purchase": {
-            "type": "number",
-            "label": "Referral Minimum Purchase",
-            "description": "Minimum purchase amount to trigger referral rewards",
-            "default": 50,
-            "min": 0,
-            "depends_on": {
-                "enable_referrals": true
-            }
-        },
-        "rewards_catalog": {
-            "type": "array",
-            "label": "Rewards Catalog",
-            "description": "Available rewards for redemption",
-            "schema": {
-                "name": {
-                    "type": "string",
-                    "label": "Reward Name"
-                },
-                "points_cost": {
-                    "type": "number",
-                    "label": "Points Cost"
-                },
-                "reward_type": {
-                    "type": "select",
-                    "label": "Reward Type",
-                    "options": {
-                        "discount_percent": "Percentage Discount",
-                        "discount_fixed": "Fixed Discount",
-                        "free_shipping": "Free Shipping",
-                        "free_product": "Free Product",
-                        "exclusive_access": "Exclusive Access"
-                    }
-                },
-                "reward_value": {
-                    "type": "string",
-                    "label": "Reward Value"
+            "earning_rate": {
+                "type": "number",
+                "label": "Base Earning Rate",
+                "description": "Points earned per currency unit spent",
+                "default": 1,
+                "min": 0.1,
+                "max": 100,
+                "step": 0.1
+            },
+            "redemption_rate": {
+                "type": "number",
+                "label": "Redemption Rate",
+                "description": "Currency value per point when redeeming",
+                "default": 0.01,
+                "min": 0.001,
+                "max": 1,
+                "step": 0.001
+            },
+            "minimum_redemption": {
+                "type": "number",
+                "label": "Minimum Points for Redemption",
+                "description": "Minimum points required to redeem",
+                "default": 100,
+                "min": 1,
+                "max": 10000
+            },
+            "points_expiry": {
+                "type": "select",
+                "label": "Points Expiration",
+                "default": "365",
+                "options": {
+                    "0": "Never Expire",
+                    "90": "90 Days",
+                    "180": "180 Days",
+                    "365": "1 Year",
+                    "730": "2 Years"
                 }
             },
-            "default": [
-                {
-                    "name": "$5 Off",
-                    "points_cost": 500,
-                    "reward_type": "discount_fixed",
-                    "reward_value": "5"
+            "signup_bonus": {
+                "type": "number",
+                "label": "Signup Bonus Points",
+                "description": "Points awarded for creating an account",
+                "default": 100,
+                "min": 0,
+                "max": 10000
+            },
+            "first_purchase_bonus": {
+                "type": "number",
+                "label": "First Purchase Bonus",
+                "description": "Extra points for first purchase",
+                "default": 200,
+                "min": 0,
+                "max": 10000
+            },
+            "birthday_bonus": {
+                "type": "number",
+                "label": "Birthday Bonus Points",
+                "description": "Points awarded on customer's birthday",
+                "default": 500,
+                "min": 0,
+                "max": 10000
+            },
+            "review_points": {
+                "type": "number",
+                "label": "Product Review Points",
+                "description": "Points for leaving a product review",
+                "default": 50,
+                "min": 0,
+                "max": 1000
+            },
+            "social_share_points": {
+                "type": "number",
+                "label": "Social Share Points",
+                "description": "Points for sharing on social media",
+                "default": 25,
+                "min": 0,
+                "max": 500
+            },
+            "enable_tiers": {
+                "type": "boolean",
+                "label": "Enable VIP Tiers",
+                "description": "Enable tiered loyalty levels",
+                "default": true
+            },
+            "tiers": {
+                "type": "array",
+                "label": "VIP Tiers",
+                "description": "Configure loyalty tier levels",
+                "schema": {
+                    "name": {
+                        "type": "string",
+                        "label": "Tier Name"
+                    },
+                    "points_required": {
+                        "type": "number",
+                        "label": "Points Required"
+                    },
+                    "earning_multiplier": {
+                        "type": "number",
+                        "label": "Points Multiplier",
+                        "step": 0.1
+                    },
+                    "perks": {
+                        "type": "multiselect",
+                        "label": "Tier Perks",
+                        "options": {
+                            "free_shipping": "Free Shipping",
+                            "early_access": "Early Access to Sales",
+                            "exclusive_products": "Exclusive Products",
+                            "birthday_gift": "Birthday Gift",
+                            "priority_support": "Priority Support",
+                            "double_points_days": "Double Points Days"
+                        }
+                    }
                 },
-                {
-                    "name": "$10 Off",
-                    "points_cost": 1000,
-                    "reward_type": "discount_fixed",
-                    "reward_value": "10"
-                },
-                {
-                    "name": "20% Off",
-                    "points_cost": 2000,
-                    "reward_type": "discount_percent",
-                    "reward_value": "20"
-                },
-                {
-                    "name": "Free Shipping",
-                    "points_cost": 750,
-                    "reward_type": "free_shipping",
-                    "reward_value": ""
+                "default": [
+                    {
+                        "name": "Bronze",
+                        "points_required": 0,
+                        "earning_multiplier": 1,
+                        "perks": []
+                    },
+                    {
+                        "name": "Silver",
+                        "points_required": 1000,
+                        "earning_multiplier": 1.25,
+                        "perks": [
+                            "birthday_gift"
+                        ]
+                    },
+                    {
+                        "name": "Gold",
+                        "points_required": 5000,
+                        "earning_multiplier": 1.5,
+                        "perks": [
+                            "birthday_gift",
+                            "free_shipping",
+                            "early_access"
+                        ]
+                    },
+                    {
+                        "name": "Platinum",
+                        "points_required": 10000,
+                        "earning_multiplier": 2,
+                        "perks": [
+                            "birthday_gift",
+                            "free_shipping",
+                            "early_access",
+                            "exclusive_products",
+                            "priority_support"
+                        ]
+                    }
+                ],
+                "depends_on": {
+                    "enable_tiers": true
                 }
-            ]
-        },
-        "display_points_balance": {
-            "type": "boolean",
-            "label": "Display Points Balance",
-            "description": "Show points balance in header/account area",
-            "default": true
-        },
-        "email_notifications": {
-            "type": "boolean",
-            "label": "Email Notifications",
-            "description": "Send email notifications for points activity",
-            "default": true
-        },
-        "points_on_account_page": {
-            "type": "boolean",
-            "label": "Show on Account Page",
-            "description": "Display loyalty dashboard on account page",
-            "default": true
-        },
-        "allow_partial_redemption": {
-            "type": "boolean",
-            "label": "Allow Partial Redemption",
-            "description": "Allow customers to use points for partial payment",
-            "default": true
+            },
+            "enable_referrals": {
+                "type": "boolean",
+                "label": "Enable Referral Program",
+                "description": "Allow customers to earn points by referring friends",
+                "default": true
+            },
+            "referral_reward_referrer": {
+                "type": "number",
+                "label": "Referrer Reward Points",
+                "description": "Points for the person who refers",
+                "default": 500,
+                "min": 0,
+                "max": 10000,
+                "depends_on": {
+                    "enable_referrals": true
+                }
+            },
+            "referral_reward_referee": {
+                "type": "number",
+                "label": "Referee Reward Points",
+                "description": "Points for the person who was referred",
+                "default": 200,
+                "min": 0,
+                "max": 10000,
+                "depends_on": {
+                    "enable_referrals": true
+                }
+            },
+            "referral_minimum_purchase": {
+                "type": "number",
+                "label": "Referral Minimum Purchase",
+                "description": "Minimum purchase amount to trigger referral rewards",
+                "default": 50,
+                "min": 0,
+                "depends_on": {
+                    "enable_referrals": true
+                }
+            },
+            "rewards_catalog": {
+                "type": "array",
+                "label": "Rewards Catalog",
+                "description": "Available rewards for redemption",
+                "schema": {
+                    "name": {
+                        "type": "string",
+                        "label": "Reward Name"
+                    },
+                    "points_cost": {
+                        "type": "number",
+                        "label": "Points Cost"
+                    },
+                    "reward_type": {
+                        "type": "select",
+                        "label": "Reward Type",
+                        "options": {
+                            "discount_percent": "Percentage Discount",
+                            "discount_fixed": "Fixed Discount",
+                            "free_shipping": "Free Shipping",
+                            "free_product": "Free Product",
+                            "exclusive_access": "Exclusive Access"
+                        }
+                    },
+                    "reward_value": {
+                        "type": "string",
+                        "label": "Reward Value"
+                    }
+                },
+                "default": [
+                    {
+                        "name": "$5 Off",
+                        "points_cost": 500,
+                        "reward_type": "discount_fixed",
+                        "reward_value": "5"
+                    },
+                    {
+                        "name": "$10 Off",
+                        "points_cost": 1000,
+                        "reward_type": "discount_fixed",
+                        "reward_value": "10"
+                    },
+                    {
+                        "name": "20% Off",
+                        "points_cost": 2000,
+                        "reward_type": "discount_percent",
+                        "reward_value": "20"
+                    },
+                    {
+                        "name": "Free Shipping",
+                        "points_cost": 750,
+                        "reward_type": "free_shipping",
+                        "reward_value": ""
+                    }
+                ]
+            },
+            "display_points_balance": {
+                "type": "boolean",
+                "label": "Display Points Balance",
+                "description": "Show points balance in header\/account area",
+                "default": true
+            },
+            "email_notifications": {
+                "type": "boolean",
+                "label": "Email Notifications",
+                "description": "Send email notifications for points activity",
+                "default": true
+            },
+            "points_on_account_page": {
+                "type": "boolean",
+                "label": "Show on Account Page",
+                "description": "Display loyalty dashboard on account page",
+                "default": true
+            },
+            "allow_partial_redemption": {
+                "type": "boolean",
+                "label": "Allow Partial Redemption",
+                "description": "Allow customers to use points for partial payment",
+                "default": true
+            }
         }
     },
     "widgets": [
@@ -463,17 +502,21 @@
             "name": "Loyalty Program Overview",
             "description": "Key metrics for loyalty program",
             "position": "dashboard",
-            "permissions": ["loyalty.view"]
+            "permissions": [
+                "loyalty.view"
+            ]
         },
         {
             "id": "top_earners",
             "name": "Top Points Earners",
             "description": "Customers with most points",
             "position": "dashboard",
-            "permissions": ["loyalty.view"]
+            "permissions": [
+                "loyalty.view"
+            ]
         }
     ],
-    "cron_jobs": [
+    "scheduled_tasks": [
         {
             "schedule": "0 0 * * *",
             "handler": "processPointsExpiry",

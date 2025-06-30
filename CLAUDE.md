@@ -6,6 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Shopologic is an enterprise-grade, self-contained e-commerce platform built with pure PHP 8.3+ and zero external dependencies (except PSR standards). It features a microkernel plugin architecture, comprehensive API framework (REST + GraphQL), live theme editor, and full multi-store capabilities.
 
+**🎯 ENHANCED PLUGIN ECOSYSTEM - PRODUCTION READY**
+
+The platform now includes a comprehensive plugin ecosystem with:
+- 47 advanced models with sophisticated business logic
+- Cross-plugin integration via standardized interfaces  
+- Real-time event system with middleware support
+- Performance monitoring and health checks
+- Automated testing framework with multiple test types
+- Complete documentation and working demonstrations
+
 ## Core Architecture
 
 ### Directory Structure
@@ -41,6 +51,18 @@ php cli/seed.php run
 
 # Reset database
 php cli/migrate.php reset
+```
+
+### Plugin Ecosystem Bootstrap
+```bash
+# Initialize complete plugin ecosystem
+php bootstrap_plugins.php
+
+# Run with integration demonstration
+php bootstrap_plugins.php --demo
+
+# Check system health
+php -r "require 'bootstrap_plugins.php'; var_dump(getSystemStatus());"
 ```
 
 ### Plugin Management

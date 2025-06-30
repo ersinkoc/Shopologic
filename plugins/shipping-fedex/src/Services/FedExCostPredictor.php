@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Services;
+namespace Shopologic\Plugins\ShippingFedex\Services;
 
 use Shopologic\Plugins\ShippingFedEx\Repository\FedExAnalyticsRepository;
 use Shopologic\Core\Logger\LoggerInterface;
@@ -18,8 +18,7 @@ use Shopologic\Core\Cache\CacheInterface;
  * - Economic indicator integration
  * - Multi-factor regression models
  */
-class FedExCostPredictor
-{
+class FedExCostPredictor\n{
     private FedExAnalyticsRepository $analyticsRepository;
     private LoggerInterface $logger;
     private CacheInterface $cache;

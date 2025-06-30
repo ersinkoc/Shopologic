@@ -1,0 +1,541 @@
+{
+    "HelloWorld": {
+        "score": 86,
+        "grade": "B+",
+        "status": "good",
+        "color": "green",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-86%25%20(B+)-green"
+    },
+    "ab-testing-framework": {
+        "score": 86,
+        "grade": "B+",
+        "status": "good",
+        "color": "green",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-86%25%20(B+)-green"
+    },
+    "advanced-analytics-reporting": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "advanced-cms": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "advanced-email-marketing": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "advanced-inventory": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "advanced-inventory-intelligence": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "advanced-personalization-engine": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "ai-content-generator": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "ai-recommendation-engine": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "ai-recommendations": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "analytics-google": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "api-mock-server": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "behavioral-psychology-engine": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "blockchain-supply-chain": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "blue-green-deployment": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "bundle-builder": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "code-quality-analyzer": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "container-orchestration": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "core-commerce": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "customer-lifetime-value-optimizer": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "customer-loyalty-rewards": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "customer-segmentation": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "customer-segmentation-engine": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "database-query-optimizer": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "dynamic-inventory-forecasting": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "edge-computing-gateway": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "email-marketing": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "enterprise-security-compliance": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "enterprise-supply-chain-management": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "event-sourcing": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "feature-flag-manager": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "fraud-detection-system": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "gift-card-plus": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "graphql-schema-builder": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "headless-commerce-api": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "inventory-forecasting": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "inventory-management": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "journey-analytics": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "live-chat": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "loyalty-gamification": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "loyalty-rewards": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "microservices-manager": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "ml-model-deployment": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "multi-currency": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "multi-currency-localization": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "multi-tenant-saas": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "multi-vendor-marketplace": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "omnichannel-integration-hub": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "payment-paypal": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "payment-stripe": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "performance-optimizer": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "performance-profiler": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "predictive-analytics-engine": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "progressive-web-app-builder": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "pwa-enhancer": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "realtime-business-intelligence": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "realtime-collaboration": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "review-intelligence": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "reviews-ratings": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "sales-dashboard": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "seo-optimizer": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "serverless-functions": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "shipping-fedex": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "smart-pricing": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "smart-pricing-intelligence": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "smart-search": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "smart-search-discovery": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "smart-shipping": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "social-commerce-integration": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "social-proof-engine": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "subscription-commerce": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "support-hub": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "visual-page-builder": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "voice-commerce": {
+        "score": 57,
+        "grade": "F",
+        "status": "needs-work",
+        "color": "red",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-57%25%20(F)-red"
+    },
+    "websocket-realtime-engine": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    },
+    "wishlist-intelligence": {
+        "score": 71,
+        "grade": "C",
+        "status": "acceptable",
+        "color": "yellow",
+        "badge_url": "https:\/\/img.shields.io\/badge\/Quality-71%25%20(C)-yellow"
+    }
+}

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Repository;
+namespace Shopologic\Plugins\ShippingFedex\Repository;
 
 use Shopologic\Core\Database\DB;
 use Shopologic\Plugins\ShippingFedEx\Models\FedExShipment;
 use Illuminate\Support\Collection;
 
-class FedExShipmentRepository
-{
+class FedExShipmentRepository\n{
     /**
      * Create a new shipment
      */

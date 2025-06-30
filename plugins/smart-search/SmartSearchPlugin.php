@@ -1,5 +1,7 @@
 <?php
-namespace SmartSearch;
+
+declare(strict_types=1);
+namespace Shopologic\Plugins\SmartSearch;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\Hook;
@@ -493,5 +495,53 @@ class SmartSearchPlugin extends AbstractPlugin
         foreach ($synonyms as $synonym) {
             $this->api->database()->table('search_synonyms')->insert($synonym);
         }
+    }
+
+    /**
+     * Register Services
+     */
+    protected function registerServices(): void
+    {
+        // TODO: Implement registerServices
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Hooks
+     */
+    protected function registerHooks(): void
+    {
+        // TODO: Implement registerHooks
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

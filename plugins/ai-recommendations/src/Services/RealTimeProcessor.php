@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AIRecommendations\Services;
+namespace Shopologic\Plugins\AiRecommendations\Services;
 
 use AIRecommendations\Repository\BehaviorRepository;
 use Shopologic\Core\Logger\LoggerInterface;
@@ -19,8 +19,7 @@ use Shopologic\Core\Queue\QueueInterface;
  * - Event-driven personalization
  * - Hot and cold recommendation caching
  */
-class RealTimeProcessor
-{
+class RealTimeProcessor\n{
     private HybridRecommender $hybridRecommender;
     private BehaviorRepository $behaviorRepository;
     private LoggerInterface $logger;

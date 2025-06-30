@@ -1,0 +1,165 @@
+{
+    "package_info": {
+        "name": "ab-testing-framework",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:30:55",
+        "package_size": 20896,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "A\/B Testing Framework",
+        "version": "1.0.0",
+        "description": "Built-in experimentation platform for testing pricing, layouts, features, and conversion optimization",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "AbTestingFrameworkPlugin",
+            "file": "ABTestingFrameworkPlugin.php"
+        },
+        "permissions": [
+            "experiments.manage",
+            "analytics.read",
+            "customers.read",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "page.rendered",
+                "order.completed",
+                "experiment.variant_shown",
+                "admin.experiments.dashboard"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/experiments\/create",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/experiments\/{id}\/results",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/experiments\/{id}\/variants",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/experiments\/{id}\/start",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/experiments\/{id}\/stop",
+                    "handler": "handlePost"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "experiments",
+                "experiment_variants",
+                "experiment_participants",
+                "experiment_conversions",
+                "experiment_results"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/experiment-engine.js",
+                "assets\/variant-loader.js"
+            ],
+            "css": [
+                "assets\/ab-testing.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_auto_experiments": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable automatic experiment suggestions"
+                },
+                "default_traffic_split": {
+                    "type": "number",
+                    "default": 50,
+                    "min": 10,
+                    "max": 90,
+                    "description": "Default traffic percentage for experiments"
+                },
+                "significance_threshold": {
+                    "type": "number",
+                    "default": 0.95,
+                    "min": 0.9,
+                    "max": 0.99,
+                    "step": 0.01,
+                    "description": "Statistical significance threshold"
+                },
+                "min_sample_size": {
+                    "type": "number",
+                    "default": 100,
+                    "min": 50,
+                    "max": 10000,
+                    "description": "Minimum sample size for valid results"
+                },
+                "max_concurrent_experiments": {
+                    "type": "number",
+                    "default": 3,
+                    "min": 1,
+                    "max": 10,
+                    "description": "Maximum concurrent experiments"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\AbTestingFramework\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "performance"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

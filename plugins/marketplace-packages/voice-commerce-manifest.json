@@ -1,0 +1,179 @@
+{
+    "package_info": {
+        "name": "voice-commerce",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:14",
+        "package_size": 28544,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Voice Commerce",
+        "version": "1.0.0",
+        "description": "Voice-powered shopping experience using browser Speech Recognition and Text-to-Speech APIs",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "VoiceCommercePlugin",
+            "file": "VoiceCommercePlugin.php"
+        },
+        "provides": [
+            "VoiceInterfaceInterface",
+            "SpeechProcessorInterface"
+        ],
+        "permissions": [
+            "products.read",
+            "cart.write",
+            "search.execute",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "frontend.head",
+                "product.search",
+                "cart.actions",
+                "checkout.navigation"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/voice\/process-command",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/voice\/commands",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/voice\/feedback",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/voice\/product-speech\/{id}",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "voice_commands",
+                "voice_interactions",
+                "speech_patterns",
+                "voice_preferences"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/voice-interface.js",
+                "assets\/speech-recognition.js",
+                "assets\/voice-commands.js"
+            ],
+            "css": [
+                "assets\/voice-ui.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_voice_search": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable voice search functionality"
+                },
+                "enable_voice_navigation": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable voice navigation commands"
+                },
+                "enable_product_description_speech": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Read product descriptions aloud"
+                },
+                "voice_feedback": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Provide voice feedback for actions"
+                },
+                "language": {
+                    "type": "select",
+                    "default": "en-US",
+                    "options": {
+                        "en-US": "English (US)",
+                        "en-GB": "English (UK)",
+                        "es-ES": "Spanish",
+                        "fr-FR": "French",
+                        "de-DE": "German",
+                        "it-IT": "Italian"
+                    },
+                    "description": "Voice recognition language"
+                },
+                "voice_speed": {
+                    "type": "number",
+                    "default": 1,
+                    "min": 0.5,
+                    "max": 2,
+                    "step": 0.1,
+                    "description": "Speech synthesis speed"
+                },
+                "confidence_threshold": {
+                    "type": "number",
+                    "default": 0.7,
+                    "min": 0.1,
+                    "max": 1,
+                    "step": 0.1,
+                    "description": "Minimum confidence for voice recognition"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\VoiceCommerce\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "api"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

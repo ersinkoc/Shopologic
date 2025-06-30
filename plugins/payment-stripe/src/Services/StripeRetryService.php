@@ -16,8 +16,7 @@ use Shopologic\Core\Queue\QueueInterface;
  * - Decline code analysis
  * - Customer behavior patterns
  */
-class StripeRetryService
-{
+class StripeRetryService\n{
     private StripeClient $stripeClient;
     private LoggerInterface $logger;
     private QueueInterface $queue;
@@ -139,7 +138,7 @@ class StripeRetryService
             // Generate recommendations
             $analysis['recommended_actions'] = $this->generateRetryRecommendations($paymentData, $analysis);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Failed to analyze payment for retry', [
                 'error' => $e->getMessage(),
                 'payment_data' => $paymentData
@@ -179,7 +178,7 @@ class StripeRetryService
                 'scheduled_for_retry' => $scheduled
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Failed to process failed payments', [
                 'error' => $e->getMessage()
             ]);

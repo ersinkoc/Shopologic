@@ -66,7 +66,12 @@ class PluginManager
             
             $manifest = json_decode(file_get_contents($manifestFile), true);
             
-            if (!$manifest || !isset($manifest['class'])) {
+            if (!$manifest) {
+                continue;
+            }
+            
+            // Validate required fields
+            if (!$this->validateManifest($manifest, $directory)) {
                 continue;
             }
             
@@ -91,15 +96,16 @@ class PluginManager
             require_once $autoloadFile;
         }
         
-        // Load plugin class file
-        $classFile = $this->pluginPath . '/' . $name . '/' . $manifest['file'];
+        // Determine plugin class file and class name
+        $pluginInfo = $this->resolvePluginClass($name, $manifest);
+        $classFile = $pluginInfo['file'];
+        $className = $pluginInfo['class'];
+        
         if (!file_exists($classFile)) {
             throw new PluginException("Plugin class file not found: {$classFile}");
         }
         
         require_once $classFile;
-        
-        $className = $manifest['class'];
         
         if (!class_exists($className)) {
             throw new PluginException("Plugin class not found: {$className}");
@@ -426,5 +432,168 @@ class PluginManager
         $parts[2] = '0';
         
         return implode('.', $parts);
+    }
+
+    /**
+     * Validate plugin manifest
+     */
+    protected function validateManifest(array $manifest, string $directory): bool
+    {
+        // Check for required fields
+        if (!isset($manifest['name']) || !isset($manifest['version'])) {
+            error_log("Plugin {$directory}: Missing required fields (name or version)");
+            return false;
+        }
+        
+        // Check for class definition in various formats
+        $hasClassDefinition = isset($manifest['class']) || 
+                             isset($manifest['main']) || 
+                             isset($manifest['main_class']) || 
+                             (isset($manifest['config']['main_class']));
+        
+        if (!$hasClassDefinition) {
+            error_log("Plugin {$directory}: No class definition found in manifest");
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Resolve plugin class file and name from manifest
+     */
+    protected function resolvePluginClass(string $name, array $manifest): array
+    {
+        $pluginDir = $this->pluginPath . '/' . $name;
+        
+        // Priority 1: New standardized 'main' field (file path)
+        if (isset($manifest['main'])) {
+            $classFile = $pluginDir . '/' . $manifest['main'];
+            $className = $this->extractClassNameFromFile($classFile);
+            if (!$className && isset($manifest['namespace'])) {
+                // Try to construct class name from namespace and file
+                $fileName = basename($manifest['main'], '.php');
+                $className = $manifest['namespace'] . '\\' . $fileName;
+            }
+            return ['file' => $classFile, 'class' => $className];
+        }
+        
+        // Priority 2: Legacy 'class' + 'file' combination
+        if (isset($manifest['class']) && isset($manifest['file'])) {
+            return [
+                'file' => $pluginDir . '/' . $manifest['file'],
+                'class' => $manifest['class']
+            ];
+        }
+        
+        // Priority 3: Only 'class' field - try to find the file
+        if (isset($manifest['class'])) {
+            $className = $manifest['class'];
+            $possibleFiles = $this->findClassFile($pluginDir, $className);
+            if (!empty($possibleFiles)) {
+                return [
+                    'file' => $possibleFiles[0],
+                    'class' => $className
+                ];
+            }
+        }
+        
+        // Priority 4: 'main_class' field
+        if (isset($manifest['main_class'])) {
+            $className = $manifest['main_class'];
+            $possibleFiles = $this->findClassFile($pluginDir, $className);
+            if (!empty($possibleFiles)) {
+                return [
+                    'file' => $possibleFiles[0],
+                    'class' => $className
+                ];
+            }
+        }
+        
+        // Priority 5: Nested config.main_class
+        if (isset($manifest['config']['main_class'])) {
+            $className = $manifest['config']['main_class'];
+            $possibleFiles = $this->findClassFile($pluginDir, $className);
+            if (!empty($possibleFiles)) {
+                return [
+                    'file' => $possibleFiles[0],
+                    'class' => $className
+                ];
+            }
+        }
+        
+        throw new PluginException("Could not resolve plugin class for {$name}");
+    }
+
+    /**
+     * Find class file in plugin directory
+     */
+    protected function findClassFile(string $pluginDir, string $className): array
+    {
+        $files = [];
+        
+        // Extract class name without namespace
+        $parts = explode('\\', $className);
+        $simpleClassName = end($parts);
+        
+        // Common locations to check
+        $locations = [
+            $simpleClassName . '.php',
+            'src/' . $simpleClassName . '.php',
+            'lib/' . $simpleClassName . '.php',
+            strtolower($simpleClassName) . '.php',
+            'src/' . strtolower($simpleClassName) . '.php',
+        ];
+        
+        foreach ($locations as $location) {
+            $file = $pluginDir . '/' . $location;
+            if (file_exists($file)) {
+                $files[] = $file;
+            }
+        }
+        
+        // If not found, scan directory recursively
+        if (empty($files)) {
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($pluginDir, \RecursiveDirectoryIterator::SKIP_DOTS)
+            );
+            
+            foreach ($iterator as $file) {
+                if ($file->isFile() && $file->getExtension() === 'php') {
+                    $content = file_get_contents($file->getPathname());
+                    if (preg_match('/class\s+' . preg_quote($simpleClassName) . '\s/', $content)) {
+                        $files[] = $file->getPathname();
+                    }
+                }
+            }
+        }
+        
+        return $files;
+    }
+
+    /**
+     * Extract class name from file
+     */
+    protected function extractClassNameFromFile(string $file): ?string
+    {
+        if (!file_exists($file)) {
+            return null;
+        }
+        
+        $content = file_get_contents($file);
+        
+        // Extract namespace
+        $namespace = null;
+        if (preg_match('/namespace\s+([^;]+);/', $content, $matches)) {
+            $namespace = $matches[1];
+        }
+        
+        // Extract class name
+        if (preg_match('/class\s+(\w+)/', $content, $matches)) {
+            $className = $matches[1];
+            return $namespace ? $namespace . '\\' . $className : $className;
+        }
+        
+        return null;
     }
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace MultiVendorMarketplace\Controllers;
 
 use Shopologic\Core\Controller\BaseController;
@@ -60,7 +62,7 @@ class MarketplaceController extends BaseController
             
             return $this->success($stats);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -92,7 +94,7 @@ class MarketplaceController extends BaseController
                 'filters' => $this->getVendorFilters()
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -121,7 +123,7 @@ class MarketplaceController extends BaseController
                 'vendor' => $this->vendorManager->getVendor($id)
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -156,7 +158,7 @@ class MarketplaceController extends BaseController
             
         } catch (ValidationException $e) {
             return $this->error($e->getMessage(), 422);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -185,7 +187,7 @@ class MarketplaceController extends BaseController
                 'vendor' => $this->vendorManager->getVendor($id)
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -207,7 +209,7 @@ class MarketplaceController extends BaseController
                 ]
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -244,7 +246,7 @@ class MarketplaceController extends BaseController
                 'message' => 'Product approved successfully'
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -289,7 +291,7 @@ class MarketplaceController extends BaseController
             
         } catch (ValidationException $e) {
             return $this->error($e->getMessage(), 422);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -311,7 +313,7 @@ class MarketplaceController extends BaseController
             
             return $this->success($data);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -342,7 +344,7 @@ class MarketplaceController extends BaseController
             
         } catch (ValidationException $e) {
             return $this->error($e->getMessage(), 422);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -372,7 +374,7 @@ class MarketplaceController extends BaseController
             
         } catch (ValidationException $e) {
             return $this->error($e->getMessage(), 422);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -393,7 +395,7 @@ class MarketplaceController extends BaseController
             
             return $this->error('Commission rule not found', 404);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -415,7 +417,7 @@ class MarketplaceController extends BaseController
             
             return $this->success($data);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -443,7 +445,7 @@ class MarketplaceController extends BaseController
             
         } catch (ValidationException $e) {
             return $this->error($e->getMessage(), 422);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 400);
         }
     }
@@ -461,7 +463,7 @@ class MarketplaceController extends BaseController
                 'results' => $results
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -485,7 +487,7 @@ class MarketplaceController extends BaseController
             
             return $this->success($analytics);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
@@ -510,7 +512,7 @@ class MarketplaceController extends BaseController
             
             return $this->success($settings);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return $this->error($e->getMessage(), 500);
         }
     }

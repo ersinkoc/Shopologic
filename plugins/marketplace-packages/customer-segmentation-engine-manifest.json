@@ -1,0 +1,167 @@
+{
+    "package_info": {
+        "name": "customer-segmentation-engine",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:00",
+        "package_size": 18497,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Customer Segmentation Engine",
+        "version": "1.0.0",
+        "description": "Advanced customer segmentation using RFM analysis, behavioral patterns, machine learning clustering, and predictive lifetime value modeling for targeted marketing and personalization",
+        "author": {
+            "name": "Shopologic Team"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\CustomerSegmentationEngine\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "file": "CustomerSegmentationEnginePlugin.php",
+            "class": "CustomerSegmentationEnginePlugin"
+        },
+        "permissions": [
+            "segmentation.view_segments",
+            "segmentation.manage_segments",
+            "segmentation.view_analytics",
+            "segmentation.assign_customers",
+            "segmentation.configure_rules"
+        ],
+        "hooks": {
+            "actions": [
+                "customer.registered",
+                "order.completed",
+                "customer.login",
+                "product.reviewed",
+                "segment.customer_moved",
+                "segment.at_risk_detected",
+                "segment.high_value_identified"
+            ],
+            "filters": [
+                "product.recommendations",
+                "email.template",
+                "promotion.eligibility",
+                "pricing.discount",
+                "analytics.customer_metrics"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/segmentation\/customer\/{customer_id}\/segment",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/segmentation\/segments",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/segmentation\/segments",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/segmentation\/segments\/{segment_id}",
+                    "handler": "handlePut"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/segmentation\/segments\/{segment_id}\/customers",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/segmentation\/recalculate",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/segmentation\/analytics",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/segmentation\/predict-ltv",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/segmentation\/churn-risk",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "widgets": [
+            {
+                "id": "customer-segmentation-widget",
+                "title": "Customer Segmentation Dashboard",
+                "position": "main",
+                "priority": 20
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 2 * * *",
+                "description": "Recalculate all customer segments"
+            },
+            {
+                "schedule": "0 *\/6 * * *",
+                "description": "Update RFM scores"
+            },
+            {
+                "schedule": "0 9 * * SUN",
+                "description": "Detect churn risk"
+            },
+            {
+                "schedule": "0 3 1 * *",
+                "description": "Update lifetime value predictions"
+            },
+            {
+                "schedule": "0 10 * * MON",
+                "description": "Generate segment performance reports"
+            }
+        ]
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

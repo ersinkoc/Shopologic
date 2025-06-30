@@ -6,10 +6,16 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "SmartSearch\\SmartSearchPlugin",
-    "file": "SmartSearchPlugin.php",
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "SmartSearchPlugin",
+        "file": "SmartSearchPlugin.php"
     },
     "permissions": [
         "products.read",
@@ -17,57 +23,99 @@
         "analytics.write",
         "hooks.*"
     ],
-    "hooks": [
-        "search.query",
-        "product.indexed",
-        "search.autocomplete",
-        "frontend.search_form"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/search/autocomplete",
-        "POST /api/v1/search/query",
-        "GET /api/v1/search/facets",
-        "POST /api/v1/search/visual",
-        "GET /api/v1/search/trending"
-    ],
-    "database_tables": [
-        "search_index",
-        "search_queries",
-        "search_analytics",
-        "product_vectors",
-        "search_synonyms"
-    ],
-    "config_schema": {
-        "enable_autocomplete": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable search autocomplete"
-        },
-        "enable_spell_check": {
-            "type": "boolean",
-            "default": true,
-            "description": "Auto-correct spelling mistakes"
-        },
-        "enable_synonym_search": {
-            "type": "boolean",
-            "default": true,
-            "description": "Search using synonyms"
-        },
-        "results_per_page": {
-            "type": "number",
-            "default": 20,
-            "min": 10,
-            "max": 100,
-            "description": "Search results per page"
-        },
-        "boost_exact_matches": {
-            "type": "boolean",
-            "default": true,
-            "description": "Boost exact title matches"
-        }
+    "hooks": {
+        "actions": [
+            "search.query",
+            "product.indexed",
+            "search.autocomplete",
+            "frontend.search_form"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/search/autocomplete",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/search/query",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/search/facets",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/search/visual",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/search/trending",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "search_index",
+            "search_queries",
+            "search_analytics",
+            "product_vectors",
+            "search_synonyms"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/search-engine.js", "assets/autocomplete.js", "assets/filters.js"],
-        "css": ["assets/search-interface.css"]
-    }
+        "js": [
+            "assets/search-engine.js",
+            "assets/autocomplete.js",
+            "assets/filters.js"
+        ],
+        "css": [
+            "assets/search-interface.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "enable_autocomplete": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable search autocomplete"
+            },
+            "enable_spell_check": {
+                "type": "boolean",
+                "default": true,
+                "description": "Auto-correct spelling mistakes"
+            },
+            "enable_synonym_search": {
+                "type": "boolean",
+                "default": true,
+                "description": "Search using synonyms"
+            },
+            "results_per_page": {
+                "type": "number",
+                "default": 20,
+                "min": 10,
+                "max": 100,
+                "description": "Search results per page"
+            },
+            "boost_exact_matches": {
+                "type": "boolean",
+                "default": true,
+                "description": "Boost exact title matches"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\SmartSearch\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/smart-search"
 }

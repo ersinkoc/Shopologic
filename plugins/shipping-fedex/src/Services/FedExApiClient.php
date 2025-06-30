@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Services;
+namespace Shopologic\Plugins\ShippingFedex\Services;
 
 use Shopologic\Plugins\ShippingFedEx\Exceptions\FedExException;
 
@@ -10,8 +10,7 @@ use Shopologic\Plugins\ShippingFedEx\Exceptions\FedExException;
  * FedEx Web Services API Client
  * Implements FedEx API v1 without external dependencies
  */
-class FedExApiClient
-{
+class FedExApiClient\n{
     private const API_BASE_SANDBOX = 'https://apis-sandbox.fedex.com';
     private const API_BASE_PRODUCTION = 'https://apis.fedex.com';
     

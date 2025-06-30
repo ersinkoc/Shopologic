@@ -1,6 +1,7 @@
 <?php
 
-namespace OmnichannelIntegrationHub;
+declare(strict_types=1);
+namespace Shopologic\Plugins\OmnichannelIntegrationHub;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Hook\HookSystem;
@@ -261,7 +262,7 @@ class OmnichannelIntegrationHubPlugin extends AbstractPlugin implements WidgetIn
                 
                 // Track sync
                 $this->trackInventorySync($channel->id, $product->id, $inventory);
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->handleSyncError($channel, 'inventory', $e);
             }
         }
@@ -413,7 +414,7 @@ class OmnichannelIntegrationHubPlugin extends AbstractPlugin implements WidgetIn
                     'products_synced' => $syncResult['products_synced'],
                     'errors' => $syncResult['errors']
                 ]);
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Inventory sync failed', [
                     'channel_id' => $channel->id,
                     'error' => $e->getMessage()
@@ -441,7 +442,7 @@ class OmnichannelIntegrationHubPlugin extends AbstractPlugin implements WidgetIn
                     'channel_id' => $channel->id,
                     'orders_imported' => count($orders)
                 ]);
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->handleSyncError($channel, 'orders', $e);
             }
         }
@@ -643,5 +644,29 @@ class OmnichannelIntegrationHubPlugin extends AbstractPlugin implements WidgetIn
         ];
         
         return $key ? ($config[$key] ?? $default) : $config;
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

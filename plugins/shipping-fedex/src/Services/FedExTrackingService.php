@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Services;
+namespace Shopologic\Plugins\ShippingFedex\Services;
 
 use Shopologic\Core\Ecommerce\Models\Order;
 use Shopologic\Plugins\ShippingFedEx\Repository\FedExTrackingRepository;
 use Shopologic\Plugins\ShippingFedEx\Repository\FedExShipmentRepository;
 
-class FedExTrackingService
-{
+class FedExTrackingService\n{
     private FedExApiClient $apiClient;
     private FedExTrackingRepository $trackingRepository;
     private FedExShipmentRepository $shipmentRepository;
@@ -38,7 +37,7 @@ class FedExTrackingService
 
             return $trackingData;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('FedEx tracking failed', [
                 'tracking_number' => $trackingNumber,
                 'error' => $e->getMessage()
@@ -85,7 +84,7 @@ class FedExTrackingService
         foreach ($activeShipments as $shipment) {
             try {
                 $this->updateShipmentTracking($shipment->id);
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 logger()->error('Failed to update shipment tracking', [
                     'shipment_id' => $shipment->id,
                     'error' => $e->getMessage()
@@ -137,7 +136,7 @@ class FedExTrackingService
         // Try to get fresh data
         try {
             return $this->track($trackingNumber);
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             // Fall back to cached data
             return $this->getCachedTrackingInfo($trackingNumber);
         }
@@ -246,7 +245,7 @@ class FedExTrackingService
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('Failed to subscribe to tracking updates', [
                 'tracking_number' => $trackingNumber,
                 'error' => $e->getMessage()

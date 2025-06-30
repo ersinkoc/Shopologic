@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EmailMarketing;
+namespace Shopologic\Plugins\EmailMarketing;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\PluginInterface;
@@ -535,5 +535,29 @@ class EmailMarketingPlugin extends AbstractPlugin implements PluginInterface
                 $this->setConfig($key, $value);
             }
         }
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

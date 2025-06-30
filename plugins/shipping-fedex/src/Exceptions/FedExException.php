@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Exceptions;
+namespace Shopologic\Plugins\ShippingFedex\Exceptions;
 
 class FedExException extends \Exception
 {

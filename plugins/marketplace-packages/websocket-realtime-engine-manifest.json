@@ -1,0 +1,627 @@
+{
+    "package_info": {
+        "name": "websocket-realtime-engine",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:14",
+        "package_size": 19024,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "websocket-realtime-engine",
+        "version": "1.0.0",
+        "description": "High-performance WebSocket server for real-time communication with channels, presence, broadcasting, clustering support, message queuing, and client SDKs",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/websocket-realtime-engine",
+        "keywords": [
+            "websocket",
+            "realtime",
+            "socket",
+            "broadcasting",
+            "presence",
+            "channels",
+            "pubsub",
+            "messaging"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/networking": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\WebsocketRealtimeEngine\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "WebsocketRealtimeEnginePlugin",
+            "file": "src\/WebSocketRealtimeEnginePlugin.php"
+        },
+        "provides": [
+            "WebSocketServerInterface",
+            "BroadcasterInterface",
+            "ChannelManagerInterface",
+            "PresenceInterface"
+        ],
+        "permissions": [
+            "websocket.access",
+            "websocket.broadcast",
+            "websocket.manage_channels",
+            "websocket.view_connections",
+            "websocket.configure",
+            "websocket.debug"
+        ],
+        "hooks": {
+            "actions": [
+                "websocket.client_connected",
+                "websocket.client_disconnected",
+                "websocket.message_received",
+                "websocket.channel_joined",
+                "websocket.channel_left",
+                "websocket.broadcast_sent"
+            ],
+            "filters": [
+                "websocket.authenticate",
+                "websocket.authorize_channel",
+                "websocket.message_format",
+                "websocket.broadcast_channels",
+                "websocket.rate_limit"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/websocket\/broadcast",
+                    "handler": "Controllers\\BroadcastController@send",
+                    "auth": true,
+                    "permission": "websocket.broadcast"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/websocket\/channels",
+                    "handler": "Controllers\\ChannelController@index",
+                    "auth": true,
+                    "permission": "websocket.access"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/websocket\/channels\/{channel}\/users",
+                    "handler": "Controllers\\PresenceController@users",
+                    "auth": true,
+                    "permission": "websocket.access"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/websocket\/connections",
+                    "handler": "Controllers\\ConnectionController@index",
+                    "auth": true,
+                    "permission": "websocket.view_connections"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/websocket\/auth",
+                    "handler": "Controllers\\AuthController@authenticate",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/websocket\/channels\/{channel}\/auth",
+                    "handler": "Controllers\\AuthController@authorizeChannel",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/websocket\/stats",
+                    "handler": "Controllers\\StatsController@overview",
+                    "auth": true,
+                    "permission": "websocket.access"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/websocket\/whisper",
+                    "handler": "Controllers\\WhisperController@send",
+                    "auth": true,
+                    "permission": "websocket.broadcast"
+                },
+                {
+                    "method": "WS",
+                    "path": "\/websocket",
+                    "handler": "WebSocketHandler@handle",
+                    "auth": false
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "websocket_connections",
+                "websocket_channels",
+                "websocket_channel_members",
+                "websocket_messages",
+                "websocket_presence",
+                "websocket_stats",
+                "websocket_rate_limits",
+                "websocket_broadcasts",
+                "websocket_auth_tokens",
+                "websocket_cluster_nodes"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/websocket-client.js",
+                    "position": "footer",
+                    "pages": [
+                        "all"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/websocket-dashboard.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js",
+                        "vue"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/connection-monitor.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/channel-manager.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/websocket-dashboard.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/connection-status.css",
+                    "pages": [
+                        "all"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "server_config": {
+                    "type": "object",
+                    "label": "Server Configuration",
+                    "properties": {
+                        "host": {
+                            "type": "string",
+                            "label": "Host",
+                            "default": "0.0.0.0"
+                        },
+                        "port": {
+                            "type": "number",
+                            "label": "Port",
+                            "default": 6001,
+                            "min": 1024,
+                            "max": 65535
+                        },
+                        "ssl": {
+                            "type": "boolean",
+                            "label": "Enable SSL",
+                            "default": false
+                        },
+                        "ssl_cert": {
+                            "type": "string",
+                            "label": "SSL Certificate Path",
+                            "depends_on": {
+                                "ssl": true
+                            }
+                        },
+                        "ssl_key": {
+                            "type": "string",
+                            "label": "SSL Key Path",
+                            "depends_on": {
+                                "ssl": true
+                            }
+                        }
+                    }
+                },
+                "authentication": {
+                    "type": "object",
+                    "label": "Authentication Settings",
+                    "properties": {
+                        "required": {
+                            "type": "boolean",
+                            "label": "Require Authentication",
+                            "default": true
+                        },
+                        "method": {
+                            "type": "select",
+                            "label": "Authentication Method",
+                            "default": "token",
+                            "options": {
+                                "token": "Token-based",
+                                "session": "Session-based",
+                                "jwt": "JWT",
+                                "api_key": "API Key",
+                                "custom": "Custom"
+                            }
+                        },
+                        "token_expiry": {
+                            "type": "number",
+                            "label": "Token Expiry (seconds)",
+                            "default": 3600,
+                            "min": 300,
+                            "max": 86400
+                        }
+                    }
+                },
+                "channel_types": {
+                    "type": "multiselect",
+                    "label": "Enabled Channel Types",
+                    "default": [
+                        "public",
+                        "private",
+                        "presence"
+                    ],
+                    "options": {
+                        "public": "Public Channels",
+                        "private": "Private Channels",
+                        "presence": "Presence Channels",
+                        "direct": "Direct Messages",
+                        "broadcast": "Broadcast Only"
+                    }
+                },
+                "presence_settings": {
+                    "type": "object",
+                    "label": "Presence Settings",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "user_info": {
+                            "type": "multiselect",
+                            "label": "User Info to Share",
+                            "default": [
+                                "id",
+                                "name",
+                                "avatar"
+                            ],
+                            "options": {
+                                "id": "User ID",
+                                "name": "Display Name",
+                                "avatar": "Avatar URL",
+                                "status": "Online Status",
+                                "custom": "Custom Fields"
+                            }
+                        },
+                        "idle_timeout": {
+                            "type": "number",
+                            "label": "Idle Timeout (seconds)",
+                            "default": 300,
+                            "min": 60,
+                            "max": 3600
+                        }
+                    }
+                },
+                "message_settings": {
+                    "type": "object",
+                    "label": "Message Settings",
+                    "properties": {
+                        "max_size": {
+                            "type": "number",
+                            "label": "Max Message Size (KB)",
+                            "default": 64,
+                            "min": 1,
+                            "max": 1024
+                        },
+                        "compression": {
+                            "type": "boolean",
+                            "label": "Enable Compression",
+                            "default": true
+                        },
+                        "encryption": {
+                            "type": "boolean",
+                            "label": "Enable Encryption",
+                            "default": false
+                        },
+                        "history": {
+                            "type": "boolean",
+                            "label": "Store Message History",
+                            "default": true
+                        },
+                        "history_limit": {
+                            "type": "number",
+                            "label": "History Limit (messages)",
+                            "default": 100,
+                            "min": 10,
+                            "max": 1000,
+                            "depends_on": {
+                                "history": true
+                            }
+                        }
+                    }
+                },
+                "rate_limiting": {
+                    "type": "object",
+                    "label": "Rate Limiting",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "messages_per_second": {
+                            "type": "number",
+                            "label": "Messages per Second",
+                            "default": 10,
+                            "min": 1,
+                            "max": 100
+                        },
+                        "connections_per_ip": {
+                            "type": "number",
+                            "label": "Connections per IP",
+                            "default": 5,
+                            "min": 1,
+                            "max": 50
+                        },
+                        "broadcasts_per_minute": {
+                            "type": "number",
+                            "label": "Broadcasts per Minute",
+                            "default": 60,
+                            "min": 10,
+                            "max": 600
+                        }
+                    }
+                },
+                "clustering": {
+                    "type": "object",
+                    "label": "Clustering",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "label": "Enable Clustering",
+                            "default": false
+                        },
+                        "adapter": {
+                            "type": "select",
+                            "label": "Cluster Adapter",
+                            "default": "redis",
+                            "options": {
+                                "redis": "Redis",
+                                "rabbitmq": "RabbitMQ",
+                                "nats": "NATS",
+                                "custom": "Custom"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "node_id": {
+                            "type": "string",
+                            "label": "Node ID",
+                            "default": "node-1",
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                },
+                "client_settings": {
+                    "type": "object",
+                    "label": "Client Settings",
+                    "properties": {
+                        "reconnect": {
+                            "type": "boolean",
+                            "label": "Auto Reconnect",
+                            "default": true
+                        },
+                        "reconnect_delay": {
+                            "type": "number",
+                            "label": "Reconnect Delay (ms)",
+                            "default": 1000,
+                            "min": 100,
+                            "max": 30000
+                        },
+                        "max_reconnect_attempts": {
+                            "type": "number",
+                            "label": "Max Reconnect Attempts",
+                            "default": 5,
+                            "min": 0,
+                            "max": 50
+                        },
+                        "ping_interval": {
+                            "type": "number",
+                            "label": "Ping Interval (seconds)",
+                            "default": 30,
+                            "min": 10,
+                            "max": 300
+                        }
+                    }
+                },
+                "debugging": {
+                    "type": "object",
+                    "label": "Debugging",
+                    "properties": {
+                        "debug_mode": {
+                            "type": "boolean",
+                            "label": "Debug Mode",
+                            "default": false
+                        },
+                        "log_connections": {
+                            "type": "boolean",
+                            "label": "Log Connections",
+                            "default": true
+                        },
+                        "log_messages": {
+                            "type": "boolean",
+                            "label": "Log Messages",
+                            "default": false
+                        },
+                        "log_errors": {
+                            "type": "boolean",
+                            "label": "Log Errors",
+                            "default": true
+                        }
+                    }
+                },
+                "webhooks": {
+                    "type": "object",
+                    "label": "Webhook Notifications",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "events": {
+                            "type": "multiselect",
+                            "label": "Webhook Events",
+                            "default": [
+                                "connection",
+                                "disconnection"
+                            ],
+                            "options": {
+                                "connection": "Client Connected",
+                                "disconnection": "Client Disconnected",
+                                "channel_joined": "Channel Joined",
+                                "channel_left": "Channel Left",
+                                "message": "Message Received",
+                                "error": "Error Occurred"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "websocket_stats",
+                "name": "WebSocket Statistics",
+                "description": "Active connections and message throughput",
+                "position": "dashboard",
+                "permissions": [
+                    "websocket.access"
+                ]
+            },
+            {
+                "id": "active_channels",
+                "name": "Active Channels",
+                "description": "Currently active channels",
+                "position": "dashboard",
+                "permissions": [
+                    "websocket.access"
+                ]
+            },
+            {
+                "id": "connection_map",
+                "name": "Connection Map",
+                "description": "Geographic distribution of connections",
+                "position": "dashboard",
+                "permissions": [
+                    "websocket.view_connections"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/1 * * * *",
+                "handler": "cleanupInactiveConnections",
+                "description": "Clean up inactive connections"
+            },
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "collectStatistics",
+                "description": "Collect WebSocket statistics"
+            },
+            {
+                "schedule": "*\/10 * * * *",
+                "handler": "pruneMessageHistory",
+                "description": "Prune old message history"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "generateUsageReport",
+                "description": "Generate hourly usage report"
+            }
+        ],
+        "client_libraries": {
+            "javascript": {
+                "name": "JavaScript\/TypeScript Client",
+                "file": "clients\/websocket-client.js"
+            },
+            "php": {
+                "name": "PHP Client",
+                "file": "clients\/WebSocketClient.php"
+            },
+            "python": {
+                "name": "Python Client",
+                "file": "clients\/websocket_client.py"
+            }
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "WebSocket server implementation",
+                "Public, private, and presence channels",
+                "Authentication and authorization",
+                "Message broadcasting",
+                "Presence tracking",
+                "Rate limiting",
+                "Clustering support",
+                "Client reconnection handling",
+                "Message history",
+                "Real-time statistics",
+                "Client SDKs for multiple languages"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "real-time",
+            "performance"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

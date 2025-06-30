@@ -6,10 +6,16 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "CustomerSegmentation\\CustomerSegmentationPlugin",
-    "file": "CustomerSegmentationPlugin.php",
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "CustomerSegmentationPlugin",
+        "file": "CustomerSegmentationPlugin.php"
     },
     "permissions": [
         "customers.read",
@@ -19,58 +25,98 @@
         "notifications.send",
         "hooks.*"
     ],
-    "hooks": [
-        "customer.registered",
-        "order.completed",
-        "customer.login",
-        "product.viewed",
-        "admin.customers.dashboard"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/segments",
-        "POST /api/v1/segments/create",
-        "GET /api/v1/segments/{id}/customers",
-        "POST /api/v1/segments/analyze",
-        "POST /api/v1/segments/campaign"
-    ],
-    "database_tables": [
-        "customer_segments",
-        "segment_memberships",
-        "segment_rules",
-        "segment_campaigns",
-        "behavioral_scores"
-    ],
-    "config_schema": {
-        "auto_segment": {
-            "type": "boolean",
-            "default": true,
-            "description": "Automatically assign customers to segments"
-        },
-        "segment_update_frequency": {
-            "type": "select",
-            "default": "daily",
-            "options": {
-                "hourly": "Every hour",
-                "daily": "Daily",
-                "weekly": "Weekly"
+    "hooks": {
+        "actions": [
+            "customer.registered",
+            "order.completed",
+            "customer.login",
+            "product.viewed",
+            "admin.customers.dashboard"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/segments",
+                "handler": "handleGet"
             },
-            "description": "How often to update segments"
-        },
-        "min_segment_size": {
-            "type": "number",
-            "default": 10,
-            "min": 5,
-            "max": 1000,
-            "description": "Minimum customers per segment"
-        },
-        "enable_predictive_segments": {
-            "type": "boolean",
-            "default": true,
-            "description": "Create predictive behavior segments"
-        }
+            {
+                "method": "POST",
+                "path": "/api/v1/segments/create",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/segments/{id}/customers",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/segments/analyze",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/segments/campaign",
+                "handler": "handlePost"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "customer_segments",
+            "segment_memberships",
+            "segment_rules",
+            "segment_campaigns",
+            "behavioral_scores"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/segmentation-dashboard.js"],
-        "css": ["assets/segments.css"]
-    }
+        "js": [
+            "assets/segmentation-dashboard.js"
+        ],
+        "css": [
+            "assets/segments.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "auto_segment": {
+                "type": "boolean",
+                "default": true,
+                "description": "Automatically assign customers to segments"
+            },
+            "segment_update_frequency": {
+                "type": "select",
+                "default": "daily",
+                "options": {
+                    "hourly": "Every hour",
+                    "daily": "Daily",
+                    "weekly": "Weekly"
+                },
+                "description": "How often to update segments"
+            },
+            "min_segment_size": {
+                "type": "number",
+                "default": 10,
+                "min": 5,
+                "max": 1000,
+                "description": "Minimum customers per segment"
+            },
+            "enable_predictive_segments": {
+                "type": "boolean",
+                "default": true,
+                "description": "Create predictive behavior segments"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\CustomerSegmentation\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/customer-segmentation"
 }

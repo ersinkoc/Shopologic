@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bannerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="800" height="200" fill="url(#bannerGradient)"/>
+    <text x="50" y="80" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white">
+        Blockchain Supply Chain
+    </text>
+    <text x="50" y="120" font-family="Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">
+        Blockchain-based supply chain tracking with product authentication, transparency ledger, and anti-counterfeiting features
+    </text>
+    <text x="50" y="160" font-family="Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.7)">
+        Version 1.0.0 • Shopologic Plugin
+    </text>
+</svg>

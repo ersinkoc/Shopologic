@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ReviewsRatings;
+namespace Shopologic\Plugins\ReviewsRatings;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\PluginInterface;
@@ -403,5 +403,37 @@ class ReviewsPlugin extends AbstractPlugin implements PluginInterface
                 $this->setConfig($key, $value);
             }
         }
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

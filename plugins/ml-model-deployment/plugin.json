@@ -1,0 +1,688 @@
+{
+    "name": "ml-model-deployment",
+    "version": "1.0.0",
+    "description": "Machine learning model deployment platform with TensorFlow\/PyTorch support, model versioning, A\/B testing, real-time inference, batch processing, and monitoring",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/ml-model-deployment",
+    "keywords": [
+        "machine-learning",
+        "ml",
+        "ai",
+        "tensorflow",
+        "pytorch",
+        "model-deployment",
+        "inference",
+        "prediction"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/compute": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\MlModelDeployment\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "MlModelDeploymentPlugin",
+        "file": "src\/MLModelDeploymentPlugin.php"
+    },
+    "provides": [
+        "ModelDeploymentInterface",
+        "InferenceEngineInterface",
+        "ModelVersioningInterface",
+        "MonitoringInterface"
+    ],
+    "permissions": [
+        "ml.access",
+        "ml.deploy_models",
+        "ml.run_inference",
+        "ml.view_metrics",
+        "ml.manage_versions",
+        "ml.configure_serving"
+    ],
+    "hooks": {
+        "actions": [
+            "model.deployed",
+            "model.version_created",
+            "inference.completed",
+            "model.retrained",
+            "experiment.started",
+            "alert.triggered"
+        ],
+        "filters": [
+            "model.preprocessing",
+            "model.postprocessing",
+            "inference.input",
+            "inference.output",
+            "model.selection"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/ml\/models",
+                "handler": "Controllers\\ModelController@deploy",
+                "auth": true,
+                "permission": "ml.deploy_models"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/ml\/models",
+                "handler": "Controllers\\ModelController@index",
+                "auth": true,
+                "permission": "ml.access"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/ml\/models\/{id}",
+                "handler": "Controllers\\ModelController@show",
+                "auth": true,
+                "permission": "ml.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/ml\/models\/{id}\/versions",
+                "handler": "Controllers\\VersionController@create",
+                "auth": true,
+                "permission": "ml.manage_versions"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/ml\/predict",
+                "handler": "Controllers\\InferenceController@predict",
+                "auth": true,
+                "permission": "ml.run_inference"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/ml\/batch-predict",
+                "handler": "Controllers\\InferenceController@batchPredict",
+                "auth": true,
+                "permission": "ml.run_inference"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/ml\/models\/{id}\/metrics",
+                "handler": "Controllers\\MetricsController@model",
+                "auth": true,
+                "permission": "ml.view_metrics"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/ml\/experiments",
+                "handler": "Controllers\\ExperimentController@create",
+                "auth": true,
+                "permission": "ml.deploy_models"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/ml\/experiments\/{id}\/results",
+                "handler": "Controllers\\ExperimentController@results",
+                "auth": true,
+                "permission": "ml.view_metrics"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/ml\/models\/{id}\/retrain",
+                "handler": "Controllers\\TrainingController@retrain",
+                "auth": true,
+                "permission": "ml.deploy_models"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/ml\/models\/{id}\/export",
+                "handler": "Controllers\\ExportController@export",
+                "auth": true,
+                "permission": "ml.deploy_models"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "ml_models",
+            "ml_model_versions",
+            "ml_deployments",
+            "ml_predictions",
+            "ml_experiments",
+            "ml_metrics",
+            "ml_training_jobs",
+            "ml_model_artifacts",
+            "ml_feature_stores",
+            "ml_monitoring_alerts"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/model-dashboard.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "jquery",
+                    "chart.js",
+                    "tensorflow.js"
+                ]
+            },
+            {
+                "src": "assets\/js\/experiment-viewer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "plotly"
+                ]
+            },
+            {
+                "src": "assets\/js\/model-playground.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/js\/metrics-visualizer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "d3"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/model-dashboard.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/experiment-viewer.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/metrics-charts.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "supported_frameworks": {
+                "type": "multiselect",
+                "label": "Supported ML Frameworks",
+                "default": [
+                    "tensorflow",
+                    "pytorch",
+                    "sklearn"
+                ],
+                "options": {
+                    "tensorflow": "TensorFlow",
+                    "pytorch": "PyTorch",
+                    "sklearn": "Scikit-learn",
+                    "onnx": "ONNX",
+                    "xgboost": "XGBoost",
+                    "lightgbm": "LightGBM",
+                    "keras": "Keras",
+                    "custom": "Custom Framework"
+                }
+            },
+            "serving_infrastructure": {
+                "type": "object",
+                "label": "Serving Infrastructure",
+                "properties": {
+                    "backend": {
+                        "type": "select",
+                        "label": "Inference Backend",
+                        "default": "tensorflow_serving",
+                        "options": {
+                            "tensorflow_serving": "TensorFlow Serving",
+                            "torchserve": "TorchServe",
+                            "triton": "NVIDIA Triton",
+                            "seldon": "Seldon Core",
+                            "custom": "Custom Backend"
+                        }
+                    },
+                    "deployment_type": {
+                        "type": "select",
+                        "label": "Deployment Type",
+                        "default": "container",
+                        "options": {
+                            "container": "Container-based",
+                            "serverless": "Serverless",
+                            "edge": "Edge Deployment",
+                            "embedded": "Embedded"
+                        }
+                    },
+                    "scaling": {
+                        "type": "object",
+                        "label": "Auto-scaling",
+                        "properties": {
+                            "enabled": {
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "min_instances": {
+                                "type": "number",
+                                "default": 1,
+                                "min": 1,
+                                "max": 10
+                            },
+                            "max_instances": {
+                                "type": "number",
+                                "default": 10,
+                                "min": 1,
+                                "max": 100
+                            },
+                            "target_cpu": {
+                                "type": "number",
+                                "label": "Target CPU %",
+                                "default": 70,
+                                "min": 20,
+                                "max": 90
+                            }
+                        }
+                    }
+                }
+            },
+            "model_versioning": {
+                "type": "object",
+                "label": "Model Versioning",
+                "properties": {
+                    "strategy": {
+                        "type": "select",
+                        "label": "Versioning Strategy",
+                        "default": "semantic",
+                        "options": {
+                            "semantic": "Semantic (1.0.0)",
+                            "timestamp": "Timestamp-based",
+                            "git": "Git SHA",
+                            "custom": "Custom"
+                        }
+                    },
+                    "max_versions": {
+                        "type": "number",
+                        "label": "Max Versions to Keep",
+                        "default": 10,
+                        "min": 3,
+                        "max": 50
+                    },
+                    "auto_promote": {
+                        "type": "boolean",
+                        "label": "Auto-promote Best Model",
+                        "default": false
+                    }
+                }
+            },
+            "inference_settings": {
+                "type": "object",
+                "label": "Inference Settings",
+                "properties": {
+                    "batch_size": {
+                        "type": "number",
+                        "label": "Default Batch Size",
+                        "default": 32,
+                        "min": 1,
+                        "max": 512
+                    },
+                    "timeout": {
+                        "type": "number",
+                        "label": "Timeout (seconds)",
+                        "default": 30,
+                        "min": 1,
+                        "max": 300
+                    },
+                    "max_retries": {
+                        "type": "number",
+                        "label": "Max Retries",
+                        "default": 3,
+                        "min": 0,
+                        "max": 10
+                    },
+                    "caching": {
+                        "type": "object",
+                        "label": "Prediction Caching",
+                        "properties": {
+                            "enabled": {
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "ttl": {
+                                "type": "number",
+                                "label": "Cache TTL (seconds)",
+                                "default": 300,
+                                "min": 0,
+                                "max": 3600
+                            }
+                        }
+                    }
+                }
+            },
+            "monitoring_config": {
+                "type": "object",
+                "label": "Monitoring Configuration",
+                "properties": {
+                    "metrics_enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "metrics_to_track": {
+                        "type": "multiselect",
+                        "label": "Metrics to Track",
+                        "default": [
+                            "latency",
+                            "throughput",
+                            "accuracy",
+                            "drift"
+                        ],
+                        "options": {
+                            "latency": "Inference Latency",
+                            "throughput": "Throughput",
+                            "accuracy": "Model Accuracy",
+                            "drift": "Data Drift",
+                            "resource_usage": "Resource Usage",
+                            "error_rate": "Error Rate",
+                            "feature_importance": "Feature Importance"
+                        }
+                    },
+                    "alert_thresholds": {
+                        "type": "object",
+                        "properties": {
+                            "latency_ms": {
+                                "type": "number",
+                                "label": "Latency Alert (ms)",
+                                "default": 1000,
+                                "min": 10,
+                                "max": 10000
+                            },
+                            "error_rate_percent": {
+                                "type": "number",
+                                "label": "Error Rate Alert (%)",
+                                "default": 5,
+                                "min": 0.1,
+                                "max": 50
+                            },
+                            "accuracy_drop_percent": {
+                                "type": "number",
+                                "label": "Accuracy Drop Alert (%)",
+                                "default": 10,
+                                "min": 1,
+                                "max": 50
+                            }
+                        }
+                    }
+                }
+            },
+            "feature_store": {
+                "type": "object",
+                "label": "Feature Store",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "backend": {
+                        "type": "select",
+                        "label": "Feature Store Backend",
+                        "default": "internal",
+                        "options": {
+                            "internal": "Internal Store",
+                            "feast": "Feast",
+                            "tecton": "Tecton",
+                            "redis": "Redis-based",
+                            "custom": "Custom"
+                        }
+                    },
+                    "online_store": {
+                        "type": "boolean",
+                        "label": "Enable Online Store",
+                        "default": true
+                    },
+                    "offline_store": {
+                        "type": "boolean",
+                        "label": "Enable Offline Store",
+                        "default": true
+                    }
+                }
+            },
+            "experiment_tracking": {
+                "type": "object",
+                "label": "Experiment Tracking",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "backend": {
+                        "type": "select",
+                        "label": "Tracking Backend",
+                        "default": "internal",
+                        "options": {
+                            "internal": "Internal Tracking",
+                            "mlflow": "MLflow",
+                            "wandb": "Weights & Biases",
+                            "neptune": "Neptune.ai",
+                            "custom": "Custom"
+                        }
+                    },
+                    "auto_log": {
+                        "type": "multiselect",
+                        "label": "Auto-log Items",
+                        "default": [
+                            "parameters",
+                            "metrics",
+                            "artifacts"
+                        ],
+                        "options": {
+                            "parameters": "Model Parameters",
+                            "metrics": "Training Metrics",
+                            "artifacts": "Model Artifacts",
+                            "code": "Code Version",
+                            "data": "Data Version",
+                            "environment": "Environment Info"
+                        }
+                    }
+                }
+            },
+            "security_settings": {
+                "type": "object",
+                "label": "Security Settings",
+                "properties": {
+                    "model_encryption": {
+                        "type": "boolean",
+                        "label": "Encrypt Models at Rest",
+                        "default": true
+                    },
+                    "api_authentication": {
+                        "type": "select",
+                        "label": "API Authentication",
+                        "default": "token",
+                        "options": {
+                            "token": "Token-based",
+                            "oauth": "OAuth 2.0",
+                            "mtls": "Mutual TLS",
+                            "custom": "Custom"
+                        }
+                    },
+                    "input_validation": {
+                        "type": "boolean",
+                        "label": "Strict Input Validation",
+                        "default": true
+                    }
+                }
+            },
+            "resource_limits": {
+                "type": "object",
+                "label": "Resource Limits",
+                "properties": {
+                    "max_model_size_mb": {
+                        "type": "number",
+                        "label": "Max Model Size (MB)",
+                        "default": 1024,
+                        "min": 10,
+                        "max": 10240
+                    },
+                    "max_batch_size": {
+                        "type": "number",
+                        "label": "Max Batch Size",
+                        "default": 1000,
+                        "min": 1,
+                        "max": 10000
+                    },
+                    "max_concurrent_requests": {
+                        "type": "number",
+                        "label": "Max Concurrent Requests",
+                        "default": 100,
+                        "min": 1,
+                        "max": 1000
+                    }
+                }
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "model_overview",
+            "name": "Model Overview",
+            "description": "Deployed models and their status",
+            "position": "dashboard",
+            "permissions": [
+                "ml.access"
+            ]
+        },
+        {
+            "id": "inference_metrics",
+            "name": "Inference Metrics",
+            "description": "Real-time inference performance",
+            "position": "dashboard",
+            "permissions": [
+                "ml.view_metrics"
+            ]
+        },
+        {
+            "id": "experiment_results",
+            "name": "Experiment Results",
+            "description": "Recent experiment outcomes",
+            "position": "dashboard",
+            "permissions": [
+                "ml.view_metrics"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "collectInferenceMetrics",
+            "description": "Collect inference metrics"
+        },
+        {
+            "schedule": "*\/15 * * * *",
+            "handler": "checkModelDrift",
+            "description": "Check for model drift"
+        },
+        {
+            "schedule": "0 * * * *",
+            "handler": "evaluateModelPerformance",
+            "description": "Evaluate model performance"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "cleanupOldPredictions",
+            "description": "Clean up old prediction logs"
+        },
+        {
+            "schedule": "0 3 * * *",
+            "handler": "optimizeModels",
+            "description": "Optimize deployed models"
+        }
+    ],
+    "model_types": {
+        "classification": {
+            "name": "Classification",
+            "metrics": [
+                "accuracy",
+                "precision",
+                "recall",
+                "f1",
+                "auc"
+            ]
+        },
+        "regression": {
+            "name": "Regression",
+            "metrics": [
+                "mse",
+                "mae",
+                "rmse",
+                "r2"
+            ]
+        },
+        "nlp": {
+            "name": "Natural Language Processing",
+            "metrics": [
+                "perplexity",
+                "bleu",
+                "rouge"
+            ]
+        },
+        "computer_vision": {
+            "name": "Computer Vision",
+            "metrics": [
+                "map",
+                "iou",
+                "accuracy"
+            ]
+        },
+        "recommendation": {
+            "name": "Recommendation System",
+            "metrics": [
+                "precision_at_k",
+                "recall_at_k",
+                "ndcg"
+            ]
+        },
+        "time_series": {
+            "name": "Time Series",
+            "metrics": [
+                "mape",
+                "smape",
+                "mase"
+            ]
+        }
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "TensorFlow and PyTorch support",
+            "Model versioning and rollback",
+            "A\/B testing for models",
+            "Real-time and batch inference",
+            "Auto-scaling capabilities",
+            "Model monitoring and drift detection",
+            "Feature store integration",
+            "Experiment tracking",
+            "Model performance analytics",
+            "Security features",
+            "Multi-framework support"
+        ]
+    }
+}

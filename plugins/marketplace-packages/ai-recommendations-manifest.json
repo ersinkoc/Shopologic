@@ -1,0 +1,411 @@
+{
+    "package_info": {
+        "name": "ai-recommendations",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:30:57",
+        "package_size": 40775,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "AI Product Recommendations",
+        "version": "1.0.0",
+        "description": "Intelligent product recommendations using machine learning to increase sales through personalized suggestions, cross-selling, and upselling",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/ai-recommendations",
+        "keywords": [
+            "ai",
+            "recommendations",
+            "personalization",
+            "machine-learning",
+            "upsell",
+            "cross-sell"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\AiRecommendations\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "AiRecommendationsPlugin",
+            "file": "src\/AIRecommendationsPlugin.php"
+        },
+        "provides": [
+            "RecommendationInterface",
+            "PersonalizationInterface"
+        ],
+        "permissions": [
+            "recommendations.view",
+            "recommendations.configure",
+            "recommendations.train"
+        ],
+        "hooks": {
+            "actions": [
+                {
+                    "hook": "product.viewed",
+                    "handler": "trackProductView",
+                    "priority": 10
+                },
+                {
+                    "hook": "cart.item_added",
+                    "handler": "trackAddToCart",
+                    "priority": 10
+                },
+                {
+                    "hook": "order.completed",
+                    "handler": "trackPurchase",
+                    "priority": 10
+                },
+                {
+                    "hook": "product.display",
+                    "handler": "displayRecommendations",
+                    "priority": 30
+                },
+                {
+                    "hook": "cart.display",
+                    "handler": "displayCartRecommendations",
+                    "priority": 30
+                },
+                {
+                    "hook": "user.logged_in",
+                    "handler": "loadUserPreferences",
+                    "priority": 5
+                }
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/recommendations\/products\/{id}",
+                    "handler": "Controllers\\RecommendationController@getProductRecommendations",
+                    "auth": false
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/recommendations\/user",
+                    "handler": "Controllers\\RecommendationController@getUserRecommendations",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/recommendations\/cart",
+                    "handler": "Controllers\\RecommendationController@getCartRecommendations",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/recommendations\/feedback",
+                    "handler": "Controllers\\RecommendationController@recordFeedback",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/recommendations\/train",
+                    "handler": "Controllers\\TrainingController@trainModel",
+                    "auth": true,
+                    "permission": "recommendations.train"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/recommendations\/analytics",
+                    "handler": "Controllers\\AnalyticsController@getPerformance",
+                    "auth": true,
+                    "permission": "recommendations.view"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "ai_user_behavior",
+                "ai_product_similarities",
+                "ai_user_preferences",
+                "ai_recommendation_history",
+                "ai_recommendation_feedback",
+                "ai_model_versions",
+                "ai_training_data",
+                "ai_performance_metrics"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/recommendation-widget.js",
+                    "position": "footer",
+                    "pages": [
+                        "product",
+                        "category",
+                        "cart",
+                        "home"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/personalization.js",
+                    "position": "footer",
+                    "pages": [
+                        "all"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/recommendations.css",
+                    "pages": [
+                        "all"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "algorithm": {
+                    "type": "select",
+                    "label": "Recommendation Algorithm",
+                    "default": "collaborative_filtering",
+                    "options": {
+                        "collaborative_filtering": "Collaborative Filtering",
+                        "content_based": "Content-Based Filtering",
+                        "hybrid": "Hybrid (Collaborative + Content)",
+                        "deep_learning": "Deep Learning (Neural Network)"
+                    }
+                },
+                "recommendation_types": {
+                    "type": "multiselect",
+                    "label": "Enabled Recommendation Types",
+                    "default": [
+                        "similar_products",
+                        "frequently_bought",
+                        "personalized",
+                        "trending"
+                    ],
+                    "options": {
+                        "similar_products": "Similar Products",
+                        "frequently_bought": "Frequently Bought Together",
+                        "personalized": "Personalized for User",
+                        "trending": "Trending Products",
+                        "new_arrivals": "New Arrivals",
+                        "best_sellers": "Best Sellers",
+                        "recently_viewed": "Recently Viewed",
+                        "cross_category": "Cross-Category Suggestions"
+                    }
+                },
+                "max_recommendations": {
+                    "type": "number",
+                    "label": "Maximum Recommendations",
+                    "description": "Maximum number of recommendations to show",
+                    "default": 8,
+                    "min": 1,
+                    "max": 20
+                },
+                "min_confidence_score": {
+                    "type": "number",
+                    "label": "Minimum Confidence Score",
+                    "description": "Minimum confidence score (0-1) to show recommendation",
+                    "default": 0.3,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.1
+                },
+                "personalization_weight": {
+                    "type": "number",
+                    "label": "Personalization Weight",
+                    "description": "Weight given to user preferences (0-1)",
+                    "default": 0.7,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.1
+                },
+                "enable_real_time": {
+                    "type": "boolean",
+                    "label": "Real-time Recommendations",
+                    "description": "Update recommendations in real-time based on behavior",
+                    "default": true
+                },
+                "tracking_window": {
+                    "type": "number",
+                    "label": "Behavior Tracking Window (days)",
+                    "description": "How many days of behavior to consider",
+                    "default": 30,
+                    "min": 7,
+                    "max": 365
+                },
+                "enable_ab_testing": {
+                    "type": "boolean",
+                    "label": "Enable A\/B Testing",
+                    "description": "Test different recommendation strategies",
+                    "default": false
+                },
+                "ab_test_percentage": {
+                    "type": "number",
+                    "label": "A\/B Test Percentage",
+                    "description": "Percentage of users in test group",
+                    "default": 20,
+                    "min": 5,
+                    "max": 50,
+                    "depends_on": {
+                        "enable_ab_testing": true
+                    }
+                },
+                "exclude_out_of_stock": {
+                    "type": "boolean",
+                    "label": "Exclude Out of Stock",
+                    "description": "Don't recommend out of stock products",
+                    "default": true
+                },
+                "price_range_factor": {
+                    "type": "number",
+                    "label": "Price Range Factor",
+                    "description": "Recommend within X% of viewed product price",
+                    "default": 50,
+                    "min": 0,
+                    "max": 200
+                },
+                "boost_new_products": {
+                    "type": "boolean",
+                    "label": "Boost New Products",
+                    "description": "Give preference to newer products",
+                    "default": true
+                },
+                "new_product_days": {
+                    "type": "number",
+                    "label": "New Product Days",
+                    "description": "Products newer than X days are considered new",
+                    "default": 30,
+                    "min": 7,
+                    "max": 90,
+                    "depends_on": {
+                        "boost_new_products": true
+                    }
+                },
+                "enable_cross_selling": {
+                    "type": "boolean",
+                    "label": "Enable Cross-Selling",
+                    "description": "Recommend complementary products",
+                    "default": true
+                },
+                "enable_upselling": {
+                    "type": "boolean",
+                    "label": "Enable Up-Selling",
+                    "description": "Recommend higher-value alternatives",
+                    "default": true
+                },
+                "display_confidence": {
+                    "type": "boolean",
+                    "label": "Display Confidence Scores",
+                    "description": "Show recommendation confidence to users",
+                    "default": false
+                },
+                "cache_duration": {
+                    "type": "number",
+                    "label": "Cache Duration (minutes)",
+                    "description": "How long to cache recommendations",
+                    "default": 60,
+                    "min": 5,
+                    "max": 1440
+                },
+                "training_schedule": {
+                    "type": "select",
+                    "label": "Model Training Schedule",
+                    "default": "weekly",
+                    "options": {
+                        "daily": "Daily",
+                        "weekly": "Weekly",
+                        "biweekly": "Bi-weekly",
+                        "monthly": "Monthly",
+                        "manual": "Manual Only"
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "recommendation_performance",
+                "name": "Recommendation Performance",
+                "description": "Click-through and conversion rates",
+                "position": "dashboard",
+                "permissions": [
+                    "recommendations.view"
+                ]
+            },
+            {
+                "id": "popular_recommendations",
+                "name": "Popular Recommendations",
+                "description": "Most clicked recommendations",
+                "position": "dashboard",
+                "permissions": [
+                    "recommendations.view"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 2 * * *",
+                "handler": "trainRecommendationModel",
+                "description": "Train recommendation model daily"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "updateProductSimilarities",
+                "description": "Update product similarity scores hourly"
+            },
+            {
+                "schedule": "*\/30 * * * *",
+                "handler": "processBehaviorData",
+                "description": "Process user behavior data"
+            }
+        ],
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "Multiple recommendation algorithms",
+                "Real-time personalization",
+                "A\/B testing support",
+                "Cross-selling and upselling",
+                "Performance analytics",
+                "Machine learning integration"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "ai",
+        "tags": [
+            "ai"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "B",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

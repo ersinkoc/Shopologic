@@ -1,0 +1,145 @@
+{
+    "package_info": {
+        "name": "customer-lifetime-value-optimizer",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:00",
+        "package_size": 22870,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "customer-lifetime-value-optimizer",
+        "version": "1.0.0",
+        "description": "Advanced customer lifetime value prediction and optimization with behavioral segmentation, churn prevention, and personalized retention strategies",
+        "author": {
+            "name": "Shopologic"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\CustomerLifetimeValueOptimizer\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "CustomerLifetimeValueOptimizerPlugin",
+            "file": "CustomerLifetimeValueOptimizerPlugin.php"
+        },
+        "permissions": [
+            "hooks.customer.*",
+            "hooks.clv.*",
+            "api.access",
+            "dashboard.widget",
+            "cron.execute",
+            "clv.manage",
+            "customer.analytics"
+        ],
+        "hooks": {
+            "actions": [
+                "customer.clv_updated",
+                "customer.churn_risk_detected",
+                "customer.segment_changed",
+                "customer.retention_triggered",
+                "order.clv_impact_calculated"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/clv\/predictions",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/clv\/calculate",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/customers\/segments",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/churn\/predictions",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/retention\/campaigns",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "configurable": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "api_enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "widget_enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features": [
+                    "clv_prediction",
+                    "churn_prevention",
+                    "behavioral_segmentation",
+                    "retention_automation"
+                ],
+                "ml_models": [
+                    "rfm_analysis",
+                    "cohort_analysis",
+                    "predictive_clv",
+                    "churn_prediction"
+                ]
+            }
+        },
+        "scheduled_tasks": [
+            "0 2 * * * - calculate_clv_predictions",
+            "0 3 * * * - analyze_customer_segments",
+            "0 4 * * * - detect_churn_risks",
+            "0 6 * * * - execute_retention_campaigns"
+        ]
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "performance"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

@@ -1,6 +1,7 @@
 <?php
 
-namespace BlockchainSupplyChain\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\BlockchainSupplyChain\Services;
 
 interface BlockchainServiceInterface
 {

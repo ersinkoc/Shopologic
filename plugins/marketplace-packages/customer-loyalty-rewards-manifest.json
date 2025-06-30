@@ -1,0 +1,737 @@
+{
+    "package_info": {
+        "name": "customer-loyalty-rewards",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:00",
+        "package_size": 57742,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Customer Loyalty & Rewards System",
+        "version": "1.0.0",
+        "description": "Comprehensive loyalty and rewards program with points, tiers, referrals, gamification, personalized campaigns, and advanced analytics",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/customer-loyalty-rewards",
+        "keywords": [
+            "loyalty",
+            "rewards",
+            "points",
+            "tiers",
+            "referrals",
+            "gamification",
+            "customer-retention",
+            "engagement"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0",
+                "shopologic\/customers": "^1.0.0",
+                "shopologic\/notifications": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\CustomerLoyaltyRewards\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "CustomerLoyaltyRewardsPlugin",
+            "file": "src\/CustomerLoyaltyRewardsPlugin.php"
+        },
+        "provides": [
+            "LoyaltyManagerInterface",
+            "RewardsEngineInterface",
+            "TierManagerInterface",
+            "ReferralSystemInterface",
+            "GamificationEngineInterface"
+        ],
+        "permissions": [
+            "loyalty.view",
+            "loyalty.manage",
+            "rewards.configure",
+            "tiers.manage",
+            "referrals.manage",
+            "campaigns.manage",
+            "analytics.view",
+            "members.manage"
+        ],
+        "hooks": {
+            "actions": [
+                {
+                    "hook": "order.completed",
+                    "handler": "awardOrderPoints",
+                    "priority": 10
+                },
+                {
+                    "hook": "customer.registered",
+                    "handler": "handleNewMember",
+                    "priority": 5
+                },
+                {
+                    "hook": "product.reviewed",
+                    "handler": "awardReviewPoints",
+                    "priority": 10
+                },
+                {
+                    "hook": "referral.completed",
+                    "handler": "awardReferralBonus",
+                    "priority": 5
+                },
+                {
+                    "hook": "birthday.detected",
+                    "handler": "sendBirthdayRewards",
+                    "priority": 10
+                }
+            ],
+            "filters": [
+                {
+                    "hook": "checkout.discount",
+                    "handler": "applyLoyaltyDiscount",
+                    "priority": 15
+                },
+                {
+                    "hook": "product.price",
+                    "handler": "applyTierPricing",
+                    "priority": 20
+                },
+                {
+                    "hook": "shipping.cost",
+                    "handler": "applyTierShippingDiscount",
+                    "priority": 15
+                }
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/members",
+                    "handler": "MemberController@index",
+                    "auth": true,
+                    "permission": "loyalty.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/members\/{id}",
+                    "handler": "MemberController@show",
+                    "auth": true,
+                    "permission": "loyalty.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/points\/award",
+                    "handler": "PointsController@award",
+                    "auth": true,
+                    "permission": "loyalty.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/points\/redeem",
+                    "handler": "PointsController@redeem",
+                    "auth": true,
+                    "permission": "loyalty.manage"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/rewards",
+                    "handler": "RewardsController@index",
+                    "auth": true,
+                    "permission": "rewards.configure"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/rewards",
+                    "handler": "RewardsController@create",
+                    "auth": true,
+                    "permission": "rewards.configure"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/tiers",
+                    "handler": "TierController@index",
+                    "auth": true,
+                    "permission": "tiers.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/tiers",
+                    "handler": "TierController@create",
+                    "auth": true,
+                    "permission": "tiers.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/referrals",
+                    "handler": "ReferralController@create",
+                    "auth": true,
+                    "permission": "referrals.manage"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/campaigns",
+                    "handler": "CampaignController@index",
+                    "auth": true,
+                    "permission": "campaigns.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/campaigns",
+                    "handler": "CampaignController@create",
+                    "auth": true,
+                    "permission": "campaigns.manage"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/loyalty\/analytics",
+                    "handler": "AnalyticsController@dashboard",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/loyalty\/challenges\/complete",
+                    "handler": "ChallengeController@complete",
+                    "auth": true,
+                    "permission": "loyalty.manage"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "loyalty_members",
+                "loyalty_tiers",
+                "loyalty_points_transactions",
+                "loyalty_rewards",
+                "loyalty_reward_redemptions",
+                "loyalty_referrals",
+                "loyalty_campaigns",
+                "loyalty_challenges",
+                "loyalty_badges",
+                "loyalty_member_badges",
+                "loyalty_activities",
+                "loyalty_notifications",
+                "loyalty_settings"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/loyalty-dashboard.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js",
+                        "vue.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/member-portal.js",
+                    "position": "footer",
+                    "pages": [
+                        "frontend"
+                    ],
+                    "deps": [
+                        "vue.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/referral-widget.js",
+                    "position": "footer",
+                    "pages": [
+                        "frontend"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/gamification.js",
+                    "position": "footer",
+                    "pages": [
+                        "frontend"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/loyalty-dashboard.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/member-portal.css",
+                    "pages": [
+                        "frontend"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/rewards-widget.css",
+                    "pages": [
+                        "frontend"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "program_settings": {
+                    "type": "object",
+                    "label": "Program Settings",
+                    "properties": {
+                        "program_name": {
+                            "type": "string",
+                            "label": "Program Name",
+                            "default": "Loyalty Rewards"
+                        },
+                        "currency_name": {
+                            "type": "string",
+                            "label": "Points Currency Name",
+                            "default": "Points"
+                        },
+                        "auto_enroll": {
+                            "type": "boolean",
+                            "label": "Auto-enroll new customers",
+                            "default": true
+                        },
+                        "welcome_bonus": {
+                            "type": "number",
+                            "label": "Welcome Bonus Points",
+                            "default": 100,
+                            "min": 0,
+                            "max": 10000
+                        }
+                    }
+                },
+                "earning_rules": {
+                    "type": "object",
+                    "label": "Point Earning Rules",
+                    "properties": {
+                        "points_per_dollar": {
+                            "type": "number",
+                            "label": "Points per Dollar Spent",
+                            "default": 1,
+                            "min": 0.1,
+                            "max": 100,
+                            "step": 0.1
+                        },
+                        "review_points": {
+                            "type": "number",
+                            "label": "Points for Product Review",
+                            "default": 50,
+                            "min": 0,
+                            "max": 1000
+                        },
+                        "referral_points": {
+                            "type": "number",
+                            "label": "Points for Successful Referral",
+                            "default": 500,
+                            "min": 0,
+                            "max": 5000
+                        },
+                        "birthday_points": {
+                            "type": "number",
+                            "label": "Birthday Bonus Points",
+                            "default": 200,
+                            "min": 0,
+                            "max": 2000
+                        },
+                        "social_share_points": {
+                            "type": "number",
+                            "label": "Points for Social Media Share",
+                            "default": 25,
+                            "min": 0,
+                            "max": 500
+                        }
+                    }
+                },
+                "redemption_rules": {
+                    "type": "object",
+                    "label": "Redemption Rules",
+                    "properties": {
+                        "minimum_redemption": {
+                            "type": "number",
+                            "label": "Minimum Points for Redemption",
+                            "default": 100,
+                            "min": 1,
+                            "max": 10000
+                        },
+                        "points_value": {
+                            "type": "number",
+                            "label": "Point Value (in cents)",
+                            "default": 1,
+                            "min": 0.1,
+                            "max": 10,
+                            "step": 0.1
+                        },
+                        "max_redemption_per_order": {
+                            "type": "number",
+                            "label": "Max Redemption % per Order",
+                            "default": 50,
+                            "min": 1,
+                            "max": 100
+                        },
+                        "expiry_enabled": {
+                            "type": "boolean",
+                            "label": "Points Expire",
+                            "default": false
+                        },
+                        "expiry_months": {
+                            "type": "number",
+                            "label": "Points Expiry (months)",
+                            "default": 12,
+                            "min": 1,
+                            "max": 60,
+                            "depends_on": {
+                                "expiry_enabled": true
+                            }
+                        }
+                    }
+                },
+                "tier_system": {
+                    "type": "object",
+                    "label": "Tier System",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "label": "Enable Tier System",
+                            "default": true
+                        },
+                        "calculation_method": {
+                            "type": "select",
+                            "label": "Tier Calculation Method",
+                            "default": "annual_spending",
+                            "options": {
+                                "annual_spending": "Annual Spending",
+                                "total_spending": "Total Lifetime Spending",
+                                "points_earned": "Points Earned",
+                                "order_count": "Number of Orders"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "tier_benefits": {
+                            "type": "multiselect",
+                            "label": "Tier Benefits",
+                            "default": [
+                                "point_multiplier",
+                                "exclusive_rewards"
+                            ],
+                            "options": {
+                                "point_multiplier": "Point Multipliers",
+                                "exclusive_rewards": "Exclusive Rewards",
+                                "free_shipping": "Free Shipping",
+                                "early_access": "Early Access to Sales",
+                                "personal_shopper": "Personal Shopper",
+                                "priority_support": "Priority Support"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                },
+                "referral_system": {
+                    "type": "object",
+                    "label": "Referral System",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "label": "Enable Referral System",
+                            "default": true
+                        },
+                        "referrer_reward_type": {
+                            "type": "select",
+                            "label": "Referrer Reward Type",
+                            "default": "points",
+                            "options": {
+                                "points": "Points",
+                                "discount": "Discount Coupon",
+                                "cashback": "Cashback",
+                                "both": "Points + Discount"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "referee_reward_type": {
+                            "type": "select",
+                            "label": "Referee Reward Type",
+                            "default": "discount",
+                            "options": {
+                                "points": "Points",
+                                "discount": "Discount Coupon",
+                                "cashback": "Cashback",
+                                "both": "Points + Discount"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "sharing_channels": {
+                            "type": "multiselect",
+                            "label": "Sharing Channels",
+                            "default": [
+                                "email",
+                                "facebook",
+                                "twitter"
+                            ],
+                            "options": {
+                                "email": "Email",
+                                "facebook": "Facebook",
+                                "twitter": "Twitter",
+                                "whatsapp": "WhatsApp",
+                                "linkedin": "LinkedIn",
+                                "copy_link": "Copy Link"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                },
+                "gamification": {
+                    "type": "object",
+                    "label": "Gamification Features",
+                    "properties": {
+                        "badges_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Badges",
+                            "default": true
+                        },
+                        "challenges_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Challenges",
+                            "default": true
+                        },
+                        "leaderboard_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Leaderboard",
+                            "default": false
+                        },
+                        "achievements_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Achievements",
+                            "default": true
+                        },
+                        "progress_tracking": {
+                            "type": "boolean",
+                            "label": "Show Progress Tracking",
+                            "default": true
+                        }
+                    }
+                },
+                "communication": {
+                    "type": "object",
+                    "label": "Communication Settings",
+                    "properties": {
+                        "welcome_email": {
+                            "type": "boolean",
+                            "label": "Send Welcome Email",
+                            "default": true
+                        },
+                        "points_earned_notification": {
+                            "type": "boolean",
+                            "label": "Points Earned Notifications",
+                            "default": true
+                        },
+                        "tier_upgrade_notification": {
+                            "type": "boolean",
+                            "label": "Tier Upgrade Notifications",
+                            "default": true
+                        },
+                        "reward_availability_notification": {
+                            "type": "boolean",
+                            "label": "New Reward Notifications",
+                            "default": true
+                        },
+                        "expiry_reminder": {
+                            "type": "boolean",
+                            "label": "Points Expiry Reminders",
+                            "default": true
+                        },
+                        "birthday_greetings": {
+                            "type": "boolean",
+                            "label": "Birthday Greetings",
+                            "default": true
+                        }
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "loyalty_overview",
+                "name": "Loyalty Program Overview",
+                "description": "Key metrics and member statistics",
+                "position": "dashboard",
+                "permissions": [
+                    "loyalty.view"
+                ]
+            },
+            {
+                "id": "recent_activities",
+                "name": "Recent Loyalty Activities",
+                "description": "Latest points transactions and redemptions",
+                "position": "dashboard",
+                "permissions": [
+                    "loyalty.view"
+                ]
+            },
+            {
+                "id": "top_members",
+                "name": "Top Loyalty Members",
+                "description": "Most active and valuable members",
+                "position": "sidebar",
+                "permissions": [
+                    "loyalty.view"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 2 * * *",
+                "handler": "processPointsExpiry",
+                "description": "Process expired points and send notifications"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "updateMemberTiers",
+                "description": "Update member tiers based on activity"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "processChallengeProgress",
+                "description": "Update challenge progress and awards"
+            },
+            {
+                "schedule": "0 9 * * *",
+                "handler": "sendBirthdayRewards",
+                "description": "Send birthday rewards to members"
+            },
+            {
+                "schedule": "*\/30 * * * *",
+                "handler": "processRewardAvailability",
+                "description": "Check and notify about available rewards"
+            }
+        ],
+        "menu_items": [
+            {
+                "title": "Loyalty Program",
+                "capability": "loyalty.view",
+                "icon": "dashicons-heart",
+                "position": 26,
+                "submenu": [
+                    {
+                        "title": "Dashboard",
+                        "page": "loyalty-dashboard",
+                        "capability": "loyalty.view"
+                    },
+                    {
+                        "title": "Members",
+                        "page": "loyalty-members",
+                        "capability": "members.manage"
+                    },
+                    {
+                        "title": "Rewards",
+                        "page": "loyalty-rewards",
+                        "capability": "rewards.configure"
+                    },
+                    {
+                        "title": "Tiers",
+                        "page": "loyalty-tiers",
+                        "capability": "tiers.manage"
+                    },
+                    {
+                        "title": "Campaigns",
+                        "page": "loyalty-campaigns",
+                        "capability": "campaigns.manage"
+                    },
+                    {
+                        "title": "Referrals",
+                        "page": "loyalty-referrals",
+                        "capability": "referrals.manage"
+                    },
+                    {
+                        "title": "Analytics",
+                        "page": "loyalty-analytics",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Settings",
+                        "page": "loyalty-settings",
+                        "capability": "loyalty.manage"
+                    }
+                ]
+            }
+        ],
+        "frontend_pages": [
+            {
+                "slug": "loyalty",
+                "title": "My Rewards",
+                "template": "member-portal",
+                "auth_required": true
+            },
+            {
+                "slug": "referrals",
+                "title": "Refer Friends",
+                "template": "referral-center",
+                "auth_required": true
+            }
+        ],
+        "changelog": {
+            "1.0.0": [
+                "Initial release with comprehensive loyalty system",
+                "Points earning and redemption system",
+                "Multi-tier membership program",
+                "Referral system with social sharing",
+                "Gamification features (badges, challenges, achievements)",
+                "Personalized campaigns and promotions",
+                "Advanced analytics and reporting",
+                "Member portal and dashboard",
+                "Integration with order and customer systems",
+                "Automated notifications and communications",
+                "ROI tracking and optimization tools"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "analytics"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "D",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

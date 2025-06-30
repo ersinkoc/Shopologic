@@ -1,0 +1,590 @@
+{
+    "package_info": {
+        "name": "ai-content-generator",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:30:57",
+        "package_size": 25819,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "ai-content-generator",
+        "version": "1.0.0",
+        "description": "Advanced AI-powered content generation with GPT-4, Claude, and custom models. Generate product descriptions, blog posts, marketing copy, SEO content, translations, and more with fine-tuning capabilities",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/ai-content-generator",
+        "keywords": [
+            "ai",
+            "content",
+            "generator",
+            "gpt",
+            "claude",
+            "writing",
+            "seo",
+            "marketing"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/api": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\AiContentGenerator\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "AiContentGeneratorPlugin",
+            "file": "src\/AiContentGeneratorPlugin.php"
+        },
+        "provides": [
+            "ContentGeneratorInterface",
+            "AIModelInterface",
+            "PromptEngineInterface"
+        ],
+        "permissions": [
+            "ai_content.access",
+            "ai_content.generate",
+            "ai_content.manage_templates",
+            "ai_content.manage_models",
+            "ai_content.view_history",
+            "ai_content.bulk_generate",
+            "ai_content.fine_tune",
+            "ai_content.api_access"
+        ],
+        "hooks": {
+            "actions": [
+                "content.generated",
+                "content.approved",
+                "content.rejected",
+                "model.trained",
+                "template.created",
+                "generation.started",
+                "generation.completed"
+            ],
+            "filters": [
+                "ai.prompt",
+                "ai.response",
+                "content.quality",
+                "content.seo_score",
+                "generation.parameters"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/generate",
+                    "handler": "Controllers\\GeneratorController@generate",
+                    "auth": true,
+                    "permission": "ai_content.generate"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/generate-batch",
+                    "handler": "Controllers\\GeneratorController@generateBatch",
+                    "auth": true,
+                    "permission": "ai_content.bulk_generate"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/ai-content\/templates",
+                    "handler": "Controllers\\TemplateController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/templates",
+                    "handler": "Controllers\\TemplateController@create",
+                    "auth": true,
+                    "permission": "ai_content.manage_templates"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/ai-content\/history",
+                    "handler": "Controllers\\HistoryController@index",
+                    "auth": true,
+                    "permission": "ai_content.view_history"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/improve",
+                    "handler": "Controllers\\ImprovementController@improve",
+                    "auth": true,
+                    "permission": "ai_content.generate"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/translate",
+                    "handler": "Controllers\\TranslationController@translate",
+                    "auth": true,
+                    "permission": "ai_content.generate"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/seo-optimize",
+                    "handler": "Controllers\\SEOController@optimize",
+                    "auth": true,
+                    "permission": "ai_content.generate"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/ai-content\/models",
+                    "handler": "Controllers\\ModelController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/models\/{id}\/fine-tune",
+                    "handler": "Controllers\\ModelController@fineTune",
+                    "auth": true,
+                    "permission": "ai_content.fine_tune"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/ai-content\/analyze",
+                    "handler": "Controllers\\AnalysisController@analyze",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/ai-content\/suggestions",
+                    "handler": "Controllers\\SuggestionController@getSuggestions",
+                    "auth": true
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "ai_content_generations",
+                "ai_content_templates",
+                "ai_content_prompts",
+                "ai_content_history",
+                "ai_content_models",
+                "ai_content_fine_tuning",
+                "ai_content_analytics",
+                "ai_content_feedback",
+                "ai_content_cache",
+                "ai_content_usage"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/content-generator.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "jquery",
+                        "wp-api"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/template-builder.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/ai-editor.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin",
+                        "editor"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/ai-generator.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/ai-suggestions.css",
+                    "pages": [
+                        "admin",
+                        "editor"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "default_model": {
+                    "type": "select",
+                    "label": "Default AI Model",
+                    "default": "gpt-4",
+                    "options": {
+                        "gpt-4": "GPT-4",
+                        "gpt-3.5-turbo": "GPT-3.5 Turbo",
+                        "claude-3-opus": "Claude 3 Opus",
+                        "claude-3-sonnet": "Claude 3 Sonnet",
+                        "custom": "Custom Model"
+                    }
+                },
+                "api_keys": {
+                    "type": "object",
+                    "label": "API Keys",
+                    "encrypted": true,
+                    "properties": {
+                        "openai": {
+                            "type": "string",
+                            "label": "OpenAI API Key"
+                        },
+                        "anthropic": {
+                            "type": "string",
+                            "label": "Anthropic API Key"
+                        },
+                        "custom": {
+                            "type": "string",
+                            "label": "Custom Model API Key"
+                        }
+                    }
+                },
+                "generation_settings": {
+                    "type": "object",
+                    "label": "Generation Settings",
+                    "properties": {
+                        "temperature": {
+                            "type": "number",
+                            "label": "Temperature",
+                            "default": 0.7,
+                            "min": 0,
+                            "max": 2,
+                            "step": 0.1
+                        },
+                        "max_tokens": {
+                            "type": "number",
+                            "label": "Max Tokens",
+                            "default": 2000,
+                            "min": 100,
+                            "max": 8000
+                        },
+                        "top_p": {
+                            "type": "number",
+                            "label": "Top P",
+                            "default": 1,
+                            "min": 0,
+                            "max": 1,
+                            "step": 0.1
+                        },
+                        "frequency_penalty": {
+                            "type": "number",
+                            "label": "Frequency Penalty",
+                            "default": 0,
+                            "min": -2,
+                            "max": 2,
+                            "step": 0.1
+                        }
+                    }
+                },
+                "content_types": {
+                    "type": "multiselect",
+                    "label": "Enabled Content Types",
+                    "default": [
+                        "product_description",
+                        "blog_post",
+                        "marketing_copy",
+                        "email",
+                        "social_media"
+                    ],
+                    "options": {
+                        "product_description": "Product Descriptions",
+                        "blog_post": "Blog Posts",
+                        "marketing_copy": "Marketing Copy",
+                        "email": "Email Content",
+                        "social_media": "Social Media Posts",
+                        "landing_page": "Landing Pages",
+                        "ad_copy": "Ad Copy",
+                        "press_release": "Press Releases",
+                        "faq": "FAQs",
+                        "testimonial": "Testimonials",
+                        "case_study": "Case Studies",
+                        "white_paper": "White Papers"
+                    }
+                },
+                "languages": {
+                    "type": "multiselect",
+                    "label": "Supported Languages",
+                    "default": [
+                        "en",
+                        "es",
+                        "fr",
+                        "de"
+                    ],
+                    "options": {
+                        "en": "English",
+                        "es": "Spanish",
+                        "fr": "French",
+                        "de": "German",
+                        "it": "Italian",
+                        "pt": "Portuguese",
+                        "nl": "Dutch",
+                        "ru": "Russian",
+                        "zh": "Chinese",
+                        "ja": "Japanese",
+                        "ko": "Korean",
+                        "ar": "Arabic"
+                    }
+                },
+                "enable_auto_seo": {
+                    "type": "boolean",
+                    "label": "Enable Auto SEO Optimization",
+                    "default": true,
+                    "description": "Automatically optimize content for SEO"
+                },
+                "seo_settings": {
+                    "type": "object",
+                    "label": "SEO Settings",
+                    "depends_on": {
+                        "enable_auto_seo": true
+                    },
+                    "properties": {
+                        "keyword_density": {
+                            "type": "number",
+                            "label": "Target Keyword Density (%)",
+                            "default": 2,
+                            "min": 0.5,
+                            "max": 5
+                        },
+                        "min_word_count": {
+                            "type": "number",
+                            "label": "Minimum Word Count",
+                            "default": 300,
+                            "min": 100,
+                            "max": 5000
+                        },
+                        "readability_score": {
+                            "type": "number",
+                            "label": "Target Readability Score",
+                            "default": 60,
+                            "min": 30,
+                            "max": 90
+                        }
+                    }
+                },
+                "enable_plagiarism_check": {
+                    "type": "boolean",
+                    "label": "Enable Plagiarism Check",
+                    "default": true
+                },
+                "enable_fact_checking": {
+                    "type": "boolean",
+                    "label": "Enable Fact Checking",
+                    "default": false,
+                    "description": "Verify facts in generated content"
+                },
+                "tone_options": {
+                    "type": "multiselect",
+                    "label": "Available Tones",
+                    "default": [
+                        "professional",
+                        "friendly",
+                        "casual"
+                    ],
+                    "options": {
+                        "professional": "Professional",
+                        "friendly": "Friendly",
+                        "casual": "Casual",
+                        "formal": "Formal",
+                        "humorous": "Humorous",
+                        "inspirational": "Inspirational",
+                        "educational": "Educational",
+                        "persuasive": "Persuasive"
+                    }
+                },
+                "enable_brand_voice": {
+                    "type": "boolean",
+                    "label": "Enable Brand Voice Training",
+                    "default": true,
+                    "description": "Train AI on your brand's unique voice"
+                },
+                "cache_duration": {
+                    "type": "number",
+                    "label": "Cache Duration (hours)",
+                    "default": 24,
+                    "min": 0,
+                    "max": 168
+                },
+                "rate_limits": {
+                    "type": "object",
+                    "label": "Rate Limits",
+                    "properties": {
+                        "requests_per_minute": {
+                            "type": "number",
+                            "default": 10,
+                            "min": 1,
+                            "max": 100
+                        },
+                        "requests_per_day": {
+                            "type": "number",
+                            "default": 1000,
+                            "min": 10,
+                            "max": 10000
+                        }
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "ai_content_stats",
+                "name": "AI Content Statistics",
+                "description": "Content generation metrics",
+                "position": "dashboard",
+                "permissions": [
+                    "ai_content.access"
+                ]
+            },
+            {
+                "id": "recent_generations",
+                "name": "Recent Generations",
+                "description": "Recently generated content",
+                "position": "dashboard",
+                "permissions": [
+                    "ai_content.view_history"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 * * * *",
+                "handler": "updateModelCapabilities",
+                "description": "Update AI model capabilities"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "cleanupCache",
+                "description": "Clean up old cached content"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "processFineTuning",
+                "description": "Process fine-tuning jobs"
+            },
+            {
+                "schedule": "0 4 * * *",
+                "handler": "generateAnalytics",
+                "description": "Generate content analytics"
+            }
+        ],
+        "templates": {
+            "product_description": {
+                "name": "Product Description",
+                "prompt": "Write a compelling product description for {{product_name}}. Features: {{features}}. Target audience: {{audience}}. Tone: {{tone}}.",
+                "variables": [
+                    "product_name",
+                    "features",
+                    "audience",
+                    "tone"
+                ],
+                "settings": {
+                    "max_length": 300,
+                    "include_benefits": true,
+                    "include_specifications": true
+                }
+            },
+            "blog_post": {
+                "name": "Blog Post",
+                "prompt": "Write a {{word_count}}-word blog post about {{topic}}. Keywords: {{keywords}}. Tone: {{tone}}. Include: {{sections}}.",
+                "variables": [
+                    "topic",
+                    "keywords",
+                    "tone",
+                    "word_count",
+                    "sections"
+                ],
+                "settings": {
+                    "include_meta": true,
+                    "include_outline": true,
+                    "optimize_seo": true
+                }
+            },
+            "email_campaign": {
+                "name": "Email Campaign",
+                "prompt": "Create an email for {{campaign_type}} targeting {{audience}}. Product\/Service: {{product}}. Call to action: {{cta}}.",
+                "variables": [
+                    "campaign_type",
+                    "audience",
+                    "product",
+                    "cta"
+                ],
+                "settings": {
+                    "include_subject": true,
+                    "include_preview": true,
+                    "personalization": true
+                }
+            }
+        },
+        "quality_checks": [
+            "grammar",
+            "spelling",
+            "readability",
+            "seo_optimization",
+            "keyword_density",
+            "sentiment_analysis",
+            "fact_verification",
+            "plagiarism",
+            "brand_consistency"
+        ],
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "GPT-4 and Claude 3 integration",
+                "Multiple content type support",
+                "Template system",
+                "Batch generation",
+                "SEO optimization",
+                "Multi-language support",
+                "Brand voice training",
+                "Content quality checks",
+                "Fine-tuning capabilities",
+                "History and analytics",
+                "API access"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "ai",
+        "tags": [
+            "ai"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

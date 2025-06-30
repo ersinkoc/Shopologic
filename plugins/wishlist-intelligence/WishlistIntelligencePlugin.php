@@ -1,5 +1,7 @@
 <?php
-namespace WishlistIntelligence;
+
+declare(strict_types=1);
+namespace Shopologic\Plugins\WishlistIntelligence;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\Hook;
@@ -380,5 +382,53 @@ class WishlistIntelligencePlugin extends AbstractPlugin
         foreach ($templates as $template) {
             $this->api->database()->table('notification_templates')->insert($template);
         }
+    }
+
+    /**
+     * Register Services
+     */
+    protected function registerServices(): void
+    {
+        // TODO: Implement registerServices
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Hooks
+     */
+    protected function registerHooks(): void
+    {
+        // TODO: Implement registerHooks
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

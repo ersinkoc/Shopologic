@@ -6,10 +6,16 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "GiftCardPlus\\GiftCardPlusPlugin",
-    "file": "GiftCardPlusPlugin.php",
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "GiftCardPlusPlugin",
+        "file": "GiftCardPlusPlugin.php"
     },
     "permissions": [
         "orders.read",
@@ -18,58 +24,99 @@
         "email.send",
         "hooks.*"
     ],
-    "hooks": [
-        "checkout.payment_methods",
-        "order.completed",
-        "gift_card.redeemed",
-        "frontend.gift_card_form"
-    ],
-    "api_endpoints": [
-        "POST /api/v1/gift-cards/purchase",
-        "GET /api/v1/gift-cards/balance/{code}",
-        "POST /api/v1/gift-cards/redeem",
-        "POST /api/v1/gift-cards/schedule",
-        "GET /api/v1/gift-cards/templates"
-    ],
-    "database_tables": [
-        "gift_cards",
-        "gift_card_transactions",
-        "gift_card_templates",
-        "scheduled_deliveries"
-    ],
-    "config_schema": {
-        "enable_scheduled_delivery": {
-            "type": "boolean",
-            "default": true,
-            "description": "Allow scheduling gift card delivery"
-        },
-        "enable_custom_designs": {
-            "type": "boolean",
-            "default": true,
-            "description": "Allow custom gift card designs"
-        },
-        "max_gift_card_amount": {
-            "type": "number",
-            "default": 500,
-            "min": 10,
-            "max": 5000,
-            "description": "Maximum gift card amount"
-        },
-        "expiry_days": {
-            "type": "number",
-            "default": 365,
-            "min": 30,
-            "max": 1825,
-            "description": "Gift card expiry in days"
-        },
-        "enable_social_sharing": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable social media sharing"
-        }
+    "hooks": {
+        "actions": [
+            "checkout.payment_methods",
+            "order.completed",
+            "gift_card.redeemed",
+            "frontend.gift_card_form"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/api/v1/gift-cards/purchase",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/gift-cards/balance/{code}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/gift-cards/redeem",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/gift-cards/schedule",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/gift-cards/templates",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "gift_cards",
+            "gift_card_transactions",
+            "gift_card_templates",
+            "scheduled_deliveries"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/gift-card-designer.js", "assets/scheduler.js"],
-        "css": ["assets/gift-cards.css"]
-    }
+        "js": [
+            "assets/gift-card-designer.js",
+            "assets/scheduler.js"
+        ],
+        "css": [
+            "assets/gift-cards.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "enable_scheduled_delivery": {
+                "type": "boolean",
+                "default": true,
+                "description": "Allow scheduling gift card delivery"
+            },
+            "enable_custom_designs": {
+                "type": "boolean",
+                "default": true,
+                "description": "Allow custom gift card designs"
+            },
+            "max_gift_card_amount": {
+                "type": "number",
+                "default": 500,
+                "min": 10,
+                "max": 5000,
+                "description": "Maximum gift card amount"
+            },
+            "expiry_days": {
+                "type": "number",
+                "default": 365,
+                "min": 30,
+                "max": 1825,
+                "description": "Gift card expiry in days"
+            },
+            "enable_social_sharing": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable social media sharing"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\GiftCardPlus\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/gift-card-plus"
 }

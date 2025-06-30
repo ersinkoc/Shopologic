@@ -1,6 +1,7 @@
 <?php
 
-namespace AdvancedPersonalizationEngine\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\AdvancedPersonalizationEngine\Services;
 
 interface PersonalizationServiceInterface
 {

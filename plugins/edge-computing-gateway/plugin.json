@@ -1,0 +1,557 @@
+{
+    "name": "edge-computing-gateway",
+    "version": "1.0.0",
+    "description": "Distributed edge computing platform with CDN integration, edge functions, request routing, caching strategies, geolocation-based processing, and edge analytics",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/edge-computing-gateway",
+    "keywords": [
+        "edge-computing",
+        "cdn",
+        "edge-functions",
+        "distributed",
+        "caching",
+        "geolocation",
+        "performance",
+        "gateway"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/networking": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\EdgeComputingGateway\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "EdgeComputingGatewayPlugin",
+        "file": "src\/EdgeComputingGatewayPlugin.php"
+    },
+    "provides": [
+        "EdgeGatewayInterface",
+        "EdgeFunctionInterface",
+        "EdgeCacheInterface",
+        "EdgeRouterInterface"
+    ],
+    "permissions": [
+        "edge.access",
+        "edge.deploy_functions",
+        "edge.manage_nodes",
+        "edge.view_analytics",
+        "edge.configure_routing",
+        "edge.manage_cache"
+    ],
+    "hooks": {
+        "actions": [
+            "edge.function_deployed",
+            "edge.node_connected",
+            "edge.cache_invalidated",
+            "edge.request_routed",
+            "edge.function_executed",
+            "edge.node_health_changed"
+        ],
+        "filters": [
+            "edge.route_request",
+            "edge.function_code",
+            "edge.cache_strategy",
+            "edge.node_selection",
+            "edge.response_transform"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/edge\/nodes",
+                "handler": "Controllers\\NodeController@index",
+                "auth": true,
+                "permission": "edge.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/edge\/nodes",
+                "handler": "Controllers\\NodeController@register",
+                "auth": true,
+                "permission": "edge.manage_nodes"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/edge\/nodes\/{id}\/health",
+                "handler": "Controllers\\NodeController@health",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/edge\/functions",
+                "handler": "Controllers\\FunctionController@deploy",
+                "auth": true,
+                "permission": "edge.deploy_functions"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/edge\/functions",
+                "handler": "Controllers\\FunctionController@index",
+                "auth": true,
+                "permission": "edge.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/edge\/functions\/{id}\/execute",
+                "handler": "Controllers\\FunctionController@execute",
+                "auth": false
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/edge\/analytics",
+                "handler": "Controllers\\AnalyticsController@dashboard",
+                "auth": true,
+                "permission": "edge.view_analytics"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/edge\/cache\/invalidate",
+                "handler": "Controllers\\CacheController@invalidate",
+                "auth": true,
+                "permission": "edge.manage_cache"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/edge\/cache\/stats",
+                "handler": "Controllers\\CacheController@stats",
+                "auth": true,
+                "permission": "edge.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/edge\/routing\/rules",
+                "handler": "Controllers\\RoutingController@createRule",
+                "auth": true,
+                "permission": "edge.configure_routing"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/edge\/locations",
+                "handler": "Controllers\\LocationController@index",
+                "auth": true
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "edge_nodes",
+            "edge_functions",
+            "edge_deployments",
+            "edge_routing_rules",
+            "edge_cache_entries",
+            "edge_execution_logs",
+            "edge_analytics",
+            "edge_node_metrics",
+            "edge_function_versions",
+            "edge_geolocation_data"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/edge-dashboard.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "jquery",
+                    "mapbox",
+                    "chart.js"
+                ]
+            },
+            {
+                "src": "assets\/js\/function-editor.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "monaco-editor"
+                ]
+            },
+            {
+                "src": "assets\/js\/node-monitor.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "d3"
+                ]
+            },
+            {
+                "src": "assets\/js\/edge-analytics.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/edge-dashboard.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/function-editor.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/node-map.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "edge_network": {
+                "type": "object",
+                "label": "Edge Network Configuration",
+                "properties": {
+                    "provider": {
+                        "type": "select",
+                        "label": "Edge Provider",
+                        "default": "cloudflare",
+                        "options": {
+                            "cloudflare": "Cloudflare Workers",
+                            "fastly": "Fastly Compute@Edge",
+                            "aws": "AWS CloudFront Functions",
+                            "akamai": "Akamai EdgeWorkers",
+                            "custom": "Custom Edge Network"
+                        }
+                    },
+                    "regions": {
+                        "type": "multiselect",
+                        "label": "Active Regions",
+                        "default": [
+                            "us-east",
+                            "us-west",
+                            "eu-west",
+                            "asia-pacific"
+                        ],
+                        "options": {
+                            "us-east": "US East",
+                            "us-west": "US West",
+                            "us-central": "US Central",
+                            "eu-west": "Europe West",
+                            "eu-central": "Europe Central",
+                            "asia-pacific": "Asia Pacific",
+                            "asia-south": "Asia South",
+                            "oceania": "Oceania",
+                            "south-america": "South America",
+                            "africa": "Africa"
+                        }
+                    }
+                }
+            },
+            "edge_functions": {
+                "type": "object",
+                "label": "Edge Functions Settings",
+                "properties": {
+                    "runtime": {
+                        "type": "select",
+                        "label": "Runtime Environment",
+                        "default": "javascript",
+                        "options": {
+                            "javascript": "JavaScript (V8)",
+                            "webassembly": "WebAssembly",
+                            "rust": "Rust",
+                            "go": "Go"
+                        }
+                    },
+                    "memory_limit": {
+                        "type": "number",
+                        "label": "Memory Limit (MB)",
+                        "default": 128,
+                        "min": 64,
+                        "max": 512
+                    },
+                    "cpu_limit": {
+                        "type": "number",
+                        "label": "CPU Time Limit (ms)",
+                        "default": 50,
+                        "min": 10,
+                        "max": 500
+                    },
+                    "max_execution_time": {
+                        "type": "number",
+                        "label": "Max Execution Time (seconds)",
+                        "default": 30,
+                        "min": 1,
+                        "max": 300
+                    }
+                }
+            },
+            "caching_strategy": {
+                "type": "object",
+                "label": "Caching Configuration",
+                "properties": {
+                    "default_ttl": {
+                        "type": "number",
+                        "label": "Default TTL (seconds)",
+                        "default": 3600,
+                        "min": 60,
+                        "max": 86400
+                    },
+                    "cache_levels": {
+                        "type": "multiselect",
+                        "label": "Cache Levels",
+                        "default": [
+                            "edge",
+                            "regional",
+                            "origin"
+                        ],
+                        "options": {
+                            "edge": "Edge Nodes",
+                            "regional": "Regional POPs",
+                            "origin": "Origin Shield",
+                            "browser": "Browser Cache"
+                        }
+                    },
+                    "cache_key_rules": {
+                        "type": "select",
+                        "label": "Cache Key Strategy",
+                        "default": "url_query",
+                        "options": {
+                            "url_only": "URL Only",
+                            "url_query": "URL + Query String",
+                            "custom_headers": "Custom Headers",
+                            "geo_based": "Geography-based"
+                        }
+                    }
+                }
+            },
+            "routing_config": {
+                "type": "object",
+                "label": "Request Routing",
+                "properties": {
+                    "routing_method": {
+                        "type": "select",
+                        "label": "Routing Method",
+                        "default": "geo_proximity",
+                        "options": {
+                            "geo_proximity": "Geographic Proximity",
+                            "latency_based": "Latency-based",
+                            "weighted": "Weighted Distribution",
+                            "failover": "Failover",
+                            "custom_rules": "Custom Rules"
+                        }
+                    },
+                    "sticky_sessions": {
+                        "type": "boolean",
+                        "label": "Enable Sticky Sessions",
+                        "default": false
+                    },
+                    "health_check_interval": {
+                        "type": "number",
+                        "label": "Health Check Interval (seconds)",
+                        "default": 30,
+                        "min": 10,
+                        "max": 300
+                    }
+                }
+            },
+            "security_settings": {
+                "type": "object",
+                "label": "Security Settings",
+                "properties": {
+                    "ddos_protection": {
+                        "type": "boolean",
+                        "label": "DDoS Protection",
+                        "default": true
+                    },
+                    "waf_enabled": {
+                        "type": "boolean",
+                        "label": "Web Application Firewall",
+                        "default": true
+                    },
+                    "bot_protection": {
+                        "type": "select",
+                        "label": "Bot Protection Level",
+                        "default": "moderate",
+                        "options": {
+                            "off": "Disabled",
+                            "light": "Light",
+                            "moderate": "Moderate",
+                            "aggressive": "Aggressive"
+                        }
+                    },
+                    "ssl_mode": {
+                        "type": "select",
+                        "label": "SSL\/TLS Mode",
+                        "default": "full",
+                        "options": {
+                            "off": "Off",
+                            "flexible": "Flexible",
+                            "full": "Full",
+                            "full_strict": "Full (Strict)"
+                        }
+                    }
+                }
+            },
+            "analytics_config": {
+                "type": "object",
+                "label": "Analytics Configuration",
+                "properties": {
+                    "enable_real_time": {
+                        "type": "boolean",
+                        "label": "Real-time Analytics",
+                        "default": true
+                    },
+                    "data_retention": {
+                        "type": "number",
+                        "label": "Data Retention (days)",
+                        "default": 30,
+                        "min": 7,
+                        "max": 365
+                    },
+                    "metrics_granularity": {
+                        "type": "select",
+                        "label": "Metrics Granularity",
+                        "default": "1min",
+                        "options": {
+                            "1min": "1 Minute",
+                            "5min": "5 Minutes",
+                            "15min": "15 Minutes",
+                            "1hour": "1 Hour"
+                        }
+                    }
+                }
+            },
+            "optimization_features": {
+                "type": "multiselect",
+                "label": "Optimization Features",
+                "default": [
+                    "minification",
+                    "compression",
+                    "image_optimization"
+                ],
+                "options": {
+                    "minification": "HTML\/CSS\/JS Minification",
+                    "compression": "Brotli\/Gzip Compression",
+                    "image_optimization": "Image Optimization",
+                    "lazy_loading": "Lazy Loading",
+                    "prefetching": "Resource Prefetching",
+                    "http2_push": "HTTP\/2 Server Push",
+                    "early_hints": "103 Early Hints"
+                }
+            },
+            "development_mode": {
+                "type": "boolean",
+                "label": "Development Mode",
+                "default": false,
+                "description": "Bypass cache for testing"
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "edge_network_map",
+            "name": "Edge Network Map",
+            "description": "Global edge node distribution",
+            "position": "dashboard",
+            "permissions": [
+                "edge.access"
+            ]
+        },
+        {
+            "id": "edge_performance",
+            "name": "Edge Performance",
+            "description": "Request latency and throughput",
+            "position": "dashboard",
+            "permissions": [
+                "edge.access"
+            ]
+        },
+        {
+            "id": "cache_hit_rate",
+            "name": "Cache Hit Rate",
+            "description": "Cache performance metrics",
+            "position": "dashboard",
+            "permissions": [
+                "edge.access"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "checkNodeHealth",
+            "description": "Check edge node health"
+        },
+        {
+            "schedule": "*\/15 * * * *",
+            "handler": "syncFunctions",
+            "description": "Sync functions across nodes"
+        },
+        {
+            "schedule": "0 * * * *",
+            "handler": "collectAnalytics",
+            "description": "Collect edge analytics"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "optimizeCache",
+            "description": "Optimize cache distribution"
+        }
+    ],
+    "edge_function_templates": {
+        "auth_middleware": {
+            "name": "Authentication Middleware",
+            "description": "JWT token validation at edge"
+        },
+        "geo_redirect": {
+            "name": "Geographic Redirect",
+            "description": "Redirect based on user location"
+        },
+        "ab_testing": {
+            "name": "A\/B Testing",
+            "description": "Route traffic for experiments"
+        },
+        "image_resize": {
+            "name": "Dynamic Image Resize",
+            "description": "Resize images on the fly"
+        },
+        "api_gateway": {
+            "name": "API Gateway",
+            "description": "Rate limiting and routing"
+        }
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Edge function deployment and execution",
+            "Multi-region edge network support",
+            "Advanced caching strategies",
+            "Geographic-based request routing",
+            "Real-time edge analytics",
+            "DDoS and bot protection",
+            "WebAssembly support",
+            "CDN integration",
+            "Development mode",
+            "Function versioning",
+            "Edge KV storage"
+        ]
+    }
+}

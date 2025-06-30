@@ -1,6 +1,7 @@
 <?php
 
-namespace OmnichannelIntegrationHub\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\OmnichannelIntegrationHub\Services;
 
 interface ChannelServiceInterface
 {

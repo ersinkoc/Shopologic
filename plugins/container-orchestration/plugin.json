@@ -1,0 +1,653 @@
+{
+    "name": "container-orchestration",
+    "version": "1.0.0",
+    "description": "Complete container orchestration platform with Docker\/Kubernetes support, service mesh, auto-scaling, load balancing, health monitoring, and CI\/CD integration",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/container-orchestration",
+    "keywords": [
+        "container",
+        "orchestration",
+        "docker",
+        "kubernetes",
+        "k8s",
+        "service-mesh",
+        "microservices",
+        "devops"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/infrastructure": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\ContainerOrchestration\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "ContainerOrchestrationPlugin",
+        "file": "src\/ContainerOrchestrationPlugin.php"
+    },
+    "provides": [
+        "ContainerOrchestratorInterface",
+        "ServiceMeshInterface",
+        "ClusterManagerInterface",
+        "DeploymentManagerInterface"
+    ],
+    "permissions": [
+        "containers.access",
+        "containers.deploy",
+        "containers.manage_clusters",
+        "containers.view_logs",
+        "containers.configure_networking",
+        "containers.manage_secrets"
+    ],
+    "hooks": {
+        "actions": [
+            "container.deployed",
+            "container.scaled",
+            "pod.created",
+            "service.updated",
+            "cluster.health_changed",
+            "deployment.rolled_out"
+        ],
+        "filters": [
+            "container.config",
+            "deployment.strategy",
+            "service.mesh_policy",
+            "scaling.rules",
+            "health.checks"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/containers\/clusters",
+                "handler": "Controllers\\ClusterController@index",
+                "auth": true,
+                "permission": "containers.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/containers\/clusters",
+                "handler": "Controllers\\ClusterController@create",
+                "auth": true,
+                "permission": "containers.manage_clusters"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/containers\/deployments",
+                "handler": "Controllers\\DeploymentController@index",
+                "auth": true,
+                "permission": "containers.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/containers\/deployments",
+                "handler": "Controllers\\DeploymentController@deploy",
+                "auth": true,
+                "permission": "containers.deploy"
+            },
+            {
+                "method": "PUT",
+                "path": "\/api\/v1\/containers\/deployments\/{id}\/scale",
+                "handler": "Controllers\\ScalingController@scale",
+                "auth": true,
+                "permission": "containers.deploy"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/containers\/services",
+                "handler": "Controllers\\ServiceController@index",
+                "auth": true,
+                "permission": "containers.access"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/containers\/pods\/{id}\/logs",
+                "handler": "Controllers\\LogController@pod",
+                "auth": true,
+                "permission": "containers.view_logs"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/containers\/metrics",
+                "handler": "Controllers\\MetricsController@dashboard",
+                "auth": true,
+                "permission": "containers.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/containers\/rollback\/{deployment}",
+                "handler": "Controllers\\RollbackController@execute",
+                "auth": true,
+                "permission": "containers.deploy"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/containers\/health",
+                "handler": "Controllers\\HealthController@cluster",
+                "auth": true,
+                "permission": "containers.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/containers\/secrets",
+                "handler": "Controllers\\SecretController@create",
+                "auth": true,
+                "permission": "containers.manage_secrets"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/containers\/helm\/install",
+                "handler": "Controllers\\HelmController@install",
+                "auth": true,
+                "permission": "containers.deploy"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "container_clusters",
+            "container_deployments",
+            "container_services",
+            "container_pods",
+            "container_images",
+            "container_registries",
+            "container_scaling_rules",
+            "container_network_policies",
+            "container_secrets",
+            "container_metrics"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/cluster-dashboard.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "jquery",
+                    "chart.js",
+                    "vis-network"
+                ]
+            },
+            {
+                "src": "assets\/js\/deployment-manager.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "yaml-js"
+                ]
+            },
+            {
+                "src": "assets\/js\/log-streamer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "xterm"
+                ]
+            },
+            {
+                "src": "assets\/js\/metrics-visualizer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "prometheus-query",
+                    "grafana-sdk"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/cluster-dashboard.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/deployment-status.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/terminal.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "orchestrator": {
+                "type": "select",
+                "label": "Container Orchestrator",
+                "default": "kubernetes",
+                "options": {
+                    "kubernetes": "Kubernetes",
+                    "docker_swarm": "Docker Swarm",
+                    "nomad": "HashiCorp Nomad",
+                    "ecs": "AWS ECS",
+                    "custom": "Custom Orchestrator"
+                }
+            },
+            "cluster_config": {
+                "type": "object",
+                "label": "Cluster Configuration",
+                "properties": {
+                    "provider": {
+                        "type": "select",
+                        "label": "Cluster Provider",
+                        "default": "local",
+                        "options": {
+                            "local": "Local (Docker Desktop)",
+                            "eks": "Amazon EKS",
+                            "gke": "Google GKE",
+                            "aks": "Azure AKS",
+                            "self_managed": "Self-managed"
+                        }
+                    },
+                    "nodes": {
+                        "type": "object",
+                        "label": "Node Configuration",
+                        "properties": {
+                            "min_nodes": {
+                                "type": "number",
+                                "default": 2,
+                                "min": 1,
+                                "max": 100
+                            },
+                            "max_nodes": {
+                                "type": "number",
+                                "default": 10,
+                                "min": 1,
+                                "max": 1000
+                            },
+                            "instance_type": {
+                                "type": "string",
+                                "default": "t3.medium"
+                            }
+                        }
+                    }
+                }
+            },
+            "deployment_strategy": {
+                "type": "select",
+                "label": "Default Deployment Strategy",
+                "default": "rolling_update",
+                "options": {
+                    "rolling_update": "Rolling Update",
+                    "recreate": "Recreate",
+                    "blue_green": "Blue-Green",
+                    "canary": "Canary",
+                    "a_b_testing": "A\/B Testing"
+                }
+            },
+            "service_mesh": {
+                "type": "object",
+                "label": "Service Mesh Configuration",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "provider": {
+                        "type": "select",
+                        "label": "Service Mesh Provider",
+                        "default": "istio",
+                        "options": {
+                            "istio": "Istio",
+                            "linkerd": "Linkerd",
+                            "consul": "Consul Connect",
+                            "aws_app_mesh": "AWS App Mesh",
+                            "none": "None"
+                        },
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "mtls": {
+                        "type": "boolean",
+                        "label": "Enable mTLS",
+                        "default": true,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "traffic_management": {
+                        "type": "boolean",
+                        "label": "Traffic Management",
+                        "default": true,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    }
+                }
+            },
+            "auto_scaling": {
+                "type": "object",
+                "label": "Auto-scaling Configuration",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "metrics": {
+                        "type": "multiselect",
+                        "label": "Scaling Metrics",
+                        "default": [
+                            "cpu",
+                            "memory"
+                        ],
+                        "options": {
+                            "cpu": "CPU Usage",
+                            "memory": "Memory Usage",
+                            "requests": "Request Rate",
+                            "custom": "Custom Metrics"
+                        }
+                    },
+                    "cpu_threshold": {
+                        "type": "number",
+                        "label": "CPU Threshold (%)",
+                        "default": 70,
+                        "min": 10,
+                        "max": 95
+                    },
+                    "memory_threshold": {
+                        "type": "number",
+                        "label": "Memory Threshold (%)",
+                        "default": 80,
+                        "min": 10,
+                        "max": 95
+                    }
+                }
+            },
+            "networking": {
+                "type": "object",
+                "label": "Networking Configuration",
+                "properties": {
+                    "cni_plugin": {
+                        "type": "select",
+                        "label": "CNI Plugin",
+                        "default": "calico",
+                        "options": {
+                            "calico": "Calico",
+                            "flannel": "Flannel",
+                            "weave": "Weave Net",
+                            "cilium": "Cilium",
+                            "custom": "Custom CNI"
+                        }
+                    },
+                    "network_policies": {
+                        "type": "boolean",
+                        "label": "Enable Network Policies",
+                        "default": true
+                    },
+                    "ingress_controller": {
+                        "type": "select",
+                        "label": "Ingress Controller",
+                        "default": "nginx",
+                        "options": {
+                            "nginx": "NGINX",
+                            "traefik": "Traefik",
+                            "haproxy": "HAProxy",
+                            "alb": "AWS ALB",
+                            "custom": "Custom"
+                        }
+                    }
+                }
+            },
+            "monitoring": {
+                "type": "object",
+                "label": "Monitoring Configuration",
+                "properties": {
+                    "metrics_backend": {
+                        "type": "select",
+                        "label": "Metrics Backend",
+                        "default": "prometheus",
+                        "options": {
+                            "prometheus": "Prometheus",
+                            "datadog": "Datadog",
+                            "new_relic": "New Relic",
+                            "cloudwatch": "AWS CloudWatch",
+                            "custom": "Custom"
+                        }
+                    },
+                    "logging_backend": {
+                        "type": "select",
+                        "label": "Logging Backend",
+                        "default": "elasticsearch",
+                        "options": {
+                            "elasticsearch": "Elasticsearch",
+                            "loki": "Grafana Loki",
+                            "cloudwatch": "AWS CloudWatch",
+                            "stackdriver": "Google Stackdriver",
+                            "custom": "Custom"
+                        }
+                    },
+                    "tracing_backend": {
+                        "type": "select",
+                        "label": "Tracing Backend",
+                        "default": "jaeger",
+                        "options": {
+                            "jaeger": "Jaeger",
+                            "zipkin": "Zipkin",
+                            "aws_xray": "AWS X-Ray",
+                            "datadog": "Datadog APM",
+                            "none": "None"
+                        }
+                    }
+                }
+            },
+            "security": {
+                "type": "object",
+                "label": "Security Configuration",
+                "properties": {
+                    "pod_security_policy": {
+                        "type": "boolean",
+                        "label": "Pod Security Policies",
+                        "default": true
+                    },
+                    "rbac": {
+                        "type": "boolean",
+                        "label": "Enable RBAC",
+                        "default": true
+                    },
+                    "image_scanning": {
+                        "type": "boolean",
+                        "label": "Image Vulnerability Scanning",
+                        "default": true
+                    },
+                    "secrets_encryption": {
+                        "type": "boolean",
+                        "label": "Encrypt Secrets at Rest",
+                        "default": true
+                    },
+                    "admission_controller": {
+                        "type": "select",
+                        "label": "Admission Controller",
+                        "default": "opa",
+                        "options": {
+                            "opa": "Open Policy Agent",
+                            "polaris": "Polaris",
+                            "falco": "Falco",
+                            "none": "None"
+                        }
+                    }
+                }
+            },
+            "ci_cd_integration": {
+                "type": "object",
+                "label": "CI\/CD Integration",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "pipeline": {
+                        "type": "select",
+                        "label": "CI\/CD Pipeline",
+                        "default": "github_actions",
+                        "options": {
+                            "github_actions": "GitHub Actions",
+                            "gitlab_ci": "GitLab CI",
+                            "jenkins": "Jenkins",
+                            "circleci": "CircleCI",
+                            "argo_cd": "Argo CD",
+                            "flux": "Flux CD"
+                        }
+                    },
+                    "registry": {
+                        "type": "select",
+                        "label": "Container Registry",
+                        "default": "docker_hub",
+                        "options": {
+                            "docker_hub": "Docker Hub",
+                            "ecr": "Amazon ECR",
+                            "gcr": "Google GCR",
+                            "acr": "Azure ACR",
+                            "harbor": "Harbor",
+                            "custom": "Custom Registry"
+                        }
+                    }
+                }
+            },
+            "resource_limits": {
+                "type": "object",
+                "label": "Default Resource Limits",
+                "properties": {
+                    "cpu_request": {
+                        "type": "string",
+                        "label": "CPU Request",
+                        "default": "100m"
+                    },
+                    "cpu_limit": {
+                        "type": "string",
+                        "label": "CPU Limit",
+                        "default": "500m"
+                    },
+                    "memory_request": {
+                        "type": "string",
+                        "label": "Memory Request",
+                        "default": "128Mi"
+                    },
+                    "memory_limit": {
+                        "type": "string",
+                        "label": "Memory Limit",
+                        "default": "512Mi"
+                    }
+                }
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "cluster_overview",
+            "name": "Cluster Overview",
+            "description": "Cluster health and resource usage",
+            "position": "dashboard",
+            "permissions": [
+                "containers.access"
+            ]
+        },
+        {
+            "id": "deployment_status",
+            "name": "Deployment Status",
+            "description": "Active deployments and their status",
+            "position": "dashboard",
+            "permissions": [
+                "containers.access"
+            ]
+        },
+        {
+            "id": "resource_usage",
+            "name": "Resource Usage",
+            "description": "CPU and memory utilization",
+            "position": "dashboard",
+            "permissions": [
+                "containers.access"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "monitorClusterHealth",
+            "description": "Monitor cluster health"
+        },
+        {
+            "schedule": "*\/1 * * * *",
+            "handler": "collectMetrics",
+            "description": "Collect container metrics"
+        },
+        {
+            "schedule": "*\/10 * * * *",
+            "handler": "checkAutoScaling",
+            "description": "Check and apply auto-scaling"
+        },
+        {
+            "schedule": "0 * * * *",
+            "handler": "cleanupOrphanedResources",
+            "description": "Clean up orphaned resources"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "performSecurityScans",
+            "description": "Scan images for vulnerabilities"
+        }
+    ],
+    "deployment_templates": {
+        "wordpress": {
+            "name": "WordPress Application",
+            "description": "WordPress with MySQL database"
+        },
+        "microservices": {
+            "name": "Microservices Stack",
+            "description": "Multi-service application with service mesh"
+        },
+        "api_gateway": {
+            "name": "API Gateway",
+            "description": "Kong or Ambassador API Gateway"
+        },
+        "monitoring_stack": {
+            "name": "Monitoring Stack",
+            "description": "Prometheus, Grafana, AlertManager"
+        }
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Kubernetes and Docker Swarm support",
+            "Service mesh integration",
+            "Auto-scaling capabilities",
+            "Health monitoring and self-healing",
+            "CI\/CD pipeline integration",
+            "Multi-cluster management",
+            "Network policies and security",
+            "Helm chart support",
+            "Resource optimization",
+            "Rolling updates and rollbacks",
+            "Secrets management"
+        ]
+    }
+}

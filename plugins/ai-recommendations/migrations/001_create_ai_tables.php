@@ -1,4 +1,10 @@
 <?php
+
+
+declare(strict_types=1);
+
+namespace Shopologic\Plugins\AiRecommendations;
+declare(strict_types=1);
 /**
  * Create AI Recommendations Database Tables
  * 

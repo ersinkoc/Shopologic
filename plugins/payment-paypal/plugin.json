@@ -5,172 +5,180 @@
     "author": {
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com",
-        "url": "https://shopologic.com"
+        "url": "https:\/\/shopologic.com"
     },
     "license": "MIT",
-    "homepage": "https://shopologic.com/plugins/payment-paypal",
-    "keywords": ["payment", "paypal", "checkout", "credit-card"],
+    "homepage": "https:\/\/shopologic.com\/plugins\/payment-paypal",
+    "keywords": [
+        "payment",
+        "paypal",
+        "checkout",
+        "credit-card"
+    ],
     "requirements": {
-        "php_version": ">=8.1",
-        "core_version": ">=1.0.0",
+        "php": ">=8.3",
+        "core": ">=1.0.0",
         "dependencies": {
-            "core-commerce": ">=1.0.0"
+            "shopologic\/commerce": "^1.0.0"
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\PaymentPaypal\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "PaymentPaypalPlugin",
+        "file": "src\/PayPalPlugin.php"
     },
     "provides": [
         "PaymentGatewayInterface"
     ],
-    "autoload": {
-        "psr-4": {
-            "PayPalPayment\\": "src/"
-        }
-    },
-    "config": {
-        "main_class": "PayPalPayment\\PayPalPlugin",
-        "namespace": "PayPalPayment"
-    },
     "permissions": [
         "payment.process",
         "payment.refund",
         "order.update"
     ],
-    "hooks": [
-        {
-            "hook": "checkout.payment_methods",
-            "handler": "addPaymentMethod",
-            "priority": 10
-        },
-        {
-            "hook": "order.payment_process",
-            "handler": "processPayment",
-            "priority": 10
-        },
-        {
-            "hook": "admin.payment_gateways",
-            "handler": "registerGateway",
-            "priority": 10
-        }
-    ],
-    "api_endpoints": [
-        {
-            "method": "POST",
-            "path": "/api/v1/paypal/create-order",
-            "handler": "Controllers\\PayPalController@createOrder",
-            "auth": true
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/paypal/capture-order",
-            "handler": "Controllers\\PayPalController@captureOrder",
-            "auth": true
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/paypal/webhook",
-            "handler": "Controllers\\PayPalController@handleWebhook",
-            "auth": false
-        }
-    ],
-    "database_tables": [
-        "paypal_transactions",
-        "paypal_webhooks"
-    ],
+    "hooks": {
+        "actions": [
+            {
+                "hook": "checkout.payment_methods",
+                "handler": "addPaymentMethod",
+                "priority": 10
+            },
+            {
+                "hook": "order.payment_process",
+                "handler": "processPayment",
+                "priority": 10
+            },
+            {
+                "hook": "admin.payment_gateways",
+                "handler": "registerGateway",
+                "priority": 10
+            }
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/paypal\/create-order",
+                "handler": "Controllers\\PayPalController@createOrder",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/paypal\/capture-order",
+                "handler": "Controllers\\PayPalController@captureOrder",
+                "auth": true
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/paypal\/webhook",
+                "handler": "Controllers\\PayPalController@handleWebhook",
+                "auth": false
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "paypal_transactions",
+            "paypal_webhooks"
+        ],
+        "migrations": "migrations\/"
+    },
     "assets": {
         "js": [
             {
-                "src": "assets/js/paypal-checkout.js",
+                "src": "assets\/js\/paypal-checkout.js",
                 "position": "footer",
-                "pages": ["checkout"]
+                "pages": [
+                    "checkout"
+                ]
             }
         ],
         "css": [
             {
-                "src": "assets/css/paypal-buttons.css",
-                "pages": ["checkout"]
+                "src": "assets\/css\/paypal-buttons.css",
+                "pages": [
+                    "checkout"
+                ]
             }
         ]
     },
-    "config_schema": {
-        "environment": {
-            "type": "select",
-            "label": "Environment",
-            "default": "sandbox",
-            "options": {
-                "sandbox": "Sandbox (Testing)",
-                "production": "Production (Live)"
+    "config": {
+        "schema": {
+            "environment": {
+                "type": "select",
+                "label": "Environment",
+                "default": "sandbox",
+                "options": {
+                    "sandbox": "Sandbox (Testing)",
+                    "production": "Production (Live)"
+                },
+                "required": true
             },
-            "required": true
-        },
-        "client_id": {
-            "type": "string",
-            "label": "Client ID",
-            "description": "Your PayPal REST API Client ID",
-            "required": true,
-            "encrypted": false
-        },
-        "client_secret": {
-            "type": "string",
-            "label": "Client Secret",
-            "description": "Your PayPal REST API Client Secret",
-            "required": true,
-            "encrypted": true
-        },
-        "webhook_id": {
-            "type": "string",
-            "label": "Webhook ID",
-            "description": "PayPal webhook ID for receiving notifications",
-            "required": false
-        },
-        "payment_action": {
-            "type": "select",
-            "label": "Payment Action",
-            "default": "capture",
-            "options": {
-                "capture": "Capture immediately",
-                "authorize": "Authorize only"
+            "client_id": {
+                "type": "string",
+                "label": "Client ID",
+                "description": "Your PayPal REST API Client ID",
+                "required": true,
+                "encrypted": false
+            },
+            "client_secret": {
+                "type": "string",
+                "label": "Client Secret",
+                "description": "Your PayPal REST API Client Secret",
+                "required": true,
+                "encrypted": true
+            },
+            "webhook_id": {
+                "type": "string",
+                "label": "Webhook ID",
+                "description": "PayPal webhook ID for receiving notifications",
+                "required": false
+            },
+            "payment_action": {
+                "type": "select",
+                "label": "Payment Action",
+                "default": "capture",
+                "options": {
+                    "capture": "Capture immediately",
+                    "authorize": "Authorize only"
+                }
+            },
+            "enable_pay_later": {
+                "type": "boolean",
+                "label": "Enable Pay Later",
+                "description": "Show PayPal Pay Later options to customers",
+                "default": true
+            },
+            "enable_venmo": {
+                "type": "boolean",
+                "label": "Enable Venmo",
+                "description": "Accept Venmo payments (US only)",
+                "default": false
+            },
+            "button_color": {
+                "type": "select",
+                "label": "Button Color",
+                "default": "gold",
+                "options": {
+                    "gold": "Gold",
+                    "blue": "Blue",
+                    "silver": "Silver",
+                    "white": "White",
+                    "black": "Black"
+                }
+            },
+            "debug_mode": {
+                "type": "boolean",
+                "label": "Debug Mode",
+                "description": "Log detailed transaction information",
+                "default": false
             }
-        },
-        "enable_pay_later": {
-            "type": "boolean",
-            "label": "Enable Pay Later",
-            "description": "Show PayPal Pay Later options to customers",
-            "default": true
-        },
-        "enable_venmo": {
-            "type": "boolean",
-            "label": "Enable Venmo",
-            "description": "Accept Venmo payments (US only)",
-            "default": false
-        },
-        "button_color": {
-            "type": "select",
-            "label": "Button Color",
-            "default": "gold",
-            "options": {
-                "gold": "Gold",
-                "blue": "Blue",
-                "silver": "Silver",
-                "white": "White",
-                "black": "Black"
-            }
-        },
-        "debug_mode": {
-            "type": "boolean",
-            "label": "Debug Mode",
-            "description": "Log detailed transaction information",
-            "default": false
         }
     },
-    "screenshots": [
-        {
-            "src": "screenshots/checkout.png",
-            "caption": "PayPal checkout integration"
-        },
-        {
-            "src": "screenshots/admin-settings.png",
-            "caption": "Admin configuration panel"
-        }
-    ],
     "changelog": {
         "1.0.0": [
             "Initial release",

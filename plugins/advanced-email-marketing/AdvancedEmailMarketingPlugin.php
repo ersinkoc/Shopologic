@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace AdvancedEmailMarketing;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
@@ -465,7 +466,7 @@ class AdvancedEmailMarketingPlugin extends AbstractPlugin implements WidgetInter
                 
                 // Update status
                 $campaignService->updateEmailStatus($email->id, 'sending');
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Email queue processing failed', [
                     'email_id' => $email->id,
                     'error' => $e->getMessage()

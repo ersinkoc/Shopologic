@@ -6,10 +6,16 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "PWAEnhancer\\PWAEnhancerPlugin",
-    "file": "PWAEnhancerPlugin.php",
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "PwaEnhancerPlugin",
+        "file": "PWAEnhancerPlugin.php"
     },
     "permissions": [
         "customers.read",
@@ -17,54 +23,91 @@
         "cache.write",
         "hooks.*"
     ],
-    "hooks": [
-        "frontend.head",
-        "frontend.manifest",
-        "service_worker.install",
-        "order.completed"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/pwa/manifest",
-        "POST /api/v1/pwa/subscribe",
-        "POST /api/v1/pwa/notification",
-        "GET /api/v1/pwa/offline-data"
-    ],
-    "database_tables": [
-        "pwa_subscriptions",
-        "offline_cache",
-        "push_notifications"
-    ],
-    "config_schema": {
-        "enable_offline_mode": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable offline browsing capability"
-        },
-        "enable_push_notifications": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable push notifications"
-        },
-        "cache_duration_hours": {
-            "type": "number",
-            "default": 24,
-            "min": 1,
-            "max": 168,
-            "description": "Offline cache duration"
-        },
-        "app_name": {
-            "type": "string",
-            "default": "Shopologic Store",
-            "description": "PWA app name"
-        },
-        "theme_color": {
-            "type": "color",
-            "default": "#007cba",
-            "description": "PWA theme color"
-        }
+    "hooks": {
+        "actions": [
+            "frontend.head",
+            "frontend.manifest",
+            "service_worker.install",
+            "order.completed"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/pwa/manifest",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/pwa/subscribe",
+                "handler": "handlePost"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/pwa/notification",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/pwa/offline-data",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "pwa_subscriptions",
+            "offline_cache",
+            "push_notifications"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/service-worker.js", "assets/pwa-installer.js"],
-        "css": ["assets/pwa-styles.css"]
-    }
+        "js": [
+            "assets/service-worker.js",
+            "assets/pwa-installer.js"
+        ],
+        "css": [
+            "assets/pwa-styles.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "enable_offline_mode": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable offline browsing capability"
+            },
+            "enable_push_notifications": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable push notifications"
+            },
+            "cache_duration_hours": {
+                "type": "number",
+                "default": 24,
+                "min": 1,
+                "max": 168,
+                "description": "Offline cache duration"
+            },
+            "app_name": {
+                "type": "string",
+                "default": "Shopologic Store",
+                "description": "PWA app name"
+            },
+            "theme_color": {
+                "type": "color",
+                "default": "#007cba",
+                "description": "PWA theme color"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\PwaEnhancer\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/pwa-enhancer"
 }

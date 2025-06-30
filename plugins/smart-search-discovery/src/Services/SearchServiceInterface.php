@@ -1,6 +1,7 @@
 <?php
 
-namespace SmartSearchDiscovery\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\SmartSearchDiscovery\Services;
 
 interface SearchServiceInterface
 {

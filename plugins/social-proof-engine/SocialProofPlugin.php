@@ -1,5 +1,7 @@
 <?php
-namespace SocialProof;
+
+declare(strict_types=1);
+namespace Shopologic\Plugins\SocialProofEngine;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\Hook;
@@ -316,5 +318,53 @@ class SocialProofPlugin extends AbstractPlugin
             $event['created_at'] = date('Y-m-d H:i:s', strtotime('-' . rand(1, 60) . ' minutes'));
             $this->api->database()->table('social_proof_events')->insert($event);
         }
+    }
+
+    /**
+     * Register Services
+     */
+    protected function registerServices(): void
+    {
+        // TODO: Implement registerServices
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Hooks
+     */
+    protected function registerHooks(): void
+    {
+        // TODO: Implement registerHooks
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

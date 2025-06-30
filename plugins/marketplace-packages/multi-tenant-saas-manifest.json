@@ -1,0 +1,647 @@
+{
+    "package_info": {
+        "name": "multi-tenant-saas",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:05",
+        "package_size": 20813,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "multi-tenant-saas",
+        "version": "1.0.0",
+        "description": "Complete multi-tenant SaaS management system with tenant isolation, subscription billing, resource quotas, custom domains, automated provisioning, and usage analytics",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/multi-tenant-saas",
+        "keywords": [
+            "saas",
+            "multi-tenant",
+            "subscription",
+            "billing",
+            "tenant",
+            "provisioning",
+            "isolation",
+            "domains"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/billing": "^1.0.0",
+                "shopologic\/api": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\MultiTenantSaas\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "MultiTenantSaasPlugin",
+            "file": "src\/MultiTenantSaaSPlugin.php"
+        },
+        "provides": [
+            "TenantManagerInterface",
+            "SubscriptionManagerInterface",
+            "ResourceQuotaInterface",
+            "TenantIsolationInterface"
+        ],
+        "permissions": [
+            "saas.manage_tenants",
+            "saas.view_tenants",
+            "saas.create_tenants",
+            "saas.suspend_tenants",
+            "saas.manage_plans",
+            "saas.manage_billing",
+            "saas.view_analytics",
+            "saas.manage_domains",
+            "saas.super_admin"
+        ],
+        "hooks": {
+            "actions": [
+                "tenant.created",
+                "tenant.activated",
+                "tenant.suspended",
+                "tenant.deleted",
+                "subscription.created",
+                "subscription.upgraded",
+                "subscription.downgraded",
+                "subscription.cancelled",
+                "payment.processed",
+                "quota.exceeded",
+                "domain.verified"
+            ],
+            "filters": [
+                "tenant.access",
+                "tenant.data",
+                "subscription.features",
+                "quota.limits",
+                "billing.amount"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/tenants",
+                    "handler": "Controllers\\TenantController@index",
+                    "auth": true,
+                    "permission": "saas.view_tenants"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/tenants",
+                    "handler": "Controllers\\TenantController@create",
+                    "auth": true,
+                    "permission": "saas.create_tenants"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/tenants\/{id}",
+                    "handler": "Controllers\\TenantController@show",
+                    "auth": true,
+                    "permission": "saas.view_tenants"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/saas\/tenants\/{id}",
+                    "handler": "Controllers\\TenantController@update",
+                    "auth": true,
+                    "permission": "saas.manage_tenants"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/tenants\/{id}\/suspend",
+                    "handler": "Controllers\\TenantController@suspend",
+                    "auth": true,
+                    "permission": "saas.suspend_tenants"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/tenants\/{id}\/activate",
+                    "handler": "Controllers\\TenantController@activate",
+                    "auth": true,
+                    "permission": "saas.manage_tenants"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/plans",
+                    "handler": "Controllers\\PlanController@index",
+                    "auth": false
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/plans",
+                    "handler": "Controllers\\PlanController@create",
+                    "auth": true,
+                    "permission": "saas.manage_plans"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/saas\/plans\/{id}",
+                    "handler": "Controllers\\PlanController@update",
+                    "auth": true,
+                    "permission": "saas.manage_plans"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/subscriptions",
+                    "handler": "Controllers\\SubscriptionController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/subscriptions",
+                    "handler": "Controllers\\SubscriptionController@create",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/subscriptions\/{id}\/upgrade",
+                    "handler": "Controllers\\SubscriptionController@upgrade",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/subscriptions\/{id}\/downgrade",
+                    "handler": "Controllers\\SubscriptionController@downgrade",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/subscriptions\/{id}\/cancel",
+                    "handler": "Controllers\\SubscriptionController@cancel",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/usage",
+                    "handler": "Controllers\\UsageController@current",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/usage\/history",
+                    "handler": "Controllers\\UsageController@history",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/domains",
+                    "handler": "Controllers\\DomainController@add",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/domains\/{domain}\/verify",
+                    "handler": "Controllers\\DomainController@verify",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/billing\/invoices",
+                    "handler": "Controllers\\BillingController@invoices",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/saas\/billing\/payment-method",
+                    "handler": "Controllers\\BillingController@updatePaymentMethod",
+                    "auth": true
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/saas\/analytics",
+                    "handler": "Controllers\\AnalyticsController@overview",
+                    "auth": true,
+                    "permission": "saas.view_analytics"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "saas_tenants",
+                "saas_tenant_users",
+                "saas_tenant_domains",
+                "saas_plans",
+                "saas_plan_features",
+                "saas_plan_quotas",
+                "saas_subscriptions",
+                "saas_subscription_items",
+                "saas_usage_records",
+                "saas_invoices",
+                "saas_invoice_items",
+                "saas_payments",
+                "saas_payment_methods",
+                "saas_tenant_settings",
+                "saas_tenant_data",
+                "saas_audit_log"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/tenant-manager.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "jquery",
+                        "chart.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/subscription-manager.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/billing-dashboard.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/usage-charts.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/saas-admin.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/tenant-switcher.css",
+                    "pages": [
+                        "all"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "tenant_isolation": {
+                    "type": "select",
+                    "label": "Tenant Isolation Method",
+                    "default": "schema",
+                    "options": {
+                        "database": "Separate Database",
+                        "schema": "Separate Schema",
+                        "row": "Row-level (Shared Tables)",
+                        "hybrid": "Hybrid Approach"
+                    },
+                    "description": "How tenant data is isolated"
+                },
+                "enable_custom_domains": {
+                    "type": "boolean",
+                    "label": "Enable Custom Domains",
+                    "default": true,
+                    "description": "Allow tenants to use custom domains"
+                },
+                "domain_verification_method": {
+                    "type": "select",
+                    "label": "Domain Verification Method",
+                    "default": "dns_txt",
+                    "options": {
+                        "dns_txt": "DNS TXT Record",
+                        "dns_cname": "DNS CNAME Record",
+                        "file_upload": "File Upload",
+                        "meta_tag": "Meta Tag"
+                    }
+                },
+                "trial_period_days": {
+                    "type": "number",
+                    "label": "Trial Period (days)",
+                    "default": 14,
+                    "min": 0,
+                    "max": 90
+                },
+                "enable_auto_suspend": {
+                    "type": "boolean",
+                    "label": "Auto-suspend on Payment Failure",
+                    "default": true
+                },
+                "grace_period_days": {
+                    "type": "number",
+                    "label": "Grace Period (days)",
+                    "default": 3,
+                    "min": 0,
+                    "max": 30,
+                    "depends_on": {
+                        "enable_auto_suspend": true
+                    }
+                },
+                "billing_cycle": {
+                    "type": "select",
+                    "label": "Default Billing Cycle",
+                    "default": "monthly",
+                    "options": {
+                        "monthly": "Monthly",
+                        "quarterly": "Quarterly",
+                        "yearly": "Yearly"
+                    }
+                },
+                "enable_metered_billing": {
+                    "type": "boolean",
+                    "label": "Enable Metered Billing",
+                    "default": true,
+                    "description": "Charge based on usage"
+                },
+                "quota_enforcement": {
+                    "type": "select",
+                    "label": "Quota Enforcement",
+                    "default": "soft",
+                    "options": {
+                        "soft": "Soft Limit (Warnings)",
+                        "hard": "Hard Limit (Block)",
+                        "overage": "Allow Overage (Extra Charges)"
+                    }
+                },
+                "default_quotas": {
+                    "type": "object",
+                    "label": "Default Resource Quotas",
+                    "default": {
+                        "storage_gb": 10,
+                        "bandwidth_gb": 100,
+                        "users": 5,
+                        "api_calls": 10000,
+                        "products": 1000,
+                        "orders": 5000
+                    }
+                },
+                "enable_white_labeling": {
+                    "type": "boolean",
+                    "label": "Enable White Labeling",
+                    "default": true,
+                    "description": "Allow tenants to customize branding"
+                },
+                "provisioning_method": {
+                    "type": "select",
+                    "label": "Tenant Provisioning",
+                    "default": "automated",
+                    "options": {
+                        "automated": "Fully Automated",
+                        "approval": "Requires Approval",
+                        "manual": "Manual Setup"
+                    }
+                },
+                "enable_tenant_backups": {
+                    "type": "boolean",
+                    "label": "Enable Tenant Backups",
+                    "default": true
+                },
+                "backup_retention_days": {
+                    "type": "number",
+                    "label": "Backup Retention (days)",
+                    "default": 30,
+                    "min": 7,
+                    "max": 365
+                },
+                "enable_data_export": {
+                    "type": "boolean",
+                    "label": "Allow Data Export",
+                    "default": true,
+                    "description": "Allow tenants to export their data"
+                },
+                "supported_payment_methods": {
+                    "type": "multiselect",
+                    "label": "Payment Methods",
+                    "default": [
+                        "credit_card",
+                        "bank_transfer"
+                    ],
+                    "options": {
+                        "credit_card": "Credit Card",
+                        "debit_card": "Debit Card",
+                        "bank_transfer": "Bank Transfer",
+                        "paypal": "PayPal",
+                        "crypto": "Cryptocurrency"
+                    }
+                },
+                "enable_affiliate_program": {
+                    "type": "boolean",
+                    "label": "Enable Affiliate Program",
+                    "default": false
+                },
+                "affiliate_commission_percent": {
+                    "type": "number",
+                    "label": "Affiliate Commission (%)",
+                    "default": 20,
+                    "min": 0,
+                    "max": 50,
+                    "depends_on": {
+                        "enable_affiliate_program": true
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "tenant_overview",
+                "name": "Tenant Overview",
+                "description": "Active tenants and growth metrics",
+                "position": "dashboard",
+                "permissions": [
+                    "saas.view_tenants"
+                ]
+            },
+            {
+                "id": "revenue_metrics",
+                "name": "Revenue Metrics",
+                "description": "MRR, ARR, and churn rates",
+                "position": "dashboard",
+                "permissions": [
+                    "saas.view_analytics"
+                ]
+            },
+            {
+                "id": "usage_summary",
+                "name": "Resource Usage",
+                "description": "System-wide resource utilization",
+                "position": "dashboard",
+                "permissions": [
+                    "saas.view_analytics"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 * * * *",
+                "handler": "processUsageMetering",
+                "description": "Calculate hourly usage for metered billing"
+            },
+            {
+                "schedule": "0 0 * * *",
+                "handler": "processSubscriptionRenewals",
+                "description": "Process subscription renewals"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "checkQuotaLimits",
+                "description": "Check and enforce quota limits"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "suspendOverdueAccounts",
+                "description": "Suspend accounts with overdue payments"
+            },
+            {
+                "schedule": "0 4 * * *",
+                "handler": "generateInvoices",
+                "description": "Generate monthly invoices"
+            },
+            {
+                "schedule": "0 5 * * *",
+                "handler": "performTenantBackups",
+                "description": "Backup tenant data"
+            },
+            {
+                "schedule": "0 6 * * MON",
+                "handler": "generateAnalyticsReports",
+                "description": "Generate weekly analytics reports"
+            }
+        ],
+        "plans": {
+            "starter": {
+                "name": "Starter",
+                "price": 29,
+                "currency": "USD",
+                "interval": "month",
+                "features": [
+                    "1 Store",
+                    "Up to 100 Products",
+                    "Up to 500 Orders\/month",
+                    "5 Staff Users",
+                    "Basic Support"
+                ],
+                "quotas": {
+                    "stores": 1,
+                    "products": 100,
+                    "orders_per_month": 500,
+                    "users": 5,
+                    "storage_gb": 5,
+                    "bandwidth_gb": 50
+                }
+            },
+            "professional": {
+                "name": "Professional",
+                "price": 79,
+                "currency": "USD",
+                "interval": "month",
+                "features": [
+                    "3 Stores",
+                    "Up to 1,000 Products",
+                    "Up to 5,000 Orders\/month",
+                    "25 Staff Users",
+                    "Priority Support",
+                    "Custom Domain",
+                    "Advanced Analytics"
+                ],
+                "quotas": {
+                    "stores": 3,
+                    "products": 1000,
+                    "orders_per_month": 5000,
+                    "users": 25,
+                    "storage_gb": 25,
+                    "bandwidth_gb": 250,
+                    "custom_domains": 1
+                }
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "price": 299,
+                "currency": "USD",
+                "interval": "month",
+                "features": [
+                    "Unlimited Stores",
+                    "Unlimited Products",
+                    "Unlimited Orders",
+                    "Unlimited Users",
+                    "24\/7 Support",
+                    "Multiple Custom Domains",
+                    "White Labeling",
+                    "API Access",
+                    "Custom Integrations"
+                ],
+                "quotas": {
+                    "stores": -1,
+                    "products": -1,
+                    "orders_per_month": -1,
+                    "users": -1,
+                    "storage_gb": 100,
+                    "bandwidth_gb": 1000,
+                    "custom_domains": 10,
+                    "api_calls_per_day": 100000
+                }
+            }
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "Multi-tenant architecture support",
+                "Subscription management",
+                "Automated billing and invoicing",
+                "Resource quota management",
+                "Custom domain support",
+                "Tenant isolation strategies",
+                "Usage metering and analytics",
+                "White labeling capabilities",
+                "Automated provisioning",
+                "Payment processing integration",
+                "Tenant backup and restore",
+                "Audit logging",
+                "Affiliate program support"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "analytics"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

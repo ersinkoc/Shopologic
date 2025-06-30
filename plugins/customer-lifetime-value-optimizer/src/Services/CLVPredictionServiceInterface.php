@@ -1,6 +1,7 @@
 <?php
 
-namespace CustomerLifetimeValueOptimizer\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\CustomerLifetimeValueOptimizer\Services;
 
 interface CLVPredictionServiceInterface
 {

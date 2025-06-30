@@ -1,6 +1,7 @@
 <?php
 
-namespace SocialCommerceIntegration;
+declare(strict_types=1);
+namespace Shopologic\Plugins\SocialCommerceIntegration;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Hook\HookSystem;
@@ -254,7 +255,7 @@ class SocialCommerceIntegrationPlugin extends AbstractPlugin implements WidgetIn
                 // Create platform-specific content variations
                 $this->createPlatformSpecificContent($platform, $product);
                 
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Failed to sync product to social platform', [
                     'product_id' => $product->id,
                     'platform_id' => $platform->id,
@@ -470,7 +471,7 @@ class SocialCommerceIntegrationPlugin extends AbstractPlugin implements WidgetIn
                 // Process and store engagement data
                 $this->processEngagementData($platform->id, $engagementData);
                 
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Failed to track engagement for platform', [
                     'platform_id' => $platform->id,
                     'error' => $e->getMessage()
@@ -632,5 +633,29 @@ class SocialCommerceIntegrationPlugin extends AbstractPlugin implements WidgetIn
         ];
         
         return $key ? ($config[$key] ?? $default) : $config;
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

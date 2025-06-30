@@ -12,8 +12,7 @@ use Shopologic\Core\Cache\CacheInterface;
  * 
  * Handles storage and retrieval of fraud detection data
  */
-class StripeFraudRepository
-{
+class StripeFraudRepository\n{
     private DatabaseInterface $database;
     private CacheInterface $cache;
     

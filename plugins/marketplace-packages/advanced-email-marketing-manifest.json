@@ -1,0 +1,480 @@
+{
+    "package_info": {
+        "name": "advanced-email-marketing",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:30:56",
+        "package_size": 117635,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Advanced Email Marketing Automation",
+        "version": "1.0.0",
+        "description": "Comprehensive email marketing automation platform with advanced segmentation, behavioral triggers, A\/B testing, personalization, deliverability optimization, and analytics",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/advanced-email-marketing",
+        "keywords": [
+            "email-marketing",
+            "automation",
+            "segmentation",
+            "behavioral-triggers",
+            "ab-testing",
+            "personalization",
+            "deliverability",
+            "analytics",
+            "drip-campaigns",
+            "transactional-emails"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0",
+                "shopologic\/customers": "^1.0.0",
+                "shopologic\/analytics": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\AdvancedEmailMarketing\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "AdvancedEmailMarketingPlugin",
+            "file": "src\/AdvancedEmailMarketingPlugin.php"
+        },
+        "provides": [
+            "EmailMarketingInterface",
+            "AutomationEngineInterface",
+            "SegmentationInterface",
+            "DeliverabilityInterface",
+            "PersonalizationInterface"
+        ],
+        "permissions": [
+            "email_marketing.view",
+            "email_marketing.manage",
+            "campaigns.view",
+            "campaigns.create",
+            "campaigns.send",
+            "automations.view",
+            "automations.manage",
+            "segments.view",
+            "segments.manage",
+            "templates.view",
+            "templates.manage",
+            "analytics.email_view",
+            "deliverability.manage"
+        ],
+        "hooks": {
+            "actions": [
+                {
+                    "hook": "customer.registered",
+                    "handler": "triggerWelcomeSequence",
+                    "priority": 10
+                },
+                {
+                    "hook": "order.completed",
+                    "handler": "triggerOrderConfirmation",
+                    "priority": 10
+                },
+                {
+                    "hook": "cart.abandoned",
+                    "handler": "triggerAbandonedCartSequence",
+                    "priority": 10
+                },
+                {
+                    "hook": "customer.birthday",
+                    "handler": "triggerBirthdayEmail",
+                    "priority": 10
+                },
+                {
+                    "hook": "product.viewed",
+                    "handler": "trackBehavioralEvent",
+                    "priority": 10
+                },
+                {
+                    "hook": "customer.inactive",
+                    "handler": "triggerReEngagementSequence",
+                    "priority": 10
+                }
+            ],
+            "filters": [
+                {
+                    "hook": "email.template",
+                    "handler": "personalizeEmailContent",
+                    "priority": 10
+                },
+                {
+                    "hook": "email.subject",
+                    "handler": "personalizeSubjectLine",
+                    "priority": 10
+                },
+                {
+                    "hook": "email.send_time",
+                    "handler": "optimizeSendTime",
+                    "priority": 10
+                }
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/campaigns",
+                    "handler": "CampaignController@index",
+                    "auth": true,
+                    "permission": "campaigns.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/campaigns",
+                    "handler": "CampaignController@create",
+                    "auth": true,
+                    "permission": "campaigns.create"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/email-marketing\/campaigns\/{id}",
+                    "handler": "CampaignController@update",
+                    "auth": true,
+                    "permission": "campaigns.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/campaigns\/{id}\/send",
+                    "handler": "CampaignController@send",
+                    "auth": true,
+                    "permission": "campaigns.send"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/automations",
+                    "handler": "AutomationController@index",
+                    "auth": true,
+                    "permission": "automations.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/automations",
+                    "handler": "AutomationController@create",
+                    "auth": true,
+                    "permission": "automations.manage"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/email-marketing\/automations\/{id}",
+                    "handler": "AutomationController@update",
+                    "auth": true,
+                    "permission": "automations.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/automations\/{id}\/activate",
+                    "handler": "AutomationController@activate",
+                    "auth": true,
+                    "permission": "automations.manage"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/segments",
+                    "handler": "SegmentController@index",
+                    "auth": true,
+                    "permission": "segments.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/segments",
+                    "handler": "SegmentController@create",
+                    "auth": true,
+                    "permission": "segments.manage"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/email-marketing\/segments\/{id}",
+                    "handler": "SegmentController@update",
+                    "auth": true,
+                    "permission": "segments.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/segments\/{id}\/calculate",
+                    "handler": "SegmentController@calculateSegment",
+                    "auth": true,
+                    "permission": "segments.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/templates",
+                    "handler": "TemplateController@index",
+                    "auth": true,
+                    "permission": "templates.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/templates",
+                    "handler": "TemplateController@create",
+                    "auth": true,
+                    "permission": "templates.manage"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/email-marketing\/templates\/{id}",
+                    "handler": "TemplateController@update",
+                    "auth": true,
+                    "permission": "templates.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/templates\/{id}\/test",
+                    "handler": "TemplateController@sendTest",
+                    "auth": true,
+                    "permission": "templates.manage"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/analytics",
+                    "handler": "AnalyticsController@overview",
+                    "auth": true,
+                    "permission": "analytics.email_view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/analytics\/campaigns\/{id}",
+                    "handler": "AnalyticsController@campaignMetrics",
+                    "auth": true,
+                    "permission": "analytics.email_view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/deliverability",
+                    "handler": "DeliverabilityController@status",
+                    "auth": true,
+                    "permission": "deliverability.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/deliverability\/test",
+                    "handler": "DeliverabilityController@runTests",
+                    "auth": true,
+                    "permission": "deliverability.manage"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/email-marketing\/subscribers",
+                    "handler": "SubscriberController@index",
+                    "auth": true,
+                    "permission": "email_marketing.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/subscribers",
+                    "handler": "SubscriberController@create",
+                    "auth": true,
+                    "permission": "email_marketing.manage"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/email-marketing\/subscribers\/{id}",
+                    "handler": "SubscriberController@update",
+                    "auth": true,
+                    "permission": "email_marketing.manage"
+                },
+                {
+                    "method": "DELETE",
+                    "path": "\/api\/v1\/email-marketing\/subscribers\/{id}",
+                    "handler": "SubscriberController@unsubscribe",
+                    "auth": true,
+                    "permission": "email_marketing.manage"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/webhooks\/bounce",
+                    "handler": "WebhookController@handleBounce",
+                    "auth": false,
+                    "permission": "public"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/email-marketing\/webhooks\/complaint",
+                    "handler": "WebhookController@handleComplaint",
+                    "auth": false,
+                    "permission": "public"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "email_campaigns",
+                "email_automations",
+                "email_templates",
+                "email_segments",
+                "email_subscribers",
+                "email_sends",
+                "email_opens",
+                "email_clicks",
+                "email_bounces",
+                "email_complaints",
+                "email_unsubscribes",
+                "automation_triggers",
+                "automation_actions",
+                "automation_flows",
+                "segment_members",
+                "ab_tests",
+                "personalization_rules",
+                "deliverability_tests"
+            ],
+            "migrations": "migrations\/"
+        },
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "processAutomationQueue",
+                "description": "Process email automation queue"
+            },
+            {
+                "schedule": "*\/15 * * * *",
+                "handler": "updateSegments",
+                "description": "Update dynamic email segments"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "processScheduledCampaigns",
+                "description": "Process scheduled email campaigns"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "cleanupOldData",
+                "description": "Clean up old email tracking data"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "updateEngagementScores",
+                "description": "Update subscriber engagement scores"
+            },
+            {
+                "schedule": "0 4 * * *",
+                "handler": "processListHygiene",
+                "description": "Process automatic list hygiene"
+            },
+            {
+                "schedule": "0 5 * * 0",
+                "handler": "generateWeeklyReports",
+                "description": "Generate weekly email marketing reports"
+            },
+            {
+                "schedule": "*\/30 * * * *",
+                "handler": "checkDeliverabilityHealth",
+                "description": "Monitor email deliverability health"
+            }
+        ],
+        "menu_items": [
+            {
+                "title": "Email Marketing",
+                "capability": "email_marketing.view",
+                "icon": "dashicons-email-alt",
+                "position": 26,
+                "submenu": [
+                    {
+                        "title": "Dashboard",
+                        "page": "email-marketing-dashboard",
+                        "capability": "email_marketing.view"
+                    },
+                    {
+                        "title": "Campaigns",
+                        "page": "email-campaigns",
+                        "capability": "campaigns.view"
+                    },
+                    {
+                        "title": "Automations",
+                        "page": "email-automations",
+                        "capability": "automations.view"
+                    },
+                    {
+                        "title": "Segments",
+                        "page": "email-segments",
+                        "capability": "segments.view"
+                    },
+                    {
+                        "title": "Templates",
+                        "page": "email-templates",
+                        "capability": "templates.view"
+                    },
+                    {
+                        "title": "Subscribers",
+                        "page": "email-subscribers",
+                        "capability": "email_marketing.view"
+                    },
+                    {
+                        "title": "Analytics",
+                        "page": "email-analytics",
+                        "capability": "analytics.email_view"
+                    },
+                    {
+                        "title": "Deliverability",
+                        "page": "email-deliverability",
+                        "capability": "deliverability.view"
+                    },
+                    {
+                        "title": "Settings",
+                        "page": "email-marketing-settings",
+                        "capability": "email_marketing.manage"
+                    }
+                ]
+            }
+        ],
+        "changelog": {
+            "1.0.0": [
+                "Initial release with comprehensive email marketing platform",
+                "Advanced automation engine with visual workflow builder",
+                "Sophisticated customer segmentation with behavioral triggers",
+                "A\/B testing framework with statistical significance",
+                "Personalization engine with dynamic content blocks",
+                "Multi-provider email delivery with failover support",
+                "Comprehensive analytics and reporting dashboard",
+                "Deliverability monitoring and optimization tools",
+                "Drag-and-drop email template editor",
+                "Advanced subscriber management and list hygiene",
+                "Revenue attribution and ROI tracking",
+                "Compliance tools for GDPR and CAN-SPAM"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "marketing",
+        "tags": [
+            "marketing",
+            "analytics",
+            "automation",
+            "real-time",
+            "performance"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "D",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

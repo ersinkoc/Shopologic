@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace InventoryManagement;
+namespace Shopologic\Plugins\InventoryManagement;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\PluginInterface;
@@ -537,5 +537,21 @@ class InventoryPlugin extends AbstractPlugin implements PluginInterface
                 $this->setConfig($key, $value);
             }
         }
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

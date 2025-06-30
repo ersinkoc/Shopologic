@@ -9,8 +9,7 @@ use Shopologic\Plugins\PaymentStripe\Models\StripePayment;
 use Shopologic\Plugins\PaymentStripe\Models\StripeRefund;
 use Illuminate\Support\Collection;
 
-class StripePaymentRepository
-{
+class StripePaymentRepository\n{
     /**
      * Create a new payment record
      */

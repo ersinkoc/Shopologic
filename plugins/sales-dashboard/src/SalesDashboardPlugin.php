@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SalesDashboard;
+namespace Shopologic\Plugins\SalesDashboard;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\PluginInterface;

@@ -1,5 +1,7 @@
 <?php
-namespace SubscriptionCommerce;
+
+declare(strict_types=1);
+namespace Shopologic\Plugins\SubscriptionCommerce;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\Hook;
@@ -476,5 +478,53 @@ class SubscriptionCommercePlugin extends AbstractPlugin
         ];
         
         $this->api->config()->set('subscription.retry_schedule', $retrySchedule);
+    }
+
+    /**
+     * Register Services
+     */
+    protected function registerServices(): void
+    {
+        // TODO: Implement registerServices
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Hooks
+     */
+    protected function registerHooks(): void
+    {
+        // TODO: Implement registerHooks
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

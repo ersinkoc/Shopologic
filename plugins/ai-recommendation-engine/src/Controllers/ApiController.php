@@ -1,6 +1,7 @@
 <?php
 
-namespace AiRecommendationEngine\Controllers;
+declare(strict_types=1);
+namespace Shopologic\Plugins\AiRecommendationEngine\Controllers;
 
 use Shopologic\Core\Controller\AbstractController;
 use Shopologic\Core\Http\Request;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Shipping;
+namespace Shopologic\Plugins\ShippingFedex\Shipping;
 
 use Shopologic\Core\Ecommerce\Shipping\ShippingMethodInterface;
 use Shopologic\Core\Ecommerce\Shipping\ShippingRequest;
@@ -107,7 +107,7 @@ class FedExShippingMethod implements ShippingMethodInterface
 
             return $rates;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('FedEx rate calculation failed', [
                 'error' => $e->getMessage(),
                 'from' => $request->getFromAddress()->postal_code,
@@ -153,7 +153,7 @@ class FedExShippingMethod implements ShippingMethodInterface
                 estimatedDelivery: $fedexResponse['estimated_delivery'] ?? null
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('FedEx shipment creation failed', [
                 'order_id' => $order->id,
                 'error' => $e->getMessage()
@@ -191,7 +191,7 @@ class FedExShippingMethod implements ShippingMethodInterface
                 trackingNumber: $shipment->tracking_number
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new LabelResponse(
                 success: false,
                 error: $e->getMessage()
@@ -215,7 +215,7 @@ class FedExShippingMethod implements ShippingMethodInterface
                 events: $trackingInfo['events'] ?? []
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new TrackingResponse(
                 success: false,
                 trackingNumber: $trackingNumber,
@@ -249,7 +249,7 @@ class FedExShippingMethod implements ShippingMethodInterface
 
             return $result;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             logger()->error('FedEx shipment cancellation failed', [
                 'shipment_id' => $shipmentId,
                 'error' => $e->getMessage()
@@ -288,7 +288,7 @@ class FedExShippingMethod implements ShippingMethodInterface
                 confidence: $result['confidence'] ?? 0
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new AddressValidationResponse(
                 valid: false,
                 errors: ['Failed to validate address: ' . $e->getMessage()]
@@ -318,7 +318,7 @@ class FedExShippingMethod implements ShippingMethodInterface
                 pickupCharge: $result['pickup_charge'] ?? 0
             );
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             return new PickupResponse(
                 success: false,
                 error: $e->getMessage()

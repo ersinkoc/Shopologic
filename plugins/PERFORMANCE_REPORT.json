@@ -1,0 +1,5325 @@
+{
+    "timestamp": "2025-06-30 19:01:12",
+    "benchmark_config": {
+        "iterations": 10,
+        "memory_threshold_mb": 10,
+        "time_threshold_seconds": 1
+    },
+    "summary": {
+        "total_plugins": 77,
+        "average_score": 82.7,
+        "grade_distribution": {
+            "A": 41,
+            "C": 18,
+            "D": 2,
+            "F": 2,
+            "B": 14
+        }
+    },
+    "plugins": {
+        "HelloWorld": {
+            "plugin": "HelloWorld",
+            "timestamp": "2025-06-30 19:00:49",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.008685111999511719,
+                "slowest": 0.009423017501831055,
+                "average": 0.009053492546081543,
+                "iterations": [
+                    0.009423017501831055,
+                    0.008881092071533203,
+                    0.008816003799438477,
+                    0.009248971939086914,
+                    0.009032964706420898,
+                    0.009414911270141602,
+                    0.009123802185058594,
+                    0.008685111999511719,
+                    0.008975028991699219,
+                    0.00893402099609375
+                ],
+                "fastest_ms": 8.69,
+                "slowest_ms": 9.42,
+                "average_ms": 9.05
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "ab-testing-framework": {
+            "plugin": "ab-testing-framework",
+            "timestamp": "2025-06-30 19:00:49",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.008003950119018555,
+                "slowest": 0.00964212417602539,
+                "average": 0.008794188499450684,
+                "iterations": [
+                    0.008838891983032227,
+                    0.009222984313964844,
+                    0.008952140808105469,
+                    0.008182048797607422,
+                    0.008889913558959961,
+                    0.008003950119018555,
+                    0.008708000183105469,
+                    0.008464813232421875,
+                    0.009037017822265625,
+                    0.00964212417602539
+                ],
+                "fastest_ms": 8,
+                "slowest_ms": 9.64,
+                "average_ms": 8.79
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "advanced-analytics-reporting": {
+            "plugin": "advanced-analytics-reporting",
+            "timestamp": "2025-06-30 19:00:50",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.025921106338500977,
+                "slowest": 0.06395602226257324,
+                "average": 0.03579964637756348,
+                "iterations": [
+                    0.0300750732421875,
+                    0.025921106338500977,
+                    0.0280611515045166,
+                    0.032907962799072266,
+                    0.03722405433654785,
+                    0.06395602226257324,
+                    0.03617095947265625,
+                    0.03386402130126953,
+                    0.03359413146972656,
+                    0.036221981048583984
+                ],
+                "fastest_ms": 25.92,
+                "slowest_ms": 63.96,
+                "average_ms": 35.8
+            },
+            "database": {
+                "simulated_queries": 560,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": true,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 19,
+                "total_size": 252132,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 246.22
+            },
+            "cpu": {
+                "complexity_score": 278,
+                "loop_count": 44,
+                "recursive_functions": 0,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": true,
+                "cache_efficiency": "good",
+                "cache_patterns": [
+                    "dependency_injection"
+                ]
+            },
+            "overall_score": 70,
+            "performance_grade": "C"
+        },
+        "advanced-cms": {
+            "plugin": "advanced-cms",
+            "timestamp": "2025-06-30 19:00:51",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006273031234741211,
+                "slowest": 0.008002996444702148,
+                "average": 0.0069457292556762695,
+                "iterations": [
+                    0.006578922271728516,
+                    0.006766080856323242,
+                    0.006420135498046875,
+                    0.007354021072387695,
+                    0.006420135498046875,
+                    0.007302045822143555,
+                    0.006273031234741211,
+                    0.007470846176147461,
+                    0.006869077682495117,
+                    0.008002996444702148
+                ],
+                "fastest_ms": 6.27,
+                "slowest_ms": 8,
+                "average_ms": 6.95
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1857,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.81
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "advanced-email-marketing": {
+            "plugin": "advanced-email-marketing",
+            "timestamp": "2025-06-30 19:00:51",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0347900390625,
+                "slowest": 0.04504895210266113,
+                "average": 0.04120128154754639,
+                "iterations": [
+                    0.0347900390625,
+                    0.037217140197753906,
+                    0.044892072677612305,
+                    0.04405689239501953,
+                    0.04504895210266113,
+                    0.044365882873535156,
+                    0.04379892349243164,
+                    0.04478287696838379,
+                    0.03750896453857422,
+                    0.03555107116699219
+                ],
+                "fastest_ms": 34.79,
+                "slowest_ms": 45.05,
+                "average_ms": 41.2
+            },
+            "database": {
+                "simulated_queries": 983,
+                "query_efficiency": "optimized",
+                "potential_n_plus_1": true,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 31,
+                "total_size": 403960,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 394.49
+            },
+            "cpu": {
+                "complexity_score": 682,
+                "loop_count": 60,
+                "recursive_functions": 0,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 60,
+            "performance_grade": "D"
+        },
+        "advanced-inventory": {
+            "plugin": "advanced-inventory",
+            "timestamp": "2025-06-30 19:00:52",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.024859905242919922,
+                "slowest": 0.06549787521362305,
+                "average": 0.04312312602996826,
+                "iterations": [
+                    0.06549787521362305,
+                    0.04394197463989258,
+                    0.043942928314208984,
+                    0.03329300880432129,
+                    0.033020973205566406,
+                    0.03659391403198242,
+                    0.05434393882751465,
+                    0.056645870208740234,
+                    0.039090871810913086,
+                    0.024859905242919922
+                ],
+                "fastest_ms": 24.86,
+                "slowest_ms": 65.5,
+                "average_ms": 43.12
+            },
+            "database": {
+                "simulated_queries": 317,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": true,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 11,
+                "total_size": 120244,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 117.43
+            },
+            "cpu": {
+                "complexity_score": 154,
+                "loop_count": 17,
+                "recursive_functions": 0,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 50,
+            "performance_grade": "F"
+        },
+        "advanced-inventory-intelligence": {
+            "plugin": "advanced-inventory-intelligence",
+            "timestamp": "2025-06-30 19:00:53",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006668806076049805,
+                "slowest": 0.007906913757324219,
+                "average": 0.007422780990600586,
+                "iterations": [
+                    0.007906913757324219,
+                    0.007355928421020508,
+                    0.007836103439331055,
+                    0.007858991622924805,
+                    0.007727861404418945,
+                    0.006951093673706055,
+                    0.007355928421020508,
+                    0.006668806076049805,
+                    0.007729053497314453,
+                    0.006837129592895508
+                ],
+                "fastest_ms": 6.67,
+                "slowest_ms": 7.91,
+                "average_ms": 7.42
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1888,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.84
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "advanced-personalization-engine": {
+            "plugin": "advanced-personalization-engine",
+            "timestamp": "2025-06-30 19:00:53",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.007071971893310547,
+                "slowest": 0.007908105850219727,
+                "average": 0.007446932792663574,
+                "iterations": [
+                    0.007908105850219727,
+                    0.007497072219848633,
+                    0.007609128952026367,
+                    0.007421970367431641,
+                    0.007071971893310547,
+                    0.007768154144287109,
+                    0.00742793083190918,
+                    0.007376909255981445,
+                    0.007309913635253906,
+                    0.0070781707763671875
+                ],
+                "fastest_ms": 7.07,
+                "slowest_ms": 7.91,
+                "average_ms": 7.45
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1818,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.78
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "ai-content-generator": {
+            "plugin": "ai-content-generator",
+            "timestamp": "2025-06-30 19:00:53",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.013453960418701172,
+                "slowest": 0.01894211769104004,
+                "average": 0.015814709663391113,
+                "iterations": [
+                    0.014686107635498047,
+                    0.014439105987548828,
+                    0.013453960418701172,
+                    0.013978004455566406,
+                    0.01440286636352539,
+                    0.015014886856079102,
+                    0.01794290542602539,
+                    0.01732802391052246,
+                    0.01894211769104004,
+                    0.017959117889404297
+                ],
+                "fastest_ms": 13.45,
+                "slowest_ms": 18.94,
+                "average_ms": 15.81
+            },
+            "database": {
+                "simulated_queries": 15,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 16655,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 16.26
+            },
+            "cpu": {
+                "complexity_score": 23,
+                "loop_count": 3,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "ai-recommendation-engine": {
+            "plugin": "ai-recommendation-engine",
+            "timestamp": "2025-06-30 19:00:54",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.010840177536010742,
+                "slowest": 0.01345515251159668,
+                "average": 0.012234854698181152,
+                "iterations": [
+                    0.01345515251159668,
+                    0.013047933578491211,
+                    0.013425111770629883,
+                    0.012511014938354492,
+                    0.011845111846923828,
+                    0.011827945709228516,
+                    0.011573076248168945,
+                    0.010840177536010742,
+                    0.011680126190185547,
+                    0.01214289665222168
+                ],
+                "fastest_ms": 10.84,
+                "slowest_ms": 13.46,
+                "average_ms": 12.23
+            },
+            "database": {
+                "simulated_queries": 5,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 2,
+                "total_size": 6120,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 5.98
+            },
+            "cpu": {
+                "complexity_score": 1,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "ai-recommendations": {
+            "plugin": "ai-recommendations",
+            "timestamp": "2025-06-30 19:00:54",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.014805078506469727,
+                "slowest": 0.017822980880737305,
+                "average": 0.01607820987701416,
+                "iterations": [
+                    0.017822980880737305,
+                    0.015328168869018555,
+                    0.014805078506469727,
+                    0.01490020751953125,
+                    0.014909982681274414,
+                    0.017297029495239258,
+                    0.017128944396972656,
+                    0.015817880630493164,
+                    0.015715837478637695,
+                    0.017055988311767578
+                ],
+                "fastest_ms": 14.81,
+                "slowest_ms": 17.82,
+                "average_ms": 16.08
+            },
+            "database": {
+                "simulated_queries": 114,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 5,
+                "total_size": 92201,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 90.04
+            },
+            "cpu": {
+                "complexity_score": 115,
+                "loop_count": 16,
+                "recursive_functions": 2,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": true,
+                "cache_efficiency": "good",
+                "cache_patterns": [
+                    "dependency_injection"
+                ]
+            },
+            "overall_score": 85,
+            "performance_grade": "B"
+        },
+        "analytics-google": {
+            "plugin": "analytics-google",
+            "timestamp": "2025-06-30 19:00:55",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.005461931228637695,
+                "slowest": 0.008296012878417969,
+                "average": 0.0068693399429321286,
+                "iterations": [
+                    0.007765054702758789,
+                    0.006991147994995117,
+                    0.008296012878417969,
+                    0.006976127624511719,
+                    0.00791311264038086,
+                    0.006386995315551758,
+                    0.006812095642089844,
+                    0.0055389404296875,
+                    0.006551980972290039,
+                    0.005461931228637695
+                ],
+                "fastest_ms": 5.46,
+                "slowest_ms": 8.3,
+                "average_ms": 6.87
+            },
+            "database": {
+                "simulated_queries": 26,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 10708,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 10.46
+            },
+            "cpu": {
+                "complexity_score": 9,
+                "loop_count": 2,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": true,
+                "cache_efficiency": "good",
+                "cache_patterns": [
+                    "dependency_injection"
+                ]
+            },
+            "overall_score": 100,
+            "performance_grade": "A"
+        },
+        "api-mock-server": {
+            "plugin": "api-mock-server",
+            "timestamp": "2025-06-30 19:00:55",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.013321876525878906,
+                "slowest": 0.01803898811340332,
+                "average": 0.015173697471618652,
+                "iterations": [
+                    0.013993978500366211,
+                    0.01365804672241211,
+                    0.013989925384521484,
+                    0.013321876525878906,
+                    0.01803898811340332,
+                    0.016004085540771484,
+                    0.014977216720581055,
+                    0.01606297492980957,
+                    0.016176939010620117,
+                    0.015512943267822266
+                ],
+                "fastest_ms": 13.32,
+                "slowest_ms": 18.04,
+                "average_ms": 15.17
+            },
+            "database": {
+                "simulated_queries": 34,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 15505,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 15.14
+            },
+            "cpu": {
+                "complexity_score": 28,
+                "loop_count": 4,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "behavioral-psychology-engine": {
+            "plugin": "behavioral-psychology-engine",
+            "timestamp": "2025-06-30 19:00:55",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006538867950439453,
+                "slowest": 0.009020090103149414,
+                "average": 0.007819724082946778,
+                "iterations": [
+                    0.009020090103149414,
+                    0.008841991424560547,
+                    0.007790088653564453,
+                    0.008433103561401367,
+                    0.007606029510498047,
+                    0.008195161819458008,
+                    0.007173061370849609,
+                    0.007112979888916016,
+                    0.006538867950439453,
+                    0.007485866546630859
+                ],
+                "fastest_ms": 6.54,
+                "slowest_ms": 9.02,
+                "average_ms": 7.82
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1731,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.69
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "blockchain-supply-chain": {
+            "plugin": "blockchain-supply-chain",
+            "timestamp": "2025-06-30 19:00:55",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0069789886474609375,
+                "slowest": 0.009446859359741211,
+                "average": 0.007749748229980469,
+                "iterations": [
+                    0.008332967758178711,
+                    0.007615804672241211,
+                    0.008456945419311523,
+                    0.007277965545654297,
+                    0.0069789886474609375,
+                    0.007889032363891602,
+                    0.00701594352722168,
+                    0.0072019100189208984,
+                    0.007281064987182617,
+                    0.009446859359741211
+                ],
+                "fastest_ms": 6.98,
+                "slowest_ms": 9.45,
+                "average_ms": 7.75
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1568,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.53
+            },
+            "cpu": {
+                "complexity_score": 1,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "blue-green-deployment": {
+            "plugin": "blue-green-deployment",
+            "timestamp": "2025-06-30 19:00:55",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.00621795654296875,
+                "slowest": 0.008077144622802734,
+                "average": 0.00682985782623291,
+                "iterations": [
+                    0.00770115852355957,
+                    0.008077144622802734,
+                    0.006253957748413086,
+                    0.006793975830078125,
+                    0.00621795654296875,
+                    0.006424903869628906,
+                    0.006404876708984375,
+                    0.006307840347290039,
+                    0.006307840347290039,
+                    0.0078089237213134766
+                ],
+                "fastest_ms": 6.22,
+                "slowest_ms": 8.08,
+                "average_ms": 6.83
+            },
+            "database": {
+                "simulated_queries": 19,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 19327,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 18.87
+            },
+            "cpu": {
+                "complexity_score": 40,
+                "loop_count": 3,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "bundle-builder": {
+            "plugin": "bundle-builder",
+            "timestamp": "2025-06-30 19:00:56",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005240440368652344,
+                "slowest": 0.0009539127349853516,
+                "average": 0.0006434917449951172,
+                "iterations": [
+                    0.0009539127349853516,
+                    0.0006201267242431641,
+                    0.0006840229034423828,
+                    0.000701904296875,
+                    0.0006868839263916016,
+                    0.0005300045013427734,
+                    0.0006010532379150391,
+                    0.0005240440368652344,
+                    0.0006079673767089844,
+                    0.0005249977111816406
+                ],
+                "fastest_ms": 0.52,
+                "slowest_ms": 0.95,
+                "average_ms": 0.64
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "code-quality-analyzer": {
+            "plugin": "code-quality-analyzer",
+            "timestamp": "2025-06-30 19:00:56",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.013440847396850586,
+                "slowest": 0.019988059997558594,
+                "average": 0.01549530029296875,
+                "iterations": [
+                    0.016968965530395508,
+                    0.019421100616455078,
+                    0.019988059997558594,
+                    0.014842033386230469,
+                    0.014014005661010742,
+                    0.014081954956054688,
+                    0.01407313346862793,
+                    0.013629913330078125,
+                    0.013440847396850586,
+                    0.014492988586425781
+                ],
+                "fastest_ms": 13.44,
+                "slowest_ms": 19.99,
+                "average_ms": 15.5
+            },
+            "database": {
+                "simulated_queries": 12,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 17687,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.27
+            },
+            "cpu": {
+                "complexity_score": 27,
+                "loop_count": 8,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "container-orchestration": {
+            "plugin": "container-orchestration",
+            "timestamp": "2025-06-30 19:00:56",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006742954254150391,
+                "slowest": 0.009804010391235352,
+                "average": 0.008261322975158691,
+                "iterations": [
+                    0.006742954254150391,
+                    0.00852203369140625,
+                    0.007827043533325195,
+                    0.00934290885925293,
+                    0.009804010391235352,
+                    0.007470846176147461,
+                    0.008080005645751953,
+                    0.00782918930053711,
+                    0.008082151412963867,
+                    0.008912086486816406
+                ],
+                "fastest_ms": 6.74,
+                "slowest_ms": 9.8,
+                "average_ms": 8.26
+            },
+            "database": {
+                "simulated_queries": 26,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 17357,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 16.95
+            },
+            "cpu": {
+                "complexity_score": 26,
+                "loop_count": 7,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "core-commerce": {
+            "plugin": "core-commerce",
+            "timestamp": "2025-06-30 19:00:56",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005838871002197266,
+                "slowest": 0.0010738372802734375,
+                "average": 0.0008220434188842774,
+                "iterations": [
+                    0.0010099411010742188,
+                    0.000659942626953125,
+                    0.001043081283569336,
+                    0.0008261203765869141,
+                    0.0008161067962646484,
+                    0.0007197856903076172,
+                    0.0007898807525634766,
+                    0.0010738372802734375,
+                    0.0006978511810302734,
+                    0.0005838871002197266
+                ],
+                "fastest_ms": 0.58,
+                "slowest_ms": 1.07,
+                "average_ms": 0.82
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "customer-lifetime-value-optimizer": {
+            "plugin": "customer-lifetime-value-optimizer",
+            "timestamp": "2025-06-30 19:00:56",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0076181888580322266,
+                "slowest": 0.011768102645874023,
+                "average": 0.008938360214233398,
+                "iterations": [
+                    0.009343147277832031,
+                    0.010857105255126953,
+                    0.008780956268310547,
+                    0.011768102645874023,
+                    0.0076181888580322266,
+                    0.008393049240112305,
+                    0.008049964904785156,
+                    0.008877992630004883,
+                    0.008013010025024414,
+                    0.007682085037231445
+                ],
+                "fastest_ms": 7.62,
+                "slowest_ms": 11.77,
+                "average_ms": 8.94
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1704,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.66
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "customer-loyalty-rewards": {
+            "plugin": "customer-loyalty-rewards",
+            "timestamp": "2025-06-30 19:00:56",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0201871395111084,
+                "slowest": 0.028460979461669922,
+                "average": 0.0227642297744751,
+                "iterations": [
+                    0.022307872772216797,
+                    0.022077083587646484,
+                    0.023754119873046875,
+                    0.022009849548339844,
+                    0.028460979461669922,
+                    0.023965120315551758,
+                    0.0201871395111084,
+                    0.022418975830078125,
+                    0.021619081497192383,
+                    0.02084207534790039
+                ],
+                "fastest_ms": 20.19,
+                "slowest_ms": 28.46,
+                "average_ms": 22.76
+            },
+            "database": {
+                "simulated_queries": 413,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 11,
+                "total_size": 150745,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 147.21
+            },
+            "cpu": {
+                "complexity_score": 166,
+                "loop_count": 14,
+                "recursive_functions": 0,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 65,
+            "performance_grade": "D"
+        },
+        "customer-segmentation": {
+            "plugin": "customer-segmentation",
+            "timestamp": "2025-06-30 19:00:57",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004639625549316406,
+                "slowest": 0.0010221004486083984,
+                "average": 0.000644850730895996,
+                "iterations": [
+                    0.0005321502685546875,
+                    0.0004799365997314453,
+                    0.0004639625549316406,
+                    0.0010221004486083984,
+                    0.0006921291351318359,
+                    0.0006060600280761719,
+                    0.0007040500640869141,
+                    0.0007159709930419922,
+                    0.0006361007690429688,
+                    0.0005960464477539062
+                ],
+                "fastest_ms": 0.46,
+                "slowest_ms": 1.02,
+                "average_ms": 0.64
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "customer-segmentation-engine": {
+            "plugin": "customer-segmentation-engine",
+            "timestamp": "2025-06-30 19:00:57",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004780292510986328,
+                "slowest": 0.000637054443359375,
+                "average": 0.0005372047424316406,
+                "iterations": [
+                    0.0005609989166259766,
+                    0.0005271434783935547,
+                    0.0004780292510986328,
+                    0.0004928112030029297,
+                    0.0005168914794921875,
+                    0.0005500316619873047,
+                    0.0005021095275878906,
+                    0.0005359649658203125,
+                    0.000637054443359375,
+                    0.0005710124969482422
+                ],
+                "fastest_ms": 0.48,
+                "slowest_ms": 0.64,
+                "average_ms": 0.54
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "database-query-optimizer": {
+            "plugin": "database-query-optimizer",
+            "timestamp": "2025-06-30 19:00:57",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.01897907257080078,
+                "slowest": 0.02472400665283203,
+                "average": 0.021484851837158203,
+                "iterations": [
+                    0.02186417579650879,
+                    0.021773815155029297,
+                    0.023116111755371094,
+                    0.020525217056274414,
+                    0.01897907257080078,
+                    0.01956009864807129,
+                    0.020550966262817383,
+                    0.020634174346923828,
+                    0.02472400665283203,
+                    0.023120880126953125
+                ],
+                "fastest_ms": 18.98,
+                "slowest_ms": 24.72,
+                "average_ms": 21.48
+            },
+            "database": {
+                "simulated_queries": 25,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 18144,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.72
+            },
+            "cpu": {
+                "complexity_score": 35,
+                "loop_count": 9,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "dynamic-inventory-forecasting": {
+            "plugin": "dynamic-inventory-forecasting",
+            "timestamp": "2025-06-30 19:00:58",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004291534423828125,
+                "slowest": 0.0005578994750976562,
+                "average": 0.0004995346069335937,
+                "iterations": [
+                    0.0005199909210205078,
+                    0.0004930496215820312,
+                    0.0005390644073486328,
+                    0.0005540847778320312,
+                    0.0005578994750976562,
+                    0.0005311965942382812,
+                    0.0004508495330810547,
+                    0.0004291534423828125,
+                    0.00043082237243652344,
+                    0.0004892349243164062
+                ],
+                "fastest_ms": 0.43,
+                "slowest_ms": 0.56,
+                "average_ms": 0.5
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "edge-computing-gateway": {
+            "plugin": "edge-computing-gateway",
+            "timestamp": "2025-06-30 19:00:58",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0057239532470703125,
+                "slowest": 0.0065801143646240234,
+                "average": 0.006124711036682129,
+                "iterations": [
+                    0.0057239532470703125,
+                    0.006154060363769531,
+                    0.005980014801025391,
+                    0.0065801143646240234,
+                    0.0059168338775634766,
+                    0.006386995315551758,
+                    0.0060460567474365234,
+                    0.006345987319946289,
+                    0.005969047546386719,
+                    0.006144046783447266
+                ],
+                "fastest_ms": 5.72,
+                "slowest_ms": 6.58,
+                "average_ms": 6.12
+            },
+            "database": {
+                "simulated_queries": 23,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 15811,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 15.44
+            },
+            "cpu": {
+                "complexity_score": 23,
+                "loop_count": 3,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "email-marketing": {
+            "plugin": "email-marketing",
+            "timestamp": "2025-06-30 19:00:58",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0059070587158203125,
+                "slowest": 0.008503913879394531,
+                "average": 0.006800723075866699,
+                "iterations": [
+                    0.0059070587158203125,
+                    0.006751060485839844,
+                    0.006058216094970703,
+                    0.006996870040893555,
+                    0.006239175796508789,
+                    0.006855010986328125,
+                    0.007217884063720703,
+                    0.006869077682495117,
+                    0.0066089630126953125,
+                    0.008503913879394531
+                ],
+                "fastest_ms": 5.91,
+                "slowest_ms": 8.5,
+                "average_ms": 6.8
+            },
+            "database": {
+                "simulated_queries": 47,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 17018,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 16.62
+            },
+            "cpu": {
+                "complexity_score": 16,
+                "loop_count": 6,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "enterprise-security-compliance": {
+            "plugin": "enterprise-security-compliance",
+            "timestamp": "2025-06-30 19:00:58",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.008033037185668945,
+                "slowest": 0.009317874908447266,
+                "average": 0.00847189426422119,
+                "iterations": [
+                    0.00878596305847168,
+                    0.008720874786376953,
+                    0.008033037185668945,
+                    0.008398056030273438,
+                    0.008388996124267578,
+                    0.008085966110229492,
+                    0.008266210556030273,
+                    0.008491992950439453,
+                    0.009317874908447266,
+                    0.008229970932006836
+                ],
+                "fastest_ms": 8.03,
+                "slowest_ms": 9.32,
+                "average_ms": 8.47
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1732,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.69
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "enterprise-supply-chain-management": {
+            "plugin": "enterprise-supply-chain-management",
+            "timestamp": "2025-06-30 19:00:58",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.007898807525634766,
+                "slowest": 0.016186952590942383,
+                "average": 0.011345195770263671,
+                "iterations": [
+                    0.009408950805664062,
+                    0.007898807525634766,
+                    0.00875711441040039,
+                    0.008619070053100586,
+                    0.00852513313293457,
+                    0.013025999069213867,
+                    0.014801979064941406,
+                    0.016186952590942383,
+                    0.014161825180053711,
+                    0.012066125869750977
+                ],
+                "fastest_ms": 7.9,
+                "slowest_ms": 16.19,
+                "average_ms": 11.35
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1782,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.74
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "event-sourcing": {
+            "plugin": "event-sourcing",
+            "timestamp": "2025-06-30 19:00:58",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.007872819900512695,
+                "slowest": 0.00910496711730957,
+                "average": 0.008309435844421387,
+                "iterations": [
+                    0.007872819900512695,
+                    0.008749961853027344,
+                    0.007896900177001953,
+                    0.008581876754760742,
+                    0.00910496711730957,
+                    0.007930994033813477,
+                    0.007884979248046875,
+                    0.00830698013305664,
+                    0.008044958114624023,
+                    0.008719921112060547
+                ],
+                "fastest_ms": 7.87,
+                "slowest_ms": 9.1,
+                "average_ms": 8.31
+            },
+            "database": {
+                "simulated_queries": 25,
+                "query_efficiency": "optimized",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 16483,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 16.1
+            },
+            "cpu": {
+                "complexity_score": 18,
+                "loop_count": 3,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "feature-flag-manager": {
+            "plugin": "feature-flag-manager",
+            "timestamp": "2025-06-30 19:00:59",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006453037261962891,
+                "slowest": 0.010843992233276367,
+                "average": 0.008345270156860351,
+                "iterations": [
+                    0.007687091827392578,
+                    0.010843992233276367,
+                    0.007969141006469727,
+                    0.006994009017944336,
+                    0.008315086364746094,
+                    0.010815143585205078,
+                    0.007098197937011719,
+                    0.008941888809204102,
+                    0.006453037261962891,
+                    0.008335113525390625
+                ],
+                "fastest_ms": 6.45,
+                "slowest_ms": 10.84,
+                "average_ms": 8.35
+            },
+            "database": {
+                "simulated_queries": 33,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 18277,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.85
+            },
+            "cpu": {
+                "complexity_score": 32,
+                "loop_count": 4,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "fraud-detection-system": {
+            "plugin": "fraud-detection-system",
+            "timestamp": "2025-06-30 19:00:59",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004260540008544922,
+                "slowest": 0.0006680488586425781,
+                "average": 0.0004999876022338867,
+                "iterations": [
+                    0.00044798851013183594,
+                    0.0004360675811767578,
+                    0.0004260540008544922,
+                    0.00043010711669921875,
+                    0.0004417896270751953,
+                    0.0006680488586425781,
+                    0.0005691051483154297,
+                    0.0005350112915039062,
+                    0.0005137920379638672,
+                    0.0005319118499755859
+                ],
+                "fastest_ms": 0.43,
+                "slowest_ms": 0.67,
+                "average_ms": 0.5
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "gift-card-plus": {
+            "plugin": "gift-card-plus",
+            "timestamp": "2025-06-30 19:00:59",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004150867462158203,
+                "slowest": 0.0008401870727539062,
+                "average": 0.0005292415618896485,
+                "iterations": [
+                    0.0004239082336425781,
+                    0.00043201446533203125,
+                    0.0004429817199707031,
+                    0.0004200935363769531,
+                    0.0004150867462158203,
+                    0.0004940032958984375,
+                    0.0006301403045654297,
+                    0.0006489753723144531,
+                    0.0005450248718261719,
+                    0.0008401870727539062
+                ],
+                "fastest_ms": 0.42,
+                "slowest_ms": 0.84,
+                "average_ms": 0.53
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "graphql-schema-builder": {
+            "plugin": "graphql-schema-builder",
+            "timestamp": "2025-06-30 19:00:59",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.015924930572509766,
+                "slowest": 0.022917985916137695,
+                "average": 0.018785953521728516,
+                "iterations": [
+                    0.022917985916137695,
+                    0.015924930572509766,
+                    0.016579866409301758,
+                    0.018639802932739258,
+                    0.020435094833374023,
+                    0.02138495445251465,
+                    0.019472122192382812,
+                    0.018460988998413086,
+                    0.01727890968322754,
+                    0.01676487922668457
+                ],
+                "fastest_ms": 15.92,
+                "slowest_ms": 22.92,
+                "average_ms": 18.79
+            },
+            "database": {
+                "simulated_queries": 21,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 18354,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.92
+            },
+            "cpu": {
+                "complexity_score": 32,
+                "loop_count": 5,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "headless-commerce-api": {
+            "plugin": "headless-commerce-api",
+            "timestamp": "2025-06-30 19:00:59",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.013895034790039062,
+                "slowest": 0.03621697425842285,
+                "average": 0.0173356294631958,
+                "iterations": [
+                    0.013895034790039062,
+                    0.01681995391845703,
+                    0.015464067459106445,
+                    0.015282154083251953,
+                    0.014839887619018555,
+                    0.016360998153686523,
+                    0.014801979064941406,
+                    0.015093088150024414,
+                    0.014582157135009766,
+                    0.03621697425842285
+                ],
+                "fastest_ms": 13.9,
+                "slowest_ms": 36.22,
+                "average_ms": 17.34
+            },
+            "database": {
+                "simulated_queries": 20,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 19380,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 18.93
+            },
+            "cpu": {
+                "complexity_score": 22,
+                "loop_count": 6,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "inventory-forecasting": {
+            "plugin": "inventory-forecasting",
+            "timestamp": "2025-06-30 19:01:00",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0007750988006591797,
+                "slowest": 0.0014569759368896484,
+                "average": 0.001005697250366211,
+                "iterations": [
+                    0.0010559558868408203,
+                    0.0010769367218017578,
+                    0.0009860992431640625,
+                    0.0010838508605957031,
+                    0.0009920597076416016,
+                    0.0008330345153808594,
+                    0.0014569759368896484,
+                    0.0007750988006591797,
+                    0.0008299350738525391,
+                    0.0009670257568359375
+                ],
+                "fastest_ms": 0.78,
+                "slowest_ms": 1.46,
+                "average_ms": 1.01
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "inventory-management": {
+            "plugin": "inventory-management",
+            "timestamp": "2025-06-30 19:01:00",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006173133850097656,
+                "slowest": 0.011368036270141602,
+                "average": 0.008398675918579101,
+                "iterations": [
+                    0.007380008697509766,
+                    0.007627964019775391,
+                    0.011368036270141602,
+                    0.008256912231445312,
+                    0.008621931076049805,
+                    0.00735783576965332,
+                    0.006882905960083008,
+                    0.00940704345703125,
+                    0.006173133850097656,
+                    0.010910987854003906
+                ],
+                "fastest_ms": 6.17,
+                "slowest_ms": 11.37,
+                "average_ms": 8.4
+            },
+            "database": {
+                "simulated_queries": 49,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 18209,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.78
+            },
+            "cpu": {
+                "complexity_score": 13,
+                "loop_count": 8,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "journey-analytics": {
+            "plugin": "journey-analytics",
+            "timestamp": "2025-06-30 19:01:00",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005240440368652344,
+                "slowest": 0.0021109580993652344,
+                "average": 0.0007575273513793946,
+                "iterations": [
+                    0.0005631446838378906,
+                    0.0005240440368652344,
+                    0.0006139278411865234,
+                    0.0005450248718261719,
+                    0.0006520748138427734,
+                    0.0006160736083984375,
+                    0.0005919933319091797,
+                    0.0005390644073486328,
+                    0.0021109580993652344,
+                    0.0008189678192138672
+                ],
+                "fastest_ms": 0.52,
+                "slowest_ms": 2.11,
+                "average_ms": 0.76
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "live-chat": {
+            "plugin": "live-chat",
+            "timestamp": "2025-06-30 19:01:00",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0051610469818115234,
+                "slowest": 0.0069730281829833984,
+                "average": 0.005968809127807617,
+                "iterations": [
+                    0.006080150604248047,
+                    0.006152153015136719,
+                    0.00521087646484375,
+                    0.006207942962646484,
+                    0.005452871322631836,
+                    0.005770206451416016,
+                    0.006500959396362305,
+                    0.0051610469818115234,
+                    0.0069730281829833984,
+                    0.006178855895996094
+                ],
+                "fastest_ms": 5.16,
+                "slowest_ms": 6.97,
+                "average_ms": 5.97
+            },
+            "database": {
+                "simulated_queries": 39,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 17335,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 16.93
+            },
+            "cpu": {
+                "complexity_score": 15,
+                "loop_count": 4,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "loyalty-gamification": {
+            "plugin": "loyalty-gamification",
+            "timestamp": "2025-06-30 19:01:00",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004420280456542969,
+                "slowest": 0.001127004623413086,
+                "average": 0.0006326436996459961,
+                "iterations": [
+                    0.001127004623413086,
+                    0.0009829998016357422,
+                    0.0006110668182373047,
+                    0.0006630420684814453,
+                    0.0004420280456542969,
+                    0.0004420280456542969,
+                    0.0005850791931152344,
+                    0.0005440711975097656,
+                    0.00046896934509277344,
+                    0.0004601478576660156
+                ],
+                "fastest_ms": 0.44,
+                "slowest_ms": 1.13,
+                "average_ms": 0.63
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "loyalty-rewards": {
+            "plugin": "loyalty-rewards",
+            "timestamp": "2025-06-30 19:01:00",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.005299806594848633,
+                "slowest": 0.008382081985473633,
+                "average": 0.007331657409667969,
+                "iterations": [
+                    0.00837397575378418,
+                    0.007218122482299805,
+                    0.0074999332427978516,
+                    0.008382081985473633,
+                    0.008348941802978516,
+                    0.006604909896850586,
+                    0.007042884826660156,
+                    0.007551908493041992,
+                    0.005299806594848633,
+                    0.006994009017944336
+                ],
+                "fastest_ms": 5.3,
+                "slowest_ms": 8.38,
+                "average_ms": 7.33
+            },
+            "database": {
+                "simulated_queries": 57,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 22556,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 22.03
+            },
+            "cpu": {
+                "complexity_score": 17,
+                "loop_count": 5,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "microservices-manager": {
+            "plugin": "microservices-manager",
+            "timestamp": "2025-06-30 19:01:00",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.004923820495605469,
+                "slowest": 0.006244182586669922,
+                "average": 0.005584120750427246,
+                "iterations": [
+                    0.005571126937866211,
+                    0.0057680606842041016,
+                    0.004923820495605469,
+                    0.005589008331298828,
+                    0.005960941314697266,
+                    0.005682945251464844,
+                    0.006244182586669922,
+                    0.0050830841064453125,
+                    0.005156040191650391,
+                    0.005861997604370117
+                ],
+                "fastest_ms": 4.92,
+                "slowest_ms": 6.24,
+                "average_ms": 5.58
+            },
+            "database": {
+                "simulated_queries": 30,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 18306,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.88
+            },
+            "cpu": {
+                "complexity_score": 30,
+                "loop_count": 6,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "ml-model-deployment": {
+            "plugin": "ml-model-deployment",
+            "timestamp": "2025-06-30 19:01:01",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0053310394287109375,
+                "slowest": 0.007847070693969727,
+                "average": 0.006531238555908203,
+                "iterations": [
+                    0.007215976715087891,
+                    0.0061380863189697266,
+                    0.005342006683349609,
+                    0.0070037841796875,
+                    0.006041049957275391,
+                    0.007847070693969727,
+                    0.006182193756103516,
+                    0.007456064224243164,
+                    0.0053310394287109375,
+                    0.00675511360168457
+                ],
+                "fastest_ms": 5.33,
+                "slowest_ms": 7.85,
+                "average_ms": 6.53
+            },
+            "database": {
+                "simulated_queries": 15,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 17622,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.21
+            },
+            "cpu": {
+                "complexity_score": 21,
+                "loop_count": 6,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": [
+                    "external_cache"
+                ]
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "multi-currency": {
+            "plugin": "multi-currency",
+            "timestamp": "2025-06-30 19:01:01",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0053899288177490234,
+                "slowest": 0.006563901901245117,
+                "average": 0.005886459350585937,
+                "iterations": [
+                    0.005909919738769531,
+                    0.006563901901245117,
+                    0.005514860153198242,
+                    0.005717039108276367,
+                    0.005944967269897461,
+                    0.0053899288177490234,
+                    0.006317138671875,
+                    0.005567073822021484,
+                    0.005566835403442383,
+                    0.006372928619384766
+                ],
+                "fastest_ms": 5.39,
+                "slowest_ms": 6.56,
+                "average_ms": 5.89
+            },
+            "database": {
+                "simulated_queries": 20,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 7826,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 7.64
+            },
+            "cpu": {
+                "complexity_score": 2,
+                "loop_count": 3,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "multi-currency-localization": {
+            "plugin": "multi-currency-localization",
+            "timestamp": "2025-06-30 19:01:01",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.021252870559692383,
+                "slowest": 0.030174970626831055,
+                "average": 0.024896121025085448,
+                "iterations": [
+                    0.02355194091796875,
+                    0.02445697784423828,
+                    0.025536060333251953,
+                    0.023620128631591797,
+                    0.021806001663208008,
+                    0.021252870559692383,
+                    0.022320985794067383,
+                    0.028760194778442383,
+                    0.0274810791015625,
+                    0.030174970626831055
+                ],
+                "fastest_ms": 21.25,
+                "slowest_ms": 30.17,
+                "average_ms": 24.9
+            },
+            "database": {
+                "simulated_queries": 280,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 10,
+                "total_size": 134276,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 131.13
+            },
+            "cpu": {
+                "complexity_score": 195,
+                "loop_count": 25,
+                "recursive_functions": 0,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": true,
+                "cache_efficiency": "good",
+                "cache_patterns": [
+                    "dependency_injection"
+                ]
+            },
+            "overall_score": 85,
+            "performance_grade": "B"
+        },
+        "multi-tenant-saas": {
+            "plugin": "multi-tenant-saas",
+            "timestamp": "2025-06-30 19:01:02",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.014034032821655273,
+                "slowest": 0.017755985260009766,
+                "average": 0.01504530906677246,
+                "iterations": [
+                    0.015566110610961914,
+                    0.01437997817993164,
+                    0.014873981475830078,
+                    0.014705181121826172,
+                    0.014419078826904297,
+                    0.014034032821655273,
+                    0.014226913452148438,
+                    0.014969825744628906,
+                    0.017755985260009766,
+                    0.015522003173828125
+                ],
+                "fastest_ms": 14.03,
+                "slowest_ms": 17.76,
+                "average_ms": 15.05
+            },
+            "database": {
+                "simulated_queries": 23,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 18469,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 18.04
+            },
+            "cpu": {
+                "complexity_score": 27,
+                "loop_count": 5,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "multi-vendor-marketplace": {
+            "plugin": "multi-vendor-marketplace",
+            "timestamp": "2025-06-30 19:01:02",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.00047397613525390625,
+                "slowest": 0.0006630420684814453,
+                "average": 0.0006010293960571289,
+                "iterations": [
+                    0.0006191730499267578,
+                    0.0006248950958251953,
+                    0.0005478858947753906,
+                    0.0006470680236816406,
+                    0.0005600452423095703,
+                    0.0006411075592041016,
+                    0.0005860328674316406,
+                    0.0006630420684814453,
+                    0.0006470680236816406,
+                    0.00047397613525390625
+                ],
+                "fastest_ms": 0.47,
+                "slowest_ms": 0.66,
+                "average_ms": 0.6
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "omnichannel-integration-hub": {
+            "plugin": "omnichannel-integration-hub",
+            "timestamp": "2025-06-30 19:01:02",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.00896310806274414,
+                "slowest": 0.023138046264648438,
+                "average": 0.01370084285736084,
+                "iterations": [
+                    0.016160964965820312,
+                    0.015342950820922852,
+                    0.023138046264648438,
+                    0.01957106590270996,
+                    0.009920120239257812,
+                    0.011773109436035156,
+                    0.010934829711914062,
+                    0.00896310806274414,
+                    0.009420156478881836,
+                    0.011784076690673828
+                ],
+                "fastest_ms": 8.96,
+                "slowest_ms": 23.14,
+                "average_ms": 13.7
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1834,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.79
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "payment-paypal": {
+            "plugin": "payment-paypal",
+            "timestamp": "2025-06-30 19:01:03",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.010529041290283203,
+                "slowest": 0.012912988662719727,
+                "average": 0.011584615707397461,
+                "iterations": [
+                    0.010529041290283203,
+                    0.011028051376342773,
+                    0.010993003845214844,
+                    0.011230945587158203,
+                    0.012912988662719727,
+                    0.011094093322753906,
+                    0.01197504997253418,
+                    0.01237797737121582,
+                    0.011506080627441406,
+                    0.012198925018310547
+                ],
+                "fastest_ms": 10.53,
+                "slowest_ms": 12.91,
+                "average_ms": 11.58
+            },
+            "database": {
+                "simulated_queries": 22,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 2,
+                "total_size": 18304,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.88
+            },
+            "cpu": {
+                "complexity_score": 30,
+                "loop_count": 1,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "payment-stripe": {
+            "plugin": "payment-stripe",
+            "timestamp": "2025-06-30 19:01:03",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.03054499626159668,
+                "slowest": 0.03360915184020996,
+                "average": 0.03217096328735351,
+                "iterations": [
+                    0.03267407417297363,
+                    0.031991004943847656,
+                    0.03273296356201172,
+                    0.03258800506591797,
+                    0.03161215782165527,
+                    0.03135418891906738,
+                    0.032247066497802734,
+                    0.03054499626159668,
+                    0.03360915184020996,
+                    0.03235602378845215
+                ],
+                "fastest_ms": 30.54,
+                "slowest_ms": 33.61,
+                "average_ms": 32.17
+            },
+            "database": {
+                "simulated_queries": 387,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 20,
+                "total_size": 174873,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 170.77
+            },
+            "cpu": {
+                "complexity_score": 299,
+                "loop_count": 15,
+                "recursive_functions": 2,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": true,
+                "cache_efficiency": "good",
+                "cache_patterns": [
+                    "dependency_injection"
+                ]
+            },
+            "overall_score": 85,
+            "performance_grade": "B"
+        },
+        "performance-optimizer": {
+            "plugin": "performance-optimizer",
+            "timestamp": "2025-06-30 19:01:04",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.00041413307189941406,
+                "slowest": 0.0005400180816650391,
+                "average": 0.0004620075225830078,
+                "iterations": [
+                    0.0004971027374267578,
+                    0.0004901885986328125,
+                    0.0004649162292480469,
+                    0.000431060791015625,
+                    0.000453948974609375,
+                    0.0004267692565917969,
+                    0.00043892860412597656,
+                    0.00041413307189941406,
+                    0.0005400180816650391,
+                    0.0004630088806152344
+                ],
+                "fastest_ms": 0.41,
+                "slowest_ms": 0.54,
+                "average_ms": 0.46
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "performance-profiler": {
+            "plugin": "performance-profiler",
+            "timestamp": "2025-06-30 19:01:04",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.01437687873840332,
+                "slowest": 0.01895904541015625,
+                "average": 0.01713707447052002,
+                "iterations": [
+                    0.01895904541015625,
+                    0.01745295524597168,
+                    0.01613783836364746,
+                    0.017965078353881836,
+                    0.01644587516784668,
+                    0.01743912696838379,
+                    0.01857590675354004,
+                    0.017765045166015625,
+                    0.016252994537353516,
+                    0.01437687873840332
+                ],
+                "fastest_ms": 14.38,
+                "slowest_ms": 18.96,
+                "average_ms": 17.14
+            },
+            "database": {
+                "simulated_queries": 14,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 16976,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 16.58
+            },
+            "cpu": {
+                "complexity_score": 25,
+                "loop_count": 5,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "predictive-analytics-engine": {
+            "plugin": "predictive-analytics-engine",
+            "timestamp": "2025-06-30 19:01:04",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006660938262939453,
+                "slowest": 0.008314847946166992,
+                "average": 0.00739598274230957,
+                "iterations": [
+                    0.007730007171630859,
+                    0.007483005523681641,
+                    0.008294105529785156,
+                    0.008314847946166992,
+                    0.007230043411254883,
+                    0.006775856018066406,
+                    0.0071599483489990234,
+                    0.006747007369995117,
+                    0.007564067840576172,
+                    0.006660938262939453
+                ],
+                "fastest_ms": 6.66,
+                "slowest_ms": 8.31,
+                "average_ms": 7.4
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 2289,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 2.24
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "progressive-web-app-builder": {
+            "plugin": "progressive-web-app-builder",
+            "timestamp": "2025-06-30 19:01:05",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.005414009094238281,
+                "slowest": 0.007564067840576172,
+                "average": 0.006235694885253907,
+                "iterations": [
+                    0.005814075469970703,
+                    0.007186174392700195,
+                    0.005769968032836914,
+                    0.006746053695678711,
+                    0.0059239864349365234,
+                    0.007564067840576172,
+                    0.005675792694091797,
+                    0.0062808990478515625,
+                    0.005981922149658203,
+                    0.005414009094238281
+                ],
+                "fastest_ms": 5.41,
+                "slowest_ms": 7.56,
+                "average_ms": 6.24
+            },
+            "database": {
+                "simulated_queries": 40,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 21685,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 21.18
+            },
+            "cpu": {
+                "complexity_score": 23,
+                "loop_count": 4,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "pwa-enhancer": {
+            "plugin": "pwa-enhancer",
+            "timestamp": "2025-06-30 19:01:05",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.00047397613525390625,
+                "slowest": 0.0011150836944580078,
+                "average": 0.0006556510925292969,
+                "iterations": [
+                    0.0005869865417480469,
+                    0.0006871223449707031,
+                    0.0006401538848876953,
+                    0.0011150836944580078,
+                    0.0009329319000244141,
+                    0.0005500316619873047,
+                    0.0005731582641601562,
+                    0.00047397613525390625,
+                    0.0005130767822265625,
+                    0.0004839897155761719
+                ],
+                "fastest_ms": 0.47,
+                "slowest_ms": 1.12,
+                "average_ms": 0.66
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "realtime-business-intelligence": {
+            "plugin": "realtime-business-intelligence",
+            "timestamp": "2025-06-30 19:01:05",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.008323907852172852,
+                "slowest": 0.013267040252685547,
+                "average": 0.010188913345336914,
+                "iterations": [
+                    0.013267040252685547,
+                    0.010770082473754883,
+                    0.011008977890014648,
+                    0.009253978729248047,
+                    0.009272098541259766,
+                    0.011157989501953125,
+                    0.009763002395629883,
+                    0.009057998657226562,
+                    0.010014057159423828,
+                    0.008323907852172852
+                ],
+                "fastest_ms": 8.32,
+                "slowest_ms": 13.27,
+                "average_ms": 10.19
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 1577,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 1.54
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "realtime-collaboration": {
+            "plugin": "realtime-collaboration",
+            "timestamp": "2025-06-30 19:01:05",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.01826310157775879,
+                "slowest": 2.898158073425293,
+                "average": 0.3534626722335815,
+                "iterations": [
+                    0.02103710174560547,
+                    0.021088838577270508,
+                    0.47844815254211426,
+                    0.01977705955505371,
+                    2.898158073425293,
+                    0.01938605308532715,
+                    0.018911123275756836,
+                    0.020522117614746094,
+                    0.01903510093688965,
+                    0.01826310157775879
+                ],
+                "fastest_ms": 18.26,
+                "slowest_ms": 2898.16,
+                "average_ms": 353.46
+            },
+            "database": {
+                "simulated_queries": 41,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 15136,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 14.78
+            },
+            "cpu": {
+                "complexity_score": 18,
+                "loop_count": 1,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "review-intelligence": {
+            "plugin": "review-intelligence",
+            "timestamp": "2025-06-30 19:01:09",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005509853363037109,
+                "slowest": 0.0015039443969726562,
+                "average": 0.0007361650466918945,
+                "iterations": [
+                    0.0006620883941650391,
+                    0.0006251335144042969,
+                    0.0006468296051025391,
+                    0.0005979537963867188,
+                    0.0007071495056152344,
+                    0.0005509853363037109,
+                    0.000598907470703125,
+                    0.0015039443969726562,
+                    0.0008728504180908203,
+                    0.0005958080291748047
+                ],
+                "fastest_ms": 0.55,
+                "slowest_ms": 1.5,
+                "average_ms": 0.74
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "reviews-ratings": {
+            "plugin": "reviews-ratings",
+            "timestamp": "2025-06-30 19:01:09",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.005812883377075195,
+                "slowest": 0.007668972015380859,
+                "average": 0.00698091983795166,
+                "iterations": [
+                    0.0075261592864990234,
+                    0.007052183151245117,
+                    0.007364034652709961,
+                    0.007668972015380859,
+                    0.005812883377075195,
+                    0.006294965744018555,
+                    0.006258964538574219,
+                    0.007172107696533203,
+                    0.007187843322753906,
+                    0.0074710845947265625
+                ],
+                "fastest_ms": 5.81,
+                "slowest_ms": 7.67,
+                "average_ms": 6.98
+            },
+            "database": {
+                "simulated_queries": 25,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 12349,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 12.06
+            },
+            "cpu": {
+                "complexity_score": 19,
+                "loop_count": 3,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "sales-dashboard": {
+            "plugin": "sales-dashboard",
+            "timestamp": "2025-06-30 19:01:09",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006448984146118164,
+                "slowest": 0.03376507759094238,
+                "average": 0.010085868835449218,
+                "iterations": [
+                    0.03376507759094238,
+                    0.009532928466796875,
+                    0.007144927978515625,
+                    0.0075609683990478516,
+                    0.0074079036712646484,
+                    0.00819087028503418,
+                    0.00719904899597168,
+                    0.0067141056060791016,
+                    0.006448984146118164,
+                    0.00689387321472168
+                ],
+                "fastest_ms": 6.45,
+                "slowest_ms": 33.77,
+                "average_ms": 10.09
+            },
+            "database": {
+                "simulated_queries": 14,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 6822,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 6.66
+            },
+            "cpu": {
+                "complexity_score": 2,
+                "loop_count": 2,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "seo-optimizer": {
+            "plugin": "seo-optimizer",
+            "timestamp": "2025-06-30 19:01:09",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.007032155990600586,
+                "slowest": 0.012079954147338867,
+                "average": 0.008469343185424805,
+                "iterations": [
+                    0.00786280632019043,
+                    0.007737159729003906,
+                    0.007032155990600586,
+                    0.008213043212890625,
+                    0.008249044418334961,
+                    0.012079954147338867,
+                    0.00973820686340332,
+                    0.007613182067871094,
+                    0.008378982543945312,
+                    0.007788896560668945
+                ],
+                "fastest_ms": 7.03,
+                "slowest_ms": 12.08,
+                "average_ms": 8.47
+            },
+            "database": {
+                "simulated_queries": 24,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 10282,
+                "read_operations": 0,
+                "write_operations": 1,
+                "total_size_kb": 10.04
+            },
+            "cpu": {
+                "complexity_score": 7,
+                "loop_count": 4,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "serverless-functions": {
+            "plugin": "serverless-functions",
+            "timestamp": "2025-06-30 19:01:10",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006294965744018555,
+                "slowest": 0.012234926223754883,
+                "average": 0.008941364288330079,
+                "iterations": [
+                    0.009250164031982422,
+                    0.00896596908569336,
+                    0.006294965744018555,
+                    0.009248018264770508,
+                    0.006666898727416992,
+                    0.00836491584777832,
+                    0.012234926223754883,
+                    0.008406877517700195,
+                    0.010968923568725586,
+                    0.009011983871459961
+                ],
+                "fastest_ms": 6.29,
+                "slowest_ms": 12.23,
+                "average_ms": 8.94
+            },
+            "database": {
+                "simulated_queries": 26,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": true,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 18672,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 18.23
+            },
+            "cpu": {
+                "complexity_score": 22,
+                "loop_count": 7,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 57,
+            "performance_grade": "F"
+        },
+        "shipping-fedex": {
+            "plugin": "shipping-fedex",
+            "timestamp": "2025-06-30 19:01:10",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.02613997459411621,
+                "slowest": 0.03026103973388672,
+                "average": 0.028057360649108888,
+                "iterations": [
+                    0.02862405776977539,
+                    0.02804708480834961,
+                    0.027891159057617188,
+                    0.027331113815307617,
+                    0.028441190719604492,
+                    0.03011798858642578,
+                    0.03026103973388672,
+                    0.026895999908447266,
+                    0.026823997497558594,
+                    0.02613997459411621
+                ],
+                "fastest_ms": 26.14,
+                "slowest_ms": 30.26,
+                "average_ms": 28.06
+            },
+            "database": {
+                "simulated_queries": 261,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 14,
+                "total_size": 152859,
+                "read_operations": 0,
+                "write_operations": 3,
+                "total_size_kb": 149.28
+            },
+            "cpu": {
+                "complexity_score": 179,
+                "loop_count": 27,
+                "recursive_functions": 2,
+                "cpu_intensity": "high"
+            },
+            "cache": {
+                "cache_usage": true,
+                "cache_efficiency": "good",
+                "cache_patterns": [
+                    "dependency_injection"
+                ]
+            },
+            "overall_score": 85,
+            "performance_grade": "B"
+        },
+        "smart-pricing": {
+            "plugin": "smart-pricing",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005819797515869141,
+                "slowest": 0.0010399818420410156,
+                "average": 0.000865769386291504,
+                "iterations": [
+                    0.0008130073547363281,
+                    0.0005819797515869141,
+                    0.0009629726409912109,
+                    0.000743865966796875,
+                    0.0009539127349853516,
+                    0.0007469654083251953,
+                    0.000782012939453125,
+                    0.0010080337524414062,
+                    0.0010399818420410156,
+                    0.0010249614715576172
+                ],
+                "fastest_ms": 0.58,
+                "slowest_ms": 1.04,
+                "average_ms": 0.87
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "smart-pricing-intelligence": {
+            "plugin": "smart-pricing-intelligence",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005950927734375,
+                "slowest": 0.0018491744995117188,
+                "average": 0.0010404586791992188,
+                "iterations": [
+                    0.0009090900421142578,
+                    0.0006649494171142578,
+                    0.0005950927734375,
+                    0.0010540485382080078,
+                    0.0013399124145507812,
+                    0.0018491744995117188,
+                    0.0010502338409423828,
+                    0.000823974609375,
+                    0.0011811256408691406,
+                    0.0009369850158691406
+                ],
+                "fastest_ms": 0.6,
+                "slowest_ms": 1.85,
+                "average_ms": 1.04
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "smart-search": {
+            "plugin": "smart-search",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005500316619873047,
+                "slowest": 0.00098419189453125,
+                "average": 0.000641036033630371,
+                "iterations": [
+                    0.0006608963012695312,
+                    0.0005550384521484375,
+                    0.0006060600280761719,
+                    0.0005910396575927734,
+                    0.0006010532379150391,
+                    0.0006248950958251953,
+                    0.0005640983581542969,
+                    0.0005500316619873047,
+                    0.0006730556488037109,
+                    0.00098419189453125
+                ],
+                "fastest_ms": 0.55,
+                "slowest_ms": 0.98,
+                "average_ms": 0.64
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "smart-search-discovery": {
+            "plugin": "smart-search-discovery",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.008329153060913086,
+                "slowest": 0.015401124954223633,
+                "average": 0.010479068756103516,
+                "iterations": [
+                    0.010855913162231445,
+                    0.008846044540405273,
+                    0.00952911376953125,
+                    0.011492013931274414,
+                    0.00938105583190918,
+                    0.008329153060913086,
+                    0.01024007797241211,
+                    0.010586023330688477,
+                    0.010130167007446289,
+                    0.015401124954223633
+                ],
+                "fastest_ms": 8.33,
+                "slowest_ms": 15.4,
+                "average_ms": 10.48
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 3816,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 3.73
+            },
+            "cpu": {
+                "complexity_score": 4,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "smart-shipping": {
+            "plugin": "smart-shipping",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0005140304565429688,
+                "slowest": 0.0009100437164306641,
+                "average": 0.0007154941558837891,
+                "iterations": [
+                    0.0008871555328369141,
+                    0.0006361007690429688,
+                    0.0009100437164306641,
+                    0.0007829666137695312,
+                    0.0007500648498535156,
+                    0.0006368160247802734,
+                    0.0005829334259033203,
+                    0.0005140304565429688,
+                    0.0006649494171142578,
+                    0.0007898807525634766
+                ],
+                "fastest_ms": 0.51,
+                "slowest_ms": 0.91,
+                "average_ms": 0.72
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "social-commerce-integration": {
+            "plugin": "social-commerce-integration",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.006721019744873047,
+                "slowest": 0.008280038833618164,
+                "average": 0.007401466369628906,
+                "iterations": [
+                    0.006986856460571289,
+                    0.007908821105957031,
+                    0.006791114807128906,
+                    0.008280038833618164,
+                    0.007941961288452148,
+                    0.007867813110351562,
+                    0.006788015365600586,
+                    0.007977962493896484,
+                    0.006721019744873047,
+                    0.006751060485839844
+                ],
+                "fastest_ms": 6.72,
+                "slowest_ms": 8.28,
+                "average_ms": 7.4
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "good",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 2126,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 2.08
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "social-proof-engine": {
+            "plugin": "social-proof-engine",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.00041985511779785156,
+                "slowest": 0.0007059574127197266,
+                "average": 0.000503993034362793,
+                "iterations": [
+                    0.0007059574127197266,
+                    0.0006067752838134766,
+                    0.0005369186401367188,
+                    0.0005240440368652344,
+                    0.00046515464782714844,
+                    0.0004241466522216797,
+                    0.00041985511779785156,
+                    0.00045609474182128906,
+                    0.00047206878662109375,
+                    0.00042891502380371094
+                ],
+                "fastest_ms": 0.42,
+                "slowest_ms": 0.71,
+                "average_ms": 0.5
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "subscription-commerce": {
+            "plugin": "subscription-commerce",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004200935363769531,
+                "slowest": 0.0006048679351806641,
+                "average": 0.0004850149154663086,
+                "iterations": [
+                    0.00047707557678222656,
+                    0.0006048679351806641,
+                    0.0005390644073486328,
+                    0.0004379749298095703,
+                    0.0005300045013427734,
+                    0.0004200935363769531,
+                    0.00049591064453125,
+                    0.00044608116149902344,
+                    0.00046896934509277344,
+                    0.00043010711669921875
+                ],
+                "fastest_ms": 0.42,
+                "slowest_ms": 0.6,
+                "average_ms": 0.49
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "support-hub": {
+            "plugin": "support-hub",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004138946533203125,
+                "slowest": 0.0005030632019042969,
+                "average": 0.00044727325439453125,
+                "iterations": [
+                    0.0004839897155761719,
+                    0.0004749298095703125,
+                    0.0005030632019042969,
+                    0.0004260540008544922,
+                    0.0004191398620605469,
+                    0.0004248619079589844,
+                    0.0004169940948486328,
+                    0.0004868507385253906,
+                    0.0004229545593261719,
+                    0.0004138946533203125
+                ],
+                "fastest_ms": 0.41,
+                "slowest_ms": 0.5,
+                "average_ms": 0.45
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "visual-page-builder": {
+            "plugin": "visual-page-builder",
+            "timestamp": "2025-06-30 19:01:11",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.013888120651245117,
+                "slowest": 0.019543170928955078,
+                "average": 0.0161074161529541,
+                "iterations": [
+                    0.015984058380126953,
+                    0.014072179794311523,
+                    0.013888120651245117,
+                    0.01390695571899414,
+                    0.014843940734863281,
+                    0.016286849975585938,
+                    0.016629934310913086,
+                    0.017483949661254883,
+                    0.019543170928955078,
+                    0.018435001373291016
+                ],
+                "fastest_ms": 13.89,
+                "slowest_ms": 19.54,
+                "average_ms": 16.11
+            },
+            "database": {
+                "simulated_queries": 29,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 17046,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 16.65
+            },
+            "cpu": {
+                "complexity_score": 16,
+                "loop_count": 3,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 80,
+            "performance_grade": "B"
+        },
+        "voice-commerce": {
+            "plugin": "voice-commerce",
+            "timestamp": "2025-06-30 19:01:12",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004150867462158203,
+                "slowest": 0.00047898292541503906,
+                "average": 0.0004360198974609375,
+                "iterations": [
+                    0.0004429817199707031,
+                    0.00047898292541503906,
+                    0.0004570484161376953,
+                    0.00042700767517089844,
+                    0.00041604042053222656,
+                    0.00043201446533203125,
+                    0.00041604042053222656,
+                    0.00045800209045410156,
+                    0.0004169940948486328,
+                    0.0004150867462158203
+                ],
+                "fastest_ms": 0.42,
+                "slowest_ms": 0.48,
+                "average_ms": 0.44
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        },
+        "websocket-realtime-engine": {
+            "plugin": "websocket-realtime-engine",
+            "timestamp": "2025-06-30 19:01:12",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.004823923110961914,
+                "slowest": 0.0056879520416259766,
+                "average": 0.005241990089416504,
+                "iterations": [
+                    0.005604982376098633,
+                    0.0056879520416259766,
+                    0.005149126052856445,
+                    0.00524592399597168,
+                    0.0052030086517333984,
+                    0.00541996955871582,
+                    0.005269050598144531,
+                    0.004823923110961914,
+                    0.00493311882019043,
+                    0.005082845687866211
+                ],
+                "fastest_ms": 4.82,
+                "slowest_ms": 5.69,
+                "average_ms": 5.24
+            },
+            "database": {
+                "simulated_queries": 23,
+                "query_efficiency": "needs_review",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 1,
+                "total_size": 17583,
+                "read_operations": 0,
+                "write_operations": 0,
+                "total_size_kb": 17.17
+            },
+            "cpu": {
+                "complexity_score": 30,
+                "loop_count": 1,
+                "recursive_functions": 0,
+                "cpu_intensity": "medium"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "needs_improvement",
+                "cache_patterns": []
+            },
+            "overall_score": 72,
+            "performance_grade": "C"
+        },
+        "wishlist-intelligence": {
+            "plugin": "wishlist-intelligence",
+            "timestamp": "2025-06-30 19:01:12",
+            "memory": {
+                "baseline": 4194304,
+                "peak": 0,
+                "average": 0,
+                "iterations": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "peak_mb": 0,
+                "average_mb": 0
+            },
+            "execution_time": {
+                "fastest": 0.0004138946533203125,
+                "slowest": 0.0005910396575927734,
+                "average": 0.00045709609985351564,
+                "iterations": [
+                    0.0005910396575927734,
+                    0.00043392181396484375,
+                    0.00043010711669921875,
+                    0.00043201446533203125,
+                    0.0004138946533203125,
+                    0.0004439353942871094,
+                    0.0004382133483886719,
+                    0.0004909038543701172,
+                    0.0004439353942871094,
+                    0.00045299530029296875
+                ],
+                "fastest_ms": 0.41,
+                "slowest_ms": 0.59,
+                "average_ms": 0.46
+            },
+            "database": {
+                "simulated_queries": 0,
+                "query_efficiency": "unknown",
+                "potential_n_plus_1": false,
+                "index_usage": "unknown"
+            },
+            "file_io": {
+                "file_count": 0,
+                "total_size": 0,
+                "read_operations": 0,
+                "write_operations": 0
+            },
+            "cpu": {
+                "complexity_score": 0,
+                "loop_count": 0,
+                "recursive_functions": 0,
+                "cpu_intensity": "low"
+            },
+            "cache": {
+                "cache_usage": false,
+                "cache_efficiency": "unknown",
+                "cache_patterns": []
+            },
+            "overall_score": 90,
+            "performance_grade": "A"
+        }
+    }
+}

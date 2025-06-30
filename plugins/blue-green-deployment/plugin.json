@@ -1,0 +1,641 @@
+{
+    "name": "blue-green-deployment",
+    "version": "1.0.0",
+    "description": "Zero-downtime deployment system with blue-green environments, automated rollback, traffic shifting, health monitoring, database migration support, and deployment automation",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "dev@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/blue-green-deployment",
+    "keywords": [
+        "deployment",
+        "blue-green",
+        "zero-downtime",
+        "rollback",
+        "traffic-shifting",
+        "continuous-deployment",
+        "automation",
+        "devops"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/core": "^1.0.0",
+            "shopologic\/deployment": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\BlueGreenDeployment\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "BlueGreenDeploymentPlugin",
+        "file": "src\/BlueGreenDeploymentPlugin.php"
+    },
+    "provides": [
+        "DeploymentManagerInterface",
+        "EnvironmentSwitcherInterface",
+        "TrafficRouterInterface",
+        "RollbackManagerInterface"
+    ],
+    "permissions": [
+        "deployment.access",
+        "deployment.execute",
+        "deployment.rollback",
+        "deployment.configure",
+        "deployment.view_logs",
+        "deployment.manage_environments"
+    ],
+    "hooks": {
+        "actions": [
+            "deployment.started",
+            "deployment.completed",
+            "deployment.failed",
+            "deployment.rolled_back",
+            "traffic.switched",
+            "environment.validated"
+        ],
+        "filters": [
+            "deployment.checks",
+            "traffic.rules",
+            "rollback.conditions",
+            "environment.config",
+            "deployment.pipeline"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/deployment\/environments",
+                "handler": "Controllers\\EnvironmentController@index",
+                "auth": true,
+                "permission": "deployment.access"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/deployment\/environments\/{env}",
+                "handler": "Controllers\\EnvironmentController@show",
+                "auth": true,
+                "permission": "deployment.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/deployment\/deploy",
+                "handler": "Controllers\\DeploymentController@deploy",
+                "auth": true,
+                "permission": "deployment.execute"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/deployment\/status",
+                "handler": "Controllers\\DeploymentController@status",
+                "auth": true,
+                "permission": "deployment.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/deployment\/rollback",
+                "handler": "Controllers\\RollbackController@execute",
+                "auth": true,
+                "permission": "deployment.rollback"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/deployment\/history",
+                "handler": "Controllers\\DeploymentController@history",
+                "auth": true,
+                "permission": "deployment.view_logs"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/deployment\/traffic\/shift",
+                "handler": "Controllers\\TrafficController@shift",
+                "auth": true,
+                "permission": "deployment.execute"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/deployment\/traffic\/status",
+                "handler": "Controllers\\TrafficController@status",
+                "auth": true,
+                "permission": "deployment.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/deployment\/validate",
+                "handler": "Controllers\\ValidationController@validate",
+                "auth": true,
+                "permission": "deployment.execute"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/deployment\/health\/{env}",
+                "handler": "Controllers\\HealthController@check",
+                "auth": true,
+                "permission": "deployment.access"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/deployment\/migrations\/run",
+                "handler": "Controllers\\MigrationController@run",
+                "auth": true,
+                "permission": "deployment.execute"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/deployment\/smoke-test",
+                "handler": "Controllers\\TestController@smokeTest",
+                "auth": true,
+                "permission": "deployment.execute"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "deployment_environments",
+            "deployment_history",
+            "deployment_configs",
+            "traffic_rules",
+            "health_checks",
+            "deployment_logs",
+            "rollback_points",
+            "migration_tracking",
+            "deployment_metrics",
+            "environment_variables"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/deployment-dashboard.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "jquery",
+                    "chart.js"
+                ]
+            },
+            {
+                "src": "assets\/js\/traffic-visualizer.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "d3"
+                ]
+            },
+            {
+                "src": "assets\/js\/deployment-terminal.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "xterm"
+                ]
+            },
+            {
+                "src": "assets\/js\/environment-manager.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/deployment-dashboard.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/traffic-visualizer.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/deployment-terminal.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "deployment_strategy": {
+                "type": "select",
+                "label": "Deployment Strategy",
+                "default": "blue_green",
+                "options": {
+                    "blue_green": "Blue-Green",
+                    "canary": "Canary",
+                    "rolling": "Rolling Update",
+                    "recreate": "Recreate"
+                }
+            },
+            "environments": {
+                "type": "object",
+                "label": "Environment Configuration",
+                "properties": {
+                    "blue": {
+                        "type": "object",
+                        "label": "Blue Environment",
+                        "properties": {
+                            "url": {
+                                "type": "string",
+                                "label": "URL"
+                            },
+                            "database": {
+                                "type": "string",
+                                "label": "Database"
+                            },
+                            "server_group": {
+                                "type": "string",
+                                "label": "Server Group"
+                            }
+                        }
+                    },
+                    "green": {
+                        "type": "object",
+                        "label": "Green Environment",
+                        "properties": {
+                            "url": {
+                                "type": "string",
+                                "label": "URL"
+                            },
+                            "database": {
+                                "type": "string",
+                                "label": "Database"
+                            },
+                            "server_group": {
+                                "type": "string",
+                                "label": "Server Group"
+                            }
+                        }
+                    }
+                }
+            },
+            "traffic_shift_method": {
+                "type": "select",
+                "label": "Traffic Shift Method",
+                "default": "weighted",
+                "options": {
+                    "instant": "Instant Switch",
+                    "weighted": "Weighted Distribution",
+                    "gradual": "Gradual Shift",
+                    "header_based": "Header-based Routing",
+                    "cookie_based": "Cookie-based Routing"
+                }
+            },
+            "gradual_shift_config": {
+                "type": "object",
+                "label": "Gradual Shift Configuration",
+                "depends_on": {
+                    "traffic_shift_method": "gradual"
+                },
+                "properties": {
+                    "initial_percentage": {
+                        "type": "number",
+                        "label": "Initial Percentage",
+                        "default": 10,
+                        "min": 1,
+                        "max": 50
+                    },
+                    "increment": {
+                        "type": "number",
+                        "label": "Increment (%)",
+                        "default": 10,
+                        "min": 5,
+                        "max": 25
+                    },
+                    "interval": {
+                        "type": "number",
+                        "label": "Interval (minutes)",
+                        "default": 15,
+                        "min": 5,
+                        "max": 60
+                    }
+                }
+            },
+            "health_check_config": {
+                "type": "object",
+                "label": "Health Check Configuration",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "endpoint": {
+                        "type": "string",
+                        "label": "Health Endpoint",
+                        "default": "\/health"
+                    },
+                    "interval": {
+                        "type": "number",
+                        "label": "Check Interval (seconds)",
+                        "default": 30,
+                        "min": 10,
+                        "max": 300
+                    },
+                    "timeout": {
+                        "type": "number",
+                        "label": "Timeout (seconds)",
+                        "default": 5,
+                        "min": 1,
+                        "max": 30
+                    },
+                    "success_threshold": {
+                        "type": "number",
+                        "label": "Success Threshold",
+                        "default": 3,
+                        "min": 1,
+                        "max": 10
+                    },
+                    "failure_threshold": {
+                        "type": "number",
+                        "label": "Failure Threshold",
+                        "default": 3,
+                        "min": 1,
+                        "max": 10
+                    }
+                }
+            },
+            "rollback_config": {
+                "type": "object",
+                "label": "Rollback Configuration",
+                "properties": {
+                    "auto_rollback": {
+                        "type": "boolean",
+                        "label": "Auto Rollback on Failure",
+                        "default": true
+                    },
+                    "rollback_conditions": {
+                        "type": "multiselect",
+                        "label": "Rollback Conditions",
+                        "default": [
+                            "health_check_failure",
+                            "error_rate_spike"
+                        ],
+                        "options": {
+                            "health_check_failure": "Health Check Failure",
+                            "error_rate_spike": "Error Rate Spike",
+                            "response_time_degradation": "Response Time Degradation",
+                            "memory_threshold": "Memory Threshold Exceeded",
+                            "cpu_threshold": "CPU Threshold Exceeded",
+                            "manual_trigger": "Manual Trigger"
+                        }
+                    },
+                    "error_rate_threshold": {
+                        "type": "number",
+                        "label": "Error Rate Threshold (%)",
+                        "default": 5,
+                        "min": 1,
+                        "max": 50
+                    },
+                    "response_time_threshold": {
+                        "type": "number",
+                        "label": "Response Time Threshold (ms)",
+                        "default": 3000,
+                        "min": 100,
+                        "max": 10000
+                    }
+                }
+            },
+            "pre_deployment_checks": {
+                "type": "multiselect",
+                "label": "Pre-deployment Checks",
+                "default": [
+                    "code_validation",
+                    "dependency_check",
+                    "database_migration_check"
+                ],
+                "options": {
+                    "code_validation": "Code Validation",
+                    "dependency_check": "Dependency Check",
+                    "database_migration_check": "Database Migration Check",
+                    "security_scan": "Security Scan",
+                    "performance_baseline": "Performance Baseline",
+                    "backup_verification": "Backup Verification",
+                    "config_validation": "Configuration Validation"
+                }
+            },
+            "post_deployment_checks": {
+                "type": "multiselect",
+                "label": "Post-deployment Checks",
+                "default": [
+                    "smoke_test",
+                    "health_check",
+                    "performance_test"
+                ],
+                "options": {
+                    "smoke_test": "Smoke Tests",
+                    "health_check": "Health Checks",
+                    "performance_test": "Performance Tests",
+                    "functional_test": "Functional Tests",
+                    "security_test": "Security Tests",
+                    "integration_test": "Integration Tests"
+                }
+            },
+            "database_migration_strategy": {
+                "type": "select",
+                "label": "Database Migration Strategy",
+                "default": "backward_compatible",
+                "options": {
+                    "backward_compatible": "Backward Compatible",
+                    "blue_green_db": "Blue-Green Database",
+                    "expand_contract": "Expand-Contract",
+                    "versioned_api": "Versioned API"
+                }
+            },
+            "warmup_config": {
+                "type": "object",
+                "label": "Warmup Configuration",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "duration": {
+                        "type": "number",
+                        "label": "Warmup Duration (seconds)",
+                        "default": 300,
+                        "min": 60,
+                        "max": 1800
+                    },
+                    "traffic_percentage": {
+                        "type": "number",
+                        "label": "Warmup Traffic (%)",
+                        "default": 5,
+                        "min": 1,
+                        "max": 20
+                    }
+                }
+            },
+            "notification_channels": {
+                "type": "multiselect",
+                "label": "Notification Channels",
+                "default": [
+                    "email",
+                    "slack"
+                ],
+                "options": {
+                    "email": "Email",
+                    "slack": "Slack",
+                    "teams": "Microsoft Teams",
+                    "webhook": "Webhook",
+                    "sms": "SMS",
+                    "pagerduty": "PagerDuty"
+                }
+            },
+            "deployment_window": {
+                "type": "object",
+                "label": "Deployment Window",
+                "properties": {
+                    "enforce_window": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "allowed_days": {
+                        "type": "multiselect",
+                        "default": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "options": {
+                            "monday": "Monday",
+                            "tuesday": "Tuesday",
+                            "wednesday": "Wednesday",
+                            "thursday": "Thursday",
+                            "friday": "Friday",
+                            "saturday": "Saturday",
+                            "sunday": "Sunday"
+                        }
+                    },
+                    "allowed_hours": {
+                        "type": "string",
+                        "label": "Allowed Hours (e.g., 09:00-17:00)",
+                        "default": "00:00-23:59"
+                    }
+                }
+            },
+            "backup_before_deployment": {
+                "type": "boolean",
+                "label": "Backup Before Deployment",
+                "default": true
+            },
+            "keep_deployment_history": {
+                "type": "number",
+                "label": "Keep Deployment History (days)",
+                "default": 30,
+                "min": 7,
+                "max": 365
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "deployment_status",
+            "name": "Deployment Status",
+            "description": "Current deployment status and environments",
+            "position": "dashboard",
+            "permissions": [
+                "deployment.access"
+            ]
+        },
+        {
+            "id": "traffic_distribution",
+            "name": "Traffic Distribution",
+            "description": "Current traffic routing between environments",
+            "position": "dashboard",
+            "permissions": [
+                "deployment.access"
+            ]
+        },
+        {
+            "id": "deployment_history_widget",
+            "name": "Recent Deployments",
+            "description": "Recent deployment history",
+            "position": "dashboard",
+            "permissions": [
+                "deployment.view_logs"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "performHealthChecks",
+            "description": "Check environment health"
+        },
+        {
+            "schedule": "*\/1 * * * *",
+            "handler": "processTrafficShift",
+            "description": "Process gradual traffic shifts"
+        },
+        {
+            "schedule": "*\/5 * * * *",
+            "handler": "collectDeploymentMetrics",
+            "description": "Collect deployment metrics"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "cleanupOldDeployments",
+            "description": "Clean up old deployment data"
+        }
+    ],
+    "deployment_stages": {
+        "pre_deployment": [
+            "validate_code",
+            "check_dependencies",
+            "run_tests",
+            "create_backup",
+            "prepare_environment"
+        ],
+        "deployment": [
+            "deploy_code",
+            "run_migrations",
+            "update_configuration",
+            "clear_caches",
+            "warmup_application"
+        ],
+        "post_deployment": [
+            "run_health_checks",
+            "run_smoke_tests",
+            "validate_deployment",
+            "update_monitoring",
+            "notify_stakeholders"
+        ]
+    },
+    "changelog": {
+        "1.0.0": [
+            "Initial release",
+            "Blue-green deployment strategy",
+            "Zero-downtime deployments",
+            "Automated rollback capability",
+            "Traffic shifting (instant, weighted, gradual)",
+            "Health monitoring and checks",
+            "Database migration support",
+            "Pre and post deployment validations",
+            "Deployment history and logging",
+            "Environment warmup",
+            "Notification system",
+            "Deployment windows",
+            "Backup integration"
+        ]
+    }
+}

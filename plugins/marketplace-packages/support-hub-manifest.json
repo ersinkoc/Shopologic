@@ -1,0 +1,164 @@
+{
+    "package_info": {
+        "name": "support-hub",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:14",
+        "package_size": 16582,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Customer Support Hub",
+        "version": "1.0.0",
+        "description": "Integrated customer support with live chat, help desk tickets, FAQ automation, and AI assistance",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "SupportHubPlugin",
+            "file": "SupportHubPlugin.php"
+        },
+        "permissions": [
+            "customers.read",
+            "support.manage",
+            "notifications.send",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "support.ticket_created",
+                "chat.message_received",
+                "order.issue_reported",
+                "frontend.chat_widget"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/support\/tickets",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/support\/tickets\/{id}",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/support\/chat\/start",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/support\/faq\/search",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/support\/knowledge-base",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "support_tickets",
+                "chat_conversations",
+                "faq_articles",
+                "support_analytics",
+                "auto_responses"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/chat-widget.js",
+                "assets\/ticket-system.js"
+            ],
+            "css": [
+                "assets\/support-hub.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_live_chat": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable live chat widget"
+                },
+                "enable_ticket_system": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable support ticket system"
+                },
+                "auto_response_enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable automated responses"
+                },
+                "business_hours_start": {
+                    "type": "time",
+                    "default": "09:00",
+                    "description": "Support hours start time"
+                },
+                "business_hours_end": {
+                    "type": "time",
+                    "default": "18:00",
+                    "description": "Support hours end time"
+                },
+                "response_time_target": {
+                    "type": "number",
+                    "default": 24,
+                    "min": 1,
+                    "max": 168,
+                    "description": "Target response time in hours"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\SupportHub\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "automation",
+            "real-time"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

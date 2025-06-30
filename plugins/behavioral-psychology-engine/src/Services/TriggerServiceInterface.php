@@ -1,6 +1,7 @@
 <?php
 
-namespace BehavioralPsychologyEngine\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\BehavioralPsychologyEngine\Services;
 
 interface TriggerServiceInterface
 {

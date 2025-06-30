@@ -6,10 +6,16 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "SocialProof\\SocialProofPlugin",
-    "file": "SocialProofPlugin.php",
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "SocialProofEnginePlugin",
+        "file": "SocialProofPlugin.php"
     },
     "permissions": [
         "orders.read",
@@ -18,61 +24,94 @@
         "notifications.send",
         "hooks.*"
     ],
-    "hooks": [
-        "order.completed",
-        "product.viewed",
-        "cart.item_added",
-        "customer.registered",
-        "frontend.footer"
-    ],
-    "api_endpoints": [
-        "GET /api/v1/social-proof/notifications",
-        "POST /api/v1/social-proof/track-view",
-        "GET /api/v1/social-proof/stats/{product_id}"
-    ],
-    "database_tables": [
-        "social_proof_events",
-        "notification_displays",
-        "social_metrics"
-    ],
-    "config_schema": {
-        "enable_purchase_notifications": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show recent purchase notifications"
-        },
-        "enable_visitor_count": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show current visitors viewing products"
-        },
-        "enable_low_stock_alerts": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show low stock warnings"
-        },
-        "notification_frequency": {
-            "type": "number",
-            "default": 15,
-            "min": 5,
-            "max": 60,
-            "description": "Seconds between notifications"
-        },
-        "anonymize_customer_names": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show partial names for privacy"
-        },
-        "max_notifications_per_page": {
-            "type": "number",
-            "default": 3,
-            "min": 1,
-            "max": 10,
-            "description": "Maximum notifications per page view"
-        }
+    "hooks": {
+        "actions": [
+            "order.completed",
+            "product.viewed",
+            "cart.item_added",
+            "customer.registered",
+            "frontend.footer"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "/api/v1/social-proof/notifications",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/social-proof/track-view",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/social-proof/stats/{product_id}",
+                "handler": "handleGet"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "social_proof_events",
+            "notification_displays",
+            "social_metrics"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/social-proof.js", "assets/notifications.js"],
-        "css": ["assets/social-proof.css"]
-    }
+        "js": [
+            "assets/social-proof.js",
+            "assets/notifications.js"
+        ],
+        "css": [
+            "assets/social-proof.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "enable_purchase_notifications": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show recent purchase notifications"
+            },
+            "enable_visitor_count": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show current visitors viewing products"
+            },
+            "enable_low_stock_alerts": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show low stock warnings"
+            },
+            "notification_frequency": {
+                "type": "number",
+                "default": 15,
+                "min": 5,
+                "max": 60,
+                "description": "Seconds between notifications"
+            },
+            "anonymize_customer_names": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show partial names for privacy"
+            },
+            "max_notifications_per_page": {
+                "type": "number",
+                "default": 3,
+                "min": 1,
+                "max": 10,
+                "description": "Maximum notifications per page view"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\SocialProofEngine\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/social-proof-engine"
 }

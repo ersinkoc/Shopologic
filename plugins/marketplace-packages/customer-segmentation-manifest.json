@@ -1,0 +1,159 @@
+{
+    "package_info": {
+        "name": "customer-segmentation",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:00",
+        "package_size": 16338,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Customer Segmentation Engine",
+        "version": "1.0.0",
+        "description": "Automatic customer segmentation with behavioral targeting, personalized campaigns, and lifecycle marketing",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "CustomerSegmentationPlugin",
+            "file": "CustomerSegmentationPlugin.php"
+        },
+        "permissions": [
+            "customers.read",
+            "customers.write",
+            "orders.read",
+            "analytics.read",
+            "notifications.send",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "customer.registered",
+                "order.completed",
+                "customer.login",
+                "product.viewed",
+                "admin.customers.dashboard"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/segments",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/segments\/create",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/segments\/{id}\/customers",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/segments\/analyze",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/segments\/campaign",
+                    "handler": "handlePost"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "customer_segments",
+                "segment_memberships",
+                "segment_rules",
+                "segment_campaigns",
+                "behavioral_scores"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/segmentation-dashboard.js"
+            ],
+            "css": [
+                "assets\/segments.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "auto_segment": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Automatically assign customers to segments"
+                },
+                "segment_update_frequency": {
+                    "type": "select",
+                    "default": "daily",
+                    "options": {
+                        "hourly": "Every hour",
+                        "daily": "Daily",
+                        "weekly": "Weekly"
+                    },
+                    "description": "How often to update segments"
+                },
+                "min_segment_size": {
+                    "type": "number",
+                    "default": 10,
+                    "min": 5,
+                    "max": 1000,
+                    "description": "Minimum customers per segment"
+                },
+                "enable_predictive_segments": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Create predictive behavior segments"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\CustomerSegmentation\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

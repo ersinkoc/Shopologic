@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PayPalPayment;
+namespace Shopologic\Plugins\PaymentPaypal;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Plugin\PluginInterface;
@@ -204,7 +204,7 @@ class PayPalPlugin extends AbstractPlugin implements PluginInterface
             
             return array_merge($data, ['payment_result' => $result]);
             
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logError('Payment processing failed', [
                 'order_id' => $data['order']->id,
                 'error' => $e->getMessage()
@@ -274,5 +274,29 @@ class PayPalPlugin extends AbstractPlugin implements PluginInterface
                 $this->setConfig($key, $value);
             }
         }
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Permissions
+     */
+    protected function registerPermissions(): void
+    {
+        // TODO: Implement registerPermissions
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

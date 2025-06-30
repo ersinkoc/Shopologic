@@ -1,0 +1,754 @@
+{
+    "name": "Multi-Currency & Localization",
+    "version": "1.0.0",
+    "description": "Comprehensive multi-currency support with real-time exchange rates, localization, regional pricing, tax compliance, and international e-commerce features",
+    "author": {
+        "name": "Shopologic Team",
+        "email": "plugins@shopologic.com",
+        "url": "https:\/\/shopologic.com"
+    },
+    "license": "MIT",
+    "homepage": "https:\/\/shopologic.com\/plugins\/multi-currency-localization",
+    "keywords": [
+        "multi-currency",
+        "localization",
+        "international",
+        "exchange-rates",
+        "regional-pricing",
+        "tax-compliance",
+        "translations",
+        "geolocation"
+    ],
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic\/commerce": "^1.0.0",
+            "shopologic\/customers": "^1.0.0",
+            "shopologic\/pricing": "^1.0.0"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\MultiCurrencyLocalization\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "MultiCurrencyLocalizationPlugin",
+        "file": "src\/MultiCurrencyLocalizationPlugin.php"
+    },
+    "provides": [
+        "CurrencyManagerInterface",
+        "ExchangeRateProviderInterface",
+        "LocalizationManagerInterface",
+        "RegionalPricingInterface",
+        "TaxComplianceInterface"
+    ],
+    "permissions": [
+        "currencies.view",
+        "currencies.manage",
+        "exchange_rates.view",
+        "exchange_rates.manage",
+        "localization.view",
+        "localization.manage",
+        "regional_pricing.view",
+        "regional_pricing.manage",
+        "tax_compliance.view",
+        "tax_compliance.manage"
+    ],
+    "hooks": {
+        "actions": [
+            {
+                "hook": "product.price_calculated",
+                "handler": "applyRegionalPricing",
+                "priority": 10
+            },
+            {
+                "hook": "order.created",
+                "handler": "applyTaxCompliance",
+                "priority": 10
+            },
+            {
+                "hook": "customer.location_detected",
+                "handler": "updateCustomerCurrency",
+                "priority": 10
+            },
+            {
+                "hook": "payment.processing",
+                "handler": "convertCurrency",
+                "priority": 10
+            }
+        ],
+        "filters": [
+            {
+                "hook": "price.display",
+                "handler": "formatLocalizedPrice",
+                "priority": 10
+            },
+            {
+                "hook": "currency.list",
+                "handler": "getActiveCurrencies",
+                "priority": 10
+            },
+            {
+                "hook": "text.translate",
+                "handler": "translateText",
+                "priority": 10
+            }
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/currencies",
+                "handler": "CurrencyController@index",
+                "auth": false,
+                "permission": "public"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/currencies",
+                "handler": "CurrencyController@create",
+                "auth": true,
+                "permission": "currencies.manage"
+            },
+            {
+                "method": "PUT",
+                "path": "\/api\/v1\/currencies\/{id}",
+                "handler": "CurrencyController@update",
+                "auth": true,
+                "permission": "currencies.manage"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/exchange-rates",
+                "handler": "ExchangeRateController@index",
+                "auth": false,
+                "permission": "public"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/exchange-rates\/update",
+                "handler": "ExchangeRateController@updateRates",
+                "auth": true,
+                "permission": "exchange_rates.manage"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/localization\/detect",
+                "handler": "LocalizationController@detectLocation",
+                "auth": false,
+                "permission": "public"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/localization\/translations",
+                "handler": "LocalizationController@getTranslations",
+                "auth": false,
+                "permission": "public"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/localization\/translations",
+                "handler": "LocalizationController@updateTranslations",
+                "auth": true,
+                "permission": "localization.manage"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/regional-pricing",
+                "handler": "RegionalPricingController@index",
+                "auth": true,
+                "permission": "regional_pricing.view"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/regional-pricing",
+                "handler": "RegionalPricingController@create",
+                "auth": true,
+                "permission": "regional_pricing.manage"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/tax-compliance\/rates",
+                "handler": "TaxComplianceController@getTaxRates",
+                "auth": false,
+                "permission": "public"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/tax-compliance\/calculate",
+                "handler": "TaxComplianceController@calculateTax",
+                "auth": false,
+                "permission": "public"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/price\/convert",
+                "handler": "PriceController@convertPrice",
+                "auth": false,
+                "permission": "public"
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/price\/bulk-convert",
+                "handler": "PriceController@bulkConvertPrices",
+                "auth": false,
+                "permission": "public"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "currencies",
+            "exchange_rates",
+            "currency_history",
+            "localization_settings",
+            "translations",
+            "regional_pricing",
+            "tax_rules",
+            "tax_rates",
+            "country_settings",
+            "customer_locations",
+            "price_conversions"
+        ],
+        "migrations": "migrations\/"
+    },
+    "assets": {
+        "js": [
+            {
+                "src": "assets\/js\/currency-switcher.js",
+                "position": "footer",
+                "pages": [
+                    "frontend"
+                ],
+                "deps": [
+                    "jquery"
+                ]
+            },
+            {
+                "src": "assets\/js\/localization-manager.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "vue.js"
+                ]
+            },
+            {
+                "src": "assets\/js\/regional-pricing.js",
+                "position": "footer",
+                "pages": [
+                    "admin"
+                ],
+                "deps": [
+                    "chart.js"
+                ]
+            },
+            {
+                "src": "assets\/js\/tax-calculator.js",
+                "position": "footer",
+                "pages": [
+                    "frontend",
+                    "admin"
+                ],
+                "deps": [
+                    "jquery"
+                ]
+            }
+        ],
+        "css": [
+            {
+                "src": "assets\/css\/currency-switcher.css",
+                "pages": [
+                    "frontend"
+                ]
+            },
+            {
+                "src": "assets\/css\/localization-admin.css",
+                "pages": [
+                    "admin"
+                ]
+            },
+            {
+                "src": "assets\/css\/regional-pricing.css",
+                "pages": [
+                    "admin"
+                ]
+            }
+        ]
+    },
+    "config": {
+        "schema": {
+            "currency_settings": {
+                "type": "object",
+                "label": "Currency Configuration",
+                "properties": {
+                    "base_currency": {
+                        "type": "select",
+                        "label": "Base Currency",
+                        "default": "USD",
+                        "options": {
+                            "USD": "US Dollar",
+                            "EUR": "Euro",
+                            "GBP": "British Pound",
+                            "JPY": "Japanese Yen",
+                            "CAD": "Canadian Dollar",
+                            "AUD": "Australian Dollar"
+                        }
+                    },
+                    "auto_detect_currency": {
+                        "type": "boolean",
+                        "label": "Auto-detect Currency by Location",
+                        "default": true
+                    },
+                    "currency_switching_enabled": {
+                        "type": "boolean",
+                        "label": "Allow Currency Switching",
+                        "default": true
+                    },
+                    "exchange_rate_provider": {
+                        "type": "select",
+                        "label": "Exchange Rate Provider",
+                        "default": "fixer",
+                        "options": {
+                            "fixer": "Fixer.io",
+                            "openexchangerates": "Open Exchange Rates",
+                            "currencylayer": "CurrencyLayer",
+                            "manual": "Manual Entry"
+                        }
+                    },
+                    "exchange_rate_update_frequency": {
+                        "type": "select",
+                        "label": "Update Frequency",
+                        "default": "hourly",
+                        "options": {
+                            "real_time": "Real-time",
+                            "hourly": "Hourly",
+                            "daily": "Daily",
+                            "weekly": "Weekly"
+                        }
+                    },
+                    "price_precision": {
+                        "type": "number",
+                        "label": "Price Decimal Places",
+                        "default": 2,
+                        "min": 0,
+                        "max": 4
+                    }
+                }
+            },
+            "localization_settings": {
+                "type": "object",
+                "label": "Localization Configuration",
+                "properties": {
+                    "default_language": {
+                        "type": "select",
+                        "label": "Default Language",
+                        "default": "en",
+                        "options": {
+                            "en": "English",
+                            "es": "Spanish",
+                            "fr": "French",
+                            "de": "German",
+                            "it": "Italian",
+                            "pt": "Portuguese",
+                            "ru": "Russian",
+                            "zh": "Chinese",
+                            "ja": "Japanese",
+                            "ko": "Korean"
+                        }
+                    },
+                    "auto_detect_language": {
+                        "type": "boolean",
+                        "label": "Auto-detect Language",
+                        "default": true
+                    },
+                    "fallback_language": {
+                        "type": "select",
+                        "label": "Fallback Language",
+                        "default": "en",
+                        "options": {
+                            "en": "English",
+                            "es": "Spanish",
+                            "fr": "French",
+                            "de": "German"
+                        }
+                    },
+                    "translation_caching": {
+                        "type": "boolean",
+                        "label": "Enable Translation Caching",
+                        "default": true
+                    },
+                    "rtl_languages": {
+                        "type": "multiselect",
+                        "label": "Right-to-Left Languages",
+                        "default": [
+                            "ar",
+                            "he"
+                        ],
+                        "options": {
+                            "ar": "Arabic",
+                            "he": "Hebrew",
+                            "fa": "Persian",
+                            "ur": "Urdu"
+                        }
+                    }
+                }
+            },
+            "regional_pricing": {
+                "type": "object",
+                "label": "Regional Pricing",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "label": "Enable Regional Pricing",
+                        "default": true
+                    },
+                    "pricing_strategy": {
+                        "type": "select",
+                        "label": "Pricing Strategy",
+                        "default": "purchasing_power",
+                        "options": {
+                            "purchasing_power": "Purchasing Power Parity",
+                            "market_based": "Market-based Pricing",
+                            "cost_plus": "Cost Plus Pricing",
+                            "competitive": "Competitive Pricing"
+                        },
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "automatic_adjustments": {
+                        "type": "boolean",
+                        "label": "Automatic Price Adjustments",
+                        "default": false,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "adjustment_frequency": {
+                        "type": "select",
+                        "label": "Adjustment Frequency",
+                        "default": "monthly",
+                        "options": {
+                            "daily": "Daily",
+                            "weekly": "Weekly",
+                            "monthly": "Monthly",
+                            "quarterly": "Quarterly"
+                        },
+                        "depends_on": {
+                            "automatic_adjustments": true
+                        }
+                    }
+                }
+            },
+            "tax_compliance": {
+                "type": "object",
+                "label": "Tax Compliance",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "label": "Enable Tax Compliance",
+                        "default": true
+                    },
+                    "vat_enabled": {
+                        "type": "boolean",
+                        "label": "Enable VAT\/GST Support",
+                        "default": true,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "sales_tax_enabled": {
+                        "type": "boolean",
+                        "label": "Enable Sales Tax Support",
+                        "default": true,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "tax_calculation_method": {
+                        "type": "select",
+                        "label": "Tax Calculation Method",
+                        "default": "inclusive",
+                        "options": {
+                            "inclusive": "Tax Inclusive",
+                            "exclusive": "Tax Exclusive",
+                            "hybrid": "Hybrid (Country-specific)"
+                        },
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "digital_services_tax": {
+                        "type": "boolean",
+                        "label": "Digital Services Tax",
+                        "default": false,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "tax_reporting": {
+                        "type": "boolean",
+                        "label": "Enable Tax Reporting",
+                        "default": true,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    }
+                }
+            },
+            "geolocation": {
+                "type": "object",
+                "label": "Geolocation Settings",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "label": "Enable Geolocation",
+                        "default": true
+                    },
+                    "ip_detection_service": {
+                        "type": "select",
+                        "label": "IP Detection Service",
+                        "default": "maxmind",
+                        "options": {
+                            "maxmind": "MaxMind GeoIP2",
+                            "ipstack": "IPStack",
+                            "ipapi": "IP-API",
+                            "cloudflare": "Cloudflare"
+                        },
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "cache_location_data": {
+                        "type": "boolean",
+                        "label": "Cache Location Data",
+                        "default": true,
+                        "depends_on": {
+                            "enabled": true
+                        }
+                    },
+                    "location_cache_duration": {
+                        "type": "number",
+                        "label": "Cache Duration (hours)",
+                        "default": 24,
+                        "min": 1,
+                        "max": 720,
+                        "depends_on": {
+                            "cache_location_data": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "widgets": [
+        {
+            "id": "currency_switcher",
+            "name": "Currency Switcher",
+            "description": "Allow customers to switch between currencies",
+            "position": "header",
+            "permissions": [
+                "public"
+            ]
+        },
+        {
+            "id": "language_switcher",
+            "name": "Language Switcher",
+            "description": "Allow customers to switch languages",
+            "position": "header",
+            "permissions": [
+                "public"
+            ]
+        },
+        {
+            "id": "regional_pricing_dashboard",
+            "name": "Regional Pricing Dashboard",
+            "description": "Monitor regional pricing performance",
+            "position": "dashboard",
+            "permissions": [
+                "regional_pricing.view"
+            ]
+        },
+        {
+            "id": "tax_compliance_status",
+            "name": "Tax Compliance Status",
+            "description": "Tax compliance monitoring widget",
+            "position": "dashboard",
+            "permissions": [
+                "tax_compliance.view"
+            ]
+        }
+    ],
+    "scheduled_tasks": [
+        {
+            "schedule": "0 * * * *",
+            "handler": "updateExchangeRates",
+            "description": "Update exchange rates from provider"
+        },
+        {
+            "schedule": "0 2 * * *",
+            "handler": "processRegionalPricingAdjustments",
+            "description": "Process automatic regional pricing adjustments"
+        },
+        {
+            "schedule": "0 3 * * *",
+            "handler": "updateTaxRates",
+            "description": "Update tax rates from external sources"
+        },
+        {
+            "schedule": "0 4 * * 0",
+            "handler": "generateTaxReports",
+            "description": "Generate weekly tax compliance reports"
+        },
+        {
+            "schedule": "*\/15 * * * *",
+            "handler": "syncCurrencyConversions",
+            "description": "Sync currency conversion cache"
+        }
+    ],
+    "menu_items": [
+        {
+            "title": "Multi-Currency",
+            "capability": "currencies.view",
+            "icon": "dashicons-money-alt",
+            "position": 25,
+            "submenu": [
+                {
+                    "title": "Currencies",
+                    "page": "currencies",
+                    "capability": "currencies.view"
+                },
+                {
+                    "title": "Exchange Rates",
+                    "page": "exchange-rates",
+                    "capability": "exchange_rates.view"
+                },
+                {
+                    "title": "Regional Pricing",
+                    "page": "regional-pricing",
+                    "capability": "regional_pricing.view"
+                },
+                {
+                    "title": "Tax Compliance",
+                    "page": "tax-compliance",
+                    "capability": "tax_compliance.view"
+                },
+                {
+                    "title": "Localization",
+                    "page": "localization",
+                    "capability": "localization.view"
+                },
+                {
+                    "title": "Settings",
+                    "page": "multi-currency-settings",
+                    "capability": "currencies.manage"
+                }
+            ]
+        }
+    ],
+    "supported_currencies": [
+        "USD",
+        "EUR",
+        "GBP",
+        "JPY",
+        "CAD",
+        "AUD",
+        "CHF",
+        "CNY",
+        "SEK",
+        "NZD",
+        "MXN",
+        "SGD",
+        "HKD",
+        "NOK",
+        "KRW",
+        "TRY",
+        "RUB",
+        "INR",
+        "BRL",
+        "ZAR",
+        "PLN",
+        "DKK",
+        "CZK",
+        "HUF",
+        "ILS",
+        "CLP",
+        "PHP",
+        "AED",
+        "COP",
+        "PEN",
+        "EGP",
+        "THB",
+        "MYR",
+        "RON",
+        "BGN",
+        "HRK",
+        "ISK",
+        "UYU",
+        "QAR",
+        "SAR"
+    ],
+    "supported_languages": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ru",
+        "zh",
+        "ja",
+        "ko",
+        "ar",
+        "hi",
+        "th",
+        "vi",
+        "tr",
+        "pl",
+        "nl",
+        "sv",
+        "da",
+        "no",
+        "fi",
+        "cs",
+        "hu",
+        "ro",
+        "bg",
+        "hr",
+        "sk",
+        "sl",
+        "et",
+        "lv",
+        "lt",
+        "mt",
+        "he",
+        "fa",
+        "ur",
+        "bn",
+        "ta",
+        "te",
+        "ml",
+        "kn"
+    ],
+    "changelog": {
+        "1.0.0": [
+            "Initial release with comprehensive multi-currency support",
+            "Real-time exchange rate integration with multiple providers",
+            "Advanced localization system with translation management",
+            "Regional pricing with purchasing power parity",
+            "Comprehensive tax compliance for global markets",
+            "Intelligent geolocation-based currency\/language detection",
+            "Currency conversion caching and optimization",
+            "Tax calculation for VAT, GST, and sales tax",
+            "Multi-language admin interface",
+            "Regional price adjustment automation",
+            "Tax reporting and compliance monitoring",
+            "Customer location tracking and preferences"
+        ]
+    }
+}

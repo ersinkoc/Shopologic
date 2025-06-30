@@ -1,6 +1,7 @@
 <?php
 
-namespace SocialCommerceIntegration\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\SocialCommerceIntegration\Services;
 
 interface SocialPlatformServiceInterface
 {

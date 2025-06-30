@@ -1,6 +1,7 @@
 <?php
 
-namespace AdvancedInventoryIntelligence\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\AdvancedInventoryIntelligence\Services;
 
 interface ForecastingServiceInterface
 {

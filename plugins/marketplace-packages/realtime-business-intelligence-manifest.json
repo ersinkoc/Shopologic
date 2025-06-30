@@ -1,0 +1,147 @@
+{
+    "package_info": {
+        "name": "realtime-business-intelligence",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:11",
+        "package_size": 22470,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "realtime-business-intelligence",
+        "version": "1.0.0",
+        "description": "Real-time business intelligence with live dashboards, predictive KPIs, automated alerts, and executive reporting",
+        "author": {
+            "name": "Shopologic"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\RealtimeBusinessIntelligence\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "RealtimeBusinessIntelligencePlugin",
+            "file": "RealtimeBusinessIntelligencePlugin.php"
+        },
+        "permissions": [
+            "hooks.analytics.*",
+            "hooks.dashboard.*",
+            "api.access",
+            "dashboard.widget",
+            "cron.execute",
+            "bi.dashboard.view",
+            "bi.reports.generate"
+        ],
+        "hooks": {
+            "actions": [
+                "order.created",
+                "user.activity",
+                "analytics.metric_updated",
+                "dashboard.data_request",
+                "alert.threshold_exceeded"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/bi\/dashboard",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/bi\/kpis",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/bi\/reports\/generate",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/bi\/alerts",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/bi\/trends",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "configurable": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "api_enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "widget_enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "features": [
+                    "real_time_kpis",
+                    "predictive_analytics",
+                    "automated_alerts",
+                    "executive_reports"
+                ],
+                "update_intervals": [
+                    "real_time",
+                    "5min",
+                    "hourly",
+                    "daily"
+                ]
+            }
+        },
+        "scheduled_tasks": [
+            "* * * * * - update_realtime_metrics",
+            "*\/5 * * * * - calculate_kpis",
+            "0 * * * * - generate_alerts",
+            "0 6 * * * - generate_daily_report"
+        ]
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "enterprise",
+            "analytics",
+            "real-time"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

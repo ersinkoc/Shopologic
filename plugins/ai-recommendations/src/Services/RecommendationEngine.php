@@ -1,5 +1,7 @@
 <?php
-namespace AIRecommendations\Services;
+
+declare(strict_types=1);
+namespace Shopologic\Plugins\AiRecommendations\Services;
 
 use AIRecommendations\Repository\RecommendationRepository;
 use AIRecommendations\Repository\BehaviorRepository;
@@ -13,8 +15,7 @@ use AIRecommendations\Algorithms\DeepLearningEngine;
  * 
  * Core service for generating product recommendations using multiple algorithms
  */
-class RecommendationEngine
-{
+class RecommendationEngine\n{
     private RecommendationRepository $recommendationRepo;
     private BehaviorRepository $behaviorRepo;
     private array $config;

@@ -1,6 +1,7 @@
 <?php
 
-namespace PredictiveAnalyticsEngine;
+declare(strict_types=1);
+namespace Shopologic\Plugins\PredictiveAnalyticsEngine;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Hook\HookSystem;
@@ -638,5 +639,29 @@ class PredictiveAnalyticsEnginePlugin extends AbstractPlugin implements WidgetIn
         ];
         
         return $key ? ($config[$key] ?? $default) : $config;
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

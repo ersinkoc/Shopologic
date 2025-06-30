@@ -1,6 +1,7 @@
 <?php
 
-namespace CustomerLifetimeValueOptimizer;
+declare(strict_types=1);
+namespace Shopologic\Plugins\CustomerLifetimeValueOptimizer;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Hook\HookSystem;
@@ -432,7 +433,7 @@ class CustomerLifetimeValueOptimizerPlugin extends AbstractPlugin implements Wid
                 
                 $this->trackRetentionCampaignExecution($campaign->id, null, $result);
                 
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Failed to execute retention campaign', [
                     'campaign_id' => $campaign->id,
                     'error' => $e->getMessage()
@@ -530,5 +531,29 @@ class CustomerLifetimeValueOptimizerPlugin extends AbstractPlugin implements Wid
         ];
         
         return $key ? ($config[$key] ?? $default) : $config;
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

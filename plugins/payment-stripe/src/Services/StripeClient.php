@@ -9,8 +9,7 @@ use Shopologic\Plugins\PaymentStripe\Exceptions\StripeException;
 /**
  * Stripe API client implementation without external dependencies
  */
-class StripeClient
-{
+class StripeClient\n{
     private const API_BASE = 'https://api.stripe.com/v1';
     private const API_VERSION = '2023-10-16';
     

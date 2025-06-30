@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx;
+namespace Shopologic\Plugins\ShippingFedex;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Container\ContainerInterface;

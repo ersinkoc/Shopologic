@@ -1,0 +1,3036 @@
+{
+    "timestamp": "2025-06-30 18:40:08",
+    "summary": {
+        "total_plugins": 77,
+        "average_score": 68,
+        "pass_rate": 68.1,
+        "grade_distribution": {
+            "B+": 2,
+            "C": 55,
+            "F": 20
+        }
+    },
+    "plugins": {
+        "HelloWorld": {
+            "plugin": "HelloWorld",
+            "tests": {
+                "structure": {
+                    "passed": true,
+                    "message": "All required directories present"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 86,
+            "grade": "B+",
+            "issues": [
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "ab-testing-framework": {
+            "plugin": "ab-testing-framework",
+            "tests": {
+                "structure": {
+                    "passed": true,
+                    "message": "All required directories present"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 86,
+            "grade": "B+",
+            "issues": [
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "advanced-analytics-reporting": {
+            "plugin": "advanced-analytics-reporting",
+            "tests": {
+                "structure": {
+                    "passed": true,
+                    "message": "All required directories present"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in AdvancedAnalyticsPlugin.php, Potential SQL injection in AdvancedAnalyticsPlugin.php, Potential SQL injection in AnalyticsEngine.php, Direct superglobal access in EventTracker.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in AdvancedAnalyticsPlugin.php, Potential SQL injection in AdvancedAnalyticsPlugin.php, Potential SQL injection in AnalyticsEngine.php, Direct superglobal access in EventTracker.php"
+            ]
+        },
+        "advanced-cms": {
+            "plugin": "advanced-cms",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "advanced-email-marketing": {
+            "plugin": "advanced-email-marketing",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Potential SQL injection in AdvancedEmailMarketingPlugin.php, Direct superglobal access in SubscriberManager.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Potential SQL injection in AdvancedEmailMarketingPlugin.php, Direct superglobal access in SubscriberManager.php"
+            ]
+        },
+        "advanced-inventory": {
+            "plugin": "advanced-inventory",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "advanced-inventory-intelligence": {
+            "plugin": "advanced-inventory-intelligence",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "advanced-personalization-engine": {
+            "plugin": "advanced-personalization-engine",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "ai-content-generator": {
+            "plugin": "ai-content-generator",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Repositories, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Repositories, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "ai-recommendation-engine": {
+            "plugin": "ai-recommendation-engine",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in AiRecommendationEnginePlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in AiRecommendationEnginePlugin.php"
+            ]
+        },
+        "ai-recommendations": {
+            "plugin": "ai-recommendations",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "analytics-google": {
+            "plugin": "analytics-google",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "api-mock-server": {
+            "plugin": "api-mock-server",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in ApiMockServerPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in ApiMockServerPlugin.php"
+            ]
+        },
+        "behavioral-psychology-engine": {
+            "plugin": "behavioral-psychology-engine",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "blockchain-supply-chain": {
+            "plugin": "blockchain-supply-chain",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "blue-green-deployment": {
+            "plugin": "blue-green-deployment",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "bundle-builder": {
+            "plugin": "bundle-builder",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in SmartBundleBuilderPluginEnhanced.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in SmartBundleBuilderPluginEnhanced.php"
+            ]
+        },
+        "code-quality-analyzer": {
+            "plugin": "code-quality-analyzer",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "container-orchestration": {
+            "plugin": "container-orchestration",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "core-commerce": {
+            "plugin": "core-commerce",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Potential SQL injection in CoreCommercePlugin.php, Potential SQL injection in CoreCommercePluginEnhanced.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Potential SQL injection in CoreCommercePlugin.php, Potential SQL injection in CoreCommercePluginEnhanced.php"
+            ]
+        },
+        "customer-lifetime-value-optimizer": {
+            "plugin": "customer-lifetime-value-optimizer",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "customer-loyalty-rewards": {
+            "plugin": "customer-loyalty-rewards",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Potential SQL injection in CustomerLoyaltyRewardsPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Potential SQL injection in CustomerLoyaltyRewardsPlugin.php"
+            ]
+        },
+        "customer-segmentation": {
+            "plugin": "customer-segmentation",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "customer-segmentation-engine": {
+            "plugin": "customer-segmentation-engine",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "database-query-optimizer": {
+            "plugin": "database-query-optimizer",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "dynamic-inventory-forecasting": {
+            "plugin": "dynamic-inventory-forecasting",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "edge-computing-gateway": {
+            "plugin": "edge-computing-gateway",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in EdgeComputingGatewayPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in EdgeComputingGatewayPlugin.php"
+            ]
+        },
+        "email-marketing": {
+            "plugin": "email-marketing",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "enterprise-security-compliance": {
+            "plugin": "enterprise-security-compliance",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "enterprise-supply-chain-management": {
+            "plugin": "enterprise-supply-chain-management",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "event-sourcing": {
+            "plugin": "event-sourcing",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in EventSourcingPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in EventSourcingPlugin.php"
+            ]
+        },
+        "feature-flag-manager": {
+            "plugin": "feature-flag-manager",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "fraud-detection-system": {
+            "plugin": "fraud-detection-system",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "gift-card-plus": {
+            "plugin": "gift-card-plus",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "graphql-schema-builder": {
+            "plugin": "graphql-schema-builder",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in GraphQLSchemaBuilderPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in GraphQLSchemaBuilderPlugin.php"
+            ]
+        },
+        "headless-commerce-api": {
+            "plugin": "headless-commerce-api",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in HeadlessCommerceAPIPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in HeadlessCommerceAPIPlugin.php"
+            ]
+        },
+        "inventory-forecasting": {
+            "plugin": "inventory-forecasting",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "inventory-management": {
+            "plugin": "inventory-management",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "journey-analytics": {
+            "plugin": "journey-analytics",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "live-chat": {
+            "plugin": "live-chat",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "loyalty-gamification": {
+            "plugin": "loyalty-gamification",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "loyalty-rewards": {
+            "plugin": "loyalty-rewards",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "microservices-manager": {
+            "plugin": "microservices-manager",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in MicroservicesManagerPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in MicroservicesManagerPlugin.php"
+            ]
+        },
+        "ml-model-deployment": {
+            "plugin": "ml-model-deployment",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "multi-currency": {
+            "plugin": "multi-currency",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "multi-currency-localization": {
+            "plugin": "multi-currency-localization",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Potential SQL injection in ExchangeRateHistory.php, Potential SQL injection in MultiCurrencyLocalizationPlugin.php, Direct superglobal access in CurrencyManager.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Potential SQL injection in ExchangeRateHistory.php, Potential SQL injection in MultiCurrencyLocalizationPlugin.php, Direct superglobal access in CurrencyManager.php"
+            ]
+        },
+        "multi-tenant-saas": {
+            "plugin": "multi-tenant-saas",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Repositories, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in MultiTenantSaaSPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Repositories, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in MultiTenantSaaSPlugin.php"
+            ]
+        },
+        "multi-vendor-marketplace": {
+            "plugin": "multi-vendor-marketplace",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in VendorAnalytics.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in VendorAnalytics.php"
+            ]
+        },
+        "omnichannel-integration-hub": {
+            "plugin": "omnichannel-integration-hub",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "payment-paypal": {
+            "plugin": "payment-paypal",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "payment-stripe": {
+            "plugin": "payment-stripe",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Repositories, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Potential SQL injection in StripeClient.php, Potential SQL injection in StripeCustomerService.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Repositories, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Potential SQL injection in StripeClient.php, Potential SQL injection in StripeCustomerService.php"
+            ]
+        },
+        "performance-optimizer": {
+            "plugin": "performance-optimizer",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in PerformanceOptimizerPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in PerformanceOptimizerPlugin.php"
+            ]
+        },
+        "performance-profiler": {
+            "plugin": "performance-profiler",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in PerformanceProfilerPlugin.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in PerformanceProfilerPlugin.php"
+            ]
+        },
+        "predictive-analytics-engine": {
+            "plugin": "predictive-analytics-engine",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "progressive-web-app-builder": {
+            "plugin": "progressive-web-app-builder",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "pwa-enhancer": {
+            "plugin": "pwa-enhancer",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "realtime-business-intelligence": {
+            "plugin": "realtime-business-intelligence",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "realtime-collaboration": {
+            "plugin": "realtime-collaboration",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "review-intelligence": {
+            "plugin": "review-intelligence",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "reviews-ratings": {
+            "plugin": "reviews-ratings",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "sales-dashboard": {
+            "plugin": "sales-dashboard",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "seo-optimizer": {
+            "plugin": "seo-optimizer",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "serverless-functions": {
+            "plugin": "serverless-functions",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "shipping-fedex": {
+            "plugin": "shipping-fedex",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Repositories, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Potential SQL injection in FedExApiClient.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Repositories, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Potential SQL injection in FedExApiClient.php"
+            ]
+        },
+        "smart-pricing": {
+            "plugin": "smart-pricing",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "smart-pricing-intelligence": {
+            "plugin": "smart-pricing-intelligence",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "smart-search": {
+            "plugin": "smart-search",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "smart-search-discovery": {
+            "plugin": "smart-search-discovery",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "smart-shipping": {
+            "plugin": "smart-shipping",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "social-commerce-integration": {
+            "plugin": "social-commerce-integration",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "social-proof-engine": {
+            "plugin": "social-proof-engine",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Direct superglobal access in SocialProofPluginEnhanced.php, Potential SQL injection in SocialProofPluginEnhanced.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Direct superglobal access in SocialProofPluginEnhanced.php, Potential SQL injection in SocialProofPluginEnhanced.php"
+            ]
+        },
+        "subscription-commerce": {
+            "plugin": "subscription-commerce",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "support-hub": {
+            "plugin": "support-hub",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "visual-page-builder": {
+            "plugin": "visual-page-builder",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Models, src\/Repositories, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Models, src\/Repositories, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "voice-commerce": {
+            "plugin": "voice-commerce",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": false,
+                    "message": "Potential SQL injection in VoiceCommercePluginEnhanced.php"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 57,
+            "grade": "F",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file",
+                "Potential SQL injection in VoiceCommercePluginEnhanced.php"
+            ]
+        },
+        "websocket-realtime-engine": {
+            "plugin": "websocket-realtime-engine",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        },
+        "wishlist-intelligence": {
+            "plugin": "wishlist-intelligence",
+            "tests": {
+                "structure": {
+                    "passed": false,
+                    "message": "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs"
+                },
+                "bootstrap": {
+                    "passed": true,
+                    "message": "Bootstrap class properly implemented"
+                },
+                "namespace": {
+                    "passed": false,
+                    "message": "Incorrect namespace in bootstrap file"
+                },
+                "documentation": {
+                    "passed": true,
+                    "message": "All documentation files present"
+                },
+                "security": {
+                    "passed": true,
+                    "message": "No security issues detected"
+                },
+                "quality": {
+                    "passed": true,
+                    "message": "Code quality standards met"
+                },
+                "manifest": {
+                    "passed": true,
+                    "message": "Manifest complete"
+                }
+            },
+            "score": 71,
+            "grade": "C",
+            "issues": [
+                "Missing directories: src, src\/Controllers, src\/Models, src\/Services, src\/Repositories, templates, assets, assets\/css, assets\/js, assets\/images, migrations, tests, docs",
+                "Incorrect namespace in bootstrap file"
+            ]
+        }
+    }
+}

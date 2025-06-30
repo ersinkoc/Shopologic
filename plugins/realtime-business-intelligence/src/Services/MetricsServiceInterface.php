@@ -1,6 +1,7 @@
 <?php
 
-namespace RealtimeBusinessIntelligence\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\RealtimeBusinessIntelligence\Services;
 
 interface MetricsServiceInterface
 {

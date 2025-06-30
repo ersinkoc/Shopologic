@@ -9,8 +9,7 @@ use Shopologic\Plugins\PaymentStripe\Repository\StripeWebhookRepository;
 use Shopologic\Plugins\PaymentStripe\Repository\StripePaymentRepository;
 use Shopologic\Core\Logging\LoggerInterface;
 
-class StripeWebhookHandler
-{
+class StripeWebhookHandler\n{
     private EventDispatcherInterface $eventDispatcher;
     private StripeWebhookRepository $webhookRepository;
     private StripePaymentRepository $paymentRepository;
@@ -71,7 +70,7 @@ class StripeWebhookHandler
 
             return $processed;
 
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             $this->logger->error('Webhook processing failed', [
                 'event_id' => $event['id'] ?? 'unknown',
                 'event_type' => $event['type'] ?? 'unknown',
@@ -233,22 +232,18 @@ class StripeWebhookHandler
 }
 
 // Event classes
-class PaymentCompletedEvent
-{
+class PaymentCompletedEvent\n{
     public function __construct(public $payment) {}
 }
 
-class PaymentFailedEvent
-{
+class PaymentFailedEvent\n{
     public function __construct(public $payment) {}
 }
 
-class PaymentCanceledEvent
-{
+class PaymentCanceledEvent\n{
     public function __construct(public $payment) {}
 }
 
-class PaymentRefundedEvent
-{
+class PaymentRefundedEvent\n{
     public function __construct(public $payment, public float $amount) {}
 }

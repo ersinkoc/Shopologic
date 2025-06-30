@@ -5,300 +5,322 @@
     "author": {
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com",
-        "url": "https://shopologic.com"
+        "url": "https:\/\/shopologic.com"
     },
     "license": "MIT",
-    "homepage": "https://shopologic.com/plugins/seo-optimizer",
-    "keywords": ["seo", "search-engine", "optimization", "sitemap", "schema", "meta-tags"],
+    "homepage": "https:\/\/shopologic.com\/plugins\/seo-optimizer",
+    "keywords": [
+        "seo",
+        "search-engine",
+        "optimization",
+        "sitemap",
+        "schema",
+        "meta-tags"
+    ],
     "requirements": {
-        "php_version": ">=8.1",
-        "core_version": ">=1.0.0",
+        "php": ">=8.3",
+        "core": ">=1.0.0",
         "dependencies": {
-            "core-commerce": ">=1.0.0"
+            "shopologic\/commerce": "^1.0.0"
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\SeoOptimizer\\": "src\/"
+        }
+    },
+    "bootstrap": {
+        "class": "SeoOptimizerPlugin",
+        "file": "src\/SeoOptimizerPlugin.php"
     },
     "provides": [
         "SEOInterface",
         "SitemapInterface",
         "SchemaInterface"
     ],
-    "autoload": {
-        "psr-4": {
-            "SEOOptimizer\\": "src/"
-        }
-    },
-    "config": {
-        "main_class": "SEOOptimizer\\SEOPlugin",
-        "namespace": "SEOOptimizer"
-    },
     "permissions": [
         "seo.view",
         "seo.edit",
         "seo.analyze"
     ],
-    "hooks": [
-        {
-            "hook": "page.head",
-            "handler": "injectMetaTags",
-            "priority": 1
-        },
-        {
-            "hook": "page.footer",
-            "handler": "injectSchema",
-            "priority": 90
-        },
-        {
-            "hook": "product.save",
-            "handler": "generateProductMeta",
-            "priority": 20
-        },
-        {
-            "hook": "category.save",
-            "handler": "generateCategoryMeta",
-            "priority": 20
-        },
-        {
-            "hook": "router.routes",
-            "handler": "registerSEORoutes",
-            "priority": 100
-        }
-    ],
-    "api_endpoints": [
-        {
-            "method": "GET",
-            "path": "/sitemap.xml",
-            "handler": "Controllers\\SitemapController@generateXML",
-            "auth": false
-        },
-        {
-            "method": "GET",
-            "path": "/robots.txt",
-            "handler": "Controllers\\RobotsController@generate",
-            "auth": false
-        },
-        {
-            "method": "POST",
-            "path": "/api/v1/seo/analyze",
-            "handler": "Controllers\\SEOController@analyzePage",
-            "auth": true,
-            "permission": "seo.analyze"
-        },
-        {
-            "method": "PUT",
-            "path": "/api/v1/seo/meta/{type}/{id}",
-            "handler": "Controllers\\SEOController@updateMeta",
-            "auth": true,
-            "permission": "seo.edit"
-        },
-        {
-            "method": "GET",
-            "path": "/api/v1/seo/suggestions/{type}/{id}",
-            "handler": "Controllers\\SEOController@getSuggestions",
-            "auth": true,
-            "permission": "seo.view"
-        }
-    ],
-    "database_tables": [
-        "seo_meta",
-        "seo_redirects",
-        "seo_keywords",
-        "seo_analysis_reports"
-    ],
+    "hooks": {
+        "actions": [
+            {
+                "hook": "page.head",
+                "handler": "injectMetaTags",
+                "priority": 1
+            },
+            {
+                "hook": "page.footer",
+                "handler": "injectSchema",
+                "priority": 90
+            },
+            {
+                "hook": "product.save",
+                "handler": "generateProductMeta",
+                "priority": 20
+            },
+            {
+                "hook": "category.save",
+                "handler": "generateCategoryMeta",
+                "priority": 20
+            },
+            {
+                "hook": "router.routes",
+                "handler": "registerSEORoutes",
+                "priority": 100
+            }
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "GET",
+                "path": "\/sitemap.xml",
+                "handler": "Controllers\\SitemapController@generateXML",
+                "auth": false
+            },
+            {
+                "method": "GET",
+                "path": "\/robots.txt",
+                "handler": "Controllers\\RobotsController@generate",
+                "auth": false
+            },
+            {
+                "method": "POST",
+                "path": "\/api\/v1\/seo\/analyze",
+                "handler": "Controllers\\SEOController@analyzePage",
+                "auth": true,
+                "permission": "seo.analyze"
+            },
+            {
+                "method": "PUT",
+                "path": "\/api\/v1\/seo\/meta\/{type}\/{id}",
+                "handler": "Controllers\\SEOController@updateMeta",
+                "auth": true,
+                "permission": "seo.edit"
+            },
+            {
+                "method": "GET",
+                "path": "\/api\/v1\/seo\/suggestions\/{type}\/{id}",
+                "handler": "Controllers\\SEOController@getSuggestions",
+                "auth": true,
+                "permission": "seo.view"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "seo_meta",
+            "seo_redirects",
+            "seo_keywords",
+            "seo_analysis_reports"
+        ],
+        "migrations": "migrations\/"
+    },
     "assets": {
         "js": [
             {
-                "src": "assets/js/seo-editor.js",
+                "src": "assets\/js\/seo-editor.js",
                 "position": "footer",
-                "pages": ["admin"]
+                "pages": [
+                    "admin"
+                ]
             },
             {
-                "src": "assets/js/seo-preview.js",
+                "src": "assets\/js\/seo-preview.js",
                 "position": "footer",
-                "pages": ["admin"]
+                "pages": [
+                    "admin"
+                ]
             }
         ],
         "css": [
             {
-                "src": "assets/css/seo-admin.css",
-                "pages": ["admin"]
+                "src": "assets\/css\/seo-admin.css",
+                "pages": [
+                    "admin"
+                ]
             }
         ]
     },
-    "config_schema": {
-        "site_name": {
-            "type": "string",
-            "label": "Site Name",
-            "description": "Your website name for title tags",
-            "required": true
-        },
-        "title_separator": {
-            "type": "select",
-            "label": "Title Separator",
-            "default": "|",
-            "options": {
-                "|": "Pipe (|)",
-                "-": "Dash (-)",
-                "•": "Bullet (•)",
-                "»": "Arrow (»)",
-                "::": "Double Colon (::)"
-            }
-        },
-        "title_format": {
-            "type": "select",
-            "label": "Title Format",
-            "default": "page_site",
-            "options": {
-                "page_site": "Page Title | Site Name",
-                "site_page": "Site Name | Page Title",
-                "page_only": "Page Title Only"
-            }
-        },
-        "meta_description_length": {
-            "type": "number",
-            "label": "Meta Description Length",
-            "description": "Maximum characters for meta descriptions",
-            "default": 160,
-            "min": 120,
-            "max": 320
-        },
-        "enable_og_tags": {
-            "type": "boolean",
-            "label": "Enable Open Graph Tags",
-            "description": "Add Facebook Open Graph meta tags",
-            "default": true
-        },
-        "enable_twitter_cards": {
-            "type": "boolean",
-            "label": "Enable Twitter Cards",
-            "description": "Add Twitter Card meta tags",
-            "default": true
-        },
-        "twitter_username": {
-            "type": "string",
-            "label": "Twitter Username",
-            "description": "Your Twitter @username",
-            "placeholder": "@yourstore",
-            "depends_on": {
-                "enable_twitter_cards": true
-            }
-        },
-        "enable_breadcrumbs_schema": {
-            "type": "boolean",
-            "label": "Enable Breadcrumbs Schema",
-            "description": "Add breadcrumb structured data",
-            "default": true
-        },
-        "enable_product_schema": {
-            "type": "boolean",
-            "label": "Enable Product Schema",
-            "description": "Add product structured data",
-            "default": true
-        },
-        "enable_organization_schema": {
-            "type": "boolean",
-            "label": "Enable Organization Schema",
-            "description": "Add organization/business structured data",
-            "default": true
-        },
-        "organization_logo": {
-            "type": "image",
-            "label": "Organization Logo",
-            "description": "Logo for structured data (min 112x112px)",
-            "depends_on": {
-                "enable_organization_schema": true
-            }
-        },
-        "enable_sitemap": {
-            "type": "boolean",
-            "label": "Enable XML Sitemap",
-            "description": "Generate XML sitemap automatically",
-            "default": true
-        },
-        "sitemap_include_products": {
-            "type": "boolean",
-            "label": "Include Products in Sitemap",
-            "default": true,
-            "depends_on": {
-                "enable_sitemap": true
-            }
-        },
-        "sitemap_include_categories": {
-            "type": "boolean",
-            "label": "Include Categories in Sitemap",
-            "default": true,
-            "depends_on": {
-                "enable_sitemap": true
-            }
-        },
-        "sitemap_include_pages": {
-            "type": "boolean",
-            "label": "Include CMS Pages in Sitemap",
-            "default": true,
-            "depends_on": {
-                "enable_sitemap": true
-            }
-        },
-        "sitemap_priority_products": {
-            "type": "number",
-            "label": "Product Priority",
-            "description": "Sitemap priority for products (0.0-1.0)",
-            "default": 0.8,
-            "min": 0,
-            "max": 1,
-            "step": 0.1,
-            "depends_on": {
-                "enable_sitemap": true
-            }
-        },
-        "enable_canonical_urls": {
-            "type": "boolean",
-            "label": "Enable Canonical URLs",
-            "description": "Add canonical tags to prevent duplicate content",
-            "default": true
-        },
-        "enable_auto_redirects": {
-            "type": "boolean",
-            "label": "Enable Auto Redirects",
-            "description": "Automatically create redirects when URLs change",
-            "default": true
-        },
-        "robots_txt_content": {
-            "type": "textarea",
-            "label": "Robots.txt Content",
-            "description": "Custom robots.txt rules",
-            "default": "User-agent: *\nAllow: /\n\nSitemap: /sitemap.xml",
-            "rows": 10
-        },
-        "enable_seo_urls": {
-            "type": "boolean",
-            "label": "Enable SEO-Friendly URLs",
-            "description": "Use clean URLs without IDs",
-            "default": true
-        },
-        "url_suffix": {
-            "type": "select",
-            "label": "URL Suffix",
-            "default": "",
-            "options": {
-                "": "None",
-                ".html": ".html",
-                ".htm": ".htm",
-                "/": "Trailing Slash"
-            }
-        },
-        "enable_image_optimization": {
-            "type": "boolean",
-            "label": "Enable Image SEO",
-            "description": "Automatically optimize image alt tags and filenames",
-            "default": true
-        },
-        "default_image_alt_format": {
-            "type": "string",
-            "label": "Default Image Alt Format",
-            "description": "Use {product_name}, {category}, {site_name} as variables",
-            "default": "{product_name} - {site_name}",
-            "depends_on": {
-                "enable_image_optimization": true
+    "config": {
+        "schema": {
+            "site_name": {
+                "type": "string",
+                "label": "Site Name",
+                "description": "Your website name for title tags",
+                "required": true
+            },
+            "title_separator": {
+                "type": "select",
+                "label": "Title Separator",
+                "default": "|",
+                "options": {
+                    "|": "Pipe (|)",
+                    "-": "Dash (-)",
+                    "\u2022": "Bullet (\u2022)",
+                    "\u00bb": "Arrow (\u00bb)",
+                    "::": "Double Colon (::)"
+                }
+            },
+            "title_format": {
+                "type": "select",
+                "label": "Title Format",
+                "default": "page_site",
+                "options": {
+                    "page_site": "Page Title | Site Name",
+                    "site_page": "Site Name | Page Title",
+                    "page_only": "Page Title Only"
+                }
+            },
+            "meta_description_length": {
+                "type": "number",
+                "label": "Meta Description Length",
+                "description": "Maximum characters for meta descriptions",
+                "default": 160,
+                "min": 120,
+                "max": 320
+            },
+            "enable_og_tags": {
+                "type": "boolean",
+                "label": "Enable Open Graph Tags",
+                "description": "Add Facebook Open Graph meta tags",
+                "default": true
+            },
+            "enable_twitter_cards": {
+                "type": "boolean",
+                "label": "Enable Twitter Cards",
+                "description": "Add Twitter Card meta tags",
+                "default": true
+            },
+            "twitter_username": {
+                "type": "string",
+                "label": "Twitter Username",
+                "description": "Your Twitter @username",
+                "placeholder": "@yourstore",
+                "depends_on": {
+                    "enable_twitter_cards": true
+                }
+            },
+            "enable_breadcrumbs_schema": {
+                "type": "boolean",
+                "label": "Enable Breadcrumbs Schema",
+                "description": "Add breadcrumb structured data",
+                "default": true
+            },
+            "enable_product_schema": {
+                "type": "boolean",
+                "label": "Enable Product Schema",
+                "description": "Add product structured data",
+                "default": true
+            },
+            "enable_organization_schema": {
+                "type": "boolean",
+                "label": "Enable Organization Schema",
+                "description": "Add organization\/business structured data",
+                "default": true
+            },
+            "organization_logo": {
+                "type": "image",
+                "label": "Organization Logo",
+                "description": "Logo for structured data (min 112x112px)",
+                "depends_on": {
+                    "enable_organization_schema": true
+                }
+            },
+            "enable_sitemap": {
+                "type": "boolean",
+                "label": "Enable XML Sitemap",
+                "description": "Generate XML sitemap automatically",
+                "default": true
+            },
+            "sitemap_include_products": {
+                "type": "boolean",
+                "label": "Include Products in Sitemap",
+                "default": true,
+                "depends_on": {
+                    "enable_sitemap": true
+                }
+            },
+            "sitemap_include_categories": {
+                "type": "boolean",
+                "label": "Include Categories in Sitemap",
+                "default": true,
+                "depends_on": {
+                    "enable_sitemap": true
+                }
+            },
+            "sitemap_include_pages": {
+                "type": "boolean",
+                "label": "Include CMS Pages in Sitemap",
+                "default": true,
+                "depends_on": {
+                    "enable_sitemap": true
+                }
+            },
+            "sitemap_priority_products": {
+                "type": "number",
+                "label": "Product Priority",
+                "description": "Sitemap priority for products (0.0-1.0)",
+                "default": 0.8,
+                "min": 0,
+                "max": 1,
+                "step": 0.1,
+                "depends_on": {
+                    "enable_sitemap": true
+                }
+            },
+            "enable_canonical_urls": {
+                "type": "boolean",
+                "label": "Enable Canonical URLs",
+                "description": "Add canonical tags to prevent duplicate content",
+                "default": true
+            },
+            "enable_auto_redirects": {
+                "type": "boolean",
+                "label": "Enable Auto Redirects",
+                "description": "Automatically create redirects when URLs change",
+                "default": true
+            },
+            "robots_txt_content": {
+                "type": "textarea",
+                "label": "Robots.txt Content",
+                "description": "Custom robots.txt rules",
+                "default": "User-agent: *\nAllow: \/\n\nSitemap: \/sitemap.xml",
+                "rows": 10
+            },
+            "enable_seo_urls": {
+                "type": "boolean",
+                "label": "Enable SEO-Friendly URLs",
+                "description": "Use clean URLs without IDs",
+                "default": true
+            },
+            "url_suffix": {
+                "type": "select",
+                "label": "URL Suffix",
+                "default": "",
+                "options": {
+                    "": "None",
+                    ".html": ".html",
+                    ".htm": ".htm",
+                    "\/": "Trailing Slash"
+                }
+            },
+            "enable_image_optimization": {
+                "type": "boolean",
+                "label": "Enable Image SEO",
+                "description": "Automatically optimize image alt tags and filenames",
+                "default": true
+            },
+            "default_image_alt_format": {
+                "type": "string",
+                "label": "Default Image Alt Format",
+                "description": "Use {product_name}, {category}, {site_name} as variables",
+                "default": "{product_name} - {site_name}",
+                "depends_on": {
+                    "enable_image_optimization": true
+                }
             }
         }
     },
@@ -308,17 +330,21 @@
             "name": "SEO Score",
             "description": "Overall SEO health score",
             "position": "dashboard",
-            "permissions": ["seo.view"]
+            "permissions": [
+                "seo.view"
+            ]
         },
         {
             "id": "seo_issues",
             "name": "SEO Issues",
             "description": "Current SEO problems to fix",
             "position": "dashboard",
-            "permissions": ["seo.view"]
+            "permissions": [
+                "seo.view"
+            ]
         }
     ],
-    "cron_jobs": [
+    "scheduled_tasks": [
         {
             "schedule": "0 4 * * *",
             "handler": "generateSitemap",

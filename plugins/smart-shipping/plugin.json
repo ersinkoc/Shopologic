@@ -6,10 +6,16 @@
         "name": "Shopologic Team",
         "email": "plugins@shopologic.com"
     },
-    "class": "SmartShipping\\SmartShippingPlugin",
-    "file": "SmartShippingPlugin.php",
-    "dependencies": {
-        "core-commerce": ">=1.0.0"
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0",
+        "dependencies": {
+            "shopologic/commerce": "^1.0.0"
+        }
+    },
+    "bootstrap": {
+        "class": "SmartShippingPlugin",
+        "file": "SmartShippingPlugin.php"
     },
     "permissions": [
         "orders.read",
@@ -17,56 +23,93 @@
         "notifications.send",
         "hooks.*"
     ],
-    "hooks": [
-        "checkout.shipping_methods",
-        "order.shipped",
-        "shipping.rate_calculated",
-        "cart.updated"
-    ],
-    "api_endpoints": [
-        "POST /api/v1/shipping/calculate",
-        "GET /api/v1/shipping/tracking/{id}",
-        "GET /api/v1/shipping/carbon-footprint",
-        "POST /api/v1/shipping/optimize-routes"
-    ],
-    "database_tables": [
-        "shipping_zones",
-        "shipping_rates",
-        "delivery_predictions",
-        "carbon_calculations",
-        "shipping_analytics"
-    ],
-    "config_schema": {
-        "enable_real_time_rates": {
-            "type": "boolean",
-            "default": true,
-            "description": "Calculate real-time shipping rates"
-        },
-        "show_delivery_prediction": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show estimated delivery dates"
-        },
-        "enable_carbon_tracking": {
-            "type": "boolean",
-            "default": true,
-            "description": "Track carbon footprint of shipments"
-        },
-        "free_shipping_threshold": {
-            "type": "number",
-            "default": 50,
-            "min": 0,
-            "max": 500,
-            "description": "Free shipping minimum order amount"
-        },
-        "enable_eco_shipping": {
-            "type": "boolean",
-            "default": true,
-            "description": "Offer eco-friendly shipping options"
-        }
+    "hooks": {
+        "actions": [
+            "checkout.shipping_methods",
+            "order.shipped",
+            "shipping.rate_calculated",
+            "cart.updated"
+        ]
+    },
+    "api": {
+        "endpoints": [
+            {
+                "method": "POST",
+                "path": "/api/v1/shipping/calculate",
+                "handler": "handlePost"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/shipping/tracking/{id}",
+                "handler": "handleGet"
+            },
+            {
+                "method": "GET",
+                "path": "/api/v1/shipping/carbon-footprint",
+                "handler": "handleGet"
+            },
+            {
+                "method": "POST",
+                "path": "/api/v1/shipping/optimize-routes",
+                "handler": "handlePost"
+            }
+        ]
+    },
+    "database": {
+        "tables": [
+            "shipping_zones",
+            "shipping_rates",
+            "delivery_predictions",
+            "carbon_calculations",
+            "shipping_analytics"
+        ],
+        "migrations": "migrations/"
     },
     "assets": {
-        "js": ["assets/shipping-calculator.js", "assets/delivery-tracker.js"],
-        "css": ["assets/shipping.css"]
-    }
+        "js": [
+            "assets/shipping-calculator.js",
+            "assets/delivery-tracker.js"
+        ],
+        "css": [
+            "assets/shipping.css"
+        ]
+    },
+    "config": {
+        "schema": {
+            "enable_real_time_rates": {
+                "type": "boolean",
+                "default": true,
+                "description": "Calculate real-time shipping rates"
+            },
+            "show_delivery_prediction": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show estimated delivery dates"
+            },
+            "enable_carbon_tracking": {
+                "type": "boolean",
+                "default": true,
+                "description": "Track carbon footprint of shipments"
+            },
+            "free_shipping_threshold": {
+                "type": "number",
+                "default": 50,
+                "min": 0,
+                "max": 500,
+                "description": "Free shipping minimum order amount"
+            },
+            "enable_eco_shipping": {
+                "type": "boolean",
+                "default": true,
+                "description": "Offer eco-friendly shipping options"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\SmartShipping\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/smart-shipping"
 }

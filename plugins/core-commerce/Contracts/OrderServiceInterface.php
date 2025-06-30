@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace Shopologic\Plugins\CoreCommerce\Contracts;
 
 use Shopologic\Plugins\CoreCommerce\Models\Order;

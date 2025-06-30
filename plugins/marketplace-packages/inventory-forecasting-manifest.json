@@ -1,0 +1,150 @@
+{
+    "package_info": {
+        "name": "inventory-forecasting",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:03",
+        "package_size": 16510,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Smart Inventory Forecasting",
+        "version": "1.0.0",
+        "description": "Predictive inventory management with demand forecasting, automated reordering, and stock optimization",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "InventoryForecastingPlugin",
+            "file": "InventoryForecastingPlugin.php"
+        },
+        "permissions": [
+            "products.read",
+            "products.write",
+            "orders.read",
+            "inventory.write",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "order.completed",
+                "inventory.updated",
+                "product.low_stock",
+                "admin.inventory.dashboard"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/inventory\/forecast\/{product_id}",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/inventory\/reorder",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/inventory\/recommendations",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/inventory\/trends",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "inventory_forecasts",
+                "demand_patterns",
+                "reorder_rules",
+                "stock_movements",
+                "seasonal_trends"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/inventory-charts.js"
+            ],
+            "css": [
+                "assets\/inventory-dashboard.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "forecast_window_days": {
+                    "type": "number",
+                    "default": 30,
+                    "min": 7,
+                    "max": 365,
+                    "description": "Days to forecast ahead"
+                },
+                "auto_reorder": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Automatically create reorder alerts"
+                },
+                "safety_stock_days": {
+                    "type": "number",
+                    "default": 7,
+                    "min": 1,
+                    "max": 30,
+                    "description": "Safety stock buffer in days"
+                },
+                "seasonal_adjustment": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Apply seasonal demand adjustments"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\InventoryForecasting\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "inventory",
+        "tags": [
+            "inventory",
+            "performance"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

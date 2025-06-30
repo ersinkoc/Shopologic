@@ -1,0 +1,158 @@
+{
+    "package_info": {
+        "name": "smart-search",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:13",
+        "package_size": 15717,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Smart Search Engine",
+        "version": "1.0.0",
+        "description": "Advanced search with natural language processing, autocomplete, faceted filtering, and visual search",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "SmartSearchPlugin",
+            "file": "SmartSearchPlugin.php"
+        },
+        "permissions": [
+            "products.read",
+            "search.write",
+            "analytics.write",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "search.query",
+                "product.indexed",
+                "search.autocomplete",
+                "frontend.search_form"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/search\/autocomplete",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/search\/query",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/search\/facets",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/search\/visual",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/search\/trending",
+                    "handler": "handleGet"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "search_index",
+                "search_queries",
+                "search_analytics",
+                "product_vectors",
+                "search_synonyms"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/search-engine.js",
+                "assets\/autocomplete.js",
+                "assets\/filters.js"
+            ],
+            "css": [
+                "assets\/search-interface.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_autocomplete": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable search autocomplete"
+                },
+                "enable_spell_check": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Auto-correct spelling mistakes"
+                },
+                "enable_synonym_search": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Search using synonyms"
+                },
+                "results_per_page": {
+                    "type": "number",
+                    "default": 20,
+                    "min": 10,
+                    "max": 100,
+                    "description": "Search results per page"
+                },
+                "boost_exact_matches": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Boost exact title matches"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\SmartSearch\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

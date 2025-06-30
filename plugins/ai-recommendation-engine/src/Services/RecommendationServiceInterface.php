@@ -1,6 +1,7 @@
 <?php
 
-namespace AiRecommendationEngine\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\AiRecommendationEngine\Services;
 
 interface RecommendationServiceInterface
 {

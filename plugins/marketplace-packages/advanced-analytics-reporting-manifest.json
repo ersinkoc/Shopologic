@@ -1,0 +1,904 @@
+{
+    "package_info": {
+        "name": "advanced-analytics-reporting",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:30:55",
+        "package_size": 85724,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Advanced Analytics & Reporting",
+        "version": "1.0.0",
+        "description": "Comprehensive analytics and reporting platform with real-time dashboards, predictive analytics, cohort analysis, custom reports, data visualization, and business intelligence",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/advanced-analytics-reporting",
+        "keywords": [
+            "analytics",
+            "reporting",
+            "business-intelligence",
+            "dashboards",
+            "data-visualization",
+            "predictive-analytics",
+            "cohort-analysis",
+            "kpi-tracking"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0",
+                "shopologic\/customers": "^1.0.0",
+                "shopologic\/data": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\AdvancedAnalyticsReporting\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "AdvancedAnalyticsReportingPlugin",
+            "file": "src\/AdvancedAnalyticsPlugin.php"
+        },
+        "provides": [
+            "AnalyticsEngineInterface",
+            "ReportGeneratorInterface",
+            "DashboardManagerInterface",
+            "DataVisualizationInterface",
+            "PredictiveAnalyticsInterface"
+        ],
+        "permissions": [
+            "analytics.view",
+            "analytics.manage",
+            "reports.view",
+            "reports.create",
+            "reports.export",
+            "dashboards.view",
+            "dashboards.manage",
+            "data.view_sensitive",
+            "predictive.view"
+        ],
+        "hooks": {
+            "actions": [
+                {
+                    "hook": "order.completed",
+                    "handler": "trackOrderCompletion",
+                    "priority": 10
+                },
+                {
+                    "hook": "customer.registered",
+                    "handler": "trackCustomerRegistration",
+                    "priority": 10
+                },
+                {
+                    "hook": "product.viewed",
+                    "handler": "trackProductView",
+                    "priority": 10
+                },
+                {
+                    "hook": "cart.updated",
+                    "handler": "trackCartUpdate",
+                    "priority": 10
+                },
+                {
+                    "hook": "payment.processed",
+                    "handler": "trackPaymentEvent",
+                    "priority": 10
+                }
+            ],
+            "filters": [
+                {
+                    "hook": "dashboard.widgets",
+                    "handler": "addAnalyticsWidgets",
+                    "priority": 10
+                },
+                {
+                    "hook": "report.data",
+                    "handler": "enrichReportData",
+                    "priority": 15
+                },
+                {
+                    "hook": "export.format",
+                    "handler": "addExportFormats",
+                    "priority": 10
+                }
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/dashboard",
+                    "handler": "DashboardController@overview",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/sales",
+                    "handler": "SalesController@analytics",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/customers",
+                    "handler": "CustomerController@analytics",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/products",
+                    "handler": "ProductController@analytics",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/cohort",
+                    "handler": "CohortController@analysis",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/funnel",
+                    "handler": "FunnelController@analysis",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/predictive",
+                    "handler": "PredictiveController@forecast",
+                    "auth": true,
+                    "permission": "predictive.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/reports",
+                    "handler": "ReportController@index",
+                    "auth": true,
+                    "permission": "reports.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/reports",
+                    "handler": "ReportController@create",
+                    "auth": true,
+                    "permission": "reports.create"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/reports\/{id}",
+                    "handler": "ReportController@show",
+                    "auth": true,
+                    "permission": "reports.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/reports\/{id}\/generate",
+                    "handler": "ReportController@generate",
+                    "auth": true,
+                    "permission": "reports.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/reports\/{id}\/export",
+                    "handler": "ExportController@export",
+                    "auth": true,
+                    "permission": "reports.export"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/dashboards",
+                    "handler": "DashboardController@index",
+                    "auth": true,
+                    "permission": "dashboards.view"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/dashboards",
+                    "handler": "DashboardController@create",
+                    "auth": true,
+                    "permission": "dashboards.manage"
+                },
+                {
+                    "method": "PUT",
+                    "path": "\/api\/v1\/dashboards\/{id}",
+                    "handler": "DashboardController@update",
+                    "auth": true,
+                    "permission": "dashboards.manage"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/realtime",
+                    "handler": "RealtimeController@metrics",
+                    "auth": true,
+                    "permission": "analytics.view"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/analytics\/segments",
+                    "handler": "SegmentController@analysis",
+                    "auth": true,
+                    "permission": "analytics.view"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "analytics_events",
+                "analytics_sessions",
+                "analytics_funnels",
+                "analytics_cohorts",
+                "analytics_segments",
+                "analytics_reports",
+                "analytics_dashboards",
+                "analytics_widgets",
+                "analytics_metrics",
+                "analytics_dimensions",
+                "analytics_kpis",
+                "analytics_alerts",
+                "analytics_exports"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/analytics-dashboard.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js",
+                        "d3.js",
+                        "vue.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/report-builder.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "vue.js",
+                        "draggable"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/data-visualization.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js",
+                        "d3.js",
+                        "plotly.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/realtime-metrics.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "socket.io"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/cohort-analysis.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "d3.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/predictive-charts.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js",
+                        "ml5.js"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/analytics-dashboard.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/report-builder.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/data-visualizations.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/cohort-heatmap.css",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "tracking_settings": {
+                    "type": "object",
+                    "label": "Event Tracking Settings",
+                    "properties": {
+                        "track_page_views": {
+                            "type": "boolean",
+                            "label": "Track Page Views",
+                            "default": true
+                        },
+                        "track_user_interactions": {
+                            "type": "boolean",
+                            "label": "Track User Interactions",
+                            "default": true
+                        },
+                        "track_ecommerce_events": {
+                            "type": "boolean",
+                            "label": "Track E-commerce Events",
+                            "default": true
+                        },
+                        "session_timeout": {
+                            "type": "number",
+                            "label": "Session Timeout (minutes)",
+                            "default": 30,
+                            "min": 5,
+                            "max": 240
+                        },
+                        "data_retention_days": {
+                            "type": "number",
+                            "label": "Data Retention (days)",
+                            "default": 365,
+                            "min": 30,
+                            "max": 2555
+                        }
+                    }
+                },
+                "dashboard_settings": {
+                    "type": "object",
+                    "label": "Dashboard Configuration",
+                    "properties": {
+                        "default_date_range": {
+                            "type": "select",
+                            "label": "Default Date Range",
+                            "default": "last_30_days",
+                            "options": {
+                                "today": "Today",
+                                "yesterday": "Yesterday",
+                                "last_7_days": "Last 7 Days",
+                                "last_30_days": "Last 30 Days",
+                                "last_90_days": "Last 90 Days",
+                                "this_month": "This Month",
+                                "last_month": "Last Month",
+                                "this_year": "This Year"
+                            }
+                        },
+                        "auto_refresh_interval": {
+                            "type": "number",
+                            "label": "Auto Refresh Interval (seconds)",
+                            "default": 300,
+                            "min": 30,
+                            "max": 3600
+                        },
+                        "realtime_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Real-time Updates",
+                            "default": true
+                        },
+                        "max_widgets_per_dashboard": {
+                            "type": "number",
+                            "label": "Max Widgets per Dashboard",
+                            "default": 20,
+                            "min": 5,
+                            "max": 50
+                        }
+                    }
+                },
+                "reporting_settings": {
+                    "type": "object",
+                    "label": "Reporting Configuration",
+                    "properties": {
+                        "scheduled_reports_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Scheduled Reports",
+                            "default": true
+                        },
+                        "max_report_rows": {
+                            "type": "number",
+                            "label": "Max Report Rows",
+                            "default": 10000,
+                            "min": 1000,
+                            "max": 100000
+                        },
+                        "export_formats": {
+                            "type": "multiselect",
+                            "label": "Allowed Export Formats",
+                            "default": [
+                                "csv",
+                                "excel",
+                                "pdf"
+                            ],
+                            "options": {
+                                "csv": "CSV",
+                                "excel": "Excel (XLSX)",
+                                "pdf": "PDF",
+                                "json": "JSON",
+                                "xml": "XML"
+                            }
+                        },
+                        "report_cache_duration": {
+                            "type": "number",
+                            "label": "Report Cache Duration (minutes)",
+                            "default": 60,
+                            "min": 5,
+                            "max": 1440
+                        }
+                    }
+                },
+                "predictive_analytics": {
+                    "type": "object",
+                    "label": "Predictive Analytics",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "label": "Enable Predictive Analytics",
+                            "default": true
+                        },
+                        "forecasting_models": {
+                            "type": "multiselect",
+                            "label": "Forecasting Models",
+                            "default": [
+                                "linear_regression",
+                                "seasonal_decomposition"
+                            ],
+                            "options": {
+                                "linear_regression": "Linear Regression",
+                                "polynomial_regression": "Polynomial Regression",
+                                "seasonal_decomposition": "Seasonal Decomposition",
+                                "arima": "ARIMA",
+                                "exponential_smoothing": "Exponential Smoothing"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "prediction_horizon_days": {
+                            "type": "number",
+                            "label": "Prediction Horizon (days)",
+                            "default": 90,
+                            "min": 7,
+                            "max": 365,
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "confidence_interval": {
+                            "type": "number",
+                            "label": "Confidence Interval (%)",
+                            "default": 95,
+                            "min": 80,
+                            "max": 99,
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                },
+                "cohort_analysis": {
+                    "type": "object",
+                    "label": "Cohort Analysis",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "label": "Enable Cohort Analysis",
+                            "default": true
+                        },
+                        "cohort_types": {
+                            "type": "multiselect",
+                            "label": "Cohort Types",
+                            "default": [
+                                "registration",
+                                "first_purchase"
+                            ],
+                            "options": {
+                                "registration": "Registration Date",
+                                "first_purchase": "First Purchase Date",
+                                "first_product_view": "First Product View",
+                                "campaign_source": "Campaign Source",
+                                "geographic": "Geographic Location"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "retention_periods": {
+                            "type": "multiselect",
+                            "label": "Retention Periods",
+                            "default": [
+                                "daily",
+                                "weekly",
+                                "monthly"
+                            ],
+                            "options": {
+                                "daily": "Daily",
+                                "weekly": "Weekly",
+                                "monthly": "Monthly",
+                                "quarterly": "Quarterly"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                },
+                "alerts_settings": {
+                    "type": "object",
+                    "label": "Analytics Alerts",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "label": "Enable Analytics Alerts",
+                            "default": true
+                        },
+                        "notification_channels": {
+                            "type": "multiselect",
+                            "label": "Notification Channels",
+                            "default": [
+                                "email",
+                                "dashboard"
+                            ],
+                            "options": {
+                                "email": "Email",
+                                "sms": "SMS",
+                                "slack": "Slack",
+                                "webhook": "Webhook",
+                                "dashboard": "Dashboard Notifications"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        },
+                        "check_frequency": {
+                            "type": "select",
+                            "label": "Alert Check Frequency",
+                            "default": "hourly",
+                            "options": {
+                                "real_time": "Real-time",
+                                "every_15_min": "Every 15 minutes",
+                                "hourly": "Hourly",
+                                "daily": "Daily"
+                            },
+                            "depends_on": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                },
+                "data_processing": {
+                    "type": "object",
+                    "label": "Data Processing",
+                    "properties": {
+                        "batch_processing_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Batch Processing",
+                            "default": true
+                        },
+                        "batch_size": {
+                            "type": "number",
+                            "label": "Batch Size",
+                            "default": 1000,
+                            "min": 100,
+                            "max": 10000,
+                            "depends_on": {
+                                "batch_processing_enabled": true
+                            }
+                        },
+                        "parallel_processing": {
+                            "type": "boolean",
+                            "label": "Enable Parallel Processing",
+                            "default": true
+                        },
+                        "anonymization_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Data Anonymization",
+                            "default": true
+                        }
+                    }
+                },
+                "performance_settings": {
+                    "type": "object",
+                    "label": "Performance Optimization",
+                    "properties": {
+                        "query_cache_enabled": {
+                            "type": "boolean",
+                            "label": "Enable Query Caching",
+                            "default": true
+                        },
+                        "cache_duration_minutes": {
+                            "type": "number",
+                            "label": "Cache Duration (minutes)",
+                            "default": 15,
+                            "min": 1,
+                            "max": 1440,
+                            "depends_on": {
+                                "query_cache_enabled": true
+                            }
+                        },
+                        "query_optimization": {
+                            "type": "boolean",
+                            "label": "Enable Query Optimization",
+                            "default": true
+                        },
+                        "lazy_loading": {
+                            "type": "boolean",
+                            "label": "Enable Lazy Loading",
+                            "default": true
+                        }
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "sales_overview",
+                "name": "Sales Overview",
+                "description": "Key sales metrics and trends",
+                "position": "dashboard",
+                "permissions": [
+                    "analytics.view"
+                ]
+            },
+            {
+                "id": "customer_analytics",
+                "name": "Customer Analytics",
+                "description": "Customer acquisition and retention metrics",
+                "position": "dashboard",
+                "permissions": [
+                    "analytics.view"
+                ]
+            },
+            {
+                "id": "product_performance",
+                "name": "Product Performance",
+                "description": "Top performing products and categories",
+                "position": "dashboard",
+                "permissions": [
+                    "analytics.view"
+                ]
+            },
+            {
+                "id": "conversion_funnel",
+                "name": "Conversion Funnel",
+                "description": "E-commerce conversion funnel analysis",
+                "position": "dashboard",
+                "permissions": [
+                    "analytics.view"
+                ]
+            },
+            {
+                "id": "realtime_metrics",
+                "name": "Real-time Metrics",
+                "description": "Live visitor and sales data",
+                "position": "sidebar",
+                "permissions": [
+                    "analytics.view"
+                ]
+            },
+            {
+                "id": "predictive_forecast",
+                "name": "Predictive Forecast",
+                "description": "Sales and customer behavior predictions",
+                "position": "dashboard",
+                "permissions": [
+                    "predictive.view"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "processRealtimeMetrics",
+                "description": "Process real-time analytics data"
+            },
+            {
+                "schedule": "*\/15 * * * *",
+                "handler": "aggregateSessionData",
+                "description": "Aggregate session and event data"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "generateHourlyReports",
+                "description": "Generate hourly analytics reports"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "processDailyAnalytics",
+                "description": "Process daily analytics and cohort data"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "runPredictiveModels",
+                "description": "Run predictive analytics models"
+            },
+            {
+                "schedule": "0 4 * * *",
+                "handler": "cleanupOldData",
+                "description": "Clean up old analytics data"
+            },
+            {
+                "schedule": "*\/30 * * * *",
+                "handler": "checkAnalyticsAlerts",
+                "description": "Check and trigger analytics alerts"
+            }
+        ],
+        "menu_items": [
+            {
+                "title": "Analytics",
+                "capability": "analytics.view",
+                "icon": "dashicons-chart-bar",
+                "position": 27,
+                "submenu": [
+                    {
+                        "title": "Dashboard",
+                        "page": "analytics-dashboard",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Sales Analytics",
+                        "page": "sales-analytics",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Customer Analytics",
+                        "page": "customer-analytics",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Product Analytics",
+                        "page": "product-analytics",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Reports",
+                        "page": "analytics-reports",
+                        "capability": "reports.view"
+                    },
+                    {
+                        "title": "Cohort Analysis",
+                        "page": "cohort-analysis",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Funnel Analysis",
+                        "page": "funnel-analysis",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Predictive Analytics",
+                        "page": "predictive-analytics",
+                        "capability": "predictive.view"
+                    },
+                    {
+                        "title": "Real-time",
+                        "page": "realtime-analytics",
+                        "capability": "analytics.view"
+                    },
+                    {
+                        "title": "Settings",
+                        "page": "analytics-settings",
+                        "capability": "analytics.manage"
+                    }
+                ]
+            }
+        ],
+        "report_templates": [
+            {
+                "id": "sales_summary",
+                "name": "Sales Summary Report",
+                "description": "Comprehensive sales performance report",
+                "category": "sales"
+            },
+            {
+                "id": "customer_acquisition",
+                "name": "Customer Acquisition Report",
+                "description": "Customer acquisition and conversion metrics",
+                "category": "customers"
+            },
+            {
+                "id": "product_performance",
+                "name": "Product Performance Report",
+                "description": "Product sales and performance analysis",
+                "category": "products"
+            },
+            {
+                "id": "cohort_retention",
+                "name": "Cohort Retention Report",
+                "description": "Customer retention cohort analysis",
+                "category": "retention"
+            },
+            {
+                "id": "conversion_funnel",
+                "name": "Conversion Funnel Report",
+                "description": "E-commerce conversion funnel analysis",
+                "category": "conversion"
+            }
+        ],
+        "changelog": {
+            "1.0.0": [
+                "Initial release with comprehensive analytics platform",
+                "Real-time dashboard with customizable widgets",
+                "Advanced reporting engine with templates",
+                "Cohort analysis and customer segmentation",
+                "Predictive analytics and forecasting",
+                "Conversion funnel analysis",
+                "Data visualization and interactive charts",
+                "Automated report scheduling and delivery",
+                "KPI tracking and goal monitoring",
+                "Multi-format export capabilities",
+                "Performance optimization and caching",
+                "Analytics alerts and notifications"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "analytics",
+        "tags": {
+            "0": "analytics",
+            "1": "enterprise",
+            "3": "real-time"
+        },
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

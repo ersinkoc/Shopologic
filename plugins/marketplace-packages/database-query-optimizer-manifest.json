@@ -1,0 +1,546 @@
+{
+    "package_info": {
+        "name": "database-query-optimizer",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:01",
+        "package_size": 21155,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "database-query-optimizer",
+        "version": "1.0.0",
+        "description": "Advanced database query optimization with real-time monitoring, automatic index suggestions, query rewriting, execution plan analysis, and performance profiling for PostgreSQL databases",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/database-query-optimizer",
+        "keywords": [
+            "database",
+            "query",
+            "optimization",
+            "postgresql",
+            "performance",
+            "monitoring",
+            "indexing",
+            "profiling"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/database": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\DatabaseQueryOptimizer\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "DatabaseQueryOptimizerPlugin",
+            "file": "src\/DatabaseQueryOptimizerPlugin.php"
+        },
+        "provides": [
+            "QueryOptimizerInterface",
+            "DatabaseMonitorInterface",
+            "IndexAdvisorInterface",
+            "QueryProfilerInterface"
+        ],
+        "permissions": [
+            "db_optimizer.access",
+            "db_optimizer.view_queries",
+            "db_optimizer.analyze_queries",
+            "db_optimizer.optimize_queries",
+            "db_optimizer.manage_indexes",
+            "db_optimizer.view_reports",
+            "db_optimizer.configure",
+            "db_optimizer.execute_maintenance"
+        ],
+        "hooks": {
+            "actions": [
+                "query.executed",
+                "query.optimized",
+                "index.suggested",
+                "index.created",
+                "slow_query.detected",
+                "optimization.completed",
+                "maintenance.performed"
+            ],
+            "filters": [
+                "database.query",
+                "query.execution_plan",
+                "index.recommendations",
+                "query.rewrite",
+                "cache.strategy"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/queries",
+                    "handler": "Controllers\\QueryController@index",
+                    "auth": true,
+                    "permission": "db_optimizer.view_queries"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/queries\/{id}\/analyze",
+                    "handler": "Controllers\\QueryController@analyze",
+                    "auth": true,
+                    "permission": "db_optimizer.analyze_queries"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/db-optimizer\/queries\/{id}\/optimize",
+                    "handler": "Controllers\\QueryController@optimize",
+                    "auth": true,
+                    "permission": "db_optimizer.optimize_queries"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/slow-queries",
+                    "handler": "Controllers\\SlowQueryController@index",
+                    "auth": true,
+                    "permission": "db_optimizer.view_queries"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/indexes",
+                    "handler": "Controllers\\IndexController@index",
+                    "auth": true,
+                    "permission": "db_optimizer.view_queries"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/indexes\/suggestions",
+                    "handler": "Controllers\\IndexController@suggestions",
+                    "auth": true,
+                    "permission": "db_optimizer.analyze_queries"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/db-optimizer\/indexes",
+                    "handler": "Controllers\\IndexController@create",
+                    "auth": true,
+                    "permission": "db_optimizer.manage_indexes"
+                },
+                {
+                    "method": "DELETE",
+                    "path": "\/api\/v1\/db-optimizer\/indexes\/{name}",
+                    "handler": "Controllers\\IndexController@delete",
+                    "auth": true,
+                    "permission": "db_optimizer.manage_indexes"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/statistics",
+                    "handler": "Controllers\\StatisticsController@index",
+                    "auth": true,
+                    "permission": "db_optimizer.view_reports"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/execution-plans\/{query_id}",
+                    "handler": "Controllers\\ExecutionPlanController@show",
+                    "auth": true,
+                    "permission": "db_optimizer.analyze_queries"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/db-optimizer\/analyze-table\/{table}",
+                    "handler": "Controllers\\MaintenanceController@analyzeTable",
+                    "auth": true,
+                    "permission": "db_optimizer.execute_maintenance"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/db-optimizer\/vacuum\/{table}",
+                    "handler": "Controllers\\MaintenanceController@vacuum",
+                    "auth": true,
+                    "permission": "db_optimizer.execute_maintenance"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/real-time",
+                    "handler": "Controllers\\RealTimeController@monitor",
+                    "auth": true,
+                    "permission": "db_optimizer.view_queries"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/db-optimizer\/reports\/{type}",
+                    "handler": "Controllers\\ReportController@generate",
+                    "auth": true,
+                    "permission": "db_optimizer.view_reports"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "db_optimizer_queries",
+                "db_optimizer_query_stats",
+                "db_optimizer_slow_queries",
+                "db_optimizer_execution_plans",
+                "db_optimizer_indexes",
+                "db_optimizer_index_suggestions",
+                "db_optimizer_table_statistics",
+                "db_optimizer_optimization_history",
+                "db_optimizer_alerts",
+                "db_optimizer_maintenance_log"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/query-optimizer.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "jquery",
+                        "chart.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/real-time-monitor.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/execution-plan-visualizer.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "d3"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/optimizer.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/execution-plan.css",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_query_logging": {
+                    "type": "boolean",
+                    "label": "Enable Query Logging",
+                    "default": true,
+                    "description": "Log all database queries for analysis"
+                },
+                "slow_query_threshold": {
+                    "type": "number",
+                    "label": "Slow Query Threshold (ms)",
+                    "default": 1000,
+                    "min": 100,
+                    "max": 10000,
+                    "description": "Queries slower than this are considered slow"
+                },
+                "enable_auto_optimization": {
+                    "type": "boolean",
+                    "label": "Enable Automatic Optimization",
+                    "default": false,
+                    "description": "Automatically optimize queries when possible"
+                },
+                "optimization_level": {
+                    "type": "select",
+                    "label": "Optimization Level",
+                    "default": "moderate",
+                    "options": {
+                        "conservative": "Conservative",
+                        "moderate": "Moderate",
+                        "aggressive": "Aggressive"
+                    }
+                },
+                "enable_index_suggestions": {
+                    "type": "boolean",
+                    "label": "Enable Index Suggestions",
+                    "default": true,
+                    "description": "Suggest indexes for frequently used queries"
+                },
+                "index_suggestion_threshold": {
+                    "type": "number",
+                    "label": "Index Suggestion Threshold",
+                    "default": 100,
+                    "min": 10,
+                    "max": 1000,
+                    "description": "Minimum query executions before suggesting index"
+                },
+                "enable_real_time_monitoring": {
+                    "type": "boolean",
+                    "label": "Enable Real-time Monitoring",
+                    "default": true
+                },
+                "monitoring_interval": {
+                    "type": "number",
+                    "label": "Monitoring Interval (seconds)",
+                    "default": 5,
+                    "min": 1,
+                    "max": 60
+                },
+                "query_cache_size": {
+                    "type": "number",
+                    "label": "Query Cache Size (MB)",
+                    "default": 256,
+                    "min": 32,
+                    "max": 2048
+                },
+                "enable_query_rewriting": {
+                    "type": "boolean",
+                    "label": "Enable Query Rewriting",
+                    "default": true,
+                    "description": "Rewrite queries for better performance"
+                },
+                "rewrite_rules": {
+                    "type": "multiselect",
+                    "label": "Query Rewrite Rules",
+                    "default": [
+                        "subquery_to_join",
+                        "in_to_exists",
+                        "or_to_union",
+                        "distinct_elimination"
+                    ],
+                    "options": {
+                        "subquery_to_join": "Convert Subqueries to Joins",
+                        "in_to_exists": "Convert IN to EXISTS",
+                        "or_to_union": "Convert OR to UNION",
+                        "distinct_elimination": "Eliminate Unnecessary DISTINCT",
+                        "join_reorder": "Reorder Joins",
+                        "predicate_pushdown": "Push Down Predicates"
+                    }
+                },
+                "enable_statistics_collection": {
+                    "type": "boolean",
+                    "label": "Enable Statistics Collection",
+                    "default": true
+                },
+                "statistics_sample_rate": {
+                    "type": "number",
+                    "label": "Statistics Sample Rate (%)",
+                    "default": 10,
+                    "min": 1,
+                    "max": 100
+                },
+                "alert_thresholds": {
+                    "type": "object",
+                    "label": "Alert Thresholds",
+                    "default": {
+                        "cpu_usage": 80,
+                        "memory_usage": 85,
+                        "disk_io": 90,
+                        "connection_count": 90,
+                        "lock_wait_time": 5000
+                    }
+                },
+                "maintenance_schedule": {
+                    "type": "object",
+                    "label": "Maintenance Schedule",
+                    "default": {
+                        "analyze": "0 2 * * *",
+                        "vacuum": "0 3 * * SUN",
+                        "reindex": "0 4 1 * *"
+                    }
+                },
+                "retention_days": {
+                    "type": "number",
+                    "label": "Data Retention (days)",
+                    "default": 30,
+                    "min": 7,
+                    "max": 365
+                },
+                "enable_ai_optimization": {
+                    "type": "boolean",
+                    "label": "Enable AI-powered Optimization",
+                    "default": false,
+                    "description": "Use machine learning for query optimization"
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "query_performance",
+                "name": "Query Performance",
+                "description": "Real-time query performance metrics",
+                "position": "dashboard",
+                "permissions": [
+                    "db_optimizer.access"
+                ]
+            },
+            {
+                "id": "slow_queries",
+                "name": "Slow Queries",
+                "description": "Recent slow queries requiring attention",
+                "position": "dashboard",
+                "permissions": [
+                    "db_optimizer.view_queries"
+                ]
+            },
+            {
+                "id": "database_health",
+                "name": "Database Health",
+                "description": "Overall database health metrics",
+                "position": "dashboard",
+                "permissions": [
+                    "db_optimizer.access"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "*\/5 * * * *",
+                "handler": "collectQueryStatistics",
+                "description": "Collect query performance statistics"
+            },
+            {
+                "schedule": "*\/15 * * * *",
+                "handler": "analyzeSlowQueries",
+                "description": "Analyze and categorize slow queries"
+            },
+            {
+                "schedule": "0 * * * *",
+                "handler": "generateIndexSuggestions",
+                "description": "Generate index suggestions based on query patterns"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "performTableAnalysis",
+                "description": "Update table statistics"
+            },
+            {
+                "schedule": "0 3 * * SUN",
+                "handler": "performVacuum",
+                "description": "Vacuum tables to reclaim space"
+            },
+            {
+                "schedule": "0 4 * * *",
+                "handler": "cleanupOldData",
+                "description": "Clean up old optimization data"
+            },
+            {
+                "schedule": "0 6 * * *",
+                "handler": "generateDailyReport",
+                "description": "Generate daily performance report"
+            }
+        ],
+        "optimization_rules": {
+            "query_patterns": [
+                {
+                    "pattern": "SELECT .* FROM .* WHERE .* NOT IN \\(SELECT",
+                    "suggestion": "Consider using NOT EXISTS instead of NOT IN for better null handling",
+                    "rewrite": "NOT EXISTS"
+                },
+                {
+                    "pattern": "SELECT DISTINCT .* FROM .* JOIN",
+                    "suggestion": "Check if DISTINCT is necessary with proper JOIN conditions",
+                    "analyze": true
+                },
+                {
+                    "pattern": "SELECT .* FROM .* WHERE .* LIKE '%(.*)%'",
+                    "suggestion": "Leading wildcard prevents index usage",
+                    "index_type": "gin"
+                }
+            ],
+            "index_patterns": [
+                {
+                    "condition": "frequent_where_clause",
+                    "min_usage": 100,
+                    "suggestion": "btree"
+                },
+                {
+                    "condition": "range_queries",
+                    "min_usage": 50,
+                    "suggestion": "btree"
+                },
+                {
+                    "condition": "full_text_search",
+                    "min_usage": 20,
+                    "suggestion": "gin"
+                }
+            ]
+        },
+        "monitoring_metrics": [
+            "query_count",
+            "average_execution_time",
+            "slow_query_ratio",
+            "cache_hit_ratio",
+            "index_usage_ratio",
+            "table_scan_ratio",
+            "lock_wait_time",
+            "connection_usage",
+            "buffer_cache_hit_ratio",
+            "checkpoint_frequency",
+            "autovacuum_activity",
+            "replication_lag"
+        ],
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "Query performance monitoring",
+                "Automatic index suggestions",
+                "Query rewriting engine",
+                "Execution plan analysis",
+                "Real-time monitoring dashboard",
+                "Slow query detection and analysis",
+                "Table statistics management",
+                "Vacuum and analyze scheduling",
+                "Performance reports",
+                "Alert system",
+                "Query caching optimization",
+                "AI-powered optimization (beta)"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "real-time",
+            "performance"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

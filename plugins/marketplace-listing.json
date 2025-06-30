@@ -1,0 +1,1731 @@
+{
+    "marketplace_name": "Shopologic Plugin Marketplace",
+    "last_updated": "2025-06-30 19:31:15",
+    "total_plugins": 77,
+    "categories": {
+        "general": 43,
+        "analytics": 5,
+        "marketing": 3,
+        "inventory": 5,
+        "ai": 7,
+        "integration": 2,
+        "security": 2,
+        "payment": 2,
+        "mobile": 2,
+        "social": 4,
+        "shipping": 2
+    },
+    "featured_plugins": [],
+    "plugins": [
+        {
+            "name": "HelloWorld",
+            "display_name": "HelloWorld",
+            "description": "A simple hello world plugin for Shopologic",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 303,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/HelloWorld-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "ab-testing-framework",
+            "display_name": "Ab Testing Framework",
+            "description": "Built-in experimentation platform for testing pricing, layouts, features, and conversion optimization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 2583,
+            "rating": 4.4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/ab-testing-framework-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "advanced-analytics-reporting",
+            "display_name": "Advanced Analytics Reporting",
+            "description": "Comprehensive analytics and reporting platform with real-time dashboards, predictive analytics, cohort analysis, custom reports, data visualization, and business intelligence",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "analytics",
+            "tags": {
+                "0": "analytics",
+                "1": "enterprise",
+                "3": "real-time"
+            },
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 3642,
+            "rating": 4.7,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/advanced-analytics-reporting-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "advanced-cms",
+            "display_name": "Advanced Cms",
+            "description": "Advanced content management with AI writing assistance, SEO optimization, multi-language support, and dynamic content personalization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 744,
+            "rating": 4.4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/advanced-cms-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "advanced-email-marketing",
+            "display_name": "Advanced Email Marketing",
+            "description": "Comprehensive email marketing automation platform with advanced segmentation, behavioral triggers, A\/B testing, personalization, deliverability optimization, and analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "marketing",
+            "tags": [
+                "marketing",
+                "analytics",
+                "automation",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "D",
+            "test_coverage": 40,
+            "download_count": 3752,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/advanced-email-marketing-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "advanced-inventory",
+            "display_name": "Advanced Inventory",
+            "description": "Enterprise-grade inventory management with multi-location warehouses, stock tracking, automated reordering, supplier integration, and real-time analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "inventory",
+            "tags": [
+                "inventory",
+                "enterprise",
+                "analytics",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "F",
+            "test_coverage": 40,
+            "download_count": 3273,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/advanced-inventory-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "advanced-inventory-intelligence",
+            "display_name": "Advanced Inventory Intelligence",
+            "description": "AI-powered inventory management with demand forecasting, automated reordering, stockout prevention, and supplier optimization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "inventory",
+            "tags": [
+                "inventory",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 2729,
+            "rating": 4.4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/advanced-inventory-intelligence-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "advanced-personalization-engine",
+            "display_name": "Advanced Personalization Engine",
+            "description": "AI-powered personalization engine with real-time behavior analysis, dynamic content optimization, predictive recommendations, and omnichannel personalization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 1021,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/advanced-personalization-engine-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "ai-content-generator",
+            "display_name": "Ai Content Generator",
+            "description": "Advanced AI-powered content generation with GPT-4, Claude, and custom models. Generate product descriptions, blog posts, marketing copy, SEO content, translations, and more with fine-tuning capabilities",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "ai",
+            "tags": [
+                "ai"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 4436,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/ai-content-generator-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "ai-recommendation-engine",
+            "display_name": "Ai Recommendation Engine",
+            "description": "Advanced AI-powered product recommendation engine with machine learning algorithms, collaborative filtering, and real-time personalization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "ai",
+            "tags": [
+                "ai",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 4111,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/ai-recommendation-engine-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "ai-recommendations",
+            "display_name": "Ai Recommendations",
+            "description": "Intelligent product recommendations using machine learning to increase sales through personalized suggestions, cross-selling, and upselling",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "ai",
+            "tags": [
+                "ai"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 7173,
+            "rating": 4.6,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/ai-recommendations-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "analytics-google",
+            "display_name": "Analytics Google",
+            "description": "Integrate Google Analytics 4 (GA4) and Universal Analytics for comprehensive e-commerce tracking, including enhanced e-commerce events, conversion tracking, and custom dimensions",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "analytics",
+            "tags": [
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 6712,
+            "rating": 4.4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/analytics-google-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "api-mock-server",
+            "display_name": "Api Mock Server",
+            "description": "Advanced API mocking server for developers with request recording, response templating, scenario testing, latency simulation, error injection, and OpenAPI\/Swagger integration",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "integration",
+            "tags": [
+                "integration",
+                "api"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 9630,
+            "rating": 4.4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/api-mock-server-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "behavioral-psychology-engine",
+            "display_name": "Behavioral Psychology Engine",
+            "description": "Advanced behavioral psychology system using urgency triggers, social proof automation, and cognitive bias application for conversion optimization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "automation",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 5813,
+            "rating": 4.7,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/behavioral-psychology-engine-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "blockchain-supply-chain",
+            "display_name": "Blockchain Supply Chain",
+            "description": "Blockchain-based supply chain tracking with product authentication, transparency ledger, and anti-counterfeiting features",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "ai",
+            "tags": [
+                "ai",
+                "security"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 2234,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/blockchain-supply-chain-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "blue-green-deployment",
+            "display_name": "Blue Green Deployment",
+            "description": "Zero-downtime deployment system with blue-green environments, automated rollback, traffic shifting, health monitoring, database migration support, and deployment automation",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "automation"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 4357,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/blue-green-deployment-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "bundle-builder",
+            "display_name": "Bundle Builder",
+            "description": "Intelligent product bundling with dynamic discounts, cross-sell suggestions, and bundle analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 2839,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/bundle-builder-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "code-quality-analyzer",
+            "display_name": "Code Quality Analyzer",
+            "description": "Comprehensive code quality analysis with static analysis, security scanning, complexity metrics, coding standards enforcement, automated refactoring suggestions, and CI\/CD integration",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics",
+                "security"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 8517,
+            "rating": 4.3,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/code-quality-analyzer-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "container-orchestration",
+            "display_name": "Container Orchestration",
+            "description": "Complete container orchestration platform with Docker\/Kubernetes support, service mesh, auto-scaling, load balancing, health monitoring, and CI\/CD integration",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "ai",
+            "tags": [
+                "ai"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 7384,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/container-orchestration-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "core-commerce",
+            "display_name": "Core Commerce",
+            "description": "Core e-commerce functionality for Shopologic",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 1056,
+            "rating": 4.2,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/core-commerce-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "customer-lifetime-value-optimizer",
+            "display_name": "Customer Lifetime Value Optimizer",
+            "description": "Advanced customer lifetime value prediction and optimization with behavioral segmentation, churn prevention, and personalized retention strategies",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 4603,
+            "rating": 4.3,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/customer-lifetime-value-optimizer-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "customer-loyalty-rewards",
+            "display_name": "Customer Loyalty Rewards",
+            "description": "Comprehensive loyalty and rewards program with points, tiers, referrals, gamification, personalized campaigns, and advanced analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "D",
+            "test_coverage": 40,
+            "download_count": 2669,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/customer-loyalty-rewards-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "customer-segmentation",
+            "display_name": "Customer Segmentation",
+            "description": "Automatic customer segmentation with behavioral targeting, personalized campaigns, and lifecycle marketing",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 8096,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/customer-segmentation-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "customer-segmentation-engine",
+            "display_name": "Customer Segmentation Engine",
+            "description": "Advanced customer segmentation using RFM analysis, behavioral patterns, machine learning clustering, and predictive lifetime value modeling for targeted marketing and personalization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 4547,
+            "rating": 4.3,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/customer-segmentation-engine-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "database-query-optimizer",
+            "display_name": "Database Query Optimizer",
+            "description": "Advanced database query optimization with real-time monitoring, automatic index suggestions, query rewriting, execution plan analysis, and performance profiling for PostgreSQL databases",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 3311,
+            "rating": 5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/database-query-optimizer-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "dynamic-inventory-forecasting",
+            "display_name": "Dynamic Inventory Forecasting",
+            "description": "Advanced demand forecasting using time series analysis, seasonal patterns, machine learning models, and external factors for optimal inventory management and stock optimization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "inventory",
+            "tags": [
+                "inventory",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 3119,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/dynamic-inventory-forecasting-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "edge-computing-gateway",
+            "display_name": "Edge Computing Gateway",
+            "description": "Distributed edge computing platform with CDN integration, edge functions, request routing, caching strategies, geolocation-based processing, and edge analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 10000,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/edge-computing-gateway-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "email-marketing",
+            "display_name": "Email Marketing",
+            "description": "Comprehensive email marketing solution with campaign management, automation workflows, abandoned cart recovery, and integration with popular email services",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "marketing",
+            "tags": [
+                "marketing",
+                "automation"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 3929,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/email-marketing-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "enterprise-security-compliance",
+            "display_name": "Enterprise Security Compliance",
+            "description": "Enterprise-grade security and compliance with vulnerability scanning, audit trails, GDPR compliance, and threat detection",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "security",
+            "tags": [
+                "security",
+                "enterprise"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 3531,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/enterprise-security-compliance-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "enterprise-supply-chain-management",
+            "display_name": "Enterprise Supply Chain Management",
+            "description": "Advanced supply chain management with end-to-end visibility, supplier relationship management, logistics optimization, and blockchain traceability",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "ai",
+            "tags": [
+                "ai",
+                "enterprise",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 6599,
+            "rating": 4.2,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/enterprise-supply-chain-management-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "event-sourcing",
+            "display_name": "Event Sourcing",
+            "description": "Complete event sourcing implementation with event store, projections, snapshots, CQRS support, event replay, time travel debugging, and distributed event streaming",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 9684,
+            "rating": 4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/event-sourcing-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "feature-flag-manager",
+            "display_name": "Feature Flag Manager",
+            "description": "Advanced feature flag system with A\/B testing, progressive rollouts, user targeting, remote configuration, analytics integration, and real-time flag updates",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 9549,
+            "rating": 4.2,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/feature-flag-manager-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "fraud-detection-system",
+            "display_name": "Fraud Detection System",
+            "description": "Real-time fraud detection using machine learning algorithms, behavioral analysis, and risk scoring for secure e-commerce transactions and protection against fraudulent activities",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "security",
+            "tags": [
+                "security",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 3620,
+            "rating": 4.7,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/fraud-detection-system-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "gift-card-plus",
+            "display_name": "Gift Card Plus",
+            "description": "Advanced gift card system with scheduling, personalization, digital delivery, and social gifting",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 245,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/gift-card-plus-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "graphql-schema-builder",
+            "display_name": "Graphql Schema Builder",
+            "description": "Visual GraphQL schema builder with type generation, resolver mapping, real-time playground, subscription support, schema stitching, and automatic REST to GraphQL conversion",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "api"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 717,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/graphql-schema-builder-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "headless-commerce-api",
+            "display_name": "Headless Commerce Api",
+            "description": "Complete headless commerce API with REST and GraphQL endpoints, real-time webhooks, SDK generation, API versioning, rate limiting, and comprehensive e-commerce functionality",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "integration",
+            "tags": [
+                "integration",
+                "real-time",
+                "api"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 8128,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/headless-commerce-api-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "inventory-forecasting",
+            "display_name": "Inventory Forecasting",
+            "description": "Predictive inventory management with demand forecasting, automated reordering, and stock optimization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "inventory",
+            "tags": [
+                "inventory",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 9571,
+            "rating": 4.7,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/inventory-forecasting-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "inventory-management",
+            "display_name": "Inventory Management",
+            "description": "Comprehensive inventory tracking with multi-warehouse support, low stock alerts, supplier management, and automated reordering",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "inventory",
+            "tags": [
+                "inventory"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 5188,
+            "rating": 4.6,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/inventory-management-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "journey-analytics",
+            "display_name": "Journey Analytics",
+            "description": "Advanced customer behavior tracking, journey mapping, and conversion funnel analysis",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "analytics",
+            "tags": [
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 1208,
+            "rating": 4.6,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/journey-analytics-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "live-chat",
+            "display_name": "Live Chat",
+            "description": "Real-time customer support chat with agent dashboard, canned responses, file sharing, visitor tracking, and chatbot integration",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 8263,
+            "rating": 4.2,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/live-chat-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "loyalty-gamification",
+            "display_name": "Loyalty Gamification",
+            "description": "Gamified loyalty system with points, badges, achievements, leaderboards, and challenges",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 5949,
+            "rating": 5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/loyalty-gamification-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "loyalty-rewards",
+            "display_name": "Loyalty Rewards",
+            "description": "Complete loyalty program with points, tiers, rewards, referrals, and VIP benefits to increase customer retention and lifetime value",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 3287,
+            "rating": 4.3,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/loyalty-rewards-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "microservices-manager",
+            "display_name": "Microservices Manager",
+            "description": "Complete microservices orchestration with service discovery, health monitoring, load balancing, circuit breakers, API gateway, distributed tracing, and service mesh management",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "api"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 944,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/microservices-manager-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "ml-model-deployment",
+            "display_name": "Ml Model Deployment",
+            "description": "Machine learning model deployment platform with TensorFlow\/PyTorch support, model versioning, A\/B testing, real-time inference, batch processing, and monitoring",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "ai",
+            "tags": [
+                "ai",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 3283,
+            "rating": 4.3,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/ml-model-deployment-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "multi-currency",
+            "display_name": "Multi Currency",
+            "description": "Display prices in multiple currencies with real-time exchange rates, automatic geo-detection, and currency switcher widget",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 7628,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/multi-currency-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "multi-currency-localization",
+            "display_name": "Multi Currency Localization",
+            "description": "Comprehensive multi-currency support with real-time exchange rates, localization, regional pricing, tax compliance, and international e-commerce features",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 4538,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/multi-currency-localization-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "multi-tenant-saas",
+            "display_name": "Multi Tenant Saas",
+            "description": "Complete multi-tenant SaaS management system with tenant isolation, subscription billing, resource quotas, custom domains, automated provisioning, and usage analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 8127,
+            "rating": 4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/multi-tenant-saas-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "multi-vendor-marketplace",
+            "display_name": "Multi Vendor Marketplace",
+            "description": "Transform single store into multi-vendor marketplace with vendor management, commissions, and analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 3811,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/multi-vendor-marketplace-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "omnichannel-integration-hub",
+            "display_name": "Omnichannel Integration Hub",
+            "description": "Unified commerce platform integrating online store, POS, marketplaces, social commerce, and mobile apps with real-time inventory sync",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "mobile"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 1682,
+            "rating": 5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/omnichannel-integration-hub-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "payment-paypal",
+            "display_name": "Payment Paypal",
+            "description": "Accept payments via PayPal, including PayPal Checkout, credit cards, and PayPal Pay Later options",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "payment",
+            "tags": [
+                "payment"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 4808,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/payment-paypal-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "payment-stripe",
+            "display_name": "Payment Stripe",
+            "description": "Stripe payment gateway integration for Shopologic",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "payment",
+            "tags": [
+                "payment"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 4590,
+            "rating": 4.2,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/payment-stripe-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "performance-optimizer",
+            "display_name": "Performance Optimizer",
+            "description": "Comprehensive performance optimization with intelligent caching, database optimization, asset optimization, and real-time monitoring for maximum e-commerce performance",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 2289,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/performance-optimizer-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "performance-profiler",
+            "display_name": "Performance Profiler",
+            "description": "Advanced performance profiling with real-time monitoring, bottleneck detection, memory analysis, database query profiling, cache optimization, and automated performance recommendations",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 6386,
+            "rating": 4.7,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/performance-profiler-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "predictive-analytics-engine",
+            "display_name": "Predictive Analytics Engine",
+            "description": "Advanced predictive analytics with sales forecasting, customer behavior prediction, market trend analysis, and actionable business intelligence",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "analytics",
+            "tags": [
+                "analytics",
+                "enterprise"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 2215,
+            "rating": 4.3,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/predictive-analytics-engine-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "progressive-web-app-builder",
+            "display_name": "Progressive Web App Builder",
+            "description": "Complete PWA builder with offline support, push notifications, app shell architecture, service workers, manifest generation, caching strategies, and app store deployment",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "mobile",
+            "tags": [
+                "mobile"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 504,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/progressive-web-app-builder-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "pwa-enhancer",
+            "display_name": "Pwa Enhancer",
+            "description": "Progressive Web App features with offline capability, push notifications, and app-like experience",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "mobile",
+            "tags": [
+                "mobile"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 2471,
+            "rating": 4.6,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/pwa-enhancer-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "realtime-business-intelligence",
+            "display_name": "Realtime Business Intelligence",
+            "description": "Real-time business intelligence with live dashboards, predictive KPIs, automated alerts, and executive reporting",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "enterprise",
+                "analytics",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 9694,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/realtime-business-intelligence-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "realtime-collaboration",
+            "display_name": "Realtime Collaboration",
+            "description": "Enterprise real-time collaboration suite with WebSocket\/WebRTC support, live cursors, collaborative editing, presence awareness, screen sharing, voice\/video chat, and activity feeds",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "enterprise",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 4826,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/realtime-collaboration-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "review-intelligence",
+            "display_name": "Review Intelligence",
+            "description": "Smart review management with sentiment analysis, fake review detection, and automated responses",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "social",
+            "tags": [
+                "social"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 1389,
+            "rating": 5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/review-intelligence-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "reviews-ratings",
+            "display_name": "Reviews Ratings",
+            "description": "Add customer reviews and ratings to products with moderation, rich snippets, email notifications, and review incentives",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "social",
+            "tags": [
+                "social"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 295,
+            "rating": 4.2,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/reviews-ratings-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "sales-dashboard",
+            "display_name": "Sales Dashboard",
+            "description": "Advanced sales analytics with real-time reporting, forecasting, and performance insights",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "analytics",
+            "tags": {
+                "0": "analytics",
+                "2": "real-time",
+                "3": "performance"
+            },
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 4274,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/sales-dashboard-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "seo-optimizer",
+            "display_name": "Seo Optimizer",
+            "description": "Comprehensive SEO toolkit with meta tags management, XML sitemaps, schema markup, canonical URLs, robots.txt editor, and SEO analysis tools",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "marketing",
+            "tags": [
+                "marketing"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 6546,
+            "rating": 4,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/seo-optimizer-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "serverless-functions",
+            "display_name": "Serverless Functions",
+            "description": "Serverless function execution platform with multi-language support, event triggers, auto-scaling, cold start optimization, distributed tracing, and cost management",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "F",
+            "test_coverage": 40,
+            "download_count": 4912,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/serverless-functions-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "shipping-fedex",
+            "display_name": "Shipping Fedex",
+            "description": "FedEx shipping integration for Shopologic",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "shipping",
+            "tags": [
+                "shipping"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 7298,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/shipping-fedex-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "smart-pricing",
+            "display_name": "Smart Pricing",
+            "description": "Dynamic pricing based on demand, inventory levels, competitor analysis, and market conditions",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 3173,
+            "rating": 4.3,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/smart-pricing-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "smart-pricing-intelligence",
+            "display_name": "Smart Pricing Intelligence",
+            "description": "Advanced pricing optimization with competitor monitoring, dynamic pricing algorithms, profit maximization, and real-time market response capabilities for competitive advantage",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 4579,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/smart-pricing-intelligence-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "smart-search",
+            "display_name": "Smart Search",
+            "description": "Advanced search with natural language processing, autocomplete, faceted filtering, and visual search",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 7057,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/smart-search-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "smart-search-discovery",
+            "display_name": "Smart Search Discovery",
+            "description": "AI-powered search with natural language processing, visual search, voice search, and intelligent product discovery",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 9292,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/smart-search-discovery-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "smart-shipping",
+            "display_name": "Smart Shipping",
+            "description": "Intelligent shipping with real-time rates, delivery predictions, carbon footprint tracking, and optimization",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "shipping",
+            "tags": [
+                "shipping",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 8868,
+            "rating": 4.7,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/smart-shipping-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "social-commerce-integration",
+            "display_name": "Social Commerce Integration",
+            "description": "Complete social commerce integration with shoppable posts, influencer management, social proof automation, and multi-platform selling",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic"
+            },
+            "category": "social",
+            "tags": [
+                "social",
+                "automation"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 1926,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/social-commerce-integration-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "social-proof-engine",
+            "display_name": "Social Proof Engine",
+            "description": "Real-time social proof notifications, FOMO triggers, and social validation to boost conversions",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "social",
+            "tags": [
+                "social",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 6774,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/social-proof-engine-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "subscription-commerce",
+            "display_name": "Subscription Commerce",
+            "description": "Complete subscription management with recurring billing, customer portals, and retention analytics",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "analytics"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 1231,
+            "rating": 4.7,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/subscription-commerce-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "support-hub",
+            "display_name": "Support Hub",
+            "description": "Integrated customer support with live chat, help desk tickets, FAQ automation, and AI assistance",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "automation",
+                "real-time"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 8830,
+            "rating": 4.5,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/support-hub-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "visual-page-builder",
+            "display_name": "Visual Page Builder",
+            "description": "Advanced drag-and-drop page builder with real-time preview, responsive design, custom blocks, templates library, CSS\/JS editor, version control, and AI-powered layout suggestions",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "mobile"
+            ],
+            "health_score": 70,
+            "performance_grade": "B",
+            "test_coverage": 40,
+            "download_count": 8838,
+            "rating": 4.9,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/visual-page-builder-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "voice-commerce",
+            "display_name": "Voice Commerce",
+            "description": "Voice-powered shopping experience using browser Speech Recognition and Text-to-Speech APIs",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "api"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 6642,
+            "rating": 4.6,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/voice-commerce-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "websocket-realtime-engine",
+            "display_name": "Websocket Realtime Engine",
+            "description": "High-performance WebSocket server for real-time communication with channels, presence, broadcasting, clustering support, message queuing, and client SDKs",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "dev@shopologic.com",
+                "url": "https:\/\/shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general",
+                "real-time",
+                "performance"
+            ],
+            "health_score": 70,
+            "performance_grade": "C",
+            "test_coverage": 40,
+            "download_count": 3440,
+            "rating": 4.8,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/websocket-realtime-engine-marketplace-v1.0.0.zip"
+        },
+        {
+            "name": "wishlist-intelligence",
+            "display_name": "Wishlist Intelligence",
+            "description": "Smart wishlist with price alerts, availability tracking, and intelligent recommendations",
+            "version": "1.0.0",
+            "author": {
+                "name": "Shopologic Team",
+                "email": "plugins@shopologic.com"
+            },
+            "category": "general",
+            "tags": [
+                "general"
+            ],
+            "health_score": 70,
+            "performance_grade": "A",
+            "test_coverage": 40,
+            "download_count": 3924,
+            "rating": 4.1,
+            "last_updated": "2025-06-30",
+            "package_url": "marketplace-packages\/wishlist-intelligence-marketplace-v1.0.0.zip"
+        }
+    ]
+}

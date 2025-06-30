@@ -1,0 +1,172 @@
+{
+    "package_info": {
+        "name": "smart-pricing",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:31:12",
+        "package_size": 22418,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "Smart Pricing Engine",
+        "version": "1.0.0",
+        "description": "Dynamic pricing based on demand, inventory levels, competitor analysis, and market conditions",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "plugins@shopologic.com"
+        },
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/commerce": "^1.0.0"
+            }
+        },
+        "bootstrap": {
+            "class": "SmartPricingPlugin",
+            "file": "SmartPricingPlugin.php"
+        },
+        "provides": [
+            "PricingEngineInterface",
+            "CompetitorAnalysisInterface"
+        ],
+        "permissions": [
+            "products.read",
+            "products.write",
+            "orders.read",
+            "analytics.read",
+            "cache.write",
+            "hooks.*"
+        ],
+        "hooks": {
+            "actions": [
+                "product.price_calculated",
+                "order.completed",
+                "inventory.updated",
+                "admin.pricing_rules"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/pricing\/rules",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pricing\/rules",
+                    "handler": "handlePost"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/pricing\/analysis\/{product_id}",
+                    "handler": "handleGet"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/pricing\/optimize",
+                    "handler": "handlePost"
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "pricing_rules",
+                "pricing_history",
+                "competitor_prices",
+                "demand_analytics"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                "assets\/pricing-dashboard.js"
+            ],
+            "css": [
+                "assets\/pricing-styles.css"
+            ]
+        },
+        "config": {
+            "schema": {
+                "enable_dynamic_pricing": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable dynamic pricing adjustments"
+                },
+                "price_adjustment_limit": {
+                    "type": "number",
+                    "default": 20,
+                    "min": 5,
+                    "max": 50,
+                    "description": "Maximum price adjustment percentage"
+                },
+                "demand_weight": {
+                    "type": "number",
+                    "default": 0.4,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.1,
+                    "description": "Weight for demand-based pricing"
+                },
+                "inventory_weight": {
+                    "type": "number",
+                    "default": 0.3,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.1,
+                    "description": "Weight for inventory-based pricing"
+                },
+                "competitor_weight": {
+                    "type": "number",
+                    "default": 0.3,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.1,
+                    "description": "Weight for competitor-based pricing"
+                },
+                "minimum_margin": {
+                    "type": "number",
+                    "default": 15,
+                    "min": 5,
+                    "max": 50,
+                    "description": "Minimum profit margin percentage"
+                }
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\SmartPricing\\": "src\/"
+            }
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "A",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

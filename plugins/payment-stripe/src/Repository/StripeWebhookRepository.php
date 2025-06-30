@@ -6,8 +6,7 @@ namespace Shopologic\Plugins\PaymentStripe\Repository;
 
 use Shopologic\Core\Database\DB;
 
-class StripeWebhookRepository  
-{
+class StripeWebhookRepository\n{
     /**
      * Create webhook log entry
      */

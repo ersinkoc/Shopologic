@@ -1,6 +1,7 @@
 <?php
 
-namespace EnterpriseSecurityCompliance\Services;
+declare(strict_types=1);
+namespace Shopologic\Plugins\EnterpriseSecurityCompliance\Services;
 
 interface SecurityServiceInterface
 {

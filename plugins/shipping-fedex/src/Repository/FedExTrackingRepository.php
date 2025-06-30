@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Repository;
+namespace Shopologic\Plugins\ShippingFedex\Repository;
 
 use Shopologic\Core\Database\DB;
 use Illuminate\Support\Collection;
 
-class FedExTrackingRepository
-{
+class FedExTrackingRepository\n{
     /**
      * Create or update tracking event
      */

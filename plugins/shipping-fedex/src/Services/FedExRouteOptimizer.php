@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopologic\Plugins\ShippingFedEx\Services;
+namespace Shopologic\Plugins\ShippingFedex\Services;
 
 use Shopologic\Plugins\ShippingFedEx\Repository\FedExRouteRepository;
 use Shopologic\Core\Logger\LoggerInterface;
@@ -18,8 +18,7 @@ use Shopologic\Core\Cache\CacheInterface;
  * - Real-time traffic and weather integration
  * - Carbon footprint minimization
  */
-class FedExRouteOptimizer
-{
+class FedExRouteOptimizer\n{
     private FedExApiClient $apiClient;
     private FedExRouteRepository $routeRepository;
     private LoggerInterface $logger;

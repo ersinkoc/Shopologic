@@ -2,9 +2,17 @@
     "name": "HelloWorld",
     "version": "1.0.0",
     "description": "A simple hello world plugin for Shopologic",
-    "author": "Shopologic Team",
-    "class": "HelloWorld\\HelloWorldPlugin",
-    "file": "HelloWorldPlugin.php",
+    "author": {
+        "name": "Shopologic Team"
+    },
+    "requirements": {
+        "php": ">=8.3",
+        "core": ">=1.0.0"
+    },
+    "bootstrap": {
+        "class": "HelloWorldPlugin",
+        "file": "HelloWorldPlugin.php"
+    },
     "permissions": [
         "hooks.*",
         "events.*",
@@ -12,5 +20,13 @@
         "config.*",
         "routes.register",
         "log.write"
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\HelloWorld\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "homepage": "https://shopologic.com/plugins/HelloWorld",
+    "hooks": []
 }

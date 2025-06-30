@@ -1,6 +1,7 @@
 <?php
 
-namespace BlockchainSupplyChain;
+declare(strict_types=1);
+namespace Shopologic\Plugins\BlockchainSupplyChain;
 
 use Shopologic\Core\Plugin\AbstractPlugin;
 use Shopologic\Core\Hook\HookSystem;
@@ -423,7 +424,7 @@ class BlockchainSupplyChainPlugin extends AbstractPlugin implements WidgetInterf
                     $this->updateTransactionStatus($transaction->id, 'failed');
                     $this->retryTransaction($transaction);
                 }
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Transaction verification failed', [
                     'transaction_id' => $transaction->id,
                     'error' => $e->getMessage()
@@ -451,7 +452,7 @@ class BlockchainSupplyChainPlugin extends AbstractPlugin implements WidgetInterf
                     'product_id' => $product->id,
                     'certificate_hash' => $certificate['hash']
                 ]);
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 $this->logger->error('Certificate generation failed', [
                     'product_id' => $product->id,
                     'error' => $e->getMessage()
@@ -611,5 +612,29 @@ class BlockchainSupplyChainPlugin extends AbstractPlugin implements WidgetInterf
         ];
         
         return $key ? ($config[$key] ?? $default) : $config;
+    }
+
+    /**
+     * Register EventListeners
+     */
+    protected function registerEventListeners(): void
+    {
+        // TODO: Implement registerEventListeners
+    }
+
+    /**
+     * Register Routes
+     */
+    protected function registerRoutes(): void
+    {
+        // TODO: Implement registerRoutes
+    }
+
+    /**
+     * Register ScheduledJobs
+     */
+    protected function registerScheduledJobs(): void
+    {
+        // TODO: Implement registerScheduledJobs
     }
 }

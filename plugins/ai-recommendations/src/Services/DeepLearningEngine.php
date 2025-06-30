@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AIRecommendations\Services;
+namespace Shopologic\Plugins\AiRecommendations\Services;
 
 use AIRecommendations\Repository\ModelRepository;
 use Shopologic\Core\Logger\LoggerInterface;
@@ -18,8 +18,7 @@ use Shopologic\Core\Cache\CacheInterface;
  * - Multi-task learning for diverse objectives
  * - Attention mechanisms for interpretability
  */
-class DeepLearningEngine
-{
+class DeepLearningEngine\n{
     private ModelRepository $modelRepository;
     private LoggerInterface $logger;
     private CacheInterface $cache;

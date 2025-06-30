@@ -1,0 +1,639 @@
+{
+    "package_info": {
+        "name": "code-quality-analyzer",
+        "version": "1.0.0",
+        "package_date": "2025-06-30 19:30:59",
+        "package_size": 20948,
+        "package_format": "zip"
+    },
+    "plugin_info": {
+        "name": "code-quality-analyzer",
+        "version": "1.0.0",
+        "description": "Comprehensive code quality analysis with static analysis, security scanning, complexity metrics, coding standards enforcement, automated refactoring suggestions, and CI\/CD integration",
+        "author": {
+            "name": "Shopologic Team",
+            "email": "dev@shopologic.com",
+            "url": "https:\/\/shopologic.com"
+        },
+        "license": "MIT",
+        "homepage": "https:\/\/shopologic.com\/plugins\/code-quality-analyzer",
+        "keywords": [
+            "code-quality",
+            "static-analysis",
+            "security",
+            "linting",
+            "standards",
+            "metrics",
+            "refactoring",
+            "ci-cd"
+        ],
+        "requirements": {
+            "php": ">=8.3",
+            "core": ">=1.0.0",
+            "dependencies": {
+                "shopologic\/core": "^1.0.0",
+                "shopologic\/dev-tools": "^1.0.0"
+            }
+        },
+        "autoload": {
+            "psr-4": {
+                "Shopologic\\Plugins\\CodeQualityAnalyzer\\": "src\/"
+            }
+        },
+        "bootstrap": {
+            "class": "CodeQualityAnalyzerPlugin",
+            "file": "src\/CodeQualityAnalyzerPlugin.php"
+        },
+        "provides": [
+            "CodeAnalyzerInterface",
+            "SecurityScannerInterface",
+            "MetricsCalculatorInterface",
+            "RefactoringEngineInterface"
+        ],
+        "permissions": [
+            "code_quality.access",
+            "code_quality.analyze",
+            "code_quality.view_reports",
+            "code_quality.configure_rules",
+            "code_quality.manage_standards",
+            "code_quality.export_reports",
+            "code_quality.ci_integration"
+        ],
+        "hooks": {
+            "actions": [
+                "code.analyzed",
+                "issue.detected",
+                "security.vulnerability_found",
+                "quality.threshold_failed",
+                "refactoring.suggested",
+                "standards.violation"
+            ],
+            "filters": [
+                "code.before_commit",
+                "code.analysis_rules",
+                "quality.thresholds",
+                "security.scan_rules",
+                "report.format"
+            ]
+        },
+        "api": {
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/code-quality\/analyze",
+                    "handler": "Controllers\\AnalysisController@analyze",
+                    "auth": true,
+                    "permission": "code_quality.analyze"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/code-quality\/analyze-file",
+                    "handler": "Controllers\\AnalysisController@analyzeFile",
+                    "auth": true,
+                    "permission": "code_quality.analyze"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/code-quality\/analyze-directory",
+                    "handler": "Controllers\\AnalysisController@analyzeDirectory",
+                    "auth": true,
+                    "permission": "code_quality.analyze"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/code-quality\/reports",
+                    "handler": "Controllers\\ReportController@index",
+                    "auth": true,
+                    "permission": "code_quality.view_reports"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/code-quality\/reports\/{id}",
+                    "handler": "Controllers\\ReportController@show",
+                    "auth": true,
+                    "permission": "code_quality.view_reports"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/code-quality\/metrics",
+                    "handler": "Controllers\\MetricsController@overview",
+                    "auth": true,
+                    "permission": "code_quality.access"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/code-quality\/issues",
+                    "handler": "Controllers\\IssueController@index",
+                    "auth": true,
+                    "permission": "code_quality.view_reports"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/code-quality\/issues\/{id}\/ignore",
+                    "handler": "Controllers\\IssueController@ignore",
+                    "auth": true,
+                    "permission": "code_quality.analyze"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/code-quality\/security\/scan",
+                    "handler": "Controllers\\SecurityController@scan",
+                    "auth": true,
+                    "permission": "code_quality.analyze"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/code-quality\/refactoring\/suggestions",
+                    "handler": "Controllers\\RefactoringController@suggestions",
+                    "auth": true,
+                    "permission": "code_quality.analyze"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/code-quality\/refactoring\/apply",
+                    "handler": "Controllers\\RefactoringController@apply",
+                    "auth": true,
+                    "permission": "code_quality.analyze"
+                },
+                {
+                    "method": "GET",
+                    "path": "\/api\/v1\/code-quality\/standards",
+                    "handler": "Controllers\\StandardsController@index",
+                    "auth": true
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/code-quality\/standards",
+                    "handler": "Controllers\\StandardsController@create",
+                    "auth": true,
+                    "permission": "code_quality.manage_standards"
+                },
+                {
+                    "method": "POST",
+                    "path": "\/api\/v1\/code-quality\/ci\/webhook",
+                    "handler": "Controllers\\CIController@webhook",
+                    "auth": false
+                }
+            ]
+        },
+        "database": {
+            "tables": [
+                "code_quality_analyses",
+                "code_quality_issues",
+                "code_quality_metrics",
+                "code_quality_reports",
+                "code_quality_rules",
+                "code_quality_standards",
+                "code_quality_ignores",
+                "code_quality_refactorings",
+                "code_quality_history",
+                "code_quality_baselines"
+            ],
+            "migrations": "migrations\/"
+        },
+        "assets": {
+            "js": [
+                {
+                    "src": "assets\/js\/code-analyzer.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "jquery",
+                        "prism",
+                        "chart.js"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/issue-viewer.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/js\/metrics-dashboard.js",
+                    "position": "footer",
+                    "pages": [
+                        "admin"
+                    ],
+                    "deps": [
+                        "chart.js",
+                        "d3"
+                    ]
+                }
+            ],
+            "css": [
+                {
+                    "src": "assets\/css\/analyzer.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/code-highlighting.css",
+                    "pages": [
+                        "admin"
+                    ]
+                },
+                {
+                    "src": "assets\/css\/reports.css",
+                    "pages": [
+                        "admin"
+                    ]
+                }
+            ]
+        },
+        "config": {
+            "schema": {
+                "enabled_analyzers": {
+                    "type": "multiselect",
+                    "label": "Enabled Analyzers",
+                    "default": [
+                        "php_syntax",
+                        "coding_standards",
+                        "complexity",
+                        "security",
+                        "performance"
+                    ],
+                    "options": {
+                        "php_syntax": "PHP Syntax Check",
+                        "coding_standards": "Coding Standards (PSR)",
+                        "complexity": "Code Complexity",
+                        "security": "Security Scanner",
+                        "performance": "Performance Analysis",
+                        "documentation": "Documentation Coverage",
+                        "testing": "Test Coverage",
+                        "dependencies": "Dependency Analysis",
+                        "dead_code": "Dead Code Detection",
+                        "duplicates": "Code Duplication"
+                    }
+                },
+                "coding_standards": {
+                    "type": "multiselect",
+                    "label": "Coding Standards",
+                    "default": [
+                        "PSR-12",
+                        "PSR-4"
+                    ],
+                    "options": {
+                        "PSR-1": "PSR-1 Basic Coding Standard",
+                        "PSR-2": "PSR-2 Coding Style Guide",
+                        "PSR-4": "PSR-4 Autoloading",
+                        "PSR-12": "PSR-12 Extended Coding Style",
+                        "WordPress": "WordPress Coding Standards",
+                        "Shopologic": "Shopologic Standards",
+                        "Custom": "Custom Rules"
+                    }
+                },
+                "complexity_thresholds": {
+                    "type": "object",
+                    "label": "Complexity Thresholds",
+                    "properties": {
+                        "cyclomatic_complexity": {
+                            "type": "number",
+                            "label": "Cyclomatic Complexity",
+                            "default": 10,
+                            "min": 1,
+                            "max": 50
+                        },
+                        "npath_complexity": {
+                            "type": "number",
+                            "label": "NPath Complexity",
+                            "default": 200,
+                            "min": 1,
+                            "max": 1000
+                        },
+                        "cognitive_complexity": {
+                            "type": "number",
+                            "label": "Cognitive Complexity",
+                            "default": 15,
+                            "min": 1,
+                            "max": 50
+                        }
+                    }
+                },
+                "security_rules": {
+                    "type": "multiselect",
+                    "label": "Security Rules",
+                    "default": [
+                        "sql_injection",
+                        "xss",
+                        "csrf",
+                        "file_inclusion"
+                    ],
+                    "options": {
+                        "sql_injection": "SQL Injection",
+                        "xss": "Cross-Site Scripting (XSS)",
+                        "csrf": "Cross-Site Request Forgery",
+                        "file_inclusion": "File Inclusion",
+                        "command_injection": "Command Injection",
+                        "xxe": "XML External Entity",
+                        "insecure_deserialization": "Insecure Deserialization",
+                        "sensitive_data": "Sensitive Data Exposure",
+                        "access_control": "Broken Access Control",
+                        "crypto": "Cryptographic Issues"
+                    }
+                },
+                "auto_fix": {
+                    "type": "boolean",
+                    "label": "Enable Auto-fix",
+                    "default": false,
+                    "description": "Automatically fix simple issues"
+                },
+                "auto_fix_rules": {
+                    "type": "multiselect",
+                    "label": "Auto-fix Rules",
+                    "default": [
+                        "whitespace",
+                        "indentation"
+                    ],
+                    "options": {
+                        "whitespace": "Whitespace Issues",
+                        "indentation": "Indentation",
+                        "line_endings": "Line Endings",
+                        "imports": "Import Organization",
+                        "unused_imports": "Remove Unused Imports",
+                        "docblocks": "Fix DocBlocks"
+                    },
+                    "depends_on": {
+                        "auto_fix": true
+                    }
+                },
+                "ignore_patterns": {
+                    "type": "array",
+                    "label": "Ignore Patterns",
+                    "default": [
+                        "vendor\/*",
+                        "node_modules\/*",
+                        "*.min.js",
+                        "*.min.css",
+                        "build\/*",
+                        "dist\/*"
+                    ]
+                },
+                "report_format": {
+                    "type": "multiselect",
+                    "label": "Report Formats",
+                    "default": [
+                        "html",
+                        "json"
+                    ],
+                    "options": {
+                        "html": "HTML Report",
+                        "json": "JSON",
+                        "xml": "XML",
+                        "csv": "CSV",
+                        "junit": "JUnit XML",
+                        "checkstyle": "Checkstyle XML",
+                        "gitlab": "GitLab Code Quality",
+                        "github": "GitHub Annotations"
+                    }
+                },
+                "ci_integration": {
+                    "type": "boolean",
+                    "label": "Enable CI\/CD Integration",
+                    "default": true
+                },
+                "fail_on_issues": {
+                    "type": "boolean",
+                    "label": "Fail Build on Issues",
+                    "default": true,
+                    "depends_on": {
+                        "ci_integration": true
+                    }
+                },
+                "quality_gate": {
+                    "type": "object",
+                    "label": "Quality Gate Thresholds",
+                    "properties": {
+                        "min_quality_score": {
+                            "type": "number",
+                            "label": "Minimum Quality Score",
+                            "default": 80,
+                            "min": 0,
+                            "max": 100
+                        },
+                        "max_critical_issues": {
+                            "type": "number",
+                            "label": "Max Critical Issues",
+                            "default": 0,
+                            "min": 0
+                        },
+                        "max_major_issues": {
+                            "type": "number",
+                            "label": "Max Major Issues",
+                            "default": 5,
+                            "min": 0
+                        },
+                        "min_test_coverage": {
+                            "type": "number",
+                            "label": "Min Test Coverage (%)",
+                            "default": 70,
+                            "min": 0,
+                            "max": 100
+                        }
+                    }
+                },
+                "notification_channels": {
+                    "type": "multiselect",
+                    "label": "Notification Channels",
+                    "default": [
+                        "email"
+                    ],
+                    "options": {
+                        "email": "Email",
+                        "slack": "Slack",
+                        "webhook": "Webhook",
+                        "dashboard": "Dashboard"
+                    }
+                }
+            }
+        },
+        "widgets": [
+            {
+                "id": "code_quality_score",
+                "name": "Code Quality Score",
+                "description": "Overall code quality metrics",
+                "position": "dashboard",
+                "permissions": [
+                    "code_quality.access"
+                ]
+            },
+            {
+                "id": "recent_issues",
+                "name": "Recent Issues",
+                "description": "Recently detected code issues",
+                "position": "dashboard",
+                "permissions": [
+                    "code_quality.view_reports"
+                ]
+            },
+            {
+                "id": "quality_trends",
+                "name": "Quality Trends",
+                "description": "Code quality trends over time",
+                "position": "dashboard",
+                "permissions": [
+                    "code_quality.view_reports"
+                ]
+            }
+        ],
+        "scheduled_tasks": [
+            {
+                "schedule": "0 * * * *",
+                "handler": "analyzeRecentChanges",
+                "description": "Analyze recently changed files"
+            },
+            {
+                "schedule": "0 2 * * *",
+                "handler": "fullCodebaseAnalysis",
+                "description": "Run full codebase analysis"
+            },
+            {
+                "schedule": "0 3 * * *",
+                "handler": "generateQualityReport",
+                "description": "Generate daily quality report"
+            },
+            {
+                "schedule": "0 4 * * MON",
+                "handler": "updateSecurityDatabase",
+                "description": "Update security vulnerability database"
+            }
+        ],
+        "analyzers": {
+            "php_syntax": {
+                "name": "PHP Syntax Checker",
+                "class": "Analyzers\\PHPSyntaxAnalyzer",
+                "file_types": [
+                    "php"
+                ],
+                "severity": "error"
+            },
+            "psr_standards": {
+                "name": "PSR Standards Checker",
+                "class": "Analyzers\\PSRAnalyzer",
+                "file_types": [
+                    "php"
+                ],
+                "severity": "warning",
+                "rules": [
+                    "PSR-1",
+                    "PSR-2",
+                    "PSR-4",
+                    "PSR-12"
+                ]
+            },
+            "complexity": {
+                "name": "Complexity Analyzer",
+                "class": "Analyzers\\ComplexityAnalyzer",
+                "file_types": [
+                    "php"
+                ],
+                "metrics": [
+                    "cyclomatic",
+                    "cognitive",
+                    "npath",
+                    "lloc"
+                ]
+            },
+            "security": {
+                "name": "Security Scanner",
+                "class": "Analyzers\\SecurityAnalyzer",
+                "file_types": [
+                    "php",
+                    "js"
+                ],
+                "rules": [
+                    "OWASP-Top-10",
+                    "CWE-Top-25"
+                ]
+            },
+            "documentation": {
+                "name": "Documentation Analyzer",
+                "class": "Analyzers\\DocumentationAnalyzer",
+                "file_types": [
+                    "php"
+                ],
+                "checks": [
+                    "docblock_presence",
+                    "param_types",
+                    "return_types",
+                    "throws_tags"
+                ]
+            }
+        },
+        "issue_severities": {
+            "critical": {
+                "color": "#dc3545",
+                "icon": "error",
+                "weight": 10
+            },
+            "major": {
+                "color": "#fd7e14",
+                "icon": "warning",
+                "weight": 5
+            },
+            "minor": {
+                "color": "#ffc107",
+                "icon": "info",
+                "weight": 2
+            },
+            "info": {
+                "color": "#0dcaf0",
+                "icon": "info_outline",
+                "weight": 1
+            }
+        },
+        "changelog": {
+            "1.0.0": [
+                "Initial release",
+                "PHP static analysis",
+                "PSR standards checking",
+                "Security vulnerability scanning",
+                "Code complexity metrics",
+                "Documentation coverage",
+                "Automated refactoring suggestions",
+                "CI\/CD integration",
+                "Quality gates",
+                "Multiple report formats",
+                "Real-time analysis",
+                "Issue tracking and management",
+                "Custom rule creation"
+            ]
+        }
+    },
+    "marketplace_info": {
+        "category": "general",
+        "tags": [
+            "general",
+            "analytics",
+            "security"
+        ],
+        "compatibility": {
+            "php": ">=8.3",
+            "shopologic": ">=2.0"
+        },
+        "pricing": {
+            "model": "free",
+            "price": 0
+        }
+    },
+    "quality_metrics": {
+        "health_score": 0,
+        "performance_grade": "C",
+        "test_coverage": 40,
+        "security_score": 100
+    },
+    "assets": {
+        "icon": "marketplace-assets\/icon.svg",
+        "banner": "marketplace-assets\/banner.svg",
+        "logo": "marketplace-assets\/logo.svg",
+        "screenshots": [
+            "marketplace-assets\/screenshots\/screenshot-1.svg",
+            "marketplace-assets\/screenshots\/screenshot-2.svg",
+            "marketplace-assets\/screenshots\/screenshot-3.svg"
+        ]
+    }
+}

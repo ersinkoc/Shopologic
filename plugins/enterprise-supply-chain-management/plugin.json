@@ -1,0 +1,47 @@
+{
+    "name": "enterprise-supply-chain-management",
+    "version": "1.0.0",
+    "description": "Advanced supply chain management with end-to-end visibility, supplier relationship management, logistics optimization, and blockchain traceability",
+    "author": "Shopologic",
+    "namespace": "EnterpriseSupplyChainManagement",
+    "class": "EnterpriseSupplyChainManagement\\EnterpriseSupplyChainManagementPlugin",
+    "permissions": [
+        "hooks.supply_chain.*",
+        "hooks.logistics.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "supply_chain.manage",
+        "logistics.optimize"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["supplier_management", "logistics_optimization", "traceability", "risk_management"],
+        "integrations": ["blockchain", "iot_sensors", "ai_optimization", "third_party_logistics"]
+    },
+    "hooks": [
+        "supply_chain.shipment_created",
+        "supplier.performance_updated",
+        "logistics.route_optimized",
+        "supply_chain.disruption_detected",
+        "blockchain.transaction_recorded"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/supply-chain/overview",
+        "POST /api/v1/suppliers/evaluate",
+        "GET /api/v1/logistics/optimize-routes",
+        "POST /api/v1/supply-chain/trace-product",
+        "GET /api/v1/supply-chain/risk-assessment"
+    ],
+    "cron_jobs": [
+        "0 */6 * * * - monitor_supply_chain_health",
+        "0 2 * * * - optimize_logistics_routes",
+        "0 3 * * * - update_supplier_performance",
+        "0 4 * * * - assess_supply_chain_risks"
+    ]
+}

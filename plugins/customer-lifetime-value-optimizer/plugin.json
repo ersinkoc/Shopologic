@@ -1,0 +1,47 @@
+{
+    "name": "customer-lifetime-value-optimizer",
+    "version": "1.0.0",
+    "description": "Advanced customer lifetime value prediction and optimization with behavioral segmentation, churn prevention, and personalized retention strategies",
+    "author": "Shopologic",
+    "namespace": "CustomerLifetimeValueOptimizer",
+    "class": "CustomerLifetimeValueOptimizer\\CustomerLifetimeValueOptimizerPlugin",
+    "permissions": [
+        "hooks.customer.*",
+        "hooks.clv.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "clv.manage",
+        "customer.analytics"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["clv_prediction", "churn_prevention", "behavioral_segmentation", "retention_automation"],
+        "ml_models": ["rfm_analysis", "cohort_analysis", "predictive_clv", "churn_prediction"]
+    },
+    "hooks": [
+        "customer.clv_updated",
+        "customer.churn_risk_detected",
+        "customer.segment_changed",
+        "customer.retention_triggered",
+        "order.clv_impact_calculated"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/clv/predictions",
+        "POST /api/v1/clv/calculate",
+        "GET /api/v1/customers/segments",
+        "POST /api/v1/churn/predictions",
+        "GET /api/v1/retention/campaigns"
+    ],
+    "cron_jobs": [
+        "0 2 * * * - calculate_clv_predictions",
+        "0 3 * * * - analyze_customer_segments",
+        "0 4 * * * - detect_churn_risks",
+        "0 6 * * * - execute_retention_campaigns"
+    ]
+}

@@ -1,0 +1,47 @@
+{
+    "name": "social-commerce-integration",
+    "version": "1.0.0",
+    "description": "Complete social commerce integration with shoppable posts, influencer management, social proof automation, and multi-platform selling",
+    "author": "Shopologic",
+    "namespace": "SocialCommerceIntegration",
+    "class": "SocialCommerceIntegration\\SocialCommerceIntegrationPlugin",
+    "permissions": [
+        "hooks.social.*",
+        "hooks.influencer.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "social.manage",
+        "influencer.manage"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["shoppable_posts", "influencer_management", "social_proof", "ugc_curation"],
+        "platforms": ["instagram", "facebook", "tiktok", "youtube", "pinterest"]
+    },
+    "hooks": [
+        "social.post_created",
+        "influencer.campaign_launched",
+        "social.engagement_tracked",
+        "ugc.content_discovered",
+        "social.order_attributed"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/social/platforms",
+        "POST /api/v1/social/posts/shoppable",
+        "GET /api/v1/influencers",
+        "POST /api/v1/influencers/campaigns",
+        "GET /api/v1/social/analytics"
+    ],
+    "cron_jobs": [
+        "*/15 * * * * - sync_social_content",
+        "0 * * * * - track_social_engagement",
+        "0 2 * * * - analyze_influencer_performance",
+        "0 4 * * * - curate_ugc_content"
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "name": "advanced-inventory-intelligence",
+    "version": "1.0.0",
+    "description": "AI-powered inventory management with demand forecasting, automated reordering, stockout prevention, and supplier optimization",
+    "author": "Shopologic",
+    "namespace": "AdvancedInventoryIntelligence",
+    "class": "AdvancedInventoryIntelligence\\AdvancedInventoryIntelligencePlugin",
+    "permissions": [
+        "hooks.inventory.*",
+        "hooks.order.*",
+        "hooks.supplier.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "inventory.forecast",
+        "inventory.optimize"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["demand_forecasting", "automated_reordering", "supplier_optimization", "multi_location"],
+        "algorithms": ["neural_networks", "time_series", "machine_learning"]
+    },
+    "hooks": [
+        "inventory.level_changed",
+        "order.completed",
+        "product.demand_spike",
+        "supplier.performance_updated",
+        "forecast.generated"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/inventory/forecast",
+        "POST /api/v1/inventory/optimize",
+        "GET /api/v1/inventory/analytics",
+        "POST /api/v1/inventory/reorder",
+        "GET /api/v1/suppliers/performance"
+    ],
+    "cron_jobs": [
+        "0 */6 * * * - update_demand_forecasts",
+        "0 1 * * * - process_automated_reorders",
+        "0 */2 * * * - optimize_inventory_levels",
+        "0 3 * * * - analyze_supplier_performance"
+    ]
+}

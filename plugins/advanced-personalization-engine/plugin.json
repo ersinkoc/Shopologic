@@ -1,0 +1,47 @@
+{
+    "name": "advanced-personalization-engine",
+    "version": "1.0.0",
+    "description": "AI-powered personalization engine with real-time behavior analysis, dynamic content optimization, predictive recommendations, and omnichannel personalization",
+    "author": "Shopologic",
+    "namespace": "AdvancedPersonalizationEngine",
+    "class": "AdvancedPersonalizationEngine\\AdvancedPersonalizationEnginePlugin",
+    "permissions": [
+        "hooks.personalization.*",
+        "hooks.behavior.*",
+        "api.access",
+        "dashboard.widget",
+        "cron.execute",
+        "personalization.manage",
+        "customer.profile"
+    ],
+    "dependencies": {
+        "shopologic/core": "^1.0"
+    },
+    "settings": {
+        "configurable": true,
+        "api_enabled": true,
+        "widget_enabled": true,
+        "features": ["real_time_personalization", "behavioral_targeting", "content_optimization", "predictive_analytics"],
+        "ml_models": ["collaborative_filtering", "content_based", "deep_learning", "reinforcement_learning"]
+    },
+    "hooks": [
+        "personalization.profile_updated",
+        "behavior.event_tracked",
+        "recommendation.generated",
+        "content.personalized",
+        "segment.customer_moved"
+    ],
+    "api_endpoints": [
+        "GET /api/v1/personalization/profile/{customer_id}",
+        "POST /api/v1/personalization/recommendations",
+        "GET /api/v1/personalization/content",
+        "POST /api/v1/behavior/track",
+        "GET /api/v1/personalization/analytics"
+    ],
+    "cron_jobs": [
+        "*/15 * * * * - process_behavioral_events",
+        "0 1 * * * - update_customer_profiles",
+        "0 2 * * * - train_recommendation_models",
+        "0 3 * * * - optimize_content_performance"
+    ]
+}

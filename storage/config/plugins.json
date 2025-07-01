@@ -1,0 +1,46 @@
+{
+    "enabled_plugins": [
+        "smart-search",
+        "analytics-google",
+        "reviews-ratings",
+        "inventory-management",
+        "email-marketing",
+        "multi-currency",
+        "seo-optimizer",
+        "loyalty-rewards"
+    ],
+    "plugin_settings": {
+        "analytics-google": {
+            "tracking_id": "GA_MEASUREMENT_ID",
+            "enhanced_ecommerce": true,
+            "anonymize_ip": true
+        },
+        "multi-currency": {
+            "default_currency": "USD",
+            "supported_currencies": [
+                "USD",
+                "EUR",
+                "GBP",
+                "CAD"
+            ],
+            "auto_detect_currency": true
+        },
+        "inventory-management": {
+            "track_stock": true,
+            "low_stock_threshold": 10,
+            "notify_on_low_stock": true
+        },
+        "email-marketing": {
+            "smtp_host": "smtp.example.com",
+            "smtp_port": 587,
+            "from_email": "noreply@shopologic.com",
+            "from_name": "Shopologic Store"
+        }
+    },
+    "hook_priorities": {
+        "product.price": 10,
+        "cart.shipping_methods": 5,
+        "search.results": 10,
+        "template.header.after": 10
+    }
+}

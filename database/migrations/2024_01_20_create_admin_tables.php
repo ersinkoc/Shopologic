@@ -1,14 +1,17 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
+
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
 
 class CreateAdminTables extends Migration
 {
     public function up(): void
     {
         // Admin activity log
-        Schema::create('admin_activity_log', function ($table) {
+        Schema::create('admin_activity_log', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('event');
@@ -24,7 +27,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin notifications
-        Schema::create('admin_notifications', function ($table) {
+        Schema::create('admin_notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('type')->default('info'); // info, success, warning, danger
@@ -41,7 +44,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin dashboard widgets preferences
-        Schema::create('admin_widget_preferences', function ($table) {
+        Schema::create('admin_widget_preferences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('widget');
@@ -56,7 +59,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin saved filters
-        Schema::create('admin_saved_filters', function ($table) {
+        Schema::create('admin_saved_filters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
@@ -69,7 +72,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin custom reports
-        Schema::create('admin_custom_reports', function ($table) {
+        Schema::create('admin_custom_reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
@@ -85,7 +88,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin scheduled tasks
-        Schema::create('admin_scheduled_tasks', function ($table) {
+        Schema::create('admin_scheduled_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('command');
@@ -104,7 +107,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin IP whitelist
-        Schema::create('admin_ip_whitelist', function ($table) {
+        Schema::create('admin_ip_whitelist', function (Blueprint $table) {
             $table->id();
             $table->string('ip_address', 45);
             $table->string('description')->nullable();
@@ -117,7 +120,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin login attempts
-        Schema::create('admin_login_attempts', function ($table) {
+        Schema::create('admin_login_attempts', function (Blueprint $table) {
             $table->id();
             $table->string('email');
             $table->string('ip_address', 45);
@@ -131,7 +134,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin two-factor auth
-        Schema::create('admin_two_factor_auth', function ($table) {
+        Schema::create('admin_two_factor_auth', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('secret')->nullable();
@@ -145,7 +148,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin menu customizations
-        Schema::create('admin_menu_customizations', function ($table) {
+        Schema::create('admin_menu_customizations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->json('menu_state'); // collapsed items, custom order, etc.
@@ -156,7 +159,7 @@ class CreateAdminTables extends Migration
         });
         
         // Admin quick actions
-        Schema::create('admin_quick_actions', function ($table) {
+        Schema::create('admin_quick_actions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');

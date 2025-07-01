@@ -156,7 +156,10 @@ class Route
         $handler = $this->resolveHandler();
         
         if (is_callable($handler)) {
-            return $handler($request, $this->parameters);
+            $result = $handler($request, $this->parameters);
+            
+            
+            return $result;
         }
 
         throw new \RuntimeException('Route handler is not callable');
@@ -184,7 +187,8 @@ class Route
             return "(?P<{$param}>{$regex})";
         }, $pattern);
         
-        // Escape special regex characters
+        // Escape special regex characters - but do this BEFORE processing parameters
+        // Only escape forward slashes, not other regex chars that might be in custom patterns
         $pattern = str_replace('/', '\/', $pattern);
         
         return '/^' . $pattern . '$/';

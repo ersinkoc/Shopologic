@@ -44,6 +44,21 @@ try {
     // Initialize configuration and database
     $config = new ConfigurationManager();
     $db = new DatabaseManager($config);
+    
+    // Create a minimal application container for migrations
+    $app = new class($db) {
+        private $db;
+        public function __construct($db) { $this->db = $db; }
+        public function getContainer() { return $this; }
+        public function get($abstract) {
+            if ($abstract === 'db' || $abstract === DatabaseManager::class) {
+                return $this->db;
+            }
+            throw new Exception("Service not found: $abstract");
+        }
+    };
+    $GLOBALS['SHOPOLOGIC_APP'] = $app;
+    
     $migrator = new Migrator($db, SHOPOLOGIC_ROOT . '/database/migrations');
     
     // Parse command line arguments

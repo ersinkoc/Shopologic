@@ -2,62 +2,86 @@
 
 declare(strict_types=1);
 
-/**
- * Shopologic - Enterprise E-commerce Platform
- * 
- * Front controller for the storefront
- */
-
-// Define root path
+// Define constants
+define('SHOPOLOGIC_START', microtime(true));
 define('SHOPOLOGIC_ROOT', dirname(__DIR__));
 
-// Register autoloader
+// Autoloader
 require_once SHOPOLOGIC_ROOT . '/core/src/Autoloader.php';
 
 use Shopologic\Core\Autoloader;
 use Shopologic\Core\Kernel\Application;
-use Shopologic\Core\Http\ServerRequestFactory;
+use Shopologic\Core\Http\Request;
+use Shopologic\Core\Http\Response;
 
-// Initialize autoloader
+// Register autoloader
 $autoloader = new Autoloader();
-$autoloader->register();
 $autoloader->addNamespace('Shopologic\\Core', SHOPOLOGIC_ROOT . '/core/src');
 $autoloader->addNamespace('Shopologic\\PSR', SHOPOLOGIC_ROOT . '/core/src/PSR');
 $autoloader->addNamespace('Shopologic\\Plugins', SHOPOLOGIC_ROOT . '/plugins');
+$autoloader->register();
 
 // Load helper functions
-require_once SHOPOLOGIC_ROOT . '/core/src/helpers.php';
+if (file_exists(SHOPOLOGIC_ROOT . '/core/src/helpers.php')) {
+    require_once SHOPOLOGIC_ROOT . '/core/src/helpers.php';
+}
 
 try {
     // Create application
     $app = new Application(SHOPOLOGIC_ROOT);
     
+    // Store app instance globally for helper functions
+    $GLOBALS['SHOPOLOGIC_APP'] = $app;
+    
+    // Configuration is loaded automatically by ConfigurationManager
+    
+    // Register plugin service provider
+    $app->register(\Shopologic\Core\Plugin\PluginServiceProvider::class);
+    
     // Boot application
     $app->boot();
     
+    // Load and activate plugins (if plugin manager exists)
+    if ($app->getContainer()->has(\Shopologic\Core\Plugin\PluginManager::class)) {
+        $pluginManager = $app->getContainer()->get(\Shopologic\Core\Plugin\PluginManager::class);
+        // Methods will be implemented in PluginManager
+        // $pluginManager->loadAll();
+        // $pluginManager->bootAll();
+    }
+    
+    // Create request from globals
+    $request = \Shopologic\Core\Http\ServerRequestFactory::fromGlobals();
+    
     // Handle request
-    $request = ServerRequestFactory::fromGlobals();
     $response = $app->handle($request);
     
     // Send response
     $response->send();
     
-    // Terminate application
+    // Terminate
     $app->terminate($request, $response);
     
 } catch (\Exception $e) {
-    // Handle critical errors
-    http_response_code(500);
+    // Error handling
+    $isDevelopment = isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development';
     
-    if (getenv('APP_DEBUG') === 'true') {
-        echo '<h1>Error</h1>';
-        echo '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
-        echo '<pre>' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
+    // Always show errors for now to debug
+    $isDevelopment = true;
+    
+    if ($isDevelopment) {
+        $content = sprintf(
+            '<h1>Error: %s</h1><pre>%s</pre>',
+            htmlspecialchars($e->getMessage()),
+            htmlspecialchars($e->getTraceAsString())
+        );
     } else {
-        echo '<h1>500 Internal Server Error</h1>';
-        echo '<p>Something went wrong. Please try again later.</p>';
+        $content = '<h1>Internal Server Error</h1><p>Something went wrong. Please try again later.</p>';
     }
     
-    // Log error
-    error_log('Shopologic Error: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+    // Create a stream for the response body
+    $stream = new \Shopologic\Core\Http\Stream('php://temp', 'w+');
+    $stream->write($content);
+    
+    $response = new Response(500, ['Content-Type' => 'text/html'], $stream);
+    $response->send();
 }

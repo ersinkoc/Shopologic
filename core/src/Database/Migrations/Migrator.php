@@ -230,18 +230,44 @@ class Migrator
         foreach ($this->paths as $path) {
             $file = $path . '/' . $migration . '.php';
             if (file_exists($file)) {
+                $classesBefore = get_declared_classes();
                 require_once $file;
+                $classesAfter = get_declared_classes();
                 
-                // Extract class name from filename
+                // Find the newly declared class
+                $newClasses = array_diff($classesAfter, $classesBefore);
+                
+                if (!empty($newClasses)) {
+                    $className = array_values($newClasses)[0];
+                    if (class_exists($className)) {
+                        return new $className();
+                    }
+                }
+                
+                // Fallback: Extract class name from filename
                 $parts = explode('_', $migration);
                 $className = '';
-                for ($i = 4; $i < count($parts); $i++) {
-                    $className .= ucfirst($parts[$i]);
+                
+                // Try different patterns for class name extraction
+                // Pattern 1: YYYY_MM_DD_HHMMSS_class_name
+                if (count($parts) >= 5) {
+                    for ($i = 4; $i < count($parts); $i++) {
+                        $className .= ucfirst($parts[$i]);
+                    }
+                }
+                // Pattern 2: YYYY_MM_DD_class_name  
+                else if (count($parts) >= 4) {
+                    for ($i = 3; $i < count($parts); $i++) {
+                        $className .= ucfirst($parts[$i]);
+                    }
                 }
                 
                 if (class_exists($className)) {
                     return new $className();
                 }
+                
+                // Debug: show what class name was generated
+                error_log("Expected class name: {$className} for migration: {$migration}");
             }
         }
         

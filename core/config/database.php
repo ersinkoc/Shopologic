@@ -4,6 +4,11 @@ return [
     'default' => $_ENV['DB_CONNECTION'] ?? 'pgsql',
     
     'connections' => [
+        'mock' => [
+            'driver' => 'mock',
+            'database' => 'shopologic_mock',
+        ],
+        
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => $_ENV['DB_HOST'] ?? 'localhost',
@@ -52,6 +57,12 @@ return [
             'engine' => 'InnoDB',
             'timezone' => '+00:00',
             'persistent' => $_ENV['DB_PERSISTENT'] ?? false,
+        ],
+        
+        'sqlite' => [
+            'driver' => 'sqlite',
+            'database' => $_ENV['DB_DATABASE'] ?? SHOPOLOGIC_ROOT . '/storage/database.sqlite',
+            'prefix' => '',
         ],
         
         'pgsql_read' => [

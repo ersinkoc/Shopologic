@@ -10,22 +10,29 @@ use Shopologic\Core\Router\RouterInterface;
 use Shopologic\Core\Http\Response;
 use Shopologic\Core\Http\Stream;
 use Shopologic\Core\Events\EventManager;
+use Shopologic\Core\Kernel\Events;
 
 class HttpKernel implements HttpKernelInterface
 {
     private RouterInterface $router;
     private EventManager $eventManager;
     private array $middleware = [];
+    private \Shopologic\PSR\Container\ContainerInterface $container;
 
     public function __construct(RouterInterface $router, EventManager $eventManager)
     {
         $this->router = $router;
         $this->eventManager = $eventManager;
+        // Get container from the global app
+        $this->container = app()->getContainer();
     }
 
     public function handle(RequestInterface $request): ResponseInterface
     {
         try {
+            // Store request in container for access in controllers
+            $this->container->instance('request', $request);
+            
             $this->eventManager->dispatch(new Events\RequestReceived($request));
 
             $response = $this->sendRequestThroughRouter($request);
@@ -80,10 +87,20 @@ class HttpKernel implements HttpKernelInterface
         $message = $e->getMessage() ?: 'Internal Server Error';
 
         $body = new Stream('php://memory', 'w+');
-        $body->write(json_encode([
+        
+        // Add more debugging info in development
+        $data = [
             'error' => $message,
             'code' => $statusCode
-        ]));
+        ];
+        
+        if (getenv('APP_ENV') === 'development') {
+            $data['file'] = $e->getFile();
+            $data['line'] = $e->getLine();
+            $data['trace'] = array_slice($e->getTrace(), 0, 5);
+        }
+        
+        $body->write(json_encode($data));
 
         return new Response($statusCode, ['Content-Type' => 'application/json'], $body);
     }

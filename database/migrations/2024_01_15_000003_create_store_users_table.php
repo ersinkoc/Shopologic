@@ -1,13 +1,16 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
 
-return new class extends Migration
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
+
+class CreateStoreUsersTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('store_users', function ($table) {
+        Schema::create('store_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -24,4 +27,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('store_users');
     }
-};
+}

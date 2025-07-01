@@ -9,6 +9,7 @@ use Shopologic\Core\Database\Drivers\DatabaseDriverInterface;
 use Shopologic\Core\Database\Drivers\PostgreSQLDriver;
 use Shopologic\Core\Database\Drivers\MySQLDriver;
 use Shopologic\Core\Database\Drivers\SQLiteDriver;
+use Shopologic\Core\Database\Drivers\MockDriver;
 
 class DatabaseManager
 {
@@ -127,6 +128,9 @@ class DatabaseManager
     protected function createDriver(array $config): DatabaseDriverInterface
     {
         switch ($config['driver']) {
+            case 'mock':
+                return new MockDriver();
+                
             case 'pgsql':
             case 'postgresql':
                 return new PostgreSQLDriver();

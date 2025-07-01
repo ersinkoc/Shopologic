@@ -1,13 +1,16 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
 
-return new class extends Migration
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
+
+class CreateTranslationsTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('translations', function ($table) {
+        Schema::create('translations', function (Blueprint $table) {
             $table->id();
             $table->string('locale', 10);
             $table->string('group');
@@ -25,4 +28,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('translations');
     }
-};
+}

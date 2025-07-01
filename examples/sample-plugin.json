@@ -1,0 +1,101 @@
+{
+    "name": "sample-plugin",
+    "version": "1.0.0",
+    "title": "Sample Plugin",
+    "description": "A sample plugin demonstrating the Shopologic plugin architecture",
+    "author": {
+        "name": "Your Name",
+        "email": "your.email@example.com",
+        "url": "https://example.com"
+    },
+    "main": "src/SamplePlugin.php",
+    "namespace": "SamplePlugin",
+    "dependencies": {
+        "core-commerce": ">=1.0.0",
+        "inventory-management": ">=1.0.0"
+    },
+    "permissions": [
+        "orders.read",
+        "orders.write",
+        "products.read",
+        "products.write",
+        "admin.access"
+    ],
+    "hooks": {
+        "actions": [
+            "order_created",
+            "product_saved",
+            "init"
+        ],
+        "filters": [
+            "product_price",
+            "order_statuses",
+            "admin_menu"
+        ]
+    },
+    "routes": {
+        "api": [
+            {
+                "method": "GET",
+                "path": "/api/sample/data",
+                "handler": "getData"
+            },
+            {
+                "method": "POST",
+                "path": "/api/sample/process",
+                "handler": "processData"
+            }
+        ],
+        "admin": [
+            {
+                "method": "GET",
+                "path": "/admin/sample",
+                "handler": "adminIndex"
+            },
+            {
+                "method": ["GET", "POST"],
+                "path": "/admin/sample/settings",
+                "handler": "adminSettings"
+            }
+        ]
+    },
+    "assets": {
+        "styles": [
+            "assets/css/sample.css"
+        ],
+        "scripts": [
+            "assets/js/sample.js"
+        ]
+    },
+    "migrations": {
+        "install": [
+            "migrations/001_create_sample_tables.php"
+        ],
+        "uninstall": [
+            "migrations/999_drop_sample_tables.php"
+        ],
+        "updates": {
+            "0.9.0": [
+                "migrations/002_add_sample_column.php"
+            ],
+            "1.0.0": [
+                "migrations/003_update_sample_indexes.php"
+            ]
+        }
+    },
+    "config": {
+        "cache_enabled": true,
+        "api_version": "v1",
+        "max_items": 1000
+    },
+    "requirements": {
+        "php": ">=8.3",
+        "shopologic": ">=1.0.0"
+    },
+    "keywords": [
+        "sample",
+        "demo",
+        "example"
+    ],
+    "license": "MIT"
+}

@@ -1,14 +1,17 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
+
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
 
 class CreateAnalyticsTables extends Migration
 {
     public function up(): void
     {
         // Analytics events table
-        Schema::create('analytics_events', function ($table) {
+        Schema::create('analytics_events', function (Blueprint $table) {
             $table->id();
             $table->string('event');
             $table->json('properties')->nullable();
@@ -26,7 +29,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Analytics sessions table
-        Schema::create('analytics_sessions', function ($table) {
+        Schema::create('analytics_sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('user_id')->nullable();
             $table->timestamp('started_at');
@@ -53,7 +56,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Analytics users table
-        Schema::create('analytics_users', function ($table) {
+        Schema::create('analytics_users', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->timestamp('first_seen');
             $table->timestamp('last_seen');
@@ -71,7 +74,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Analytics aggregations table
-        Schema::create('analytics_aggregations', function ($table) {
+        Schema::create('analytics_aggregations', function (Blueprint $table) {
             $table->id();
             $table->string('type'); // hourly, daily, weekly, monthly
             $table->date('date');
@@ -95,7 +98,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Page metrics table
-        Schema::create('page_metrics', function ($table) {
+        Schema::create('page_metrics', function (Blueprint $table) {
             $table->id();
             $table->string('page');
             $table->date('date');
@@ -113,7 +116,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // E-commerce analytics table
-        Schema::create('ecommerce_analytics', function ($table) {
+        Schema::create('ecommerce_analytics', function (Blueprint $table) {
             $table->id();
             $table->string('transaction_id');
             $table->string('user_id')->nullable();
@@ -134,7 +137,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Product analytics table
-        Schema::create('product_analytics', function ($table) {
+        Schema::create('product_analytics', function (Blueprint $table) {
             $table->id();
             $table->string('product_id');
             $table->string('product_name');
@@ -153,7 +156,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Analytics reports table
-        Schema::create('analytics_reports', function ($table) {
+        Schema::create('analytics_reports', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('type');
@@ -170,7 +173,7 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Scheduled reports table
-        Schema::create('scheduled_reports', function ($table) {
+        Schema::create('scheduled_reports', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('type');
@@ -186,14 +189,14 @@ class CreateAnalyticsTables extends Migration
         });
         
         // Analytics processing status table
-        Schema::create('analytics_processing_status', function ($table) {
+        Schema::create('analytics_processing_status', function (Blueprint $table) {
             $table->string('type')->primary(); // hourly, daily, weekly, monthly
             $table->timestamp('last_processed');
             $table->timestamps();
         });
         
         // Goal conversions table (link to marketing conversions)
-        Schema::create('analytics_goals', function ($table) {
+        Schema::create('analytics_goals', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('type'); // destination, duration, pages_per_session, event

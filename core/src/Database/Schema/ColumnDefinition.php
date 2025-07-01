@@ -169,4 +169,18 @@ class ColumnDefinition
         // For now, just return self for chaining
         return $this;
     }
+    
+    public function onDelete(string $action): self
+    {
+        // This would normally set the foreign key delete action
+        // For now, just return self for chaining
+        return $this;
+    }
+    
+    public function onUpdate(string $action): self
+    {
+        // This would normally set the foreign key update action
+        // For now, just return self for chaining
+        return $this;
+    }
 }

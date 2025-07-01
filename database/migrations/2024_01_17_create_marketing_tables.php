@@ -1,14 +1,17 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
+
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
 
 class CreateMarketingTables extends Migration
 {
     public function up(): void
     {
         // Email campaigns table
-        Schema::create('email_campaigns', function ($table) {
+        Schema::create('email_campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('subject');
@@ -39,7 +42,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Email tracking table
-        Schema::create('email_trackings', function ($table) {
+        Schema::create('email_trackings', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('campaign_id');
             $table->string('tracking_id')->unique();
@@ -58,7 +61,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Email clicks table
-        Schema::create('email_clicks', function ($table) {
+        Schema::create('email_clicks', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('tracking_id');
             $table->string('link_id');
@@ -71,7 +74,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Email subscribers table
-        Schema::create('email_subscribers', function ($table) {
+        Schema::create('email_subscribers', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
             $table->string('name')->nullable();
@@ -88,7 +91,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Email segments table
-        Schema::create('email_segments', function ($table) {
+        Schema::create('email_segments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
@@ -98,7 +101,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Social posts table
-        Schema::create('social_posts', function ($table) {
+        Schema::create('social_posts', function (Blueprint $table) {
             $table->id();
             $table->text('content');
             $table->json('providers');
@@ -116,7 +119,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Automation workflows table
-        Schema::create('automation_workflows', function ($table) {
+        Schema::create('automation_workflows', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
@@ -133,7 +136,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Workflow executions table
-        Schema::create('workflow_executions', function ($table) {
+        Schema::create('workflow_executions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('workflow_id');
             $table->bigInteger('contact_id');
@@ -149,7 +152,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Workflow steps table
-        Schema::create('workflow_steps', function ($table) {
+        Schema::create('workflow_steps', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('workflow_execution_id');
             $table->integer('step_index');
@@ -164,7 +167,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Contacts table
-        Schema::create('contacts', function ($table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
             $table->string('name')->nullable();
@@ -180,7 +183,7 @@ class CreateMarketingTables extends Migration
         });
         
         // A/B tests table
-        Schema::create('ab_tests', function ($table) {
+        Schema::create('ab_tests', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->text('description')->nullable();
@@ -204,7 +207,7 @@ class CreateMarketingTables extends Migration
         });
         
         // A/B test participants table
-        Schema::create('ab_test_participants', function ($table) {
+        Schema::create('ab_test_participants', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('test_id');
             $table->string('visitor_id');
@@ -217,7 +220,7 @@ class CreateMarketingTables extends Migration
         });
         
         // A/B test conversions table
-        Schema::create('ab_test_conversions', function ($table) {
+        Schema::create('ab_test_conversions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('test_id');
             $table->string('variant');
@@ -231,7 +234,7 @@ class CreateMarketingTables extends Migration
         });
         
         // A/B test events table
-        Schema::create('ab_test_events', function ($table) {
+        Schema::create('ab_test_events', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('test_id');
             $table->string('variant');
@@ -245,7 +248,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Conversions table
-        Schema::create('conversions', function ($table) {
+        Schema::create('conversions', function (Blueprint $table) {
             $table->id();
             $table->string('goal_name');
             $table->string('visitor_id');
@@ -262,7 +265,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Micro conversions table
-        Schema::create('micro_conversions', function ($table) {
+        Schema::create('micro_conversions', function (Blueprint $table) {
             $table->id();
             $table->string('action');
             $table->string('visitor_id');
@@ -276,7 +279,7 @@ class CreateMarketingTables extends Migration
         });
         
         // Funnel steps table
-        Schema::create('funnel_steps', function ($table) {
+        Schema::create('funnel_steps', function (Blueprint $table) {
             $table->id();
             $table->string('funnel_name');
             $table->string('step_name');

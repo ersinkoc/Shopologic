@@ -49,6 +49,8 @@ class Application
 
         $this->serviceProviders[] = $provider;
 
+        // Only boot the provider if the application has already been booted
+        // This prevents early booting before all providers are registered
         if ($this->booted) {
             $this->bootProvider($provider);
         }
@@ -145,16 +147,28 @@ class Application
         $this->container->instance(EventManager::class, $this->eventManager);
         $this->container->instance(EventDispatcherInterface::class, $this->eventManager);
         $this->container->instance(ConfigurationManager::class, $this->config);
+        
+        // Add some aliases
+        $this->container->instance('app', $this);
+        $this->container->instance('container', $this->container);
+        $this->container->instance('events', $this->eventManager);
+        $this->container->instance('config', $this->config);
+        $this->container->instance('app.base_path', $this->basePath);
+        $this->container->instance('app.env', $this->environment);
     }
 
     private function registerBaseServiceProviders(): void
     {
         $providers = [
-            \Shopologic\Core\Http\HttpServiceProvider::class,
-            \Shopologic\Core\Router\RouterServiceProvider::class,
+            // Core services first
+            \Shopologic\Core\Logging\LoggingServiceProvider::class,
             \Shopologic\Core\Database\DatabaseServiceProvider::class,
             \Shopologic\Core\Cache\CacheServiceProvider::class,
-            \Shopologic\Core\Logging\LoggingServiceProvider::class,
+            // Router before HTTP (HTTP kernel needs router)
+            \Shopologic\Core\Router\RouterServiceProvider::class,
+            \Shopologic\Core\Http\HttpServiceProvider::class,
+            // Template can be loaded last
+            \Shopologic\Core\Template\TemplateServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {

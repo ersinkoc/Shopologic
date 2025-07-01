@@ -1,32 +1,35 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
 
-return new class extends Migration
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
+
+class AddStoreIdToTables extends Migration
 {
     public function up(): void
     {
         // Add store_id to orders table
-        Schema::table('orders', function ($table) {
+        Schema::table('orders', function (Blueprint $table) {
             $table->foreignId('store_id')->nullable()->after('id')->constrained();
             $table->index('store_id');
         });
         
         // Add store_id to customers table
-        Schema::table('customers', function ($table) {
+        Schema::table('customers', function (Blueprint $table) {
             $table->foreignId('store_id')->nullable()->after('id')->constrained();
             $table->index('store_id');
         });
         
         // Add store_id to carts table
-        Schema::table('carts', function ($table) {
+        Schema::table('carts', function (Blueprint $table) {
             $table->foreignId('store_id')->nullable()->after('id')->constrained();
             $table->index('store_id');
         });
         
         // Create store_products pivot table for shared products
-        Schema::create('store_products', function ($table) {
+        Schema::create('store_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
@@ -41,7 +44,7 @@ return new class extends Migration
         });
         
         // Create store_categories pivot table
-        Schema::create('store_categories', function ($table) {
+        Schema::create('store_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
@@ -55,7 +58,7 @@ return new class extends Migration
         });
         
         // Create store_payment_methods pivot table
-        Schema::create('store_payment_methods', function ($table) {
+        Schema::create('store_payment_methods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->string('payment_method', 50);
@@ -69,7 +72,7 @@ return new class extends Migration
         });
         
         // Create store_shipping_methods pivot table
-        Schema::create('store_shipping_methods', function ($table) {
+        Schema::create('store_shipping_methods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->string('shipping_method', 50);
@@ -91,19 +94,19 @@ return new class extends Migration
         Schema::dropIfExists('store_categories');
         Schema::dropIfExists('store_products');
         
-        Schema::table('carts', function ($table) {
+        Schema::table('carts', function (Blueprint $table) {
             $table->dropForeign(['store_id']);
             $table->dropColumn('store_id');
         });
         
-        Schema::table('customers', function ($table) {
+        Schema::table('customers', function (Blueprint $table) {
             $table->dropForeign(['store_id']);
             $table->dropColumn('store_id');
         });
         
-        Schema::table('orders', function ($table) {
+        Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign(['store_id']);
             $table->dropColumn('store_id');
         });
     }
-};
+}

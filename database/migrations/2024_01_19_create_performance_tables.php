@@ -1,14 +1,17 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
+
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
 
 class CreatePerformanceTables extends Migration
 {
     public function up(): void
     {
         // Queue jobs table
-        Schema::create('jobs', function ($table) {
+        Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
             $table->text('payload');
@@ -21,7 +24,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Failed jobs table
-        Schema::create('failed_jobs', function ($table) {
+        Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('connection');
             $table->string('queue');
@@ -31,7 +34,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Search documents table
-        Schema::create('search_documents', function ($table) {
+        Schema::create('search_documents', function (Blueprint $table) {
             $table->id();
             $table->string('type')->index();
             $table->string('document_id');
@@ -46,7 +49,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Search index table
-        Schema::create('search_index', function ($table) {
+        Schema::create('search_index', function (Blueprint $table) {
             $table->id();
             $table->string('type');
             $table->string('document_id');
@@ -62,7 +65,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Search terms table
-        Schema::create('search_terms', function ($table) {
+        Schema::create('search_terms', function (Blueprint $table) {
             $table->id();
             $table->string('term')->unique();
             $table->unsignedBigInteger('frequency')->default(0);
@@ -72,7 +75,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Search queries table
-        Schema::create('search_queries', function ($table) {
+        Schema::create('search_queries', function (Blueprint $table) {
             $table->id();
             $table->string('query');
             $table->integer('results_count');
@@ -85,7 +88,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Cache tags table (for tagged cache)
-        Schema::create('cache_tags', function ($table) {
+        Schema::create('cache_tags', function (Blueprint $table) {
             $table->id();
             $table->string('key');
             $table->string('tag');
@@ -96,7 +99,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Performance metrics table
-        Schema::create('performance_metrics', function ($table) {
+        Schema::create('performance_metrics', function (Blueprint $table) {
             $table->id();
             $table->string('type'); // page_load, api_call, query, etc.
             $table->string('name');
@@ -111,7 +114,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Slow query log
-        Schema::create('slow_queries', function ($table) {
+        Schema::create('slow_queries', function (Blueprint $table) {
             $table->id();
             $table->text('query');
             $table->json('bindings')->nullable();
@@ -126,7 +129,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // HTTP cache table
-        Schema::create('http_cache', function ($table) {
+        Schema::create('http_cache', function (Blueprint $table) {
             $table->id();
             $table->string('key')->unique();
             $table->string('url');
@@ -142,7 +145,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Object cache table (for database cache driver)
-        Schema::create('cache', function ($table) {
+        Schema::create('cache', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->mediumText('value');
             $table->integer('expiration');
@@ -151,7 +154,7 @@ class CreatePerformanceTables extends Migration
         });
         
         // Cache locks table
-        Schema::create('cache_locks', function ($table) {
+        Schema::create('cache_locks', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->string('owner');
             $table->integer('expiration');

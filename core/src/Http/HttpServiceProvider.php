@@ -22,7 +22,14 @@ class HttpServiceProvider extends ServiceProvider
         $this->bind(ResponseInterface::class, Response::class);
         
         $this->singleton(ServerRequestFactory::class);
-        $this->singleton(HttpKernelInterface::class, HttpKernel::class);
+        
+        // Register HttpKernel with dependencies
+        $this->singleton(HttpKernelInterface::class, function($container) {
+            return new HttpKernel(
+                $container->get(\Shopologic\Core\Router\RouterInterface::class),
+                $container->get(\Shopologic\Core\Events\EventManager::class)
+            );
+        });
     }
 
     public function boot(): void

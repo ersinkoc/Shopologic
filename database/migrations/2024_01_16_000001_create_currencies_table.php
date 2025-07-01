@@ -1,13 +1,16 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
 
-return new class extends Migration
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+use Shopologic\Core\Database\Schema\Blueprint;
+
+class CreateCurrenciesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('currencies', function ($table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->id();
             $table->string('code', 3)->unique();
             $table->string('name');
@@ -31,4 +34,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('currencies');
     }
-};
+}

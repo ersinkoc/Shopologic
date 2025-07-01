@@ -2,6 +2,26 @@
 
 declare(strict_types=1);
 
+if (!function_exists('app')) {
+    /**
+     * Get the application instance or resolve a service from the container
+     */
+    function app($abstract = null) {
+        static $app = null;
+        
+        if ($app === null) {
+            global $SHOPOLOGIC_APP;
+            $app = $SHOPOLOGIC_APP;
+        }
+        
+        if ($abstract === null) {
+            return $app;
+        }
+        
+        return $app->getContainer()->get($abstract);
+    }
+}
+
 if (!function_exists('env')) {
     /**
      * Get environment variable

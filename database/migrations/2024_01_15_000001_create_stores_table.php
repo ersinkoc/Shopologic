@@ -1,9 +1,11 @@
 <?php
 
-use Shopologic\Core\Database\Migration;
-use Shopologic\Core\Database\Schema;
+declare(strict_types=1);
 
-return new class extends Migration
+use Shopologic\Core\Database\Migrations\Migration;
+use Shopologic\Core\Database\Schema\Schema;
+
+class CreateStoresTable extends Migration
 {
     public function up(): void
     {
@@ -36,4 +38,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('stores');
     }
-};
+}

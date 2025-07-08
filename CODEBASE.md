@@ -1425,7 +1425,7 @@ php cli/plugin.php install core-commerce
 php cli/plugin.php activate core-commerce
 
 # 8. Start development server
-php -S localhost:8000 -t public/
+php -S localhost:17000 -t public/
 # Or use the built-in server script
 php cli/server.php
 ```
@@ -2760,7 +2760,7 @@ php cli/migrate.php up
 php cli/seed.php run
 
 # 6. Start development server
-php -S localhost:8000 -t public/
+php -S localhost:17000 -t public/
 ```
 
 ### Common Development Tasks

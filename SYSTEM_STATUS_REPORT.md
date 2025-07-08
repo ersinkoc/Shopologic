@@ -74,14 +74,14 @@
 ```bash
 ./start_server.sh
 # or
-php -S localhost:8000 -t public/
+php -S localhost:17000 -t public/
 ```
 
 ### 2. **Access the System**
-- **Test Page:** http://localhost:8000/test.php
-- **Storefront:** http://localhost:8000/
-- **Admin Panel:** http://localhost:8000/admin.php
-- **API:** http://localhost:8000/api.php
+- **Test Page:** http://localhost:17000/test.php
+- **Storefront:** http://localhost:17000/
+- **Admin Panel:** http://localhost:17000/admin.php
+- **API:** http://localhost:17000/api.php
 
 ### 3. **Database Setup (Optional)**
 ```bash

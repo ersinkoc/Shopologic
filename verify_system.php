@@ -198,7 +198,7 @@ if (!$checks['permissions']) {
 }
 
 echo "\n🚀 To start the development server:\n";
-echo "   php -S localhost:8000 -t public/\n";
+echo "   php -S localhost:17000 -t public/\n";
 
 echo "\n📋 To activate plugins:\n";
 echo "   php cli/plugin.php activate [plugin-name]\n";

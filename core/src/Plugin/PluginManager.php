@@ -96,6 +96,17 @@ class PluginManager
             require_once $autoloadFile;
         }
         
+        // Register PSR-4 autoloading from manifest
+        if (isset($manifest['autoload']['psr-4'])) {
+            $autoloader = spl_autoload_functions()[0] ?? null;
+            if ($autoloader && is_array($autoloader) && $autoloader[0] instanceof \Shopologic\Core\Autoloader) {
+                foreach ($manifest['autoload']['psr-4'] as $namespace => $path) {
+                    $fullPath = $this->pluginPath . '/' . $name . '/' . $path;
+                    $autoloader[0]->addNamespace(rtrim($namespace, '\\'), rtrim($fullPath, '/'));
+                }
+            }
+        }
+        
         // Determine plugin class file and class name
         $pluginInfo = $this->resolvePluginClass($name, $manifest);
         $classFile = $pluginInfo['file'];
@@ -111,7 +122,8 @@ class PluginManager
             throw new PluginException("Plugin class not found: {$className}");
         }
         
-        $plugin = new $className();
+        $pluginPath = $this->pluginPath . '/' . $name;
+        $plugin = new $className($this->container, $pluginPath);
         
         if (!$plugin instanceof PluginInterface) {
             throw new PluginException("Plugin must implement PluginInterface: {$className}");
@@ -345,6 +357,14 @@ class PluginManager
     {
         return isset($this->booted[$name]);
     }
+    
+    /**
+     * Check if plugin is installed
+     */
+    public function isInstalled(string $name): bool
+    {
+        return $this->repository->isInstalled($name);
+    }
 
     /**
      * Check plugin dependencies
@@ -449,7 +469,8 @@ class PluginManager
         $hasClassDefinition = isset($manifest['class']) || 
                              isset($manifest['main']) || 
                              isset($manifest['main_class']) || 
-                             (isset($manifest['config']['main_class']));
+                             (isset($manifest['config']['main_class'])) ||
+                             isset($manifest['bootstrap']);
         
         if (!$hasClassDefinition) {
             error_log("Plugin {$directory}: No class definition found in manifest");
@@ -466,7 +487,38 @@ class PluginManager
     {
         $pluginDir = $this->pluginPath . '/' . $name;
         
-        // Priority 1: New standardized 'main' field (file path)
+        // Priority 1: Bootstrap field (common in many plugin systems)
+        if (isset($manifest['bootstrap'])) {
+            $bootstrap = $manifest['bootstrap'];
+            if (isset($bootstrap['file']) && isset($bootstrap['class'])) {
+                $className = $bootstrap['class'];
+                
+                // If class name doesn't have namespace, try to construct it
+                if (strpos($className, '\\') === false && isset($manifest['autoload']['psr-4'])) {
+                    $namespace = array_key_first($manifest['autoload']['psr-4']);
+                    if ($namespace) {
+                        $className = rtrim($namespace, '\\') . '\\' . $className;
+                    }
+                }
+                
+                return [
+                    'file' => $pluginDir . '/' . $bootstrap['file'],
+                    'class' => $className
+                ];
+            }
+            // If bootstrap is just a string, assume it's the class name
+            if (is_string($bootstrap)) {
+                $possibleFiles = $this->findClassFile($pluginDir, $bootstrap);
+                if (!empty($possibleFiles)) {
+                    return [
+                        'file' => $possibleFiles[0],
+                        'class' => $bootstrap
+                    ];
+                }
+            }
+        }
+        
+        // Priority 2: New standardized 'main' field (file path)
         if (isset($manifest['main'])) {
             $classFile = $pluginDir . '/' . $manifest['main'];
             $className = $this->extractClassNameFromFile($classFile);
@@ -544,6 +596,16 @@ class PluginManager
             strtolower($simpleClassName) . '.php',
             'src/' . strtolower($simpleClassName) . '.php',
         ];
+        
+        // Also check based on PSR-4 namespace structure
+        if (strpos($className, '\\') !== false) {
+            $namespaceParts = explode('\\', $className);
+            // Remove vendor and package parts (e.g., Shopologic\Plugins\CoreCommerce)
+            if (count($namespaceParts) >= 4) {
+                $relativePath = implode('/', array_slice($namespaceParts, 3)) . '.php';
+                $locations[] = 'src/' . $relativePath;
+            }
+        }
         
         foreach ($locations as $location) {
             $file = $pluginDir . '/' . $location;

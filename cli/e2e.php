@@ -204,7 +204,7 @@ function setupE2E(): void
     
     if (!file_exists($configFile)) {
         $config = [
-            'base_url' => 'http://localhost:8000',
+            'base_url' => 'http://localhost:17000',
             'headless' => true,
             'timeout' => 30,
             'viewport' => [
@@ -446,7 +446,7 @@ function setupTestEnvironment(bool $headless): void
     putenv('APP_ENV=test');
     
     // Ensure test server is running
-    $baseUrl = 'http://localhost:8000';
+    $baseUrl = 'http://localhost:17000';
     $ch = curl_init($baseUrl);
     curl_setopt($ch, CURLOPT_NOBODY, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
@@ -455,7 +455,7 @@ function setupTestEnvironment(bool $headless): void
     curl_close($ch);
     
     if ($httpCode === 0) {
-        echo "⚠️  Test server not running. Start it with: php -S localhost:8000 -t public/\n\n";
+        echo "⚠️  Test server not running. Start it with: php -S localhost:17000 -t public/\n\n";
     }
 }
 

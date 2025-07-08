@@ -1,0 +1,32 @@
+{
+    "name": "Payment Gateway",
+    "description": "Basic payment gateway plugin that depends on Core Commerce",
+    "version": "1.0.0",
+    "author": "Shopologic Team",
+    "main": "src/PaymentGatewayPlugin.php",
+    "namespace": "Shopologic\\Plugins\\PaymentGateway",
+    "dependencies": {
+        "core-commerce": "^1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopologic\\Plugins\\PaymentGateway\\": "src/"
+        }
+    },
+    "api_version": "1.0",
+    "php_version": ">=8.3.0",
+    "requires": [
+        "core-commerce"
+    ],
+    "provides": [
+        "payment-processing"
+    ],
+    "hooks": [
+        "payment.process",
+        "order.payment_completed"
+    ],
+    "permissions": [
+        "payment.manage",
+        "transaction.view"
+    ]
+}

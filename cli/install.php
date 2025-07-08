@@ -281,9 +281,9 @@ try {
     echo "1. Configure your .env file with your database and service credentials\n";
     echo "2. Run 'php cli/migrate.php up' to set up the database schema\n";
     echo "3. Run 'php cli/seed.php run' to populate with sample data\n";
-    echo "4. Start the development server: 'php -S localhost:8000 -t public/'\n";
-    echo "5. Access your store at http://localhost:8000\n";
-    echo "6. Access the admin panel at http://localhost:8000/admin\n\n";
+    echo "4. Start the development server: 'php -S localhost:17000 -t public/'\n";
+    echo "5. Access your store at http://localhost:17000\n";
+    echo "6. Access the admin panel at http://localhost:17000/admin\n\n";
     
     echo "For production deployment:\n";
     echo "1. Set APP_ENV=production in .env\n";

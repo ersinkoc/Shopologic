@@ -9,7 +9,7 @@ use Shopologic\Core\Http\Request;
 use Shopologic\Core\Http\Response;
 use Shopologic\Core\Http\Stream;
 use Shopologic\Core\Search\SearchService;
-use Psr\Http\Message\RequestInterface;
+use Shopologic\PSR\Http\Message\ServerRequestInterface;
 
 /**
  * Product controller for handling product catalog and details
@@ -296,7 +296,7 @@ class ProductController
     /**
      * Search products with filters and pagination
      */
-    public function search(RequestInterface $request): Response
+    public function search(ServerRequestInterface $request): Response
     {
         try {
             // Get search parameters from query string
@@ -346,7 +346,7 @@ class ProductController
     /**
      * Get search suggestions for autocomplete (AJAX endpoint)
      */
-    public function suggestions(RequestInterface $request): Response
+    public function suggestions(ServerRequestInterface $request): Response
     {
         try {
             $queryParams = $request->getUri()->getQuery();

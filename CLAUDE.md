@@ -107,10 +107,10 @@ php cli/test.php --coverage
 ### Development Server
 ```bash
 # Start development server
-php -S localhost:8000 -t public/
+php -S localhost:17000 -t public/
 
 # With specific environment
-APP_ENV=development php -S localhost:8000 -t public/
+APP_ENV=development php -S localhost:17000 -t public/
 ```
 
 ## Plugin Development

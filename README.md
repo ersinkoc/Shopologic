@@ -158,15 +158,15 @@ php cli/seed.php run
 
 5. **Start development server**
 ```bash
-php -S localhost:8000 -t public/
+php -S localhost:17000 -t public/
 ```
 
 ### Access Points
 
-- **Storefront**: http://localhost:8000
-- **Admin Panel**: http://localhost:8000/admin
-- **REST API**: http://localhost:8000/api/v1
-- **GraphQL**: http://localhost:8000/graphql
+- **Storefront**: http://localhost:17000
+- **Admin Panel**: http://localhost:17000/admin
+- **REST API**: http://localhost:17000/api/v1
+- **GraphQL**: http://localhost:17000/graphql
 
 ## 🛠️ Development Commands
 

@@ -27,8 +27,8 @@ class PluginServiceProvider extends ServiceProvider
         });
         
         // Register aliases
-        $this->container->alias('plugins', PluginManager::class);
-        $this->container->alias('hooks', HookSystem::class);
+        $this->container->alias(PluginManager::class, 'plugins');
+        $this->container->alias(HookSystem::class, 'hooks');
     }
 
     public function boot(): void
@@ -38,7 +38,7 @@ class PluginServiceProvider extends ServiceProvider
         HookSystem::setEventManager($eventManager);
         
         // Register WordPress-style global functions
-        $this->registerGlobalFunctions();
+        require_once __DIR__ . '/hooks.php';
         
         // Plugin loading will be done after application boot
         // to ensure all services are available

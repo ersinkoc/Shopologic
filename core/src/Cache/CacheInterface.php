@@ -18,4 +18,5 @@ interface CacheInterface
     public function forever(string $key, mixed $value): bool;
     public function forget(string $key): bool;
     public function flush(): bool;
+    public function tags(array $tags): self;
 }

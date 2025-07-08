@@ -339,7 +339,7 @@ class GraphQLServiceProvider extends ServiceProvider
                 window.addEventListener('load', function (event) {
                     GraphQLPlayground.init(document.getElementById('root'), {
                         endpoint: '/graphql',
-                        subscriptionEndpoint: 'ws://localhost:8000/graphql/subscriptions',
+                        subscriptionEndpoint: 'ws://localhost:17000/graphql/subscriptions',
                         settings: {
                             'request.credentials': 'include',
                             'editor.theme': 'dark',

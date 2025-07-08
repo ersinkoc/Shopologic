@@ -71,7 +71,7 @@ Configure your `.env` file:
 APP_NAME="Shopologic Development"
 APP_ENV=development
 APP_DEBUG=true
-APP_URL=http://localhost:8000
+APP_URL=http://localhost:17000
 
 # Database
 DB_CONNECTION=pgsql
@@ -117,10 +117,10 @@ php cli/seed.php run
 
 ### 6. Start Development Server
 ```bash
-php -S localhost:8000 -t public/
+php -S localhost:17000 -t public/
 ```
 
-Visit `http://localhost:8000` to see your Shopologic installation.
+Visit `http://localhost:17000` to see your Shopologic installation.
 
 ## 🏗️ Development Workflow
 
@@ -343,7 +343,7 @@ Key environment variables:
 # Application
 APP_ENV=development|production
 APP_DEBUG=true|false
-APP_URL=http://localhost:8000
+APP_URL=http://localhost:17000
 
 # Database
 DB_HOST=localhost

@@ -7,18 +7,18 @@ if (!function_exists('app')) {
      * Get the application instance or resolve a service from the container
      */
     function app($abstract = null) {
-        static $app = null;
+        // Always get fresh instance from global
+        global $SHOPOLOGIC_APP;
         
-        if ($app === null) {
-            global $SHOPOLOGIC_APP;
-            $app = $SHOPOLOGIC_APP;
+        if (!isset($SHOPOLOGIC_APP) || $SHOPOLOGIC_APP === null) {
+            throw new \RuntimeException('Application has not been bootstrapped yet.');
         }
         
         if ($abstract === null) {
-            return $app;
+            return $SHOPOLOGIC_APP;
         }
         
-        return $app->getContainer()->get($abstract);
+        return $SHOPOLOGIC_APP->getContainer()->get($abstract);
     }
 }
 
@@ -79,40 +79,6 @@ if (!function_exists('storage_path')) {
     }
 }
 
-if (!function_exists('app')) {
-    /**
-     * Get application instance or resolve from container
-     */
-    function app(?string $abstract = null): mixed {
-        static $app = null;
-        
-        if ($app === null) {
-            // Return a simple implementation for now
-            return new class {
-                private array $bindings = [];
-                
-                public function bind(string $abstract, mixed $concrete): void {
-                    $this->bindings[$abstract] = $concrete;
-                }
-                
-                public function make(string $abstract): mixed {
-                    if (isset($this->bindings[$abstract])) {
-                        $concrete = $this->bindings[$abstract];
-                        return is_callable($concrete) ? $concrete() : new $concrete;
-                    }
-                    
-                    return new $abstract;
-                }
-            };
-        }
-        
-        if ($abstract === null) {
-            return $app;
-        }
-        
-        return $app->make($abstract);
-    }
-}
 
 if (!function_exists('camel_case')) {
     function camel_case(string $value): string {

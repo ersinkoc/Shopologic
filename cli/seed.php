@@ -203,7 +203,7 @@ function seedStores(DatabaseManager $db): void
     $stores = [
         [
             'name' => 'Main Store',
-            'domain' => 'localhost:8000',
+            'domain' => 'localhost:17000',
             'code' => 'main',
             'is_active' => true,
             'settings' => json_encode([

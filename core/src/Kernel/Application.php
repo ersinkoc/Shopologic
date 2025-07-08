@@ -7,15 +7,19 @@ namespace Shopologic\Core\Kernel;
 use Shopologic\Core\Container\Container;
 use Shopologic\Core\Container\ServiceProvider;
 use Shopologic\Core\Events\EventManager;
+use Shopologic\Core\Events\PerformanceAwareEventManager;
 use Shopologic\Core\Configuration\ConfigurationManager;
+use Shopologic\Core\Kernel\EnvironmentDetector;
 use Shopologic\PSR\Container\ContainerInterface;
 use Shopologic\PSR\EventDispatcher\EventDispatcherInterface;
+use Shopologic\PSR\Log\LoggerInterface;
 
 class Application
 {
     private Container $container;
     private EventManager $eventManager;
     private ConfigurationManager $config;
+    private EnvironmentDetector $env;
     private array $serviceProviders = [];
     private array $loadedProviders = [];
     private bool $booted = false;
@@ -25,11 +29,23 @@ class Application
     public function __construct(string $basePath = null)
     {
         $this->basePath = $basePath ?: dirname(__DIR__, 3);
-        $this->environment = $_ENV['APP_ENV'] ?? 'production';
         
+        // Initialize environment detector first
+        $this->env = new EnvironmentDetector($this->basePath);
+        $this->environment = $this->env->getEnvironment();
+        
+        // Initialize container
         $this->container = new Container();
-        $this->eventManager = new EventManager();
-        $this->config = new ConfigurationManager($this->basePath);
+        
+        // Initialize event manager (use performance aware version if debug mode)
+        if ($this->env->isDebug()) {
+            $this->eventManager = new PerformanceAwareEventManager();
+        } else {
+            $this->eventManager = new EventManager();
+        }
+        
+        // Initialize configuration with environment
+        $this->config = new ConfigurationManager($this->basePath, $this->environment);
         
         $this->registerBaseBindings();
         $this->registerBaseServiceProviders();
@@ -126,17 +142,27 @@ class Application
 
     public function isProduction(): bool
     {
-        return $this->environment === 'production';
+        return $this->env->isProduction();
     }
 
     public function isDevelopment(): bool
     {
-        return $this->environment === 'development';
+        return $this->env->isDevelopment();
     }
 
     public function isTesting(): bool
     {
-        return $this->environment === 'testing';
+        return $this->env->isTesting();
+    }
+    
+    public function isDebug(): bool
+    {
+        return $this->env->isDebug();
+    }
+    
+    public function getEnv(): EnvironmentDetector
+    {
+        return $this->env;
     }
 
     private function registerBaseBindings(): void
@@ -147,14 +173,18 @@ class Application
         $this->container->instance(EventManager::class, $this->eventManager);
         $this->container->instance(EventDispatcherInterface::class, $this->eventManager);
         $this->container->instance(ConfigurationManager::class, $this->config);
+        $this->container->instance(EnvironmentDetector::class, $this->env);
         
         // Add some aliases
         $this->container->instance('app', $this);
         $this->container->instance('container', $this->container);
         $this->container->instance('events', $this->eventManager);
         $this->container->instance('config', $this->config);
+        $this->container->instance('env', $this->env);
         $this->container->instance('app.base_path', $this->basePath);
         $this->container->instance('app.env', $this->environment);
+        
+        // Logger will be injected later when LoggingServiceProvider is registered
     }
 
     private function registerBaseServiceProviders(): void
@@ -169,6 +199,8 @@ class Application
             \Shopologic\Core\Http\HttpServiceProvider::class,
             // Template can be loaded last
             \Shopologic\Core\Template\TemplateServiceProvider::class,
+            // Admin panel
+            \Shopologic\Core\Admin\AdminServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {

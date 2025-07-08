@@ -43,7 +43,7 @@ abstract class E2ETestCase
     protected function createBrowser(array $options = []): Browser
     {
         $defaultOptions = [
-            'baseUrl' => $this->config['base_url'] ?? 'http://localhost:8000',
+            'baseUrl' => $this->config['base_url'] ?? 'http://localhost:17000',
             'headless' => $this->config['headless'] ?? true,
             'viewport' => $options['viewport'] ?? ['width' => 1920, 'height' => 1080],
             'userAgent' => $options['userAgent'] ?? null,
@@ -174,7 +174,7 @@ abstract class E2ETestCase
         if (!file_exists($configFile)) {
             // Default configuration
             return [
-                'base_url' => getenv('E2E_BASE_URL') ?: 'http://localhost:8000',
+                'base_url' => getenv('E2E_BASE_URL') ?: 'http://localhost:17000',
                 'headless' => getenv('E2E_HEADLESS') !== 'false',
                 'timeout' => (int)(getenv('E2E_TIMEOUT') ?: 30),
                 'database' => [

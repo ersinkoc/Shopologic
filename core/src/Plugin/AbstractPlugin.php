@@ -6,7 +6,7 @@ namespace Shopologic\Core\Plugin;
 
 use Shopologic\Core\Container\Container;
 use Shopologic\Core\Database\DB;
-use Psr\Log\LoggerInterface;
+use Shopologic\PSR\Log\LoggerInterface;
 
 /**
  * Abstract base class for all Shopologic plugins

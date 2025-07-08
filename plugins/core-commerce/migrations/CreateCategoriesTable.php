@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 namespace Shopologic\Plugins\CoreCommerce;
-declare(strict_types=1);
+
 use Shopologic\Core\Database\Migration;
 use Shopologic\Core\Database\Schema\Schema;
 use Shopologic\Core\Database\Schema\Blueprint;

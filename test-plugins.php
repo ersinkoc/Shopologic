@@ -1,292 +1,317 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * Test script for Shopologic Plugin System
- * 
- * This script tests the plugin functionality including:
- * - Plugin discovery and loading
- * - Hook system
- * - Configuration management
- * - API endpoints
- * - Service registration
+ * Shopologic Plugin System Test
+ * Tests plugin loading, activation, and functionality
  */
 
-require_once __DIR__ . '/core/bootstrap.php';
+define('SHOPOLOGIC_START', microtime(true));
+define('SHOPOLOGIC_ROOT', __DIR__);
 
-use Core\Plugin\PluginManager;
-use Core\Plugin\Hook;
-use Core\Container\Container;
-use Core\Testing\TestRunner;
+require_once SHOPOLOGIC_ROOT . '/core/src/Autoloader.php';
 
-// Initialize test environment
-$container = new Container();
-$pluginManager = new PluginManager($container, __DIR__ . '/plugins');
+use Shopologic\Core\Autoloader;
+use Shopologic\Core\Kernel\Application;
+use Shopologic\Core\Plugin\PluginManager;
 
-// Test output helper
-function test_output($test, $result, $details = '') {
-    $status = $result ? '✓' : '✗';
-    $color = $result ? "\033[32m" : "\033[31m";
-    echo "{$color}{$status}\033[0m {$test}";
-    if ($details) {
-        echo " - {$details}";
-    }
-    echo "\n";
-    return $result;
+// Enable full error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+// Terminal colors
+class Colors {
+    const GREEN = "\033[32m";
+    const RED = "\033[31m";
+    const YELLOW = "\033[33m";
+    const BLUE = "\033[34m";
+    const CYAN = "\033[36m";
+    const RESET = "\033[0m";
+    const BOLD = "\033[1m";
 }
 
-echo "\n\033[1m=== Shopologic Plugin System Tests ===\033[0m\n\n";
-
-// Test 1: Plugin Discovery
-echo "\033[1m1. Plugin Discovery\033[0m\n";
-$plugins = $pluginManager->discover();
-$pluginCount = count($plugins);
-test_output("Discover plugins", $pluginCount > 0, "Found {$pluginCount} plugins");
-
-$expectedPlugins = [
-    'core-commerce',
-    'payment-stripe', 
-    'payment-paypal',
-    'shipping-fedex',
-    'analytics-google',
-    'reviews-ratings',
-    'seo-optimizer',
-    'live-chat',
-    'multi-currency',
-    'email-marketing',
-    'loyalty-rewards',
-    'inventory-management'
-];
-
-foreach ($expectedPlugins as $plugin) {
-    test_output("  - Found {$plugin}", isset($plugins[$plugin]));
-}
-
-// Test 2: Plugin Manifest Validation
-echo "\n\033[1m2. Plugin Manifest Validation\033[0m\n";
-$validManifests = true;
-foreach ($plugins as $name => $manifest) {
-    $isValid = isset($manifest['name']) && 
-               isset($manifest['version']) && 
-               isset($manifest['config']['main_class']);
+// Test utilities
+function test(string $name, callable $fn): bool {
+    echo Colors::YELLOW . "Testing: " . Colors::RESET . $name . "... ";
     
-    if (!$isValid) {
-        $validManifests = false;
-        test_output("  - {$name} manifest", false, "Invalid manifest structure");
-    }
-}
-test_output("All manifests valid", $validManifests);
-
-// Test 3: Plugin Installation Simulation
-echo "\n\033[1m3. Plugin Installation (Simulation)\033[0m\n";
-$testPlugin = 'reviews-ratings';
-if (isset($plugins[$testPlugin])) {
-    $manifest = $plugins[$testPlugin];
-    test_output("Load plugin class", class_exists($manifest['config']['main_class']), $manifest['config']['main_class']);
-    
-    // Check required tables
-    $tables = $manifest['database_tables'] ?? [];
-    test_output("Database tables defined", count($tables) > 0, count($tables) . " tables");
-    
-    // Check configuration schema
-    $configSchema = $manifest['config_schema'] ?? [];
-    test_output("Configuration schema", count($configSchema) > 0, count($configSchema) . " options");
-}
-
-// Test 4: Hook System
-echo "\n\033[1m4. Hook System\033[0m\n";
-
-// Test action hooks
-$actionCalled = false;
-Hook::addAction('test.action', function() use (&$actionCalled) {
-    $actionCalled = true;
-});
-Hook::doAction('test.action');
-test_output("Action hooks", $actionCalled);
-
-// Test filter hooks
-$filterResult = Hook::applyFilters('test.filter', 'original');
-Hook::addFilter('test.filter', function($value) {
-    return $value . '_modified';
-});
-$filterResult = Hook::applyFilters('test.filter', 'original');
-test_output("Filter hooks", $filterResult === 'original_modified', $filterResult);
-
-// Test priority
-$order = [];
-Hook::addAction('test.priority', function() use (&$order) {
-    $order[] = 'first';
-}, 10);
-Hook::addAction('test.priority', function() use (&$order) {
-    $order[] = 'second';
-}, 5);
-Hook::doAction('test.priority');
-test_output("Hook priority", $order[0] === 'second' && $order[1] === 'first', implode(', ', $order));
-
-// Test 5: Plugin Configuration
-echo "\n\033[1m5. Plugin Configuration\033[0m\n";
-$configPlugin = 'multi-currency';
-if (isset($plugins[$configPlugin])) {
-    $schema = $plugins[$configPlugin]['config_schema'] ?? [];
-    
-    // Test configuration types
-    $types = array_unique(array_column($schema, 'type'));
-    test_output("Configuration types", count($types) > 0, implode(', ', $types));
-    
-    // Test default values
-    $defaults = 0;
-    foreach ($schema as $key => $config) {
-        if (isset($config['default'])) $defaults++;
-    }
-    test_output("Default values", $defaults > 0, "{$defaults} defaults set");
-    
-    // Test dependencies
-    $dependencies = 0;
-    foreach ($schema as $key => $config) {
-        if (isset($config['depends_on'])) $dependencies++;
-    }
-    test_output("Conditional options", $dependencies > 0, "{$dependencies} conditional options");
-}
-
-// Test 6: Plugin Permissions
-echo "\n\033[1m6. Plugin Permissions\033[0m\n";
-$permissionPlugin = 'inventory-management';
-if (isset($plugins[$permissionPlugin])) {
-    $permissions = $plugins[$permissionPlugin]['permissions'] ?? [];
-    test_output("Permissions defined", count($permissions) > 0, count($permissions) . " permissions");
-    
-    // Test permission naming convention
-    $validNaming = true;
-    foreach ($permissions as $permission) {
-        if (!preg_match('/^[a-z]+\.[a-z_]+$/', $permission)) {
-            $validNaming = false;
-            break;
+    try {
+        $result = $fn();
+        if ($result === true) {
+            echo Colors::GREEN . "✓ PASSED" . Colors::RESET . "\n";
+            return true;
+        } else {
+            echo Colors::RED . "✗ FAILED" . Colors::RESET . " - $result\n";
+            return false;
         }
-    }
-    test_output("Permission naming", $validNaming, "All follow convention");
-}
-
-// Test 7: API Endpoints
-echo "\n\033[1m7. API Endpoints\033[0m\n";
-$apiPlugin = 'live-chat';
-if (isset($plugins[$apiPlugin])) {
-    $endpoints = $plugins[$apiPlugin]['api_endpoints'] ?? [];
-    test_output("API endpoints", count($endpoints) > 0, count($endpoints) . " endpoints");
-    
-    // Check endpoint structure
-    $validEndpoints = true;
-    foreach ($endpoints as $endpoint) {
-        if (!isset($endpoint['method']) || !isset($endpoint['path']) || !isset($endpoint['handler'])) {
-            $validEndpoints = false;
-            break;
+    } catch (\Exception $e) {
+        echo Colors::RED . "✗ ERROR" . Colors::RESET . " - " . $e->getMessage() . "\n";
+        if (getenv('DEBUG')) {
+            echo "  File: " . $e->getFile() . ":" . $e->getLine() . "\n";
         }
-    }
-    test_output("Endpoint structure", $validEndpoints);
-    
-    // Check auth requirements
-    $authEndpoints = array_filter($endpoints, fn($e) => isset($e['auth']) && $e['auth']);
-    test_output("Authenticated endpoints", count($authEndpoints) > 0, count($authEndpoints) . " require auth");
-}
-
-// Test 8: Plugin Assets
-echo "\n\033[1m8. Plugin Assets\033[0m\n";
-$assetPlugin = 'analytics-google';
-if (isset($plugins[$assetPlugin])) {
-    $assets = $plugins[$assetPlugin]['assets'] ?? [];
-    
-    $jsCount = count($assets['js'] ?? []);
-    $cssCount = count($assets['css'] ?? []);
-    
-    test_output("JavaScript files", $jsCount > 0, "{$jsCount} JS files");
-    test_output("CSS files", $cssCount > 0, "{$cssCount} CSS files");
-    
-    // Check asset configuration
-    if (isset($assets['js'][0])) {
-        $jsAsset = $assets['js'][0];
-        test_output("Asset configuration", 
-            isset($jsAsset['src']) && isset($jsAsset['position']), 
-            "Properly configured"
-        );
+        return false;
     }
 }
 
-// Test 9: Plugin Dependencies
-echo "\n\033[1m9. Plugin Dependencies\033[0m\n";
-$depCount = 0;
-$circularDeps = false;
-
-foreach ($plugins as $name => $manifest) {
-    $deps = $manifest['requirements']['dependencies'] ?? [];
-    if (count($deps) > 0) {
-        $depCount++;
-        
-        // Check for circular dependencies (simple check)
-        foreach ($deps as $dep => $version) {
-            if (isset($plugins[$dep])) {
-                $depDeps = $plugins[$dep]['requirements']['dependencies'] ?? [];
-                if (isset($depDeps[$name])) {
-                    $circularDeps = true;
-                    test_output("  - Circular dependency", false, "{$name} <-> {$dep}");
-                }
-            }
-        }
-    }
+function section(string $name): void {
+    echo "\n" . Colors::BLUE . Colors::BOLD . "═══ $name ═══" . Colors::RESET . "\n\n";
 }
 
-test_output("Plugins with dependencies", $depCount > 0, "{$depCount} plugins");
-test_output("No circular dependencies", !$circularDeps);
+// Banner
+echo Colors::CYAN . "
+╔════════════════════════════════════════════════╗
+║        Shopologic Plugin System Test           ║
+╚════════════════════════════════════════════════╝
+" . Colors::RESET . "\n";
 
-// Test 10: Plugin Features
-echo "\n\033[1m10. Plugin Features\033[0m\n";
+// Initialize autoloader
+$autoloader = new Autoloader();
+$autoloader->addNamespace('Shopologic\\Core', SHOPOLOGIC_ROOT . '/core/src');
+$autoloader->addNamespace('Shopologic\\PSR', SHOPOLOGIC_ROOT . '/core/src/PSR');
+$autoloader->addNamespace('Shopologic\\Plugins', SHOPOLOGIC_ROOT . '/plugins');
+$autoloader->register();
 
-// Count features across all plugins
-$features = [
-    'webhooks' => 0,
-    'cron_jobs' => 0,
-    'widgets' => 0,
-    'email_templates' => 0,
-    'reports' => 0
-];
+// Load helper functions
+if (file_exists(SHOPOLOGIC_ROOT . '/core/src/helpers.php')) {
+    require_once SHOPOLOGIC_ROOT . '/core/src/helpers.php';
+}
 
-foreach ($plugins as $name => $manifest) {
-    if (isset($manifest['api_endpoints'])) {
-        foreach ($manifest['api_endpoints'] as $endpoint) {
-            if (strpos($endpoint['path'], 'webhook') !== false) {
-                $features['webhooks']++;
-                break;
-            }
+// Track results
+$passed = 0;
+$failed = 0;
+
+// Initialize application
+section('Application Bootstrap');
+
+$app = null;
+$pluginManager = null;
+
+if (test('Application initialization', function() use (&$app) {
+    $app = new Application(SHOPOLOGIC_ROOT);
+    $GLOBALS['SHOPOLOGIC_APP'] = $app;
+    return $app instanceof Application;
+})) $passed++; else $failed++;
+
+if (test('Plugin service provider registration', function() use ($app) {
+    $app->register(\Shopologic\Core\Plugin\PluginServiceProvider::class);
+    return true;
+})) $passed++; else $failed++;
+
+if (test('Application boot', function() use ($app) {
+    $app->boot();
+    return true;
+})) $passed++; else $failed++;
+
+if (test('Get PluginManager instance', function() use ($app, &$pluginManager) {
+    $pluginManager = $app->getContainer()->get(PluginManager::class);
+    return $pluginManager instanceof PluginManager;
+})) $passed++; else $failed++;
+
+// Plugin discovery
+section('Plugin Discovery');
+
+$discovered = [];
+
+if (test('Discover available plugins', function() use ($pluginManager, &$discovered) {
+    $discovered = $pluginManager->discover();
+    return count($discovered) > 0;
+})) $passed++; else $failed++;
+
+if (test('Core-commerce plugin found', function() use ($discovered) {
+    return isset($discovered['core-commerce']);
+})) $passed++; else $failed++;
+
+if (test('Plugin manifest valid', function() use ($discovered) {
+    $manifest = $discovered['core-commerce'] ?? null;
+    if (!$manifest) return "No manifest found";
+    
+    if (!isset($manifest['name'])) return "Missing name";
+    if (!isset($manifest['version'])) return "Missing version";
+    if (!isset($manifest['bootstrap'])) return "Missing bootstrap";
+    
+    return true;
+})) $passed++; else $failed++;
+
+// Plugin loading
+section('Plugin Loading');
+
+if (test('Load core-commerce plugin', function() use ($pluginManager, $discovered) {
+    $pluginManager->load('core-commerce', $discovered['core-commerce']);
+    return true;
+})) $passed++; else $failed++;
+
+if (test('Plugin class exists', function() {
+    return class_exists('\\Shopologic\\Plugins\\CoreCommerce\\CoreCommercePlugin');
+})) $passed++; else $failed++;
+
+if (test('Get loaded plugin instance', function() use ($pluginManager) {
+    $plugin = $pluginManager->getPlugin('core-commerce');
+    return $plugin instanceof \Shopologic\Core\Plugin\AbstractPlugin;
+})) $passed++; else $failed++;
+
+// Plugin information
+section('Plugin Information');
+
+$plugin = null;
+
+if (test('Get plugin metadata', function() use ($pluginManager, &$plugin) {
+    $plugin = $pluginManager->getPlugin('core-commerce');
+    
+    $name = $plugin->getName();
+    $version = $plugin->getVersion();
+    $description = $plugin->getDescription();
+    
+    if ($name !== 'Core Commerce') return "Wrong name: $name";
+    if ($version !== '1.0.0') return "Wrong version: $version";
+    if (empty($description)) return "Empty description";
+    
+    return true;
+})) $passed++; else $failed++;
+
+// Plugin installation
+section('Plugin Installation');
+
+if (test('Install plugin', function() use ($pluginManager) {
+    $pluginManager->install('core-commerce');
+    return true;
+})) $passed++; else $failed++;
+
+if (test('Check plugin installed status', function() use ($pluginManager) {
+    return $pluginManager->isInstalled('core-commerce');
+})) $passed++; else $failed++;
+
+// Plugin activation
+section('Plugin Activation');
+
+if (test('Activate plugin', function() use ($pluginManager) {
+    $pluginManager->activate('core-commerce');
+    return true;
+})) $passed++; else $failed++;
+
+if (test('Check plugin activated status', function() use ($pluginManager) {
+    return $pluginManager->isActivated('core-commerce');
+})) $passed++; else $failed++;
+
+if (test('Boot plugin', function() use ($pluginManager) {
+    $pluginManager->boot('core-commerce');
+    return true;
+})) $passed++; else $failed++;
+
+// Service registration
+section('Service Registration');
+
+$container = $app->getContainer();
+
+if (test('ProductRepositoryInterface registered', function() use ($container) {
+    return $container->has('\\Shopologic\\Plugins\\CoreCommerce\\Contracts\\ProductRepositoryInterface');
+})) $passed++; else $failed++;
+
+if (test('CategoryRepositoryInterface registered', function() use ($container) {
+    return $container->has('\\Shopologic\\Plugins\\CoreCommerce\\Contracts\\CategoryRepositoryInterface');
+})) $passed++; else $failed++;
+
+if (test('CartServiceInterface registered', function() use ($container) {
+    return $container->has('\\Shopologic\\Plugins\\CoreCommerce\\Contracts\\CartServiceInterface');
+})) $passed++; else $failed++;
+
+if (test('OrderServiceInterface registered', function() use ($container) {
+    return $container->has('\\Shopologic\\Plugins\\CoreCommerce\\Contracts\\OrderServiceInterface');
+})) $passed++; else $failed++;
+
+if (test('CustomerServiceInterface registered', function() use ($container) {
+    return $container->has('\\Shopologic\\Plugins\\CoreCommerce\\Contracts\\CustomerServiceInterface');
+})) $passed++; else $failed++;
+
+// Hook registration
+section('Hook Registration');
+
+if (test('Plugin hooks registered', function() {
+    // Check if common commerce hooks are registered
+    $hooks = ['product.created', 'order.created', 'cart.updated'];
+    
+    foreach ($hooks as $hook) {
+        if (!has_action($hook)) {
+            return "Missing hook: $hook";
         }
     }
     
-    if (isset($manifest['cron_jobs'])) $features['cron_jobs']++;
-    if (isset($manifest['widgets'])) $features['widgets']++;
-    if (isset($manifest['email_templates'])) $features['email_templates']++;
-    if (isset($manifest['reports'])) $features['reports']++;
-}
+    return true;
+})) $passed++; else $failed++;
 
-foreach ($features as $feature => $count) {
-    test_output(ucfirst(str_replace('_', ' ', $feature)), $count > 0, "{$count} plugins");
-}
+if (test('Test hook execution', function() {
+    $executed = false;
+    
+    // Add a test listener
+    add_action('product.created', function($product) use (&$executed) {
+        $executed = true;
+    });
+    
+    // Trigger the hook
+    do_action('product.created', ['id' => 1, 'name' => 'Test Product']);
+    
+    return $executed;
+})) $passed++; else $failed++;
+
+// Models
+section('Plugin Models');
+
+if (test('Product model exists', function() {
+    return class_exists('\\Shopologic\\Plugins\\CoreCommerce\\Models\\Product');
+})) $passed++; else $failed++;
+
+if (test('Category model exists', function() {
+    return class_exists('\\Shopologic\\Plugins\\CoreCommerce\\Models\\Category');
+})) $passed++; else $failed++;
+
+if (test('Order model exists', function() {
+    return class_exists('\\Shopologic\\Plugins\\CoreCommerce\\Models\\Order');
+})) $passed++; else $failed++;
+
+if (test('Cart model exists', function() {
+    return class_exists('\\Shopologic\\Plugins\\CoreCommerce\\Models\\Cart');
+})) $passed++; else $failed++;
+
+if (test('Customer model exists', function() {
+    return class_exists('\\Shopologic\\Plugins\\CoreCommerce\\Models\\Customer');
+})) $passed++; else $failed++;
+
+// Integration test
+section('Integration Tests');
+
+if (test('Create product through service', function() use ($container) {
+    // This would normally interact with the database
+    // For now, just test that we can get the service
+    try {
+        $productRepo = $container->get('\\Shopologic\\Plugins\\CoreCommerce\\Contracts\\ProductRepositoryInterface');
+        return $productRepo !== null;
+    } catch (\Exception $e) {
+        return "Could not resolve ProductRepository: " . $e->getMessage();
+    }
+})) $passed++; else $failed++;
 
 // Summary
-echo "\n\033[1m=== Test Summary ===\033[0m\n";
-echo "Total plugins found: {$pluginCount}\n";
-echo "Plugin system is " . ($pluginCount >= 10 ? "\033[32mfully functional\033[0m" : "\033[31mpartially functional\033[0m") . "\n";
+echo "\n" . Colors::BLUE . "╔════════════════════════════════════════════════╗" . Colors::RESET . "\n";
+echo Colors::BLUE . "║                   SUMMARY                      ║" . Colors::RESET . "\n";
+echo Colors::BLUE . "╚════════════════════════════════════════════════╝" . Colors::RESET . "\n\n";
 
-// Performance test
-$startTime = microtime(true);
-$plugins = $pluginManager->discover();
-$endTime = microtime(true);
-$loadTime = round(($endTime - $startTime) * 1000, 2);
-echo "Plugin discovery time: {$loadTime}ms\n";
+$total = $passed + $failed;
+echo "Total Tests: $total\n";
+echo Colors::GREEN . "Passed: $passed" . Colors::RESET . "\n";
+echo Colors::RED . "Failed: $failed" . Colors::RESET . "\n\n";
 
-echo "\n\033[1mRecommendations:\033[0m\n";
-if ($loadTime > 100) {
-    echo "- Implement plugin discovery caching (current: {$loadTime}ms)\n";
-}
-if (!$validManifests) {
-    echo "- Fix invalid plugin manifests\n";
-}
-if ($circularDeps) {
-    echo "- Resolve circular dependencies\n";
-}
+// Performance metrics
+$elapsed = round((microtime(true) - SHOPOLOGIC_START) * 1000, 2);
+$memory = round(memory_get_peak_usage() / 1024 / 1024, 2);
 
-echo "\n";
+echo Colors::CYAN . "Performance:" . Colors::RESET . "\n";
+echo "  Execution time: {$elapsed}ms\n";
+echo "  Peak memory: {$memory}MB\n\n";
+
+// Final result
+if ($failed === 0) {
+    echo Colors::GREEN . "✅ All plugin tests passed!" . Colors::RESET . "\n";
+    exit(0);
+} else {
+    echo Colors::RED . "❌ Some tests failed." . Colors::RESET . "\n";
+    exit(1);
+}

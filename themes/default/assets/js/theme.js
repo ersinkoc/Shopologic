@@ -1,255 +1,268 @@
-/**
- * Shopologic Default Theme JavaScript
- */
+// Default Theme JavaScript
 
 (function() {
     'use strict';
 
-    // Theme object
-    const ShopologicTheme = {
-        // Initialize theme
-        init: function() {
-            this.initMobileMenu();
-            this.initSearch();
-            this.initMiniCart();
-            this.initProductCards();
-            this.initNewsletter();
-            this.initSmoothScroll();
-            
-            // Trigger custom event
-            document.dispatchEvent(new CustomEvent('shopologic-theme-init'));
+    // Shopping Cart functionality
+    const cart = {
+        items: [],
+        total: 0,
+        
+        init() {
+            this.loadFromStorage();
+            this.updateUI();
+            this.bindEvents();
         },
-
-        // Mobile menu toggle
-        initMobileMenu: function() {
-            const menuToggle = document.createElement('button');
-            menuToggle.className = 'mobile-menu-toggle';
-            menuToggle.innerHTML = '<span></span><span></span><span></span>';
-            menuToggle.setAttribute('aria-label', 'Toggle navigation');
-            
-            const mainNav = document.querySelector('.main-navigation');
-            if (mainNav) {
-                mainNav.prepend(menuToggle);
-                
-                menuToggle.addEventListener('click', function() {
-                    mainNav.classList.toggle('is-open');
-                    menuToggle.classList.toggle('is-active');
-                });
+        
+        loadFromStorage() {
+            const savedCart = localStorage.getItem('shopologic_cart');
+            if (savedCart) {
+                const data = JSON.parse(savedCart);
+                this.items = data.items || [];
+                this.total = data.total || 0;
             }
         },
-
-        // Enhanced search functionality
-        initSearch: function() {
-            const searchForm = document.querySelector('.search-form');
-            const searchInput = document.querySelector('.search-input');
-            
-            if (searchForm && searchInput) {
-                // Auto-complete placeholder
-                const placeholders = [
-                    'Search for products...',
-                    'Find what you need...',
-                    'Discover amazing deals...'
-                ];
-                let currentIndex = 0;
-                
-                setInterval(function() {
-                    currentIndex = (currentIndex + 1) % placeholders.length;
-                    searchInput.setAttribute('placeholder', placeholders[currentIndex]);
-                }, 3000);
-                
-                // Search suggestions (would connect to API)
-                searchInput.addEventListener('input', debounce(function(e) {
-                    const query = e.target.value;
-                    if (query.length > 2) {
-                        // Fetch suggestions
-                        console.log('Fetching suggestions for:', query);
-                    }
-                }, 300));
-            }
+        
+        saveToStorage() {
+            localStorage.setItem('shopologic_cart', JSON.stringify({
+                items: this.items,
+                total: this.total
+            }));
         },
-
-        // Mini cart interactions
-        initMiniCart: function() {
-            const miniCart = document.querySelector('.mini-cart');
+        
+        addItem(product) {
+            const existingItem = this.items.find(item => item.id === product.id);
             
-            if (miniCart) {
-                // Add hover preview
-                let cartPreview = null;
-                
-                miniCart.addEventListener('mouseenter', function() {
-                    // Show cart preview
-                    if (!cartPreview) {
-                        cartPreview = document.createElement('div');
-                        cartPreview.className = 'cart-preview';
-                        cartPreview.innerHTML = '<div class="loading">Loading cart...</div>';
-                        miniCart.appendChild(cartPreview);
-                        
-                        // Fetch cart contents
-                        setTimeout(function() {
-                            cartPreview.innerHTML = `
-                                <div class="cart-preview-items">
-                                    <p>Your cart is empty</p>
-                                </div>
-                                <div class="cart-preview-actions">
-                                    <a href="/cart" class="btn btn-primary">View Cart</a>
-                                </div>
-                            `;
-                        }, 500);
-                    }
-                });
-                
-                miniCart.addEventListener('mouseleave', function() {
-                    if (cartPreview) {
-                        setTimeout(function() {
-                            if (cartPreview) {
-                                cartPreview.remove();
-                                cartPreview = null;
-                            }
-                        }, 300);
-                    }
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                this.items.push({
+                    ...product,
+                    quantity: 1
                 });
             }
-        },
-
-        // Product card interactions
-        initProductCards: function() {
-            const productCards = document.querySelectorAll('.product-card');
             
-            productCards.forEach(function(card) {
-                // Quick view on hover
-                const quickView = document.createElement('div');
-                quickView.className = 'quick-view';
-                quickView.innerHTML = '<button class="quick-view-btn">Quick View</button>';
-                card.appendChild(quickView);
+            this.calculateTotal();
+            this.saveToStorage();
+            this.updateUI();
+            this.showNotification('Product added to cart');
+        },
+        
+        removeItem(productId) {
+            this.items = this.items.filter(item => item.id !== productId);
+            this.calculateTotal();
+            this.saveToStorage();
+            this.updateUI();
+        },
+        
+        updateQuantity(productId, quantity) {
+            const item = this.items.find(item => item.id === productId);
+            if (item) {
+                item.quantity = Math.max(1, quantity);
+                this.calculateTotal();
+                this.saveToStorage();
+                this.updateUI();
+            }
+        },
+        
+        calculateTotal() {
+            this.total = this.items.reduce((sum, item) => {
+                return sum + (item.price * item.quantity);
+            }, 0);
+        },
+        
+        updateUI() {
+            // Update cart count
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                const itemCount = this.items.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = itemCount;
+                cartCount.style.display = itemCount > 0 ? 'flex' : 'none';
+            }
+            
+            // Update cart dropdown or page if exists
+            this.updateCartDisplay();
+        },
+        
+        updateCartDisplay() {
+            const cartDisplay = document.querySelector('.cart-items');
+            if (!cartDisplay) return;
+            
+            if (this.items.length === 0) {
+                cartDisplay.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+                return;
+            }
+            
+            const itemsHTML = this.items.map(item => `
+                <div class="cart-item" data-product-id="${item.id}">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn minus" data-product-id="${item.id}">-</button>
+                        <input type="number" value="${item.quantity}" min="1" class="quantity-input" data-product-id="${item.id}">
+                        <button class="quantity-btn plus" data-product-id="${item.id}">+</button>
+                    </div>
+                    <button class="cart-item-remove" data-product-id="${item.id}">×</button>
+                </div>
+            `).join('');
+            
+            cartDisplay.innerHTML = itemsHTML;
+            
+            // Update total
+            const cartTotal = document.querySelector('.cart-total-amount');
+            if (cartTotal) {
+                cartTotal.textContent = `$${this.total.toFixed(2)}`;
+            }
+        },
+        
+        bindEvents() {
+            // Add to cart buttons
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-add-to-cart')) {
+                    e.preventDefault();
+                    const productCard = e.target.closest('.product-card');
+                    if (productCard) {
+                        const product = {
+                            id: productCard.dataset.productId,
+                            name: productCard.querySelector('.product-title').textContent,
+                            price: parseFloat(productCard.querySelector('.product-price').textContent.replace('$', '')),
+                            image: productCard.querySelector('.product-image').src
+                        };
+                        this.addItem(product);
+                    }
+                }
                 
-                // Add to cart AJAX
-                const addToCartBtn = card.querySelector('.add-to-cart');
-                if (addToCartBtn) {
-                    addToCartBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        
-                        const btn = this;
-                        const originalText = btn.textContent;
-                        
-                        // Show loading state
-                        btn.textContent = 'Adding...';
-                        btn.disabled = true;
-                        
-                        // Simulate AJAX request
-                        setTimeout(function() {
-                            btn.textContent = 'Added!';
-                            btn.classList.add('success');
-                            
-                            // Update mini cart count
-                            const cartCount = document.querySelector('.cart-count');
-                            if (cartCount) {
-                                const currentCount = parseInt(cartCount.textContent) || 0;
-                                cartCount.textContent = currentCount + 1;
-                            }
-                            
-                            // Reset button
-                            setTimeout(function() {
-                                btn.textContent = originalText;
-                                btn.disabled = false;
-                                btn.classList.remove('success');
-                            }, 2000);
-                        }, 1000);
-                    });
+                // Remove from cart
+                if (e.target.classList.contains('cart-item-remove')) {
+                    const productId = e.target.dataset.productId;
+                    this.removeItem(productId);
+                }
+                
+                // Quantity buttons
+                if (e.target.classList.contains('quantity-btn')) {
+                    const productId = e.target.dataset.productId;
+                    const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+                    let quantity = parseInt(input.value);
+                    
+                    if (e.target.classList.contains('plus')) {
+                        quantity += 1;
+                    } else if (e.target.classList.contains('minus')) {
+                        quantity -= 1;
+                    }
+                    
+                    this.updateQuantity(productId, quantity);
+                }
+            });
+            
+            // Quantity input change
+            document.addEventListener('change', (e) => {
+                if (e.target.classList.contains('quantity-input')) {
+                    const productId = e.target.dataset.productId;
+                    const quantity = parseInt(e.target.value);
+                    this.updateQuantity(productId, quantity);
                 }
             });
         },
-
-        // Newsletter form
-        initNewsletter: function() {
-            const newsletterForms = document.querySelectorAll('.newsletter-form');
+        
+        showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
             
-            newsletterForms.forEach(function(form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const emailInput = form.querySelector('input[type="email"]');
-                    const submitBtn = form.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.textContent;
-                    
-                    // Validate email
-                    if (!emailInput.value || !emailInput.validity.valid) {
-                        emailInput.classList.add('error');
-                        return;
-                    }
-                    
-                    // Show loading
-                    submitBtn.textContent = 'Subscribing...';
-                    submitBtn.disabled = true;
-                    
-                    // Simulate AJAX
-                    setTimeout(function() {
-                        submitBtn.textContent = 'Subscribed!';
-                        submitBtn.classList.add('success');
-                        emailInput.value = '';
-                        
-                        // Show success message
-                        const successMsg = document.createElement('div');
-                        successMsg.className = 'newsletter-success';
-                        successMsg.textContent = 'Thank you for subscribing!';
-                        form.appendChild(successMsg);
-                        
-                        // Reset
-                        setTimeout(function() {
-                            submitBtn.textContent = originalText;
-                            submitBtn.disabled = false;
-                            submitBtn.classList.remove('success');
-                            successMsg.remove();
-                        }, 3000);
-                    }, 1500);
-                });
-            });
-        },
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    };
 
-        // Smooth scroll for anchor links
-        initSmoothScroll: function() {
-            document.addEventListener('click', function(e) {
-                const link = e.target.closest('a[href^="#"]');
-                if (link) {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href').slice(1);
-                    const target = document.getElementById(targetId);
-                    
-                    if (target) {
-                        const headerHeight = document.querySelector('.site-header').offsetHeight;
-                        const targetPosition = target.offsetTop - headerHeight - 20;
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
+    // Mobile menu toggle
+    const mobileMenu = {
+        init() {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                });
+            }
+        }
+    };
+
+    // Product image gallery
+    const productGallery = {
+        init() {
+            const mainImage = document.querySelector('.product-main-image');
+            const thumbnails = document.querySelectorAll('.product-thumbnail');
+            
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    if (mainImage) {
+                        mainImage.src = thumb.dataset.fullImage;
+                        thumbnails.forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
                     }
-                }
+                });
             });
         }
     };
 
-    // Utility functions
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
+    // Search functionality
+    const search = {
+        init() {
+            const searchForm = document.querySelector('.search-form');
+            const searchInput = document.querySelector('.search-input');
+            
+            if (searchForm) {
+                searchForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                    }
+                });
+            }
+        }
+    };
 
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            ShopologicTheme.init();
-        });
-    } else {
-        ShopologicTheme.init();
-    }
+    // Initialize all modules when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        cart.init();
+        mobileMenu.init();
+        productGallery.init();
+        search.init();
+        
+        // Lazy load images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.add('loaded');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+    });
 
-    // Export for use in other scripts
-    window.ShopologicTheme = ShopologicTheme;
+    // Make cart available globally
+    window.ShopologicCart = cart;
 })();

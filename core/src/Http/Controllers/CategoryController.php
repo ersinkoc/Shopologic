@@ -9,7 +9,7 @@ use Shopologic\Core\Http\Request;
 use Shopologic\Core\Http\Response;
 use Shopologic\Core\Http\Stream;
 use Shopologic\Core\Search\SearchService;
-use Psr\Http\Message\RequestInterface;
+use Shopologic\PSR\Http\Message\ServerRequestInterface;
 
 /**
  * Category controller for handling product categories and filtering
@@ -28,7 +28,7 @@ class CategoryController
     /**
      * Display all categories
      */
-    public function index(RequestInterface $request): Response
+    public function index(ServerRequestInterface $request): Response
     {
         try {
             $categories = $this->searchService->getCategories();
@@ -74,7 +74,7 @@ class CategoryController
     /**
      * Display products in a specific category
      */
-    public function show(RequestInterface $request, string $categorySlug): Response
+    public function show(ServerRequestInterface $request, string $categorySlug): Response
     {
         try {
             $categories = $this->searchService->getCategories();

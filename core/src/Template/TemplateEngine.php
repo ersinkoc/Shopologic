@@ -359,7 +359,7 @@ class TemplateEngine
     {
         $getBaseUrl = function(): string {
             $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-            $host = $_SERVER['HTTP_HOST'] ?? 'localhost:8000';
+            $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
             return $protocol . '://' . $host;
         };
         
@@ -620,7 +620,7 @@ class TemplateEngine
     private function getBaseUrl(): string
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost:8000';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
         
         return $protocol . '://' . $host;
     }

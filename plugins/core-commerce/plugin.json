@@ -14,7 +14,7 @@
     },
     "bootstrap": {
         "class": "CoreCommercePlugin",
-        "file": "CoreCommercePlugin.php"
+        "file": "src/CoreCommercePlugin.php"
     },
     "provides": [
         "ProductRepositoryInterface",

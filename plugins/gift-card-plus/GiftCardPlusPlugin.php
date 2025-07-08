@@ -432,35 +432,11 @@ class GiftCardPlusPlugin extends AbstractPlugin
     }
 
     /**
-     * Register Services
-     */
-    protected function registerServices(): void
-    {
-        // TODO: Implement registerServices
-    }
-
-    /**
      * Register EventListeners
      */
     protected function registerEventListeners(): void
     {
         // TODO: Implement registerEventListeners
-    }
-
-    /**
-     * Register Hooks
-     */
-    protected function registerHooks(): void
-    {
-        // TODO: Implement registerHooks
-    }
-
-    /**
-     * Register Routes
-     */
-    protected function registerRoutes(): void
-    {
-        // TODO: Implement registerRoutes
     }
 
     /**

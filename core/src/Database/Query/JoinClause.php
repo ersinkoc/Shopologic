@@ -4,92 +4,122 @@ declare(strict_types=1);
 
 namespace Shopologic\Core\Database\Query;
 
+/**
+ * Join Clause Builder
+ * 
+ * Represents a JOIN clause with support for complex conditions
+ */
 class JoinClause
 {
-    public Builder $query;
     public string $type;
     public string $table;
     public array $clauses = [];
-    public array $bindings = [];
-
-    public function __construct(Builder $query, string $type, string $table)
+    
+    public function __construct(string $type, string $table)
     {
-        $this->query = $query;
         $this->type = $type;
         $this->table = $table;
     }
-
-    public function on($first, ?string $operator = null, $second = null, string $boolean = 'and'): self
+    
+    /**
+     * Add an ON condition
+     */
+    public function on(string $first, string $operator, string $second, string $boolean = 'and'): self
     {
-        if ($first instanceof \Closure) {
-            return $this->whereNested($first, $boolean);
-        }
+        $this->clauses[] = [
+            'type' => 'on',
+            'first' => $first,
+            'operator' => $operator,
+            'second' => $second,
+            'boolean' => $boolean
+        ];
         
-        return $this->whereColumn($first, $operator, $second, $boolean);
+        return $this;
     }
-
-    public function orOn($first, ?string $operator = null, $second = null): self
+    
+    /**
+     * Add an OR ON condition
+     */
+    public function orOn(string $first, string $operator, string $second): self
     {
         return $this->on($first, $operator, $second, 'or');
     }
-
-    public function where($first, ?string $operator = null, $second = null, string $boolean = 'and'): self
-    {
-        if ($first instanceof \Closure) {
-            return $this->whereNested($first, $boolean);
-        }
-        
-        $this->clauses[] = [
-            'first' => $first,
-            'operator' => $operator,
-            'second' => $second,
-            'boolean' => $boolean,
-            'where' => true,
-        ];
-        
-        $this->bindings[] = $second;
-        
-        return $this;
-    }
-
-    public function orWhere($first, ?string $operator = null, $second = null): self
-    {
-        return $this->where($first, $operator, $second, 'or');
-    }
-
-    public function whereColumn($first, ?string $operator = null, $second = null, string $boolean = 'and'): self
+    
+    /**
+     * Add a WHERE condition to the join
+     */
+    public function where(string $column, string $operator, $value, string $boolean = 'and'): self
     {
         $this->clauses[] = [
-            'first' => $first,
+            'type' => 'where',
+            'column' => $column,
             'operator' => $operator,
-            'second' => $second,
-            'boolean' => $boolean,
-            'where' => false,
+            'value' => $value,
+            'boolean' => $boolean
         ];
         
         return $this;
     }
-
-    public function orWhereColumn($first, ?string $operator = null, $second = null): self
+    
+    /**
+     * Add an OR WHERE condition
+     */
+    public function orWhere(string $column, string $operator, $value): self
     {
-        return $this->whereColumn($first, $operator, $second, 'or');
+        return $this->where($column, $operator, $value, 'or');
     }
-
-    protected function whereNested(\Closure $callback, string $boolean = 'and'): self
+    
+    /**
+     * Add a WHERE IN condition
+     */
+    public function whereIn(string $column, array $values, string $boolean = 'and'): self
     {
-        $join = new static($this->query, $this->type, $this->table);
+        $this->clauses[] = [
+            'type' => 'whereIn',
+            'column' => $column,
+            'values' => $values,
+            'boolean' => $boolean
+        ];
         
+        return $this;
+    }
+    
+    /**
+     * Add a WHERE NULL condition
+     */
+    public function whereNull(string $column, string $boolean = 'and', bool $not = false): self
+    {
+        $this->clauses[] = [
+            'type' => 'whereNull',
+            'column' => $column,
+            'boolean' => $boolean,
+            'not' => $not
+        ];
+        
+        return $this;
+    }
+    
+    /**
+     * Add a WHERE NOT NULL condition
+     */
+    public function whereNotNull(string $column, string $boolean = 'and'): self
+    {
+        return $this->whereNull($column, $boolean, true);
+    }
+    
+    /**
+     * Add a nested condition group
+     */
+    public function nested(\Closure $callback, string $boolean = 'and'): self
+    {
+        $join = new self($this->type, $this->table);
         $callback($join);
         
-        if (count($join->clauses)) {
-            $this->clauses[] = [
-                'type' => 'Nested',
-                'clauses' => $join->clauses,
-                'boolean' => $boolean,
-            ];
-            
-            $this->bindings = array_merge($this->bindings, $join->bindings);
-        }
+        $this->clauses[] = [
+            'type' => 'nested',
+            'join' => $join,
+            'boolean' => $boolean
+        ];
         
         return $this;
     }

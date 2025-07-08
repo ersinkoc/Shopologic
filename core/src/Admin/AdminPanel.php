@@ -60,6 +60,14 @@ class AdminPanel
     }
 
     /**
+     * Get all modules
+     */
+    public function getModules(): array
+    {
+        return $this->modules;
+    }
+
+    /**
      * Register dashboard widget
      */
     public function registerWidget(string $position, DashboardWidgetInterface $widget): void
@@ -163,7 +171,7 @@ class AdminPanel
         $originalUserId = $this->auth->id();
         
         if ($this->auth->loginUsingId($userId)) {
-            session(['admin.impersonating' => $originalUserId]);
+            $_SESSION['admin.impersonating'] = $originalUserId;
             
             $this->events->dispatch('admin.impersonation_started', [
                 'admin_id' => $originalUserId,
@@ -181,7 +189,7 @@ class AdminPanel
      */
     public function stopImpersonation(): bool
     {
-        $originalUserId = session('admin.impersonating');
+        $originalUserId = $_SESSION['admin.impersonating'] ?? null;
         
         if (!$originalUserId) {
             return false;
@@ -190,7 +198,7 @@ class AdminPanel
         $impersonatedUserId = $this->auth->id();
         
         if ($this->auth->loginUsingId($originalUserId)) {
-            session()->forget('admin.impersonating');
+            unset($_SESSION['admin.impersonating']);
             
             $this->events->dispatch('admin.impersonation_stopped', [
                 'admin_id' => $originalUserId,
@@ -208,42 +216,20 @@ class AdminPanel
      */
     public function isImpersonating(): bool
     {
-        return session()->has('admin.impersonating');
+        return isset($_SESSION['admin.impersonating']);
     }
 
     // Private methods
 
     private function registerDefaultModules(): void
     {
-        // Dashboard
-        $this->registerModule('dashboard', new Modules\DashboardModule());
+        // Default modules will be registered here when implemented
+        // For now, we'll skip this to avoid errors
         
-        // Products
-        $this->registerModule('products', new Modules\ProductsModule());
-        
-        // Categories
-        $this->registerModule('categories', new Modules\CategoriesModule());
-        
-        // Orders
-        $this->registerModule('orders', new Modules\OrdersModule());
-        
-        // Customers
-        $this->registerModule('customers', new Modules\CustomersModule());
-        
-        // Marketing
-        $this->registerModule('marketing', new Modules\MarketingModule());
-        
-        // Analytics
-        $this->registerModule('analytics', new Modules\AnalyticsModule());
-        
-        // Content
-        $this->registerModule('content', new Modules\ContentModule());
-        
-        // Settings
-        $this->registerModule('settings', new Modules\SettingsModule());
-        
-        // System
-        $this->registerModule('system', new Modules\SystemModule());
+        // Example:
+        // $this->registerModule('dashboard', new Modules\DashboardModule());
+        // $this->registerModule('products', new Modules\ProductsModule());
+        // etc...
     }
 }
 

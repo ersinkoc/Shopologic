@@ -10,6 +10,9 @@ use Shopologic\Core\Database\Drivers\PostgreSQLDriver;
 use Shopologic\Core\Database\Drivers\MySQLDriver;
 use Shopologic\Core\Database\Drivers\SQLiteDriver;
 use Shopologic\Core\Database\Drivers\MockDriver;
+use Shopologic\Core\Database\Connections\EnhancedPostgreSQLConnection;
+use Shopologic\Core\Database\Connections\PostgreSQLConnectionPool;
+use Shopologic\Core\Database\Connections\MasterSlaveConnection;
 
 class DatabaseManager
 {
@@ -120,7 +123,24 @@ class DatabaseManager
     protected function makeConnection(string $name): DatabaseConnection
     {
         $config = $this->getConnectionConfig($name);
+        
+        // Check for master-slave configuration
+        if (isset($config['read']) || isset($config['write'])) {
+            return $this->createMasterSlaveConnection($name, $config);
+        }
+        
+        // Check for connection pooling
+        if (($config['use_pool'] ?? false) && $config['driver'] === 'pgsql') {
+            return $this->createPooledConnection($config);
+        }
+        
         $driver = $this->createDriver($config);
+        
+        // Use enhanced PostgreSQL connection if available
+        if ($config['driver'] === 'pgsql' && ($config['enhanced'] ?? true)) {
+            $connection = new EnhancedPostgreSQLConnection($config);
+            return new DatabaseConnection($connection, $config);
+        }
         
         return new DatabaseConnection($driver, $config);
     }
@@ -174,6 +194,60 @@ class DatabaseManager
         }
         
         return $config;
+    }
+    
+    /**
+     * Create a master-slave connection
+     */
+    protected function createMasterSlaveConnection(string $name, array $config): DatabaseConnection
+    {
+        // Create master connection
+        $masterConfig = array_merge($config, $config['write'] ?? []);
+        unset($masterConfig['read'], $masterConfig['write']);
+        $master = $this->createSingleConnection($masterConfig);
+        
+        // Create slave connections
+        $slaves = [];
+        $readConfigs = isset($config['read']['host']) ? [$config['read']] : $config['read'];
+        
+        foreach ($readConfigs as $readConfig) {
+            $slaveConfig = array_merge($config, $readConfig);
+            unset($slaveConfig['read'], $slaveConfig['write']);
+            $slaves[] = $this->createSingleConnection($slaveConfig);
+        }
+        
+        // Create master-slave connection
+        $connection = new MasterSlaveConnection($master, $slaves, $config);
+        
+        return new DatabaseConnection($connection, $config);
+    }
+    
+    /**
+     * Create a pooled connection
+     */
+    protected function createPooledConnection(array $config): DatabaseConnection
+    {
+        $pool = new PostgreSQLConnectionPool($config);
+        $pool->initialize();
+        
+        // Create a connection that uses the pool
+        $connection = new EnhancedPostgreSQLConnection($config, $pool);
+        
+        return new DatabaseConnection($connection, $config);
+    }
+    
+    /**
+     * Create a single connection instance
+     */
+    protected function createSingleConnection(array $config): ConnectionInterface
+    {
+        if ($config['driver'] === 'pgsql' && ($config['enhanced'] ?? true)) {
+            return new EnhancedPostgreSQLConnection($config);
+        }
+        
+        // Fall back to driver-based connection
+        $driver = $this->createDriver($config);
+        return $driver->connect($config);
     }
 
     public function extend(string $name, callable $resolver): void

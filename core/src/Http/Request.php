@@ -13,7 +13,6 @@ class Request extends Message implements RequestInterface
     private string $method;
     private string $requestTarget = '';
     private UriInterface $uri;
-    private array $attributes = [];
 
     public function __construct(
         string $method,
@@ -103,35 +102,7 @@ class Request extends Message implements RequestInterface
         return $params;
     }
     
-    public function getParsedBody(): ?array
-    {
-        $contentType = $this->getHeaderLine('Content-Type');
-        
-        if (str_contains($contentType, 'application/json')) {
-            $body = (string) $this->getBody();
-            return json_decode($body, true);
-        }
-        
-        if (str_contains($contentType, 'application/x-www-form-urlencoded')) {
-            $body = (string) $this->getBody();
-            parse_str($body, $params);
-            return $params;
-        }
-        
-        return null;
-    }
     
-    public function getAttribute(string $name, $default = null): mixed
-    {
-        return $this->attributes[$name] ?? $default;
-    }
-    
-    public function withAttribute(string $name, $value): self
-    {
-        $new = clone $this;
-        $new->attributes[$name] = $value;
-        return $new;
-    }
     
     public function getServerParam(string $name, $default = null): mixed
     {

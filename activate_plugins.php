@@ -175,9 +175,9 @@ file_put_contents(__DIR__ . '/public/test.php', $testPage);
 
 echo "\n🌐 Test page created: public/test.php\n";
 echo "\n🚀 To start the system:\n";
-echo "   php -S localhost:8000 -t public/\n";
+echo "   php -S localhost:17000 -t public/\n";
 echo "\n📋 Then visit:\n";
-echo "   http://localhost:8000/test.php - Test page\n";
-echo "   http://localhost:8000/ - Main storefront\n";
-echo "   http://localhost:8000/admin.php - Admin panel\n";
-echo "   http://localhost:8000/api.php - API endpoint\n";
+echo "   http://localhost:17000/test.php - Test page\n";
+echo "   http://localhost:17000/ - Main storefront\n";
+echo "   http://localhost:17000/admin.php - Admin panel\n";
+echo "   http://localhost:17000/api.php - API endpoint\n";

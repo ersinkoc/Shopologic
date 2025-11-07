@@ -2,9 +2,9 @@
 // CRITICAL SECURITY: Require authentication for admin panel
 session_start();
 
-// Check if user is authenticated
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin'])) {
-    // Not logged in or not an admin - redirect to login
+// Check if user is authenticated AND is an admin (value must be true)
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    // Not logged in, not an admin, or is_admin is not true - redirect to login
     header('Location: /auth/login?redirect=' . urlencode($_SERVER['REQUEST_URI']));
     exit;
 }

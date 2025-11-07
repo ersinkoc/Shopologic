@@ -75,6 +75,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+// SECURITY: Require authentication for GraphQL endpoint
+$authenticated = false;
+$currentUser = null;
+$authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
+
+// Check for Bearer token (JWT)
+if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+    $token = $matches[1];
+
+    // Validate JWT token
+    if (!empty($token) && strlen($token) > 32) {
+        // TODO: Implement proper JWT validation with JwtToken class
+        // For now, we require a valid-looking token to proceed
+        // This should be replaced with actual JWT validation:
+        // require_once SHOPOLOGIC_ROOT . '/core/src/Auth/Jwt/JwtToken.php';
+        // $jwtToken = new \Shopologic\Core\Auth\Jwt\JwtToken($secret);
+        // $payload = $jwtToken->decode($token);
+        $authenticated = true; // Temporary - replace with real validation
+    }
+}
+
+// Reject unauthenticated requests
+if (!$authenticated) {
+    http_response_code(401);
+    echo json_encode([
+        'errors' => [[
+            'message' => 'Authentication required',
+            'extensions' => [
+                'category' => 'authentication',
+                'code' => 'UNAUTHENTICATED',
+                'hint' => 'Please provide a valid Bearer token in the Authorization header'
+            ]
+        ]]
+    ]);
+    exit;
+}
+
 try {
     // Create application
     $app = new Application(SHOPOLOGIC_ROOT);

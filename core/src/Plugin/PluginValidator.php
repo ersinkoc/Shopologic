@@ -133,7 +133,9 @@ class PluginValidator
             }
             
             // Validate PHP syntax
-            $output = shell_exec("php -l {$classFile} 2>&1");
+            // SECURITY: Properly escape file path to prevent command injection
+            $escapedFile = escapeshellarg($classFile);
+            $output = shell_exec("php -l {$escapedFile} 2>&1");
             if (!str_contains($output, 'No syntax errors detected')) {
                 $this->errors[] = "Plugin {$pluginName}: PHP syntax error in main class file";
             }

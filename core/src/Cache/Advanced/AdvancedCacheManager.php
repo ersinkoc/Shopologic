@@ -439,13 +439,19 @@ class OptimizedFileStore implements CacheInterface
             $content = gzuncompress($content);
         }
         
-        $data = unserialize($content);
-        
+        // SECURITY: Use JSON instead of unserialize to prevent RCE
+        $data = json_decode($content, true);
+
+        if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+            // Invalid JSON, return default
+            return $default;
+        }
+
         // Update hit count
         $this->index[$key]['hits']++;
         $this->saveIndex();
-        
-        return $data['value'];
+
+        return $data['value'] ?? $default;
     }
 
     public function set(string $key, $value, ?int $ttl = null): bool
@@ -461,9 +467,10 @@ class OptimizedFileStore implements CacheInterface
             'value' => $value,
             'expiry' => $ttl ? time() + $ttl : null
         ];
-        
-        $content = serialize($data);
-        
+
+        // SECURITY: Use JSON instead of serialize to prevent RCE
+        $content = json_encode($data, JSON_THROW_ON_ERROR);
+
         if ($this->compression) {
             $content = gzcompress($content, 9);
         }
@@ -555,18 +562,25 @@ class OptimizedFileStore implements CacheInterface
         
         // Check expiry
         $content = file_get_contents($file);
-        
+
         if ($this->compression) {
             $content = gzuncompress($content);
         }
-        
-        $data = unserialize($content);
-        
-        if ($data['expiry'] !== null && time() > $data['expiry']) {
+
+        // SECURITY: Use JSON instead of unserialize to prevent RCE
+        $data = json_decode($content, true);
+
+        if ($data === null) {
+            // Invalid data, delete the cache entry
             $this->delete($key);
             return false;
         }
-        
+
+        if (isset($data['expiry']) && $data['expiry'] !== null && time() > $data['expiry']) {
+            $this->delete($key);
+            return false;
+        }
+
         return true;
     }
 
@@ -621,13 +635,15 @@ class OptimizedFileStore implements CacheInterface
     {
         if (file_exists($this->indexFile)) {
             $content = file_get_contents($this->indexFile);
-            $this->index = unserialize($content) ?: [];
+            // SECURITY: Use JSON instead of unserialize to prevent RCE
+            $this->index = json_decode($content, true) ?: [];
         }
     }
 
     private function saveIndex(): void
     {
-        file_put_contents($this->indexFile, serialize($this->index), LOCK_EX);
+        // SECURITY: Use JSON instead of serialize to prevent RCE
+        file_put_contents($this->indexFile, json_encode($this->index, JSON_THROW_ON_ERROR), LOCK_EX);
     }
 
     private function cleanEmptyDirectories(string $dir): void

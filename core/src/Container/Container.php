@@ -216,6 +216,8 @@ class Container implements ContainerInterface
         try {
             $reflectionClass = new ReflectionClass($concrete);
         } catch (ReflectionException $e) {
+            // Clear the building flag before throwing exception
+            unset($this->building[$concrete]);
             throw new NotFoundException("Class {$concrete} not found");
         }
 
@@ -328,13 +330,14 @@ class Container implements ContainerInterface
         if (empty($this->building)) {
             return null;
         }
-        
-        $concrete = end($this->building);
-        
-        if (isset($this->contextual[$concrete][$abstract])) {
+
+        // Get the last key (class name) from the building array
+        $concrete = array_key_last($this->building);
+
+        if ($concrete && isset($this->contextual[$concrete][$abstract])) {
             return $this->contextual[$concrete][$abstract];
         }
-        
+
         return null;
     }
 

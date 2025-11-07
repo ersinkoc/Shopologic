@@ -104,7 +104,10 @@ class AuthService
     
     private function loadCurrentUser(): void
     {
-        session_start();
+        // Start session only if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
             $user = $this->getUserByEmail($_SESSION['user_email']);
             if ($user && $user['id'] === $_SESSION['user_id']) {
@@ -134,7 +137,14 @@ class AuthService
         }
         
         // Login successful
-        session_start();
+        // Start session only if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Regenerate session ID to prevent session fixation attacks
+        session_regenerate_id(true);
+
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
@@ -197,8 +207,20 @@ class AuthService
         if ($this->currentUser) {
             HookSystem::doAction('user.logout', $this->currentUser);
         }
-        
-        session_start();
+
+        // Start session only if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Clear all session data
+        $_SESSION = [];
+
+        // Destroy the session cookie
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 3600, '/');
+        }
+
         session_destroy();
         $this->currentUser = null;
     }

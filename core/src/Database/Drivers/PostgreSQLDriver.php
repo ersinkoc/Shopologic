@@ -45,7 +45,9 @@ class PostgreSQLDriver implements DatabaseDriverInterface
 
         // Set schema if specified
         if (isset($config['schema'])) {
-            pg_query($this->connection, "SET search_path TO {$config['schema']}");
+            // Escape schema name to prevent SQL injection
+            $escapedSchema = pg_escape_identifier($this->connection, $config['schema']);
+            pg_query($this->connection, "SET search_path TO {$escapedSchema}");
         }
     }
 
@@ -272,7 +274,9 @@ class PostgreSQLDriver implements DatabaseDriverInterface
                     pg_set_client_encoding($this->connection, $value);
                     break;
                 case 'application_name':
-                    pg_query($this->connection, "SET application_name = '{$value}'");
+                    // Escape value to prevent SQL injection
+                    $escapedValue = pg_escape_string($this->connection, $value);
+                    pg_query($this->connection, "SET application_name = '{$escapedValue}'");
                     break;
             }
         }

@@ -511,6 +511,21 @@ abstract class Model
 
     protected function getRelationshipFromMethod(string $method): mixed
     {
+        // SECURITY: Validate method name before dynamic invocation
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $method)) {
+            throw new \InvalidArgumentException("Invalid method name: {$method}");
+        }
+
+        // Verify method exists and is public
+        if (!method_exists($this, $method)) {
+            throw new \BadMethodCallException("Method {$method} does not exist on " . static::class);
+        }
+
+        $reflector = new \ReflectionMethod($this, $method);
+        if (!$reflector->isPublic()) {
+            throw new \BadMethodCallException("Method {$method} is not accessible.");
+        }
+
         $relation = $this->$method();
 
         if (!$relation instanceof Relation) {
@@ -849,11 +864,21 @@ abstract class Model
 
     public static function __callStatic(string $method, array $parameters): mixed
     {
+        // SECURITY: Validate method name before delegating to instance
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $method)) {
+            throw new \BadMethodCallException("Invalid method name: {$method}");
+        }
+
         return (new static)->$method(...$parameters);
     }
 
     public function __call(string $method, array $parameters): mixed
     {
+        // SECURITY: Validate method name before delegating to query builder
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $method)) {
+            throw new \BadMethodCallException("Invalid method name: {$method}");
+        }
+
         return $this->newQuery()->$method(...$parameters);
     }
 }

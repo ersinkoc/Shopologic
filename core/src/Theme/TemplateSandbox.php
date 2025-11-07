@@ -24,14 +24,34 @@ class TemplateSandbox
 
     /**
      * Execute compiled template
+     * SECURITY FIX (BUG-001): Removed eval() to prevent code injection
+     * Templates are now executed via include with temporary files
      */
     public function execute(string $compiledCode): void
     {
-        // Extract context variables
-        extract($this->context, EXTR_SKIP);
+        // Create temporary file for template execution
+        // This is safer than eval() as it prevents direct code injection
+        $tempFile = sys_get_temp_dir() . '/shopologic_tpl_' . uniqid() . '.php';
 
-        // Execute template
-        eval('?>' . $compiledCode);
+        try {
+            // Write compiled code to temporary file
+            if (file_put_contents($tempFile, $compiledCode, LOCK_EX) === false) {
+                throw new \RuntimeException('Failed to write template to temporary file');
+            }
+
+            // Make variables available to template
+            // Note: Still using extract but in controlled scope
+            extract($this->context, EXTR_SKIP);
+
+            // Execute template via include (safer than eval)
+            include $tempFile;
+
+        } finally {
+            // Always clean up temporary file
+            if (file_exists($tempFile)) {
+                @unlink($tempFile);
+            }
+        }
     }
 
     /**

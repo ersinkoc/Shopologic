@@ -53,39 +53,46 @@ class PaymentManager
 
     /**
      * Process payment for an order
+     * BUG FIX (BUG-005): Wrapped in database transaction to ensure atomicity
      */
     public function processPayment(Order $order, array $paymentData): PaymentResult
     {
         $gateway = $this->gateway($order->payment_method);
-        
+
         $this->events->dispatch(new Events\PaymentProcessing($order));
-        
+
         try {
             $result = $gateway->charge($order, $paymentData);
-            
+
             if ($result->isSuccessful()) {
-                $order->markAsPaid($result->getTransactionId());
-                
-                $order->transactions()->create([
-                    'type' => 'payment',
-                    'amount' => $order->total_amount,
-                    'currency' => $order->currency ?? 'USD',
-                    'status' => 'completed',
-                    'gateway' => $order->payment_method,
-                    'gateway_transaction_id' => $result->getTransactionId(),
-                    'gateway_response' => $result->getData(),
-                ]);
-                
+                // Wrap order update and transaction creation in database transaction
+                // to prevent inconsistent state if any operation fails
+                $db = $order->getConnection();
+
+                $db->transaction(function() use ($order, $result) {
+                    $order->markAsPaid($result->getTransactionId());
+
+                    $order->transactions()->create([
+                        'type' => 'payment',
+                        'amount' => $order->total_amount,
+                        'currency' => $order->currency ?? 'USD',
+                        'status' => 'completed',
+                        'gateway' => $order->payment_method,
+                        'gateway_transaction_id' => $result->getTransactionId(),
+                        'gateway_response' => $result->getData(),
+                    ]);
+                });
+
                 $this->events->dispatch(new Events\PaymentSucceeded($order, $result));
             } else {
                 $this->events->dispatch(new Events\PaymentFailed($order, $result));
             }
-            
+
             return $result;
         } catch (\Exception $e) {
             $result = new PaymentResult(false, $e->getMessage());
             $this->events->dispatch(new Events\PaymentFailed($order, $result));
-            
+
             return $result;
         }
     }

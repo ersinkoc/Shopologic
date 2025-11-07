@@ -283,7 +283,21 @@ class SyncQueue extends AbstractQueue
     protected function handleJob(array $payload): void
     {
         if ($payload['job'] === 'Shopologic\\Core\\Queue\\CallQueuedHandler@call') {
-            $instance = unserialize($payload['data']['command']);
+            // SECURITY FIX (BUG-002): Replace unserialize with JSON to prevent RCE
+            // Expect command data in JSON format: {"class": "ClassName", "data": {...}}
+            $commandData = json_decode($payload['data']['command'], true);
+
+            if ($commandData === null || !isset($commandData['class'])) {
+                throw new \RuntimeException('Invalid queue job data format');
+            }
+
+            // Whitelist allowed job classes for additional security
+            $allowedClasses = $this->config['allowed_job_classes'] ?? [];
+            if (!empty($allowedClasses) && !in_array($commandData['class'], $allowedClasses, true)) {
+                throw new \RuntimeException('Queue job class not whitelisted: ' . $commandData['class']);
+            }
+
+            $instance = new $commandData['class']($commandData['data'] ?? []);
             $instance->handle();
         } else {
             [$class, $method] = explode('@', $payload['job']);
@@ -660,7 +674,15 @@ abstract class Job
     public function handle(): void
     {
         if ($this->payload['job'] === 'Shopologic\\Core\\Queue\\CallQueuedHandler@call') {
-            $instance = unserialize($this->payload['data']['command']);
+            // SECURITY FIX (BUG-002): Replace unserialize with JSON to prevent RCE
+            // Expect command data in JSON format: {"class": "ClassName", "data": {...}}
+            $commandData = json_decode($this->payload['data']['command'], true);
+
+            if ($commandData === null || !isset($commandData['class'])) {
+                throw new \RuntimeException('Invalid queue job data format');
+            }
+
+            $instance = new $commandData['class']($commandData['data'] ?? []);
             $instance->handle();
         } else {
             [$class, $method] = explode('@', $this->payload['job']);

@@ -302,42 +302,70 @@ class Order extends Model
 
     /**
      * Create from cart
+     * BUG FIX (BUG-004): Wrapped in transaction to prevent race conditions in stock management
      */
     public static function createFromCart(Cart $cart, array $data): self
     {
-        $order = new self($data);
-        
-        // Set amounts from cart
-        $order->subtotal = $cart->getSubtotal();
-        $order->discount_amount = $cart->getDiscount();
-        $order->tax_amount = $cart->getTax();
-        $order->shipping_amount = $cart->getShipping();
-        $order->total_amount = $cart->getTotal();
-        $order->coupon_code = $cart->getCouponCode();
-        
-        $order->save();
-        
-        // Create order items
-        foreach ($cart->items() as $cartItem) {
-            $order->items()->create([
-                'product_id' => $cartItem->product->id,
-                'variant_id' => $cartItem->variant?->id,
-                'name' => $cartItem->getName(),
-                'sku' => $cartItem->getSku(),
-                'price' => $cartItem->getPrice(),
-                'quantity' => $cartItem->quantity,
-                'total' => $cartItem->getTotal(),
-            ]);
-            
-            // Decrease stock
-            if ($cartItem->variant) {
-                $cartItem->variant->decreaseStock($cartItem->quantity);
-            } else {
-                $cartItem->product->decreaseStock($cartItem->quantity);
+        $db = static::getConnection();
+
+        return $db->transaction(function() use ($cart, $data, $db) {
+            $order = new self($data);
+
+            // Set amounts from cart
+            $order->subtotal = $cart->getSubtotal();
+            $order->discount_amount = $cart->getDiscount();
+            $order->tax_amount = $cart->getTax();
+            $order->shipping_amount = $cart->getShipping();
+            $order->total_amount = $cart->getTotal();
+            $order->coupon_code = $cart->getCouponCode();
+
+            $order->save();
+
+            // Create order items with row-level locking for stock management
+            foreach ($cart->items() as $cartItem) {
+                $order->items()->create([
+                    'product_id' => $cartItem->product->id,
+                    'variant_id' => $cartItem->variant?->id,
+                    'name' => $cartItem->getName(),
+                    'sku' => $cartItem->getSku(),
+                    'price' => $cartItem->getPrice(),
+                    'quantity' => $cartItem->quantity,
+                    'total' => $cartItem->getTotal(),
+                ]);
+
+                // Decrease stock with row locking to prevent race conditions
+                // Use lockForUpdate to ensure no other transaction can modify the same row
+                if ($cartItem->variant) {
+                    $variant = $db->table('product_variants')
+                        ->where('id', $cartItem->variant->id)
+                        ->lockForUpdate()
+                        ->first();
+
+                    if ($variant && $variant->quantity >= $cartItem->quantity) {
+                        $db->table('product_variants')
+                            ->where('id', $variant->id)
+                            ->update(['quantity' => $variant->quantity - $cartItem->quantity]);
+                    } else {
+                        throw new \RuntimeException('Insufficient stock for variant: ' . $cartItem->getName());
+                    }
+                } else {
+                    $product = $db->table('products')
+                        ->where('id', $cartItem->product->id)
+                        ->lockForUpdate()
+                        ->first();
+
+                    if ($product && ($product->quantity >= $cartItem->quantity || $product->allow_backorder)) {
+                        $db->table('products')
+                            ->where('id', $product->id)
+                            ->update(['quantity' => $product->quantity - $cartItem->quantity]);
+                    } else {
+                        throw new \RuntimeException('Insufficient stock for product: ' . $cartItem->getName());
+                    }
+                }
             }
-        }
-        
-        return $order;
+
+            return $order;
+        });
     }
 
     /**

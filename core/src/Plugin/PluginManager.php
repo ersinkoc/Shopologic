@@ -447,10 +447,16 @@ class PluginManager
     protected function getNextMajorVersion(string $version): string
     {
         $parts = explode('.', $version);
+
+        // Ensure we have at least 3 parts (major.minor.patch)
+        while (count($parts) < 3) {
+            $parts[] = '0';
+        }
+
         $parts[0] = (string)((int)$parts[0] + 1);
         $parts[1] = '0';
         $parts[2] = '0';
-        
+
         return implode('.', $parts);
     }
 

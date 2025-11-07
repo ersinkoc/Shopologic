@@ -20,12 +20,20 @@ class Route
     private ?string $domain = null;
     private ?string $prefix = null;
     private ?string $namespace = null;
+    private ?Container $container = null;
 
-    public function __construct(array $methods, string $path, $handler)
+    public function __construct(array $methods, string $path, $handler, ?Container $container = null)
     {
         $this->methods = array_map('strtoupper', $methods);
         $this->path = $path;
         $this->handler = $handler;
+        $this->container = $container;
+    }
+
+    public function setContainer(Container $container): self
+    {
+        $this->container = $container;
+        return $this;
     }
 
     public function getMethods(): array
@@ -154,11 +162,18 @@ class Route
     public function run(RequestInterface $request): ResponseInterface
     {
         $handler = $this->resolveHandler();
-        
+
         if (is_callable($handler)) {
             $result = $handler($request, $this->parameters);
-            
-            
+
+            // Validate that handler returns ResponseInterface
+            if (!$result instanceof ResponseInterface) {
+                throw new \RuntimeException(
+                    'Route handler must return an instance of ResponseInterface, got ' .
+                    (is_object($result) ? get_class($result) : gettype($result))
+                );
+            }
+
             return $result;
         }
 
@@ -203,13 +218,19 @@ class Route
         if (is_string($this->handler)) {
             if (str_contains($this->handler, '@')) {
                 [$class, $method] = explode('@', $this->handler, 2);
-                
+
                 if ($this->namespace) {
                     $class = $this->namespace . '\\' . $class;
                 }
-                
+
                 return function(RequestInterface $request, array $parameters) use ($class, $method) {
-                    $controller = new $class();
+                    // Use container for dependency injection if available
+                    if ($this->container) {
+                        $controller = $this->container->get($class);
+                    } else {
+                        // Fallback to direct instantiation if no container available
+                        $controller = new $class();
+                    }
                     return $controller->$method($request, $parameters);
                 };
             }

@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace Shopologic\Core\Auth;
 
 use Shopologic\Core\Plugin\HookSystem;
+use Shopologic\Core\Cache\CacheInterface;
 
 class AuthService
 {
     private array $users = [];
     private ?array $currentUser = null;
-    
-    public function __construct()
+    private ?CacheInterface $cache = null;
+
+    // Rate limiting configuration
+    private const MAX_LOGIN_ATTEMPTS = 5;
+    private const RATE_LIMIT_WINDOW = 900; // 15 minutes in seconds
+
+    public function __construct(?CacheInterface $cache = null)
     {
+        $this->cache = $cache;
         $this->initializeUsers();
         $this->loadCurrentUser();
     }
@@ -122,21 +129,40 @@ class AuthService
         if (!$email) {
             return ['success' => false, 'message' => 'Invalid email address'];
         }
-        
+
+        // SECURITY FIX: Check rate limiting to prevent brute force attacks
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $rateLimitCheck = $this->checkRateLimit($email, $ip);
+        if (!$rateLimitCheck['allowed']) {
+            return [
+                'success' => false,
+                'message' => 'Too many login attempts. Please try again later.',
+                'retry_after' => $rateLimitCheck['retry_after']
+            ];
+        }
+
         $user = $this->getUserByEmail($email);
         if (!$user) {
+            // Record failed attempt
+            $this->recordFailedLogin($email, $ip);
             return ['success' => false, 'message' => 'Invalid email or password'];
         }
-        
+
         if (!$user['is_active']) {
+            // Record failed attempt
+            $this->recordFailedLogin($email, $ip);
             return ['success' => false, 'message' => 'Account is deactivated'];
         }
-        
+
         if (!password_verify($password, $user['password'])) {
+            // Record failed attempt
+            $this->recordFailedLogin($email, $ip);
             return ['success' => false, 'message' => 'Invalid email or password'];
         }
-        
-        // Login successful
+
+        // Login successful - clear rate limit counters
+        $this->clearLoginAttempts($email, $ip);
+
         // Start session only if not already started
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -148,11 +174,11 @@ class AuthService
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
-        
+
         $this->currentUser = $user;
-        
+
         HookSystem::doAction('user.login_success', $user);
-        
+
         return [
             'success' => true,
             'message' => 'Login successful',
@@ -438,18 +464,86 @@ class AuthService
     private function validateAddress(array $data): array
     {
         $errors = [];
-        
+
         $required = ['first_name', 'last_name', 'address_1', 'city', 'postcode', 'country'];
         foreach ($required as $field) {
             if (empty($data[$field])) {
                 $errors[$field] = ucfirst(str_replace('_', ' ', $field)) . ' is required';
             }
         }
-        
+
         if (isset($data['type']) && !in_array($data['type'], ['billing', 'shipping', 'both'])) {
             $errors['type'] = 'Invalid address type';
         }
-        
+
         return HookSystem::applyFilters('user.address_validation_errors', $errors, $data);
+    }
+
+    /**
+     * Check if login attempts are within rate limit
+     * SECURITY: Prevent brute force attacks
+     */
+    private function checkRateLimit(string $email, string $ip): array
+    {
+        // If cache is not available, allow the request (fail open for compatibility)
+        if (!$this->cache) {
+            return ['allowed' => true, 'retry_after' => 0];
+        }
+
+        // Check attempts by IP (prevents distributed attacks on single account)
+        $ipKey = "login_attempts:ip:" . hash('sha256', $ip);
+        $ipAttempts = (int) $this->cache->get($ipKey, 0);
+
+        // Check attempts by email (prevents attacks from multiple IPs)
+        $emailKey = "login_attempts:email:" . hash('sha256', $email);
+        $emailAttempts = (int) $this->cache->get($emailKey, 0);
+
+        // If either limit is exceeded, deny the request
+        if ($ipAttempts >= self::MAX_LOGIN_ATTEMPTS || $emailAttempts >= self::MAX_LOGIN_ATTEMPTS) {
+            return [
+                'allowed' => false,
+                'retry_after' => self::RATE_LIMIT_WINDOW
+            ];
+        }
+
+        return ['allowed' => true, 'retry_after' => 0];
+    }
+
+    /**
+     * Record a failed login attempt
+     * SECURITY: Track failed attempts for rate limiting
+     */
+    private function recordFailedLogin(string $email, string $ip): void
+    {
+        if (!$this->cache) {
+            return;
+        }
+
+        // Increment IP-based counter
+        $ipKey = "login_attempts:ip:" . hash('sha256', $ip);
+        $ipAttempts = (int) $this->cache->get($ipKey, 0);
+        $this->cache->set($ipKey, $ipAttempts + 1, self::RATE_LIMIT_WINDOW);
+
+        // Increment email-based counter
+        $emailKey = "login_attempts:email:" . hash('sha256', $email);
+        $emailAttempts = (int) $this->cache->get($emailKey, 0);
+        $this->cache->set($emailKey, $emailAttempts + 1, self::RATE_LIMIT_WINDOW);
+    }
+
+    /**
+     * Clear login attempt counters on successful login
+     * SECURITY: Reset rate limit after successful authentication
+     */
+    private function clearLoginAttempts(string $email, string $ip): void
+    {
+        if (!$this->cache) {
+            return;
+        }
+
+        $ipKey = "login_attempts:ip:" . hash('sha256', $ip);
+        $emailKey = "login_attempts:email:" . hash('sha256', $email);
+
+        $this->cache->delete($ipKey);
+        $this->cache->delete($emailKey);
     }
 }

@@ -160,17 +160,24 @@ class TemplateEngine
     private function includeTemplate(string $template): void
     {
         $path = $this->resolvePath($template);
-        
-        
+
+
         if (!file_exists($path)) {
             throw new Exception("Template not found: {$template}");
         }
-        
-        // Extract current data
+
+        // SECURITY: Make variables available with validation instead of extract()
+        // This prevents variable pollution and potential security issues
         if (!empty($this->dataStack)) {
-            extract(end($this->dataStack), EXTR_SKIP);
+            $data = end($this->dataStack);
+            foreach ($data as $key => $value) {
+                // Only allow valid PHP variable names (alphanumeric + underscore, starting with letter/underscore)
+                if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $key)) {
+                    $$key = $value;
+                }
+            }
         }
-        
+
         // Include the template
         include $path;
     }

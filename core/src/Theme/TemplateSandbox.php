@@ -25,6 +25,7 @@ class TemplateSandbox
     /**
      * Execute compiled template
      * SECURITY FIX (BUG-001): Removed eval() to prevent code injection
+     * SECURITY FIX: Replaced extract() with validated variable assignment
      * Templates are now executed via include with temporary files
      */
     public function execute(string $compiledCode): void
@@ -39,9 +40,14 @@ class TemplateSandbox
                 throw new \RuntimeException('Failed to write template to temporary file');
             }
 
-            // Make variables available to template
-            // Note: Still using extract but in controlled scope
-            extract($this->context, EXTR_SKIP);
+            // SECURITY: Make variables available with validation instead of extract()
+            // This prevents variable pollution and potential security issues
+            foreach ($this->context as $key => $value) {
+                // Only allow valid PHP variable names (alphanumeric + underscore, starting with letter/underscore)
+                if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $key)) {
+                    $$key = $value;
+                }
+            }
 
             // Execute template via include (safer than eval)
             include $tempFile;

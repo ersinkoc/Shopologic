@@ -399,18 +399,35 @@ try {
     echo json_encode($result, JSON_PRETTY_PRINT);
     
 } catch (\Throwable $e) {
+    // SECURITY: Only expose debugging information in development mode
+    $isDevelopment = isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development';
+
+    // Log the error for debugging (always)
+    error_log(sprintf(
+        "GraphQL Error: %s in %s:%d\nStack trace:\n%s",
+        $e->getMessage(),
+        $e->getFile(),
+        $e->getLine(),
+        $e->getTraceAsString()
+    ));
+
     // Error response
+    $extensions = ['category' => 'internal'];
+
+    // Only include file/line in development mode
+    if ($isDevelopment) {
+        $extensions['file'] = $e->getFile();
+        $extensions['line'] = $e->getLine();
+        $extensions['trace'] = explode("\n", $e->getTraceAsString());
+    }
+
     $error = [
         'errors' => [[
-            'message' => $e->getMessage(),
-            'extensions' => [
-                'category' => 'internal',
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ],
+            'message' => $isDevelopment ? $e->getMessage() : 'An internal error occurred',
+            'extensions' => $extensions,
         ]],
     ];
-    
+
     http_response_code(500);
     echo json_encode($error, JSON_PRETTY_PRINT);
 }

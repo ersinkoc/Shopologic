@@ -147,6 +147,7 @@ class JwtGuard implements Guard
 
     /**
      * Get token from request
+     * SECURITY: Only accept JWT tokens from Authorization header to prevent token leakage
      */
     protected function getTokenFromRequest(): ?string
     {
@@ -154,22 +155,20 @@ class JwtGuard implements Guard
             return null;
         }
 
-        // Check Authorization header
+        // SECURITY: Only check Authorization header - do NOT accept tokens in URL parameters
+        // Tokens in URLs are logged in server logs, browser history, and can leak via Referer header
         $header = $this->request->getHeaderLine('Authorization');
         if (preg_match('/Bearer\s+(.+)/i', $header, $matches)) {
             return $matches[1];
         }
 
-        // Check query parameter
-        $params = $this->request->getQueryParams();
-        if (isset($params['token'])) {
-            return $params['token'];
-        }
-
-        // Check request body
-        $body = $this->request->getParsedBody();
-        if (is_array($body) && isset($body['token'])) {
-            return $body['token'];
+        // SECURITY: Check request body only for POST requests (not logged)
+        // This is acceptable for login endpoints
+        if ($this->request->getMethod() === 'POST') {
+            $body = $this->request->getParsedBody();
+            if (is_array($body) && isset($body['token'])) {
+                return $body['token'];
+            }
         }
 
         return null;

@@ -263,7 +263,11 @@ class QueryBuilder
 
     public function toSql(): string
     {
-        $sql = "SELECT " . implode(', ', $this->columns) . " FROM {$this->table}";
+        // SECURITY: Sanitize all column and table names
+        $safeColumns = array_map([$this, 'sanitizeColumnName'], $this->columns);
+        $safeTable = $this->sanitizeColumnName($this->table);
+
+        $sql = "SELECT " . implode(', ', $safeColumns) . " FROM {$safeTable}";
 
         if (!empty($this->joins)) {
             $sql .= " " . $this->buildJoins();
@@ -274,7 +278,9 @@ class QueryBuilder
         }
 
         if (!empty($this->groups)) {
-            $sql .= " GROUP BY " . implode(', ', $this->groups);
+            // SECURITY: Sanitize GROUP BY columns
+            $safeGroups = array_map([$this, 'sanitizeColumnName'], $this->groups);
+            $sql .= " GROUP BY " . implode(', ', $safeGroups);
         }
 
         if (!empty($this->havings)) {
@@ -286,11 +292,13 @@ class QueryBuilder
         }
 
         if ($this->limitValue !== null) {
-            $sql .= " LIMIT {$this->limitValue}";
+            // SECURITY: Ensure LIMIT is an integer
+            $sql .= " LIMIT " . (int)$this->limitValue;
         }
 
         if ($this->offsetValue !== null) {
-            $sql .= " OFFSET {$this->offsetValue}";
+            // SECURITY: Ensure OFFSET is an integer
+            $sql .= " OFFSET " . (int)$this->offsetValue;
         }
 
         return $sql;
@@ -303,31 +311,52 @@ class QueryBuilder
         foreach ($this->wheres as $i => $where) {
             $boolean = $i === 0 ? '' : strtoupper($where['boolean']) . ' ';
 
+            // SECURITY: Sanitize column names to prevent SQL injection
+            $safeColumn = $this->sanitizeColumnName($where['column']);
+
             switch ($where['type']) {
                 case 'basic':
-                    $sql[] = $boolean . "{$where['column']} {$where['operator']} ?";
+                    $sql[] = $boolean . "{$safeColumn} {$where['operator']} ?";
                     break;
                 case 'in':
                     $placeholders = str_repeat('?,', count($where['values']) - 1) . '?';
-                    $sql[] = $boolean . "{$where['column']} IN ({$placeholders})";
+                    $sql[] = $boolean . "{$safeColumn} IN ({$placeholders})";
                     break;
                 case 'not_in':
                     $placeholders = str_repeat('?,', count($where['values']) - 1) . '?';
-                    $sql[] = $boolean . "{$where['column']} NOT IN ({$placeholders})";
+                    $sql[] = $boolean . "{$safeColumn} NOT IN ({$placeholders})";
                     break;
                 case 'between':
-                    $sql[] = $boolean . "{$where['column']} BETWEEN ? AND ?";
+                    $sql[] = $boolean . "{$safeColumn} BETWEEN ? AND ?";
                     break;
                 case 'null':
-                    $sql[] = $boolean . "{$where['column']} IS NULL";
+                    $sql[] = $boolean . "{$safeColumn} IS NULL";
                     break;
                 case 'not_null':
-                    $sql[] = $boolean . "{$where['column']} IS NOT NULL";
+                    $sql[] = $boolean . "{$safeColumn} IS NOT NULL";
                     break;
             }
         }
 
         return implode(' ', $sql);
+    }
+
+    /**
+     * Sanitize column name to prevent SQL injection
+     * SECURITY: Only allow alphanumeric, underscores, dots (for table.column), and backticks/quotes
+     */
+    protected function sanitizeColumnName(string $column): string
+    {
+        // Allow table.column syntax and quoted identifiers
+        // Match: word, word.word, `word`, `word`.`word`, "word", etc.
+        if (!preg_match('/^[\w\.`"\[\]]+$/', $column)) {
+            throw new \InvalidArgumentException(
+                "Invalid column name: '{$column}'. Column names can only contain alphanumeric characters, " .
+                "underscores, dots, and quotes."
+            );
+        }
+
+        return $column;
     }
 
     protected function buildJoins(): string
@@ -336,7 +365,11 @@ class QueryBuilder
 
         foreach ($this->joins as $join) {
             $type = strtoupper($join['type']);
-            $sql[] = "{$type} JOIN {$join['table']} ON {$join['first']} {$join['operator']} {$join['second']}";
+            // SECURITY: Sanitize table and column names
+            $safeTable = $this->sanitizeColumnName($join['table']);
+            $safeFirst = $this->sanitizeColumnName($join['first']);
+            $safeSecond = $this->sanitizeColumnName($join['second']);
+            $sql[] = "{$type} JOIN {$safeTable} ON {$safeFirst} {$join['operator']} {$safeSecond}";
         }
 
         return implode(' ', $sql);
@@ -347,7 +380,10 @@ class QueryBuilder
         $sql = [];
 
         foreach ($this->orders as $order) {
-            $sql[] = "{$order['column']} " . strtoupper($order['direction']);
+            // SECURITY: Sanitize column names
+            $safeColumn = $this->sanitizeColumnName($order['column']);
+            $safeDirection = strtoupper($order['direction']) === 'DESC' ? 'DESC' : 'ASC';
+            $sql[] = "{$safeColumn} {$safeDirection}";
         }
 
         return implode(', ', $sql);
@@ -358,7 +394,9 @@ class QueryBuilder
         $sql = [];
 
         foreach ($this->havings as $having) {
-            $sql[] = "{$having['column']} {$having['operator']} ?";
+            // SECURITY: Sanitize column names
+            $safeColumn = $this->sanitizeColumnName($having['column']);
+            $sql[] = "{$safeColumn} {$having['operator']} ?";
         }
 
         return implode(' AND ', $sql);

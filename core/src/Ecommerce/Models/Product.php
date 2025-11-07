@@ -135,7 +135,14 @@ class Product extends Model
             return true;
         }
         
+        // BUG FIX (BUG-012): Fixed off-by-one error in stock validation
+        // Check if we have enough stock OR if backorders are allowed
         if ($this->quantity < $quantity && !$this->allow_backorder) {
+            return false;
+        }
+
+        // Also prevent selling when quantity is 0 or negative
+        if ($this->quantity <= 0 && !$this->allow_backorder) {
             return false;
         }
         
@@ -188,18 +195,26 @@ class Product extends Model
 
     /**
      * Generate unique slug
+     * BUG FIX (BUG-006): Added iteration limit to prevent infinite loops
      */
     public function generateSlug(): string
     {
         $baseSlug = $this->slugify($this->name);
         $slug = $baseSlug;
         $counter = 1;
-        
+        $maxAttempts = 1000; // Prevent infinite loops
+
         while (static::where('slug', $slug)->where('id', '!=', $this->id)->exists()) {
+            if ($counter >= $maxAttempts) {
+                // If we've tried 1000 variations, use a UUID suffix for uniqueness
+                $slug = $baseSlug . '-' . substr(md5(uniqid()), 0, 8);
+                break;
+            }
+
             $slug = $baseSlug . '-' . $counter;
             $counter++;
         }
-        
+
         return $slug;
     }
 

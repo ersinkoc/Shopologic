@@ -26,7 +26,15 @@ class FileStore implements CacheInterface
         }
 
         $contents = file_get_contents($path);
-        $data = unserialize($contents);
+
+        // SECURITY FIX (BUG-003): Use JSON instead of unserialize to prevent RCE
+        $data = json_decode($contents, true);
+
+        // Handle corrupted or invalid cache files
+        if ($data === null || !is_array($data) || !isset($data['value'])) {
+            $this->delete($key);
+            return $default;
+        }
 
         if ($data['expires_at'] !== null && $data['expires_at'] < time()) {
             $this->delete($key);
@@ -51,7 +59,13 @@ class FileStore implements CacheInterface
             mkdir($directory, 0755, true);
         }
 
-        return file_put_contents($path, serialize($data), LOCK_EX) !== false;
+        // SECURITY FIX (BUG-003): Use JSON instead of serialize to prevent RCE
+        $encoded = json_encode($data);
+        if ($encoded === false) {
+            throw new \RuntimeException('Failed to JSON encode cache data: ' . json_last_error_msg());
+        }
+
+        return file_put_contents($path, $encoded, LOCK_EX) !== false;
     }
 
     public function delete(string $key): bool

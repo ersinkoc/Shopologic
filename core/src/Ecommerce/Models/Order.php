@@ -167,17 +167,26 @@ class Order extends Model
 
     /**
      * Mark as paid
+     * SECURITY FIX: Wrapped in transaction to ensure atomicity
      */
     public function markAsPaid(string $paymentId = null): bool
     {
-        $this->payment_status = self::PAYMENT_PAID;
-        $this->paid_at = new \DateTime();
-        
-        if ($paymentId) {
-            $this->payment_id = $paymentId;
-        }
-        
-        return $this->save() && $this->updateStatus(self::STATUS_PROCESSING, 'Payment received');
+        $db = static::getConnection();
+
+        return $db->transaction(function() use ($paymentId) {
+            $this->payment_status = self::PAYMENT_PAID;
+            $this->paid_at = new \DateTime();
+
+            if ($paymentId) {
+                $this->payment_id = $paymentId;
+            }
+
+            if (!$this->save()) {
+                return false;
+            }
+
+            return $this->updateStatus(self::STATUS_PROCESSING, 'Payment received');
+        });
     }
 
     /**
@@ -197,36 +206,50 @@ class Order extends Model
 
     /**
      * Mark as delivered
+     * SECURITY FIX: Wrapped in transaction to ensure atomicity
      */
     public function markAsDelivered(): bool
     {
-        $this->shipping_status = self::SHIPPING_DELIVERED;
-        $this->delivered_at = new \DateTime();
-        
-        return $this->save() && $this->updateStatus(self::STATUS_COMPLETED, 'Order delivered');
+        $db = static::getConnection();
+
+        return $db->transaction(function() {
+            $this->shipping_status = self::SHIPPING_DELIVERED;
+            $this->delivered_at = new \DateTime();
+
+            if (!$this->save()) {
+                return false;
+            }
+
+            return $this->updateStatus(self::STATUS_COMPLETED, 'Order delivered');
+        });
     }
 
     /**
      * Cancel order
+     * SECURITY FIX: Wrapped in transaction to ensure atomicity of inventory restoration
      */
     public function cancel(string $reason = ''): bool
     {
         if (!$this->canBeCancelled()) {
             return false;
         }
-        
-        $this->cancelled_at = new \DateTime();
-        
-        // Restore inventory
-        foreach ($this->items as $item) {
-            if ($item->variant) {
-                $item->variant->increaseStock($item->quantity);
-            } else {
-                $item->product->increaseStock($item->quantity);
+
+        $db = static::getConnection();
+
+        return $db->transaction(function() use ($reason) {
+            $this->cancelled_at = new \DateTime();
+
+            // Restore inventory - all or nothing within transaction
+            foreach ($this->items as $item) {
+                if ($item->variant) {
+                    $item->variant->increaseStock($item->quantity);
+                } else {
+                    $item->product->increaseStock($item->quantity);
+                }
             }
-        }
-        
-        return $this->updateStatus(self::STATUS_CANCELLED, $reason);
+
+            return $this->updateStatus(self::STATUS_CANCELLED, $reason);
+        });
     }
 
     /**
@@ -242,28 +265,44 @@ class Order extends Model
 
     /**
      * Process refund
+     * SECURITY FIX: Wrapped in transaction and improved validation
      */
     public function refund(float $amount, string $reason = ''): bool
     {
-        if ($amount > $this->total_amount) {
+        // Validate refund amount is positive
+        if ($amount <= 0) {
             return false;
         }
-        
-        $this->transactions()->create([
-            'type' => 'refund',
-            'amount' => $amount,
-            'status' => 'completed',
-            'notes' => $reason,
-        ]);
-        
-        if ($amount >= $this->total_amount) {
-            $this->payment_status = self::PAYMENT_REFUNDED;
-            $this->updateStatus(self::STATUS_REFUNDED, $reason);
-        } else {
-            $this->payment_status = self::PAYMENT_PARTIALLY_REFUNDED;
+
+        // Calculate refundable amount (total - already refunded)
+        $refundableAmount = $this->getRefundableAmount();
+
+        // Cannot refund more than the refundable amount
+        if ($amount > $refundableAmount) {
+            return false;
         }
-        
-        return $this->save();
+
+        $db = static::getConnection();
+
+        return $db->transaction(function() use ($amount, $reason, $refundableAmount) {
+            // Create refund transaction record
+            $this->transactions()->create([
+                'type' => 'refund',
+                'amount' => $amount,
+                'status' => 'completed',
+                'notes' => $reason,
+            ]);
+
+            // Update payment status based on refunded amount
+            if ($amount >= $refundableAmount) {
+                $this->payment_status = self::PAYMENT_REFUNDED;
+                $this->updateStatus(self::STATUS_REFUNDED, $reason);
+            } else {
+                $this->payment_status = self::PAYMENT_PARTIALLY_REFUNDED;
+            }
+
+            return $this->save();
+        });
     }
 
     /**

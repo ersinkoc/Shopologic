@@ -127,27 +127,67 @@ class Product extends Model
     }
 
     /**
-     * Decrease stock
+     * Decrease stock (with transaction and row-level locking to prevent race conditions)
      */
     public function decreaseStock(int $quantity): bool
     {
         if (!$this->track_quantity) {
             return true;
         }
-        
-        // BUG FIX (BUG-012): Fixed off-by-one error in stock validation
-        // Check if we have enough stock OR if backorders are allowed
-        if ($this->quantity < $quantity && !$this->allow_backorder) {
-            return false;
-        }
 
-        // Also prevent selling when quantity is 0 or negative
-        if ($this->quantity <= 0 && !$this->allow_backorder) {
+        // Use database transaction with row-level locking to prevent overselling
+        $connection = $this->getConnection();
+
+        try {
+            // Start transaction
+            $connection->beginTransaction();
+
+            // Lock the row for update (SELECT FOR UPDATE)
+            $query = "SELECT quantity, allow_backorder FROM {$this->table} WHERE id = ? FOR UPDATE";
+            $stmt = $connection->prepare($query);
+            $stmt->execute([$this->id]);
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$row) {
+                $connection->rollback();
+                return false;
+            }
+
+            $currentQuantity = (int) $row['quantity'];
+            $allowBackorder = (bool) $row['allow_backorder'];
+
+            // Check if we have enough stock
+            if ($currentQuantity < $quantity && !$allowBackorder) {
+                $connection->rollback();
+                return false;
+            }
+
+            // Prevent selling when quantity is 0 or negative
+            if ($currentQuantity <= 0 && !$allowBackorder) {
+                $connection->rollback();
+                return false;
+            }
+
+            // Update quantity
+            $newQuantity = $currentQuantity - $quantity;
+            $updateQuery = "UPDATE {$this->table} SET quantity = ? WHERE id = ?";
+            $updateStmt = $connection->prepare($updateQuery);
+            $result = $updateStmt->execute([$newQuantity, $this->id]);
+
+            if ($result) {
+                $connection->commit();
+                // Update model instance
+                $this->quantity = $newQuantity;
+                return true;
+            } else {
+                $connection->rollback();
+                return false;
+            }
+        } catch (\Exception $e) {
+            $connection->rollback();
+            error_log("Stock decrease failed: " . $e->getMessage());
             return false;
         }
-        
-        $this->quantity -= $quantity;
-        return $this->save();
     }
 
     /**

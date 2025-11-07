@@ -1,4 +1,26 @@
 <?php
+// CRITICAL SECURITY: Require authentication for admin panel
+session_start();
+
+// Check if user is authenticated
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin'])) {
+    // Not logged in or not an admin - redirect to login
+    header('Location: /auth/login?redirect=' . urlencode($_SERVER['REQUEST_URI']));
+    exit;
+}
+
+// Check if session is still valid (not expired)
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 3600)) {
+    // Session expired after 1 hour of inactivity
+    session_unset();
+    session_destroy();
+    header('Location: /auth/login?error=session_expired&redirect=' . urlencode($_SERVER['REQUEST_URI']));
+    exit;
+}
+
+// Update last activity timestamp
+$_SESSION['last_activity'] = time();
+
 // Load plugin data
 $storageDir = dirname(__DIR__) . '/storage/plugins';
 $pluginsFile = $storageDir . '/plugins.json';

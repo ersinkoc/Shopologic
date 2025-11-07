@@ -30,9 +30,44 @@ if (file_exists(SHOPOLOGIC_ROOT . '/core/src/helpers.php')) {
 }
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+
+// SECURITY: Implement restrictive CORS policy
+// Only allow specific trusted origins from configuration
+$allowedOrigins = [
+    'http://localhost:17000',
+    'http://localhost:3000',
+    'https://shopologic.com',
+    'https://www.shopologic.com',
+    'https://admin.shopologic.com',
+];
+
+// Get configuration if available
+if (function_exists('config')) {
+    $configuredOrigins = config('cors.allowed_origins', []);
+    if (!empty($configuredOrigins)) {
+        $allowedOrigins = $configuredOrigins;
+    }
+}
+
+// Validate and set CORS headers only for allowed origins
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Access-Control-Allow-Credentials: true');
+} else {
+    // For development: check if we're in development mode
+    $isDevelopment = isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development';
+    if ($isDevelopment && !empty($origin)) {
+        // In development, allow localhost origins only
+        if (preg_match('/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin)) {
+            header('Access-Control-Allow-Origin: ' . $origin);
+            header('Access-Control-Allow-Credentials: true');
+        }
+    }
+}
+
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-CSRF-Token');
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

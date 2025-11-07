@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shopologic\Core\Database;
 
 use Shopologic\Core\Events\EventManager;
+use Shopologic\Core\Database\Collection;
 use Shopologic\Core\Database\Relations\Relation;
 use Shopologic\Core\Database\Relations\HasMany;
 use Shopologic\Core\Database\Relations\HasOne;
@@ -519,6 +520,57 @@ abstract class Model
         return $this->relations[$method] = $relation->getResults();
     }
 
+    /**
+     * Check if a relationship has been loaded
+     */
+    public function relationLoaded(string $relation): bool
+    {
+        return array_key_exists($relation, $this->relations);
+    }
+
+    /**
+     * Get a loaded relationship
+     */
+    public function getRelation(string $relation): mixed
+    {
+        return $this->relations[$relation] ?? null;
+    }
+
+    /**
+     * Set a relationship on the model
+     */
+    public function setRelation(string $name, mixed $value): self
+    {
+        $this->relations[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * Unset a relationship on the model
+     */
+    public function unsetRelation(string $relation): self
+    {
+        unset($this->relations[$relation]);
+        return $this;
+    }
+
+    /**
+     * Get all the loaded relations
+     */
+    public function getRelations(): array
+    {
+        return $this->relations;
+    }
+
+    /**
+     * Set multiple relations at once
+     */
+    public function setRelations(array $relations): self
+    {
+        $this->relations = $relations;
+        return $this;
+    }
+
     public function hasMany(string $related, ?string $foreignKey = null, ?string $localKey = null): HasMany
     {
         $instance = new $related;
@@ -693,6 +745,86 @@ abstract class Model
     public function jsonSerialize(): array
     {
         return $this->toArray();
+    }
+
+    /**
+     * Create a new collection instance
+     */
+    public function newCollection(array $models = []): Collection
+    {
+        return new Collection($models);
+    }
+
+    /**
+     * Get the name of the created_at column
+     */
+    public function getCreatedAtColumn(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Get the name of the updated_at column
+     */
+    public function getUpdatedAtColumn(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Get the name of the deleted_at column
+     */
+    public function getDeletedAtColumn(): ?string
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * Create a new instance of the model
+     */
+    public function newInstance(array $attributes = [], bool $exists = false): static
+    {
+        $model = new static($attributes);
+        $model->exists = $exists;
+        $model->setConnection($this->getConnection());
+        return $model;
+    }
+
+    /**
+     * Create a new model instance from raw attributes
+     */
+    public function newFromBuilder(array $attributes = [], ?string $connection = null): static
+    {
+        $model = $this->newInstance([], true);
+        $model->setRawAttributes($attributes, true);
+
+        if ($connection) {
+            $model->setConnection($connection);
+        }
+
+        return $model;
+    }
+
+    /**
+     * Set the raw attributes without any casting
+     */
+    public function setRawAttributes(array $attributes, bool $sync = false): self
+    {
+        $this->attributes = $attributes;
+
+        if ($sync) {
+            $this->syncOriginal();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check if the model uses timestamps
+     */
+    public function usesTimestamps(): bool
+    {
+        return $this->timestamps;
     }
 
     public function __get(string $key): mixed

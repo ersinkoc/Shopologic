@@ -226,10 +226,25 @@ class Product extends Model
 
     /**
      * Get primary image
+     * OPTIMIZED: Use eager-loaded relationship if available to prevent N+1 queries
      */
     public function getPrimaryImage(): ?ProductImage
     {
-        return $this->images()->where('is_primary', true)->first() 
+        // If images relationship is already loaded, use it (prevents N+1 queries)
+        if ($this->relationLoaded('images')) {
+            $images = $this->getRelation('images');
+            // Find primary image
+            foreach ($images as $image) {
+                if ($image->is_primary) {
+                    return $image;
+                }
+            }
+            // Return first image if no primary
+            return $images->first();
+        }
+
+        // Otherwise, query the database
+        return $this->images()->where('is_primary', true)->first()
             ?? $this->images()->first();
     }
 
@@ -305,18 +320,45 @@ class Product extends Model
 
     /**
      * Calculate average rating
+     * OPTIMIZED: Use eager-loaded relationship if available to prevent N+1 queries
      */
     public function getAverageRating(): float
     {
+        // If reviews relationship is already loaded, calculate from collection
+        if ($this->relationLoaded('reviews')) {
+            $reviews = $this->getRelation('reviews')->filter(function ($review) {
+                return $review->is_approved;
+            });
+
+            if ($reviews->isEmpty()) {
+                return 0;
+            }
+
+            $sum = $reviews->sum('rating');
+            $count = $reviews->count();
+            $avg = $count > 0 ? $sum / $count : 0;
+            return round($avg, 1);
+        }
+
+        // Otherwise, query the database
         $avg = $this->reviews()->where('is_approved', true)->avg('rating');
         return round($avg ?? 0, 1);
     }
 
     /**
      * Get review count
+     * OPTIMIZED: Use eager-loaded relationship if available to prevent N+1 queries
      */
     public function getReviewCount(): int
     {
+        // If reviews relationship is already loaded, count from collection
+        if ($this->relationLoaded('reviews')) {
+            return $this->getRelation('reviews')->filter(function ($review) {
+                return $review->is_approved;
+            })->count();
+        }
+
+        // Otherwise, query the database
         return $this->reviews()->where('is_approved', true)->count();
     }
 

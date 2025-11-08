@@ -103,7 +103,14 @@ class Builder extends QueryBuilder
 
     public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', ?int $page = null): Paginator
     {
+        // SECURITY FIX: Validate page number to prevent negative values and ensure it's positive
         $page = $page ?: (int) ($_GET[$pageName] ?? 1);
+
+        // Ensure page is at least 1 (prevent negative page numbers and zero)
+        if ($page < 1) {
+            $page = 1;
+        }
+
         $total = $this->count();
         
         $results = $this->limit($perPage)

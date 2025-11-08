@@ -160,17 +160,24 @@ class TemplateEngine
     private function includeTemplate(string $template): void
     {
         $path = $this->resolvePath($template);
-        
-        
+
+
         if (!file_exists($path)) {
             throw new Exception("Template not found: {$template}");
         }
-        
-        // Extract current data
+
+        // SECURITY: Make variables available with validation instead of extract()
+        // This prevents variable pollution and potential security issues
         if (!empty($this->dataStack)) {
-            extract(end($this->dataStack), EXTR_SKIP);
+            $data = end($this->dataStack);
+            foreach ($data as $key => $value) {
+                // Only allow valid PHP variable names (alphanumeric + underscore, starting with letter/underscore)
+                if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $key)) {
+                    $$key = $value;
+                }
+            }
         }
-        
+
         // Include the template
         include $path;
     }
@@ -357,10 +364,9 @@ class TemplateEngine
      */
     private function registerDefaultFunctions(): void
     {
+        // SECURITY: Use secure helper method instead of direct superglobal access
         $getBaseUrl = function(): string {
-            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-            $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
-            return $protocol . '://' . $host;
+            return $this->getBaseUrl();
         };
         
         // URL generation
@@ -484,8 +490,9 @@ class TemplateEngine
         
         // URL helper functions for filtering and pagination
         $this->addFunction('removeFilterUrl', function($filters = null): string {
-            $url = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-            parse_str($_SERVER['QUERY_STRING'] ?? '', $params);
+            // SECURITY: Use secure helpers instead of direct superglobal access
+            $url = $this->getSecureRequestUri();
+            $params = $this->getSecureQueryString();
             
             if (is_string($filters)) {
                 unset($params[$filters]);
@@ -501,8 +508,9 @@ class TemplateEngine
         });
         
         $this->addFunction('addPageParam', function(int $page): string {
-            $url = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-            parse_str($_SERVER['QUERY_STRING'] ?? '', $params);
+            // SECURITY: Use secure helpers instead of direct superglobal access
+            $url = $this->getSecureRequestUri();
+            $params = $this->getSecureQueryString();
             
             $params['page'] = $page;
             
@@ -516,8 +524,9 @@ class TemplateEngine
         
         // URL manipulation helpers
         $this->addFunction('url_with_params', function(array $params = []): string {
-            $currentUrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-            $currentQuery = $_GET;
+            // SECURITY: Use secure helpers instead of direct superglobal access
+            $currentUrl = $this->getSecureRequestUri();
+            $currentQuery = $this->getSecureQueryString();
             
             // Merge new params with existing
             $mergedParams = array_merge($currentQuery, $params);
@@ -535,8 +544,9 @@ class TemplateEngine
         });
         
         $this->addFunction('url_without_params', function(array $params = []): string {
-            $currentUrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-            $currentQuery = $_GET;
+            // SECURITY: Use secure helpers instead of direct superglobal access
+            $currentUrl = $this->getSecureRequestUri();
+            $currentQuery = $this->getSecureQueryString();
             
             // Remove specified params
             foreach ($params as $param) {
@@ -552,7 +562,8 @@ class TemplateEngine
         
         // Check if current admin route is active
         $this->addFunction('isActive', function(string $route): string {
-            $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            // SECURITY: Use secure helper instead of direct superglobal access
+            $currentPath = $this->getSecureRequestUri();
             
             // Handle dashboard special case
             if ($route === 'dashboard' && $currentPath === '/admin') {
@@ -616,13 +627,78 @@ class TemplateEngine
     
     /**
      * Get base URL for the current request
+     * SECURITY: Validate HTTP_HOST against whitelist
      */
     private function getBaseUrl(): string
     {
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
-        
+        $protocol = $this->getSecureProtocol();
+        $host = $this->getSecureHost();
+
         return $protocol . '://' . $host;
+    }
+
+    /**
+     * Get secure protocol from request
+     * SECURITY: Validate HTTPS header
+     */
+    private function getSecureProtocol(): string
+    {
+        return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    }
+
+    /**
+     * Get secure host from request
+     * SECURITY: Validate host against whitelist to prevent Host header injection
+     */
+    private function getSecureHost(): string
+    {
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
+
+        // Sanitize host - only allow alphanumeric, dots, hyphens, colons, and brackets (for IPv6)
+        if (!preg_match('/^[a-zA-Z0-9\.\-\:\[\]]+$/', $host)) {
+            return 'localhost:17000'; // Default on invalid host
+        }
+
+        // Check against whitelist if configured
+        $allowedHosts = !empty($_ENV['ALLOWED_HOSTS'])
+            ? array_map('trim', explode(',', $_ENV['ALLOWED_HOSTS']))
+            : [];
+
+        if (!empty($allowedHosts) && !in_array($host, $allowedHosts, true)) {
+            // If whitelist is configured and host not in it, use first allowed host
+            return $allowedHosts[0] ?? 'localhost:17000';
+        }
+
+        return $host;
+    }
+
+    /**
+     * Get secure request URI
+     * SECURITY: Sanitize REQUEST_URI to prevent injection
+     */
+    private function getSecureRequestUri(): string
+    {
+        $uri = $_SERVER['REQUEST_URI'] ?? '/';
+
+        // Parse and validate URI
+        $parsed = parse_url($uri);
+        if ($parsed === false || !isset($parsed['path'])) {
+            return '/';
+        }
+
+        return $parsed['path'];
+    }
+
+    /**
+     * Get secure query string parameters
+     * SECURITY: Parse query string safely
+     */
+    private function getSecureQueryString(): array
+    {
+        $queryString = $_SERVER['QUERY_STRING'] ?? '';
+        $params = [];
+        parse_str($queryString, $params);
+        return $params;
     }
     
     /**

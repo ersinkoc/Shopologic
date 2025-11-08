@@ -6,10 +6,17 @@ namespace Shopologic\Core\Api\Middleware;
 
 use Shopologic\Core\Http\Request;
 use Shopologic\Core\Http\Response;
+use Shopologic\Core\Auth\Jwt\JwtToken;
 
 class AuthenticationMiddleware extends ApiMiddleware
 {
     protected array $except = [];
+    protected ?JwtToken $jwtToken = null;
+
+    public function __construct(?JwtToken $jwtToken = null)
+    {
+        $this->jwtToken = $jwtToken;
+    }
 
     public function handle(Request $request, callable $next): Response
     {
@@ -82,21 +89,39 @@ class AuthenticationMiddleware extends ApiMiddleware
      */
     protected function validateToken(string $token): ?object
     {
-        // This is a mock implementation
-        // In real implementation, this would:
-        // 1. Decode JWT token
-        // 2. Verify signature
-        // 3. Check expiration
-        // 4. Load user from database
-        
-        if ($token === 'valid_token') {
-            return (object) [
-                'id' => 1,
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-            ];
+        // If no JWT token validator is available, fail closed (deny access)
+        if (!$this->jwtToken) {
+            return null;
         }
-        
-        return null;
+
+        try {
+            // Decode and verify JWT token
+            $payload = $this->jwtToken->decode($token);
+
+            // Check if token has expired
+            if (isset($payload['exp']) && $payload['exp'] < time()) {
+                return null;
+            }
+
+            // Load user data from payload
+            // In production, you should load the full user from database
+            if (isset($payload['user_id']) || isset($payload['sub'])) {
+                $userId = $payload['user_id'] ?? $payload['sub'];
+
+                // TODO: Load user from database
+                // For now, return the payload data
+                return (object) [
+                    'id' => $userId,
+                    'email' => $payload['email'] ?? null,
+                    'name' => $payload['name'] ?? null,
+                ];
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            // Invalid token format or signature
+            error_log("JWT validation failed: " . $e->getMessage());
+            return null;
+        }
     }
 }

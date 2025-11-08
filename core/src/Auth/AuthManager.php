@@ -47,7 +47,18 @@ class AuthManager
         $this->guards['api'] = new Guards\TokenGuard($this->events);
         
         // JWT authentication
-        $jwtSecret = $this->config['jwt_secret'] ?? 'default-secret-change-me';
+        $jwtSecret = $this->config['jwt_secret'] ?? null;
+        if (!$jwtSecret) {
+            throw new \RuntimeException(
+                'JWT secret must be configured. Set jwt_secret in configuration. ' .
+                'Generate a secure secret with: bin2hex(random_bytes(32))'
+            );
+        }
+        if (strlen($jwtSecret) < 32) {
+            throw new \RuntimeException(
+                'JWT secret must be at least 32 characters long for security'
+            );
+        }
         $this->guards['jwt'] = new Guards\JwtGuard(new JwtToken($jwtSecret), $this->events);
     }
 

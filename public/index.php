@@ -64,10 +64,16 @@ try {
 } catch (\Exception $e) {
     // Error handling
     $isDevelopment = isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development';
-    
-    // Always show errors for now to debug
-    $isDevelopment = true;
-    
+
+    // Log the error regardless of environment
+    error_log(sprintf(
+        "Application Error: %s in %s:%d\nStack trace:\n%s",
+        $e->getMessage(),
+        $e->getFile(),
+        $e->getLine(),
+        $e->getTraceAsString()
+    ));
+
     if ($isDevelopment) {
         $content = sprintf(
             '<h1>Error: %s</h1><pre>%s</pre>',

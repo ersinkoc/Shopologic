@@ -208,10 +208,23 @@ class SessionGuard implements Guard
 
     /**
      * Queue the remember cookie
+     * SECURITY: Hash the remember token before storing in session
      */
     protected function queueRememberCookie(Authenticatable $user): void
     {
-        $value = $user->getAuthIdentifier() . '|' . $user->getRememberToken();
+        $userId = $user->getAuthIdentifier();
+        $token = $user->getRememberToken();
+
+        // SECURITY: Store hashed token to prevent exposure if session is compromised
+        // Use HMAC to bind token to user ID and prevent manipulation
+        $tokenHash = hash_hmac('sha256', $token, (string)$userId);
+
+        $value = json_encode([
+            'user_id' => $userId,
+            'token_hash' => $tokenHash,
+            'created_at' => time()
+        ]);
+
         $this->session->put('auth.remember', $value);
     }
 

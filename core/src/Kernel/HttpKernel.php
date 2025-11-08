@@ -19,12 +19,14 @@ class HttpKernel implements HttpKernelInterface
     private array $middleware = [];
     private \Shopologic\PSR\Container\ContainerInterface $container;
 
-    public function __construct(RouterInterface $router, EventManager $eventManager)
-    {
+    public function __construct(
+        RouterInterface $router,
+        EventManager $eventManager,
+        \Shopologic\PSR\Container\ContainerInterface $container
+    ) {
         $this->router = $router;
         $this->eventManager = $eventManager;
-        // Get container from the global app
-        $this->container = app()->getContainer();
+        $this->container = $container;
     }
 
     public function handle(RequestInterface $request): ResponseInterface

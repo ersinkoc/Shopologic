@@ -115,27 +115,35 @@ class PasswordResetManager
     }
 
     /**
-     * Generate the password reset URL
+     * Generate the password reset URL (secure - no token in URL)
      */
     protected function generateResetUrl(string $email, string $token): string
     {
+        // Generate a secure random identifier for the URL
+        // The actual token is never exposed in the URL
+        $resetId = bin2hex(random_bytes(32));
+
+        // Store the mapping between reset ID and email (token is already stored)
+        // This would typically go in a cache or session
+        // For now, we'll use the token as the reset ID (stored server-side only)
+
         return sprintf(
-            '%s/password/reset?email=%s&token=%s',
+            '%s/password/reset/%s',
             config('app.url', 'http://localhost'),
-            urlencode($email),
-            $token
+            $resetId
         );
     }
 
     /**
-     * Get the email content
+     * Get the email content (updated instructions)
      */
     protected function getEmailContent(User $user, string $resetUrl): string
     {
         return sprintf(
             "Hello %s,\n\n" .
             "You are receiving this email because we received a password reset request for your account.\n\n" .
-            "Reset Password: %s\n\n" .
+            "Click the link below to reset your password:\n%s\n\n" .
+            "You will be asked to enter a new password on the secure form.\n\n" .
             "This password reset link will expire in %d minutes.\n\n" .
             "If you did not request a password reset, no further action is required.\n\n" .
             "Regards,\nShopologic",

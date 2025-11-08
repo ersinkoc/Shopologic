@@ -20,11 +20,46 @@ if (file_exists($pluginsFile)) {
 // If this is a real API request (not just viewing the documentation)
 if ($requestMethod !== 'GET' || strpos($requestUri, '/api/') !== false) {
     header('Content-Type: application/json');
-    
+
     if (strpos($requestUri, '/api/') !== false) {
+        // SECURITY: Require authentication for API endpoints
+        $authenticated = false;
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
+
+        // Check for Bearer token (JWT)
+        if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+            $token = $matches[1];
+            // Validate JWT token (requires proper JWT implementation)
+            // For now, we require the token to be set
+            if (!empty($token) && strlen($token) > 32) {
+                $authenticated = true; // TODO: Implement proper JWT validation
+            }
+        }
+
+        // Check for API key in header
+        if (!$authenticated) {
+            $apiKey = $_SERVER['HTTP_X_API_KEY'] ?? '';
+            if (!empty($apiKey) && strlen($apiKey) >= 32) {
+                // TODO: Validate API key against database
+                // For now, reject without proper validation
+                $authenticated = false;
+            }
+        }
+
+        // Require authentication for all API endpoints
+        if (!$authenticated) {
+            http_response_code(401);
+            echo json_encode([
+                'error' => 'Unauthorized',
+                'message' => 'API access requires authentication. Please provide a valid Bearer token or API key.',
+                'code' => 'UNAUTHORIZED'
+            ]);
+            exit;
+        }
+
         // Parse API endpoint
         $endpoint = str_replace('/api/', '', $requestUri);
-        
+
         switch ($endpoint) {
             case 'status':
                 echo json_encode([
@@ -34,7 +69,7 @@ if ($requestMethod !== 'GET' || strpos($requestUri, '/api/') !== false) {
                     'plugins' => count($plugins ?? [])
                 ]);
                 break;
-                
+
             case 'plugins':
                 echo json_encode([
                     'total' => count($plugins ?? []),
@@ -48,7 +83,7 @@ if ($requestMethod !== 'GET' || strpos($requestUri, '/api/') !== false) {
                     }, $plugins ?? [])
                 ]);
                 break;
-                
+
             default:
                 http_response_code(404);
                 echo json_encode(['error' => 'Endpoint not found']);

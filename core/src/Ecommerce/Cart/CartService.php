@@ -166,34 +166,100 @@ class CartService
             
             $order->save();
             
-            // Create order items
+            // Create order items and reserve inventory with row-level locking
             foreach ($this->cart->items() as $cartItem) {
                 $orderItem = new OrderItem();
                 $orderItem->order_id = $order->id;
                 $orderItem->product_id = $cartItem->product->id;
                 $orderItem->product_variant_id = $cartItem->variant?->id;
                 $orderItem->product_name = $cartItem->product->name;
-                $orderItem->product_sku = $cartItem->variant ? 
-                    $cartItem->variant->sku : 
+                $orderItem->product_sku = $cartItem->variant ?
+                    $cartItem->variant->sku :
                     $cartItem->product->sku;
                 $orderItem->price = $cartItem->getPrice();
                 $orderItem->quantity = $cartItem->quantity;
                 $orderItem->subtotal = $cartItem->getTotal();
-                
+
                 // Store variant options
                 if ($cartItem->variant) {
                     $orderItem->variant_options = json_encode($cartItem->variant->getOptionsArray());
                 }
-                
+
                 $orderItem->save();
-                
-                // Reserve inventory
+
+                // SECURITY FIX: Reserve inventory with row-level locking to prevent race conditions
+                // Use SELECT FOR UPDATE to lock the row and prevent concurrent modifications
                 if ($cartItem->variant) {
-                    $cartItem->variant->reserved_quantity += $cartItem->quantity;
-                    $cartItem->variant->save();
+                    $connection = DB::connection();
+
+                    // Lock and fetch current reserved quantity
+                    $query = "SELECT id, reserved_quantity, quantity, track_quantity, allow_backorder
+                              FROM product_variants WHERE id = ? FOR UPDATE";
+                    $stmt = $connection->prepare($query);
+                    $stmt->execute([$cartItem->variant->id]);
+                    $variantData = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+                    if (!$variantData) {
+                        throw new \Exception('Variant not found: ' . $cartItem->variant->id);
+                    }
+
+                    $currentReserved = (int)$variantData['reserved_quantity'];
+                    $currentQuantity = (int)$variantData['quantity'];
+                    $trackQuantity = (bool)$variantData['track_quantity'];
+                    $allowBackorder = (bool)$variantData['allow_backorder'];
+
+                    // Validate stock is still available
+                    if ($trackQuantity && !$allowBackorder) {
+                        $availableQty = $currentQuantity - $currentReserved;
+                        if ($availableQty < $cartItem->quantity) {
+                            throw new \Exception(
+                                "Insufficient stock for {$cartItem->product->name}. " .
+                                "Only {$availableQty} available."
+                            );
+                        }
+                    }
+
+                    // Atomically update reserved quantity
+                    $newReserved = $currentReserved + $cartItem->quantity;
+                    $updateQuery = "UPDATE product_variants SET reserved_quantity = ? WHERE id = ?";
+                    $updateStmt = $connection->prepare($updateQuery);
+                    $updateStmt->execute([$newReserved, $cartItem->variant->id]);
+
                 } else {
-                    $cartItem->product->reserved_quantity += $cartItem->quantity;
-                    $cartItem->product->save();
+                    $connection = DB::connection();
+
+                    // Lock and fetch current reserved quantity for product
+                    $query = "SELECT id, reserved_quantity, quantity, track_quantity, allow_backorder
+                              FROM products WHERE id = ? FOR UPDATE";
+                    $stmt = $connection->prepare($query);
+                    $stmt->execute([$cartItem->product->id]);
+                    $productData = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+                    if (!$productData) {
+                        throw new \Exception('Product not found: ' . $cartItem->product->id);
+                    }
+
+                    $currentReserved = (int)$productData['reserved_quantity'];
+                    $currentQuantity = (int)$productData['quantity'];
+                    $trackQuantity = (bool)$productData['track_quantity'];
+                    $allowBackorder = (bool)$productData['allow_backorder'];
+
+                    // Validate stock is still available
+                    if ($trackQuantity && !$allowBackorder) {
+                        $availableQty = $currentQuantity - $currentReserved;
+                        if ($availableQty < $cartItem->quantity) {
+                            throw new \Exception(
+                                "Insufficient stock for {$cartItem->product->name}. " .
+                                "Only {$availableQty} available."
+                            );
+                        }
+                    }
+
+                    // Atomically update reserved quantity
+                    $newReserved = $currentReserved + $cartItem->quantity;
+                    $updateQuery = "UPDATE products SET reserved_quantity = ? WHERE id = ?";
+                    $updateStmt = $connection->prepare($updateQuery);
+                    $updateStmt->execute([$newReserved, $cartItem->product->id]);
                 }
             }
             

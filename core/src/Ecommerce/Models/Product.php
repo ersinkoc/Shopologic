@@ -127,27 +127,67 @@ class Product extends Model
     }
 
     /**
-     * Decrease stock
+     * Decrease stock (with transaction and row-level locking to prevent race conditions)
      */
     public function decreaseStock(int $quantity): bool
     {
         if (!$this->track_quantity) {
             return true;
         }
-        
-        // BUG FIX (BUG-012): Fixed off-by-one error in stock validation
-        // Check if we have enough stock OR if backorders are allowed
-        if ($this->quantity < $quantity && !$this->allow_backorder) {
-            return false;
-        }
 
-        // Also prevent selling when quantity is 0 or negative
-        if ($this->quantity <= 0 && !$this->allow_backorder) {
+        // Use database transaction with row-level locking to prevent overselling
+        $connection = $this->getConnection();
+
+        try {
+            // Start transaction
+            $connection->beginTransaction();
+
+            // Lock the row for update (SELECT FOR UPDATE)
+            $query = "SELECT quantity, allow_backorder FROM {$this->table} WHERE id = ? FOR UPDATE";
+            $stmt = $connection->prepare($query);
+            $stmt->execute([$this->id]);
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$row) {
+                $connection->rollback();
+                return false;
+            }
+
+            $currentQuantity = (int) $row['quantity'];
+            $allowBackorder = (bool) $row['allow_backorder'];
+
+            // Check if we have enough stock
+            if ($currentQuantity < $quantity && !$allowBackorder) {
+                $connection->rollback();
+                return false;
+            }
+
+            // Prevent selling when quantity is 0 or negative
+            if ($currentQuantity <= 0 && !$allowBackorder) {
+                $connection->rollback();
+                return false;
+            }
+
+            // Update quantity
+            $newQuantity = $currentQuantity - $quantity;
+            $updateQuery = "UPDATE {$this->table} SET quantity = ? WHERE id = ?";
+            $updateStmt = $connection->prepare($updateQuery);
+            $result = $updateStmt->execute([$newQuantity, $this->id]);
+
+            if ($result) {
+                $connection->commit();
+                // Update model instance
+                $this->quantity = $newQuantity;
+                return true;
+            } else {
+                $connection->rollback();
+                return false;
+            }
+        } catch (\Exception $e) {
+            $connection->rollback();
+            error_log("Stock decrease failed: " . $e->getMessage());
             return false;
         }
-        
-        $this->quantity -= $quantity;
-        return $this->save();
     }
 
     /**
@@ -186,10 +226,25 @@ class Product extends Model
 
     /**
      * Get primary image
+     * OPTIMIZED: Use eager-loaded relationship if available to prevent N+1 queries
      */
     public function getPrimaryImage(): ?ProductImage
     {
-        return $this->images()->where('is_primary', true)->first() 
+        // If images relationship is already loaded, use it (prevents N+1 queries)
+        if ($this->relationLoaded('images')) {
+            $images = $this->getRelation('images');
+            // Find primary image
+            foreach ($images as $image) {
+                if ($image->is_primary) {
+                    return $image;
+                }
+            }
+            // Return first image if no primary
+            return $images->first();
+        }
+
+        // Otherwise, query the database
+        return $this->images()->where('is_primary', true)->first()
             ?? $this->images()->first();
     }
 
@@ -265,18 +320,45 @@ class Product extends Model
 
     /**
      * Calculate average rating
+     * OPTIMIZED: Use eager-loaded relationship if available to prevent N+1 queries
      */
     public function getAverageRating(): float
     {
+        // If reviews relationship is already loaded, calculate from collection
+        if ($this->relationLoaded('reviews')) {
+            $reviews = $this->getRelation('reviews')->filter(function ($review) {
+                return $review->is_approved;
+            });
+
+            if ($reviews->isEmpty()) {
+                return 0;
+            }
+
+            $sum = $reviews->sum('rating');
+            $count = $reviews->count();
+            $avg = $count > 0 ? $sum / $count : 0;
+            return round($avg, 1);
+        }
+
+        // Otherwise, query the database
         $avg = $this->reviews()->where('is_approved', true)->avg('rating');
         return round($avg ?? 0, 1);
     }
 
     /**
      * Get review count
+     * OPTIMIZED: Use eager-loaded relationship if available to prevent N+1 queries
      */
     public function getReviewCount(): int
     {
+        // If reviews relationship is already loaded, count from collection
+        if ($this->relationLoaded('reviews')) {
+            return $this->getRelation('reviews')->filter(function ($review) {
+                return $review->is_approved;
+            })->count();
+        }
+
+        // Otherwise, query the database
         return $this->reviews()->where('is_approved', true)->count();
     }
 

@@ -114,7 +114,9 @@ class CheckoutController
                 'user' => $user,
                 'default_data' => $defaultData,
                 'login_url' => '/auth/login',
-                'register_url' => '/auth/register'
+                'register_url' => '/auth/register',
+                // SECURITY: CSRF protection token
+                'csrf_token' => $this->getCsrfToken(),
             ];
             
             // Apply filters to allow plugins to modify checkout data
@@ -136,15 +138,25 @@ class CheckoutController
     
     /**
      * Process checkout form submission
+     * SECURITY FIX: Add CSRF protection to prevent cross-site request forgery attacks
      */
     public function process(RequestInterface $request): ResponseInterface
     {
         try {
+            // SECURITY: Validate CSRF token for all checkout submissions
+            if (!$this->validateCsrfToken($request)) {
+                return $this->jsonResponse([
+                    'success' => false,
+                    'message' => 'CSRF token validation failed',
+                    'error' => 'INVALID_CSRF_TOKEN'
+                ], 403);
+            }
+
             // Check if cart is empty
             if ($this->cart->isEmpty()) {
                 return $this->jsonResponse(['success' => false, 'message' => 'Cart is empty'], 400);
             }
-            
+
             $data = $this->getRequestData($request);
             
             // Validate checkout data
@@ -629,5 +641,76 @@ class CheckoutController
         }
 
         return 'Unknown';
+    }
+
+    /**
+     * Validate CSRF token from request
+     * SECURITY FIX: Protect against CSRF attacks
+     */
+    private function validateCsrfToken(RequestInterface $request): bool
+    {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Get token from session
+        $sessionToken = $_SESSION['_csrf_token'] ?? null;
+
+        if (!$sessionToken) {
+            error_log('CSRF validation failed: No session token found');
+            return false;
+        }
+
+        // Get token from request (POST data or header)
+        $requestToken = null;
+
+        // Check POST data
+        $parsedBody = $request->getParsedBody();
+        if (is_array($parsedBody) && isset($parsedBody['_csrf_token'])) {
+            $requestToken = $parsedBody['_csrf_token'];
+        }
+
+        // Check request data (from getRequestData)
+        if (!$requestToken) {
+            $data = $this->getRequestData($request);
+            $requestToken = $data['_csrf_token'] ?? null;
+        }
+
+        // Check X-CSRF-Token header (for AJAX requests)
+        if (!$requestToken && $request->hasHeader('X-CSRF-Token')) {
+            $requestToken = $request->getHeaderLine('X-CSRF-Token');
+        }
+
+        if (!$requestToken) {
+            error_log('CSRF validation failed: No request token provided');
+            return false;
+        }
+
+        // Use timing-safe comparison to prevent timing attacks
+        if (!hash_equals($sessionToken, $requestToken)) {
+            error_log('CSRF validation failed: Token mismatch');
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get or generate CSRF token for forms
+     */
+    private function getCsrfToken(): string
+    {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Generate token if it doesn't exist
+        if (!isset($_SESSION['_csrf_token'])) {
+            $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        return $_SESSION['_csrf_token'];
     }
 }

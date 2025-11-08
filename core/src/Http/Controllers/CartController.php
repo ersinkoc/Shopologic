@@ -258,13 +258,43 @@ class CartController
     
     /**
      * Generate URL
+     * SECURITY FIX: Prevent Host header injection attacks
      */
     private function getUrl(string $path = ''): string
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
+
+        // SECURITY: Validate host against whitelist to prevent Host header injection
+        $requestHost = $_SERVER['HTTP_HOST'] ?? '';
+        $allowedHosts = [
+            'localhost:17000',
+            'localhost',
+            '127.0.0.1:17000',
+            '127.0.0.1',
+        ];
+
+        // Load configured allowed hosts from environment
+        $configuredHost = $_ENV['APP_URL'] ?? getenv('APP_URL') ?? '';
+        if (!empty($configuredHost)) {
+            $parsedUrl = parse_url($configuredHost);
+            if (isset($parsedUrl['host'])) {
+                $allowedHosts[] = $parsedUrl['host'];
+                if (isset($parsedUrl['port'])) {
+                    $allowedHosts[] = $parsedUrl['host'] . ':' . $parsedUrl['port'];
+                }
+            }
+        }
+
+        // Validate request host
+        if (!in_array($requestHost, $allowedHosts, true)) {
+            error_log('SECURITY WARNING: Invalid Host header detected: ' . $requestHost);
+            $host = $allowedHosts[0];
+        } else {
+            $host = $requestHost;
+        }
+
         $baseUrl = $protocol . '://' . $host;
-        
+
         $path = ltrim($path, '/');
         return $baseUrl . '/' . $path;
     }

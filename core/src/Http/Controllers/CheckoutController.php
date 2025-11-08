@@ -188,23 +188,51 @@ class CheckoutController
                 'shipping_country' => $data['shipping_country'] ?? 'US',
             ];
             
+            // PCI-DSS COMPLIANCE: CVV must NEVER be stored
+            // CVV is only used for validation during payment processing
+            // It must not be persisted in database, logs, or order records
+            $cvvForProcessing = $data['cvv'] ?? '';
+
+            // Payment data for order record (NO CVV - PCI-DSS requirement)
             $paymentData = [
+                'payment_method' => $data['payment_method'] ?? 'card',
+                // SECURITY: Do NOT include actual card details here
+                // Use payment gateway tokenization instead
+                'cardholder_name' => $data['cardholder_name'] ?? '',
+                'card_last_four' => isset($data['card_number']) ? substr($data['card_number'], -4) : '',
+                'card_type' => $this->detectCardType($data['card_number'] ?? ''),
+            ];
+
+            // Temporary payment processing data (includes CVV for validation only)
+            // This data is NEVER stored - used only for immediate payment processing
+            $paymentProcessingData = [
                 'payment_method' => $data['payment_method'] ?? 'card',
                 'card_number' => $data['card_number'] ?? '',
                 'expiry_month' => $data['expiry_month'] ?? '',
                 'expiry_year' => $data['expiry_year'] ?? '',
-                'cvv' => $data['cvv'] ?? '',
+                'cvv' => $cvvForProcessing, // Used for processing only, never stored
                 'cardholder_name' => $data['cardholder_name'] ?? '',
             ];
-            
-            // Create order
+
+            // Create order (with safe payment data - NO sensitive card info)
             $order = $this->orderService->createOrder($this->cart, $customerData, $shippingData, $paymentData);
             if (!$order) {
                 return $this->jsonResponse(['success' => false, 'message' => 'Failed to create order'], 500);
             }
-            
-            // Process payment
-            $paymentResult = $this->orderService->processPayment($order['id'], $paymentData);
+
+            // Process payment using temporary processing data (with CVV for validation)
+            // IMPORTANT: This data is only used for immediate payment processing
+            // Payment gateway should tokenize card details and return token
+            $paymentResult = $this->orderService->processPayment($order['id'], $paymentProcessingData);
+
+            // SECURITY: Explicitly clear sensitive payment data from memory
+            unset($paymentProcessingData, $cvvForProcessing);
+            if (isset($data['card_number'])) {
+                $data['card_number'] = 'REDACTED';
+            }
+            if (isset($data['cvv'])) {
+                $data['cvv'] = 'REDACTED';
+            }
             
             if ($paymentResult['success']) {
                 // Clear cart after successful payment
@@ -501,13 +529,46 @@ class CheckoutController
     
     /**
      * Generate URL
+     * SECURITY FIX: Prevent Host header injection attacks
      */
     private function getUrl(string $path = ''): string
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
+
+        // SECURITY: Validate host against whitelist to prevent Host header injection
+        // This prevents password reset poisoning, cache poisoning, and phishing attacks
+        $requestHost = $_SERVER['HTTP_HOST'] ?? '';
+        $allowedHosts = [
+            'localhost:17000',
+            'localhost',
+            '127.0.0.1:17000',
+            '127.0.0.1',
+        ];
+
+        // Load configured allowed hosts from environment
+        $configuredHost = $_ENV['APP_URL'] ?? getenv('APP_URL') ?? '';
+        if (!empty($configuredHost)) {
+            // Extract host from APP_URL
+            $parsedUrl = parse_url($configuredHost);
+            if (isset($parsedUrl['host'])) {
+                $allowedHosts[] = $parsedUrl['host'];
+                if (isset($parsedUrl['port'])) {
+                    $allowedHosts[] = $parsedUrl['host'] . ':' . $parsedUrl['port'];
+                }
+            }
+        }
+
+        // Validate request host
+        if (!in_array($requestHost, $allowedHosts, true)) {
+            error_log('SECURITY WARNING: Invalid Host header detected: ' . $requestHost);
+            // Use first allowed host as fallback
+            $host = $allowedHosts[0];
+        } else {
+            $host = $requestHost;
+        }
+
         $baseUrl = $protocol . '://' . $host;
-        
+
         $path = ltrim($path, '/');
         return $baseUrl . '/' . $path;
     }
@@ -541,7 +602,32 @@ class CheckoutController
     {
         $body = new Stream('php://memory', 'w+');
         $body->write('<h1>Error</h1><p>' . htmlspecialchars($message) . '</p>');
-        
+
         return new Response($status, ['Content-Type' => 'text/html'], $body);
+    }
+
+    /**
+     * Detect card type from card number (for display purposes only)
+     * SECURITY: This only uses the BIN (first 6 digits) for card type detection
+     */
+    private function detectCardType(string $cardNumber): string
+    {
+        // Remove spaces and dashes
+        $cardNumber = preg_replace('/[\s\-]/', '', $cardNumber);
+
+        // Detect card type by BIN ranges (first digits)
+        if (preg_match('/^4/', $cardNumber)) {
+            return 'Visa';
+        } elseif (preg_match('/^5[1-5]/', $cardNumber)) {
+            return 'MasterCard';
+        } elseif (preg_match('/^3[47]/', $cardNumber)) {
+            return 'American Express';
+        } elseif (preg_match('/^6(?:011|5)/', $cardNumber)) {
+            return 'Discover';
+        } elseif (preg_match('/^35/', $cardNumber)) {
+            return 'JCB';
+        }
+
+        return 'Unknown';
     }
 }

@@ -84,15 +84,28 @@ $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZ
 if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
     $token = $matches[1];
 
-    // Validate JWT token
-    if (!empty($token) && strlen($token) > 32) {
-        // TODO: Implement proper JWT validation with JwtToken class
-        // For now, we require a valid-looking token to proceed
-        // This should be replaced with actual JWT validation:
-        // require_once SHOPOLOGIC_ROOT . '/core/src/Auth/Jwt/JwtToken.php';
-        // $jwtToken = new \Shopologic\Core\Auth\Jwt\JwtToken($secret);
-        // $payload = $jwtToken->decode($token);
-        $authenticated = true; // Temporary - replace with real validation
+    // SECURITY FIX: Implement proper JWT validation
+    try {
+        require_once SHOPOLOGIC_ROOT . '/core/src/Auth/Jwt/JwtToken.php';
+
+        // Get JWT secret from environment or configuration
+        $jwtSecret = $_ENV['JWT_SECRET'] ?? getenv('JWT_SECRET') ?? '';
+
+        if (empty($jwtSecret)) {
+            error_log('SECURITY WARNING: JWT_SECRET not configured - authentication will fail');
+        } else {
+            $jwtToken = new \Shopologic\Core\Auth\Jwt\JwtToken($jwtSecret);
+            $payload = $jwtToken->parse($token);
+
+            if ($payload && isset($payload['sub'])) {
+                // Valid JWT token with subject claim
+                $authenticated = true;
+                $currentUser = $payload['sub'];
+            }
+        }
+    } catch (\Exception $e) {
+        error_log('JWT validation error: ' . $e->getMessage());
+        $authenticated = false;
     }
 }
 

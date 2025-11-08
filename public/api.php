@@ -29,10 +29,28 @@ if ($requestMethod !== 'GET' || strpos($requestUri, '/api/') !== false) {
         // Check for Bearer token (JWT)
         if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
             $token = $matches[1];
-            // Validate JWT token (requires proper JWT implementation)
-            // For now, we require the token to be set
-            if (!empty($token) && strlen($token) > 32) {
-                $authenticated = true; // TODO: Implement proper JWT validation
+
+            // SECURITY FIX: Implement proper JWT validation
+            try {
+                require_once dirname(__DIR__) . '/core/src/Auth/Jwt/JwtToken.php';
+
+                // Get JWT secret from environment or configuration
+                $jwtSecret = $_ENV['JWT_SECRET'] ?? getenv('JWT_SECRET') ?? '';
+
+                if (empty($jwtSecret)) {
+                    error_log('SECURITY WARNING: JWT_SECRET not configured - authentication will fail');
+                } else {
+                    $jwtToken = new \Shopologic\Core\Auth\Jwt\JwtToken($jwtSecret);
+                    $payload = $jwtToken->parse($token);
+
+                    if ($payload && isset($payload['sub'])) {
+                        // Valid JWT token with subject claim
+                        $authenticated = true;
+                    }
+                }
+            } catch (\Exception $e) {
+                error_log('JWT validation error: ' . $e->getMessage());
+                $authenticated = false;
             }
         }
 
@@ -40,9 +58,40 @@ if ($requestMethod !== 'GET' || strpos($requestUri, '/api/') !== false) {
         if (!$authenticated) {
             $apiKey = $_SERVER['HTTP_X_API_KEY'] ?? '';
             if (!empty($apiKey) && strlen($apiKey) >= 32) {
-                // TODO: Validate API key against database
-                // For now, reject without proper validation
-                $authenticated = false;
+                // SECURITY FIX: Implement API key validation
+                // API keys should be stored hashed in database
+                // For production: implement database lookup and validation
+                try {
+                    // Load API keys from configuration or database
+                    $validApiKeys = [];
+
+                    // Check if .env or config file has API keys configured
+                    if (function_exists('config')) {
+                        $validApiKeys = config('api.keys', []);
+                    } elseif (file_exists(dirname(__DIR__) . '/.env')) {
+                        // Parse .env for API_KEY_* entries
+                        $envContent = file_get_contents(dirname(__DIR__) . '/.env');
+                        if (preg_match_all('/^API_KEY_\w+=(.+)$/m', $envContent, $matches)) {
+                            $validApiKeys = array_map('trim', $matches[1]);
+                        }
+                    }
+
+                    // Validate API key
+                    // SECURITY: Use timing-safe comparison to prevent timing attacks
+                    foreach ($validApiKeys as $validKey) {
+                        if (hash_equals($validKey, $apiKey)) {
+                            $authenticated = true;
+                            break;
+                        }
+                    }
+
+                    if (!$authenticated) {
+                        error_log('API authentication failed: Invalid API key');
+                    }
+                } catch (\Exception $e) {
+                    error_log('API key validation error: ' . $e->getMessage());
+                    $authenticated = false;
+                }
             }
         }
 

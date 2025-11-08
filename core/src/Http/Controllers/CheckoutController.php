@@ -114,7 +114,9 @@ class CheckoutController
                 'user' => $user,
                 'default_data' => $defaultData,
                 'login_url' => '/auth/login',
-                'register_url' => '/auth/register'
+                'register_url' => '/auth/register',
+                // SECURITY: CSRF protection token
+                'csrf_token' => $this->getCsrfToken(),
             ];
             
             // Apply filters to allow plugins to modify checkout data
@@ -136,15 +138,25 @@ class CheckoutController
     
     /**
      * Process checkout form submission
+     * SECURITY FIX: Add CSRF protection to prevent cross-site request forgery attacks
      */
     public function process(RequestInterface $request): ResponseInterface
     {
         try {
+            // SECURITY: Validate CSRF token for all checkout submissions
+            if (!$this->validateCsrfToken($request)) {
+                return $this->jsonResponse([
+                    'success' => false,
+                    'message' => 'CSRF token validation failed',
+                    'error' => 'INVALID_CSRF_TOKEN'
+                ], 403);
+            }
+
             // Check if cart is empty
             if ($this->cart->isEmpty()) {
                 return $this->jsonResponse(['success' => false, 'message' => 'Cart is empty'], 400);
             }
-            
+
             $data = $this->getRequestData($request);
             
             // Validate checkout data
@@ -188,23 +200,51 @@ class CheckoutController
                 'shipping_country' => $data['shipping_country'] ?? 'US',
             ];
             
+            // PCI-DSS COMPLIANCE: CVV must NEVER be stored
+            // CVV is only used for validation during payment processing
+            // It must not be persisted in database, logs, or order records
+            $cvvForProcessing = $data['cvv'] ?? '';
+
+            // Payment data for order record (NO CVV - PCI-DSS requirement)
             $paymentData = [
+                'payment_method' => $data['payment_method'] ?? 'card',
+                // SECURITY: Do NOT include actual card details here
+                // Use payment gateway tokenization instead
+                'cardholder_name' => $data['cardholder_name'] ?? '',
+                'card_last_four' => isset($data['card_number']) ? substr($data['card_number'], -4) : '',
+                'card_type' => $this->detectCardType($data['card_number'] ?? ''),
+            ];
+
+            // Temporary payment processing data (includes CVV for validation only)
+            // This data is NEVER stored - used only for immediate payment processing
+            $paymentProcessingData = [
                 'payment_method' => $data['payment_method'] ?? 'card',
                 'card_number' => $data['card_number'] ?? '',
                 'expiry_month' => $data['expiry_month'] ?? '',
                 'expiry_year' => $data['expiry_year'] ?? '',
-                'cvv' => $data['cvv'] ?? '',
+                'cvv' => $cvvForProcessing, // Used for processing only, never stored
                 'cardholder_name' => $data['cardholder_name'] ?? '',
             ];
-            
-            // Create order
+
+            // Create order (with safe payment data - NO sensitive card info)
             $order = $this->orderService->createOrder($this->cart, $customerData, $shippingData, $paymentData);
             if (!$order) {
                 return $this->jsonResponse(['success' => false, 'message' => 'Failed to create order'], 500);
             }
-            
-            // Process payment
-            $paymentResult = $this->orderService->processPayment($order['id'], $paymentData);
+
+            // Process payment using temporary processing data (with CVV for validation)
+            // IMPORTANT: This data is only used for immediate payment processing
+            // Payment gateway should tokenize card details and return token
+            $paymentResult = $this->orderService->processPayment($order['id'], $paymentProcessingData);
+
+            // SECURITY: Explicitly clear sensitive payment data from memory
+            unset($paymentProcessingData, $cvvForProcessing);
+            if (isset($data['card_number'])) {
+                $data['card_number'] = 'REDACTED';
+            }
+            if (isset($data['cvv'])) {
+                $data['cvv'] = 'REDACTED';
+            }
             
             if ($paymentResult['success']) {
                 // Clear cart after successful payment
@@ -501,13 +541,46 @@ class CheckoutController
     
     /**
      * Generate URL
+     * SECURITY FIX: Prevent Host header injection attacks
      */
     private function getUrl(string $path = ''): string
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost:17000';
+
+        // SECURITY: Validate host against whitelist to prevent Host header injection
+        // This prevents password reset poisoning, cache poisoning, and phishing attacks
+        $requestHost = $_SERVER['HTTP_HOST'] ?? '';
+        $allowedHosts = [
+            'localhost:17000',
+            'localhost',
+            '127.0.0.1:17000',
+            '127.0.0.1',
+        ];
+
+        // Load configured allowed hosts from environment
+        $configuredHost = $_ENV['APP_URL'] ?? getenv('APP_URL') ?? '';
+        if (!empty($configuredHost)) {
+            // Extract host from APP_URL
+            $parsedUrl = parse_url($configuredHost);
+            if (isset($parsedUrl['host'])) {
+                $allowedHosts[] = $parsedUrl['host'];
+                if (isset($parsedUrl['port'])) {
+                    $allowedHosts[] = $parsedUrl['host'] . ':' . $parsedUrl['port'];
+                }
+            }
+        }
+
+        // Validate request host
+        if (!in_array($requestHost, $allowedHosts, true)) {
+            error_log('SECURITY WARNING: Invalid Host header detected: ' . $requestHost);
+            // Use first allowed host as fallback
+            $host = $allowedHosts[0];
+        } else {
+            $host = $requestHost;
+        }
+
         $baseUrl = $protocol . '://' . $host;
-        
+
         $path = ltrim($path, '/');
         return $baseUrl . '/' . $path;
     }
@@ -541,7 +614,103 @@ class CheckoutController
     {
         $body = new Stream('php://memory', 'w+');
         $body->write('<h1>Error</h1><p>' . htmlspecialchars($message) . '</p>');
-        
+
         return new Response($status, ['Content-Type' => 'text/html'], $body);
+    }
+
+    /**
+     * Detect card type from card number (for display purposes only)
+     * SECURITY: This only uses the BIN (first 6 digits) for card type detection
+     */
+    private function detectCardType(string $cardNumber): string
+    {
+        // Remove spaces and dashes
+        $cardNumber = preg_replace('/[\s\-]/', '', $cardNumber);
+
+        // Detect card type by BIN ranges (first digits)
+        if (preg_match('/^4/', $cardNumber)) {
+            return 'Visa';
+        } elseif (preg_match('/^5[1-5]/', $cardNumber)) {
+            return 'MasterCard';
+        } elseif (preg_match('/^3[47]/', $cardNumber)) {
+            return 'American Express';
+        } elseif (preg_match('/^6(?:011|5)/', $cardNumber)) {
+            return 'Discover';
+        } elseif (preg_match('/^35/', $cardNumber)) {
+            return 'JCB';
+        }
+
+        return 'Unknown';
+    }
+
+    /**
+     * Validate CSRF token from request
+     * SECURITY FIX: Protect against CSRF attacks
+     */
+    private function validateCsrfToken(RequestInterface $request): bool
+    {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Get token from session
+        $sessionToken = $_SESSION['_csrf_token'] ?? null;
+
+        if (!$sessionToken) {
+            error_log('CSRF validation failed: No session token found');
+            return false;
+        }
+
+        // Get token from request (POST data or header)
+        $requestToken = null;
+
+        // Check POST data
+        $parsedBody = $request->getParsedBody();
+        if (is_array($parsedBody) && isset($parsedBody['_csrf_token'])) {
+            $requestToken = $parsedBody['_csrf_token'];
+        }
+
+        // Check request data (from getRequestData)
+        if (!$requestToken) {
+            $data = $this->getRequestData($request);
+            $requestToken = $data['_csrf_token'] ?? null;
+        }
+
+        // Check X-CSRF-Token header (for AJAX requests)
+        if (!$requestToken && $request->hasHeader('X-CSRF-Token')) {
+            $requestToken = $request->getHeaderLine('X-CSRF-Token');
+        }
+
+        if (!$requestToken) {
+            error_log('CSRF validation failed: No request token provided');
+            return false;
+        }
+
+        // Use timing-safe comparison to prevent timing attacks
+        if (!hash_equals($sessionToken, $requestToken)) {
+            error_log('CSRF validation failed: Token mismatch');
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get or generate CSRF token for forms
+     */
+    private function getCsrfToken(): string
+    {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Generate token if it doesn't exist
+        if (!isset($_SESSION['_csrf_token'])) {
+            $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        return $_SESSION['_csrf_token'];
     }
 }

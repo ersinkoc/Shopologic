@@ -21,6 +21,42 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 // Update last activity timestamp
 $_SESSION['last_activity'] = time();
 
+// SECURITY FIX: CSRF Protection for state-changing operations
+// Generate CSRF token if it doesn't exist
+if (!isset($_SESSION['_csrf_token'])) {
+    $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Validate CSRF token for POST/PUT/PATCH/DELETE requests
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if (in_array($requestMethod, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+    $csrfValid = false;
+    $sessionToken = $_SESSION['_csrf_token'] ?? null;
+
+    // Check token from POST data
+    $requestToken = $_POST['_csrf_token'] ?? null;
+
+    // Check X-CSRF-Token header for AJAX requests
+    if (!$requestToken && isset($_SERVER['HTTP_X_CSRF_TOKEN'])) {
+        $requestToken = $_SERVER['HTTP_X_CSRF_TOKEN'];
+    }
+
+    // Validate token using timing-safe comparison
+    if ($sessionToken && $requestToken && hash_equals($sessionToken, $requestToken)) {
+        $csrfValid = true;
+    }
+
+    if (!$csrfValid) {
+        header('HTTP/1.1 403 Forbidden');
+        header('Content-Type: application/json');
+        echo json_encode([
+            'error' => 'CSRF validation failed',
+            'message' => 'Invalid or missing CSRF token'
+        ]);
+        exit;
+    }
+}
+
 // Load plugin data
 $storageDir = dirname(__DIR__) . '/storage/plugins';
 $pluginsFile = $storageDir . '/plugins.json';

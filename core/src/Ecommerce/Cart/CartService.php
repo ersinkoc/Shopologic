@@ -282,15 +282,31 @@ class CartService
     }
     
     /**
-     * Generate unique order number
+     * Generate unique order number with race condition protection
+     * BUG-QUALITY-007 FIX: Improved randomness and added unique constraint handling
+     *
+     * Note: This method still has a theoretical TOCTOU race condition. For production,
+     * ensure the orders.order_number column has a UNIQUE constraint in the database,
+     * and handle duplicate key exceptions when creating the order.
      */
     protected function generateOrderNumber(): string
     {
+        $maxAttempts = 10;
+        $attempt = 0;
+
         do {
-            $number = 'ORD-' . date('Ymd') . '-' . strtoupper(substr(md5(uniqid()), 0, 6));
+            // Use cryptographically secure random instead of md5(uniqid())
+            $randomPart = strtoupper(bin2hex(random_bytes(4)));
+            $number = 'ORD-' . date('Ymd') . '-' . $randomPart;
             $exists = Order::where('order_number', $number)->exists();
-        } while ($exists);
-        
+            $attempt++;
+        } while ($exists && $attempt < $maxAttempts);
+
+        if ($attempt >= $maxAttempts) {
+            // Fallback to UUID-style to ensure uniqueness
+            $number = 'ORD-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(8)));
+        }
+
         return $number;
     }
     

@@ -206,13 +206,14 @@ class Cart
     }
 
     /**
-     * Get tax amount
+     * Get tax amount with proper decimal rounding
+     * BUG-FUNC-006 FIX: Added rounding to prevent floating-point precision errors
      */
     public function getTax(): float
     {
         // In a real implementation, calculate tax based on location
         $taxableAmount = $this->getSubtotal() - $this->getDiscount();
-        return $taxableAmount * 0.08; // 8% tax for demo
+        return round($taxableAmount * 0.08, 2); // 8% tax for demo
     }
 
     /**

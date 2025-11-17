@@ -57,10 +57,11 @@ class OrderItem extends Model
     }
 
     /**
-     * Calculate total
+     * Calculate total with proper decimal rounding
+     * BUG-FUNC-006 FIX: Added rounding to prevent floating-point precision errors
      */
     public function calculateTotal(): void
     {
-        $this->total = $this->price * $this->quantity;
+        $this->total = round($this->price * $this->quantity, 2);
     }
 }

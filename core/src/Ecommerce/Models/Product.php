@@ -117,13 +117,18 @@ class Product extends Model
     /**
      * Get available quantity
      */
+    /**
+     * Get available quantity (accounting for reserved stock)
+     * BUG-FUNC-002 FIX: Now properly subtracts reserved_quantity
+     */
     public function getAvailableQuantity(): int
     {
         if (!$this->track_quantity) {
             return PHP_INT_MAX;
         }
-        
-        return max(0, $this->quantity);
+
+        $reserved = $this->reserved_quantity ?? 0;
+        return max(0, $this->quantity - $reserved);
     }
 
     /**

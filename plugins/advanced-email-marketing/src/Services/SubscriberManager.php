@@ -429,10 +429,11 @@ class SubscriberManager\n{
     }
 
     /**
-     * Generate confirmation token
+     * Generate cryptographically secure confirmation token
+     * BUG-QUALITY-008 FIX: Using random_bytes() instead of predictable uniqid/time/rand
      */
     private function generateConfirmationToken(): string
     {
-        return hash('sha256', uniqid() . time() . rand());
+        return bin2hex(random_bytes(32));
     }
 }

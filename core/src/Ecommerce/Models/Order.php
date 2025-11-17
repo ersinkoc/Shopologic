@@ -306,14 +306,15 @@ class Order extends Model
     }
 
     /**
-     * Get refunded amount
+     * Get refunded amount with NULL handling
+     * BUG-FUNC-005 FIX: Added null coalescing to handle empty sum() results
      */
     public function getRefundedAmount(): float
     {
-        return $this->transactions()
+        return (float) ($this->transactions()
             ->where('type', 'refund')
             ->where('status', 'completed')
-            ->sum('amount');
+            ->sum('amount') ?? 0);
     }
 
     /**
@@ -327,16 +328,20 @@ class Order extends Model
     /**
      * Calculate totals
      */
+    /**
+     * Calculate totals with proper decimal rounding
+     * BUG-FUNC-006 FIX: Added rounding to prevent floating-point precision errors
+     */
     public function calculateTotals(): void
     {
         $subtotal = 0;
-        
+
         foreach ($this->items as $item) {
             $subtotal += $item->total;
         }
-        
-        $this->subtotal = $subtotal;
-        $this->total_amount = $subtotal - $this->discount_amount + $this->tax_amount + $this->shipping_amount;
+
+        $this->subtotal = round($subtotal, 2);
+        $this->total_amount = round($subtotal - $this->discount_amount + $this->tax_amount + $this->shipping_amount, 2);
     }
 
     /**

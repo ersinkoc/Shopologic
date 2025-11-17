@@ -99,17 +99,21 @@ class DatabaseManager
         return $this->connection($connection)->rollback();
     }
 
+    /**
+     * Execute callback in database transaction
+     * BUG-ERR-010 FIX: Now catches \Throwable instead of just \Exception
+     */
     public function transaction(callable $callback, ?string $connection = null)
     {
         $conn = $this->connection($connection);
-        
+
         $conn->beginTransaction();
-        
+
         try {
             $result = $callback($conn);
             $conn->commit();
             return $result;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $conn->rollback();
             throw $e;
         }

@@ -316,7 +316,8 @@ class QueryBuilder
 
             switch ($where['type']) {
                 case 'basic':
-                    $sql[] = $boolean . "{$safeColumn} {$where['operator']} ?";
+                    $safeOperator = $this->sanitizeOperator($where['operator']);
+                    $sql[] = $boolean . "{$safeColumn} {$safeOperator} ?";
                     break;
                 case 'in':
                     $placeholders = str_repeat('?,', count($where['values']) - 1) . '?';
@@ -357,6 +358,29 @@ class QueryBuilder
         }
 
         return $column;
+    }
+
+    /**
+     * Sanitize SQL operator to prevent SQL injection
+     * BUG-ERR-023 FIX: Added operator validation to prevent SQL injection
+     */
+    protected function sanitizeOperator(string $operator): string
+    {
+        $allowedOperators = [
+            '=', '!=', '<>', '<', '>', '<=', '>=',
+            'LIKE', 'NOT LIKE', 'ILIKE', 'NOT ILIKE',
+            'IN', 'NOT IN', 'IS', 'IS NOT'
+        ];
+
+        $operator = strtoupper(trim($operator));
+
+        if (!in_array($operator, $allowedOperators, true)) {
+            throw new \InvalidArgumentException(
+                "Invalid SQL operator: '{$operator}'. Allowed operators: " . implode(', ', $allowedOperators)
+            );
+        }
+
+        return $operator;
     }
 
     protected function buildJoins(): string

@@ -90,18 +90,32 @@ class Category extends Model
     }
 
     /**
-     * Get all ancestors
+     * Get all ancestors with circular reference protection
+     * BUG-FUNC-003 FIX: Added circular reference detection to prevent infinite loops
      */
     public function getAncestors(): array
     {
         $ancestors = [];
         $parent = $this->parent;
-        
-        while ($parent) {
+        $visited = [$this->id];
+        $maxDepth = 100; // Prevent excessively deep hierarchies
+
+        while ($parent && count($visited) < $maxDepth) {
+            // Detect circular reference
+            if (in_array($parent->id, $visited)) {
+                error_log("Circular category reference detected: Category {$parent->id} references itself in hierarchy");
+                throw new \RuntimeException("Circular category reference detected in category hierarchy");
+            }
+
             $ancestors[] = $parent;
+            $visited[] = $parent->id;
             $parent = $parent->parent;
         }
-        
+
+        if (count($visited) >= $maxDepth) {
+            error_log("Category hierarchy exceeds maximum depth of {$maxDepth}");
+        }
+
         return array_reverse($ancestors);
     }
 
@@ -194,19 +208,26 @@ class Category extends Model
     }
 
     /**
-     * Generate unique slug
+     * Generate unique slug with iteration limit
+     * BUG-FUNC-004 FIX: Added max attempts to prevent infinite loops
      */
     public function generateSlug(): string
     {
         $baseSlug = $this->slugify($this->name);
         $slug = $baseSlug;
         $counter = 1;
-        
-        while (static::where('slug', $slug)->where('id', '!=', $this->id)->exists()) {
+        $maxAttempts = 1000; // Prevent excessive database queries
+
+        while (static::where('slug', $slug)->where('id', '!=', $this->id)->exists() && $counter < $maxAttempts) {
             $slug = $baseSlug . '-' . $counter;
             $counter++;
         }
-        
+
+        if ($counter >= $maxAttempts) {
+            // Fallback to random suffix if too many collisions
+            $slug = $baseSlug . '-' . bin2hex(random_bytes(4));
+        }
+
         return $slug;
     }
 

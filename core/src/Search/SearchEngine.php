@@ -443,15 +443,30 @@ class SearchEngine
         }
     }
 
+    /**
+     * Apply sorting with SQL injection protection
+     * BUG-SEC-002 FIX: Added whitelist validation to prevent SQL injection
+     */
     private function applySorting($qb, $sort): void
     {
+        $allowedFields = ['name', 'created_at', 'updated_at', 'price', 'rating', 'relevance', 'popularity'];
+        $allowedDirections = ['ASC', 'DESC'];
+
         if (is_string($sort)) {
-            $qb->orderBy($sort);
+            if (in_array($sort, $allowedFields)) {
+                $qb->orderBy($sort);
+            }
         } elseif (is_array($sort)) {
             foreach ($sort as $field => $direction) {
+                $direction = strtoupper($direction);
+                if (!in_array($direction, $allowedDirections)) {
+                    continue;
+                }
+
                 if ($field === '_score') {
                     $qb->orderBy('score', $direction);
-                } else {
+                } elseif (in_array($field, $allowedFields)) {
+                    // Validate field name against whitelist before using in JSON_EXTRACT
                     $qb->orderBy("JSON_EXTRACT(d.content, '$.{$field}')", $direction);
                 }
             }

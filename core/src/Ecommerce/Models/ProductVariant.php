@@ -83,32 +83,83 @@ class ProductVariant extends Model
     }
 
     /**
-     * Get available quantity
+     * Get available quantity (accounting for reserved stock)
+     * BUG-FUNC-002 FIX: Now properly subtracts reserved_quantity
      */
     public function getAvailableQuantity(): int
     {
         if (!$this->product->track_quantity) {
             return PHP_INT_MAX;
         }
-        
-        return max(0, $this->quantity);
+
+        $reserved = $this->reserved_quantity ?? 0;
+        return max(0, $this->quantity - $reserved);
     }
 
     /**
-     * Decrease stock
+     * Decrease stock (with transaction and row-level locking to prevent race conditions)
+     * BUG-FUNC-001 FIX: Added database transaction with SELECT FOR UPDATE to prevent overselling
      */
     public function decreaseStock(int $quantity): bool
     {
-        if (!$this->product->track_quantity) {
+        $product = $this->product;
+
+        if (!$product->track_quantity) {
             return true;
         }
-        
-        if ($this->quantity < $quantity && !$this->product->allow_backorder) {
+
+        // Use database transaction with row-level locking to prevent race conditions
+        $connection = $this->getConnection();
+
+        try {
+            // Start transaction
+            $connection->beginTransaction();
+
+            // Lock the row for update (SELECT FOR UPDATE)
+            $query = "SELECT quantity, reserved_quantity FROM {$this->table} WHERE id = ? FOR UPDATE";
+            $result = $connection->query($query, [$this->id]);
+            $row = $result->fetch();
+
+            if (!$row) {
+                $connection->rollback();
+                return false;
+            }
+
+            $currentQuantity = (int) $row['quantity'];
+            $reservedQuantity = (int) ($row['reserved_quantity'] ?? 0);
+            $availableQuantity = $currentQuantity - $reservedQuantity;
+
+            // Check if we have enough available stock
+            if ($availableQuantity < $quantity && !$product->allow_backorder) {
+                $connection->rollback();
+                return false;
+            }
+
+            // Prevent selling when available quantity is 0 or negative
+            if ($availableQuantity <= 0 && !$product->allow_backorder) {
+                $connection->rollback();
+                return false;
+            }
+
+            // Update quantity
+            $newQuantity = $currentQuantity - $quantity;
+            $updateQuery = "UPDATE {$this->table} SET quantity = ? WHERE id = ?";
+            $updateResult = $connection->query($updateQuery, [$newQuantity, $this->id]);
+
+            if ($updateResult) {
+                $connection->commit();
+                // Update model instance
+                $this->quantity = $newQuantity;
+                return true;
+            } else {
+                $connection->rollback();
+                return false;
+            }
+        } catch (\Exception $e) {
+            $connection->rollback();
+            error_log("ProductVariant stock decrease failed: " . $e->getMessage());
             return false;
         }
-        
-        $this->quantity -= $quantity;
-        return $this->save();
     }
 
     /**

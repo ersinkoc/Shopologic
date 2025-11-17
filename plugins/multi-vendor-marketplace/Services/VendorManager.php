@@ -191,9 +191,16 @@ class VendorManager extends BaseService
             });
         }
         
-        // Apply sorting
+        // Apply sorting with whitelist to prevent SQL injection
+        // BUG-SEC-001 FIX: Added whitelist validation for sort columns and order
+        $allowedSortColumns = ['created_at', 'name', 'price', 'sku', 'quantity', 'updated_at'];
         $sortBy = $filters['sort_by'] ?? 'created_at';
-        $sortOrder = $filters['sort_order'] ?? 'DESC';
+        $sortBy = in_array($sortBy, $allowedSortColumns) ? $sortBy : 'created_at';
+
+        $allowedSortOrders = ['ASC', 'DESC'];
+        $sortOrder = strtoupper($filters['sort_order'] ?? 'DESC');
+        $sortOrder = in_array($sortOrder, $allowedSortOrders) ? $sortOrder : 'DESC';
+
         $query->orderBy("p.{$sortBy}", $sortOrder);
         
         // Apply pagination
@@ -396,9 +403,16 @@ class VendorManager extends BaseService
             $search->where('rating', '>=', $filters['min_rating']);
         }
         
-        // Sorting
+        // Sorting with whitelist to prevent SQL injection
+        // BUG-SEC-001 FIX: Added whitelist validation for sort columns and order
+        $allowedSortColumns = ['created_at', 'name', 'rating', 'total_sales', 'country', 'updated_at'];
         $sortBy = $filters['sort_by'] ?? 'created_at';
-        $sortOrder = $filters['sort_order'] ?? 'DESC';
+        $sortBy = in_array($sortBy, $allowedSortColumns) ? $sortBy : 'created_at';
+
+        $allowedSortOrders = ['ASC', 'DESC'];
+        $sortOrder = strtoupper($filters['sort_order'] ?? 'DESC');
+        $sortOrder = in_array($sortOrder, $allowedSortOrders) ? $sortOrder : 'DESC';
+
         $search->orderBy($sortBy, $sortOrder);
         
         return $search->paginate($filters['per_page'] ?? 20);
